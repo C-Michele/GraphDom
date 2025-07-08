@@ -2,6 +2,7 @@
 #define VERTEX_PTR_H
 
 #include "graph.h"
+#include "labeled_vertex_graph.h"
 
 template <typename VertexType>
 class MAIN_LIBRARY_NAMESPACE::graph<VertexType>::VERTEX_PTR_NAME final {

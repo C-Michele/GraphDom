@@ -12,4 +12,5 @@ add_library(${PROJECT_NAME} SHARED graph.h
         vertex_ptr.h
         edge_iterator.h
         const_edge_iterator.h
+        labeled_vertex_graph.h
 )

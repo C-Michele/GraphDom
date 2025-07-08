@@ -2,6 +2,7 @@
 #define EDGE_ITERATOR_H
 
 #include "graph.h"
+#include "labeled_vertex_graph.h"
 
 template <typename VertexType>
 class MAIN_LIBRARY_NAMESPACE::graph<VertexType>::EDGE_ITERATOR_NAME final {
