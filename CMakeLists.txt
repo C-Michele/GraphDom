@@ -5,13 +5,15 @@ set(CMAKE_CXX_STANDARD 17)
 
 add_compile_definitions(MAIN_LIBRARY_NAMESPACE=${PROJECT_NAME})
 
-add_library(${PROJECT_NAME} SHARED graph.h
+add_library(${PROJECT_NAME} SHARED graph_base.h
         utility/address_less.h
         dummy.cpp
         const_vertex_ptr.h
         vertex_ptr.h
         edge_iterator.h
         const_edge_iterator.h
-        labeled_vertex_graph.h
-        labeled_edge_graph.h
+        labeled_vertex_multi_vertex_graph.h
+        labeled_edge_graph_base.h
+        multi_vertex_graph.h
+        graph.h
 )
