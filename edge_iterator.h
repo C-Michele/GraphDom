@@ -23,6 +23,7 @@ class MAIN_LIBRARY_NAMESPACE::graph_base<VertexType>::EDGE_ITERATOR_NAME final {
         [[nodiscard]] MAIN_LIBRARY_NAMESPACE::graph_base<VertexType>::edge_type edge_type() const;
 };
 
+
 //TODO: class implementation
 
 #endif //EDGE_ITERATOR_H
