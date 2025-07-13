@@ -11,8 +11,8 @@ namespace MAIN_LIBRARY_NAMESPACE {
         public:
             ~graph() override = default;
 
-            [[nodiscard]] virtual std::pair<typename MAIN_LIBRARY_NAMESPACE::graph_base<VertexType>::VERTEX_PTR_NAME,bool> insert_vertex(const VertexType&) = 0;
-            [[nodiscard]] virtual std::pair<typename MAIN_LIBRARY_NAMESPACE::graph_base<VertexType>::VERTEX_PTR_NAME,bool> insert_vertex(VertexType&&) = 0;
+            [[nodiscard]] virtual std::pair<typename graph_base<VertexType>::VERTEX_PTR_NAME,bool> insert_vertex(const VertexType&) = 0;
+            [[nodiscard]] virtual std::pair<typename graph_base<VertexType>::VERTEX_PTR_NAME,bool> insert_vertex(VertexType&&) = 0;
     };
 }
 

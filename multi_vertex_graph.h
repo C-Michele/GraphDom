@@ -9,8 +9,8 @@ namespace MAIN_LIBRARY_NAMESPACE {
         public:
             ~multi_vertex_graph() override = default;
 
-            [[nodiscard]] virtual typename MAIN_LIBRARY_NAMESPACE::graph_base<VertexType>::VERTEX_PTR_NAME insert_vertex(const VertexType&) = 0;
-            [[nodiscard]] virtual typename MAIN_LIBRARY_NAMESPACE::graph_base<VertexType>::VERTEX_PTR_NAME insert_vertex(VertexType&&) = 0;
+            [[nodiscard]] virtual typename graph_base<VertexType>::VERTEX_PTR_NAME insert_vertex(const VertexType&) = 0;
+            [[nodiscard]] virtual typename graph_base<VertexType>::VERTEX_PTR_NAME insert_vertex(VertexType&&) = 0;
     };
 }
 
