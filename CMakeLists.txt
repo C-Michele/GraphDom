@@ -23,3 +23,5 @@ add_library(${PROJECT_NAME} SHARED graph.h
         labeled_vertex_set_vertex_graph.h
         labeled_vertex_multiset_vertex_graph.h
 )
+
+add_subdirectory(unit_test)
