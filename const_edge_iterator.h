@@ -2,8 +2,6 @@
 #define CONST_EDGE_ITERATOR_H
 
 #include "graph.h"
-#include "labeled_vertex_multi_vertex_graph.h"
-#include "labeled_edge_graph_base.h"
 
 template <typename VertexType>
 class MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME final {
@@ -22,6 +20,9 @@ class MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME fin
         [[nodiscard]] CONSTANT_EDGE_ITERATOR_NAME operator++(int);
 
         [[nodiscard]] MAIN_LIBRARY_NAMESPACE::graph<VertexType>::edge_type edge_type() const;
+
+        friend class MAIN_LIBRARY_NAMESPACE::graph<VertexType>::ADJ_LIST;
+        friend class MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST;
 };
 
 //TODO: class implementation
