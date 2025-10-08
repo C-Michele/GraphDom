@@ -31,7 +31,7 @@ namespace MAIN_LIBRARY_NAMESPACE {
             virtual ~graph() = default;
 
             [[nodiscard]] virtual std::size_t order() const = 0;
-            [[nodiscard]] virtual std::size_t size() const = 0;
+            // [[nodiscard]] virtual std::size_t size() const = 0;
 
             //  template <typename... Args >
             //  [[nodiscard]] VERTEX_PTR_NAME emplace_vertex( Args&&... args );
@@ -42,6 +42,8 @@ namespace MAIN_LIBRARY_NAMESPACE {
 
 #include "vertex_ptr.h"
 #include "const_vertex_ptr.h"
+#include "adj_list.h"
+#include "const_adj_list.h"
 #include "edge_iterator.h"
 #include "const_edge_iterator.h"
 
