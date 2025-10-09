@@ -9,8 +9,8 @@ class MAIN_LIBRARY_NAMESPACE::graph<VertexType>::VERTEX_PTR_NAME final {
         VERTEX_PTR_NAME() = delete;
         VERTEX_PTR_NAME(const VERTEX_PTR_NAME&);
 
-        [[nodiscard]] VertexType& operator*() const;
-        [[nodiscard]] VertexType* operator->() const;
+        [[nodiscard]] const VertexType& operator*() const;
+        [[nodiscard]] const VertexType* operator->() const;
         [[nodiscard]] bool operator==(const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME&) const;
         [[nodiscard]] bool operator!=(const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME&) const;
 
