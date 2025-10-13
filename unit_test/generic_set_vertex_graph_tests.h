@@ -82,10 +82,10 @@
                 ASSERT_EQ( *( insertion_result_j.first ) , j );                                                         \
                 for(std::size_t k = 0; k<inserted_vertices_pointers.size(); ++k) {                                      \
                     if(k==j){                                                                                           \
-                        ASSERT_EQ( &( inserted_vertices_pointers[k] ) , &( *( insertion_result_j.first ) ) );           \
+                        ASSERT_EQ( &( *( inserted_vertices_pointers[k] ) ) , &( *( insertion_result_j.first ) ) );      \
                     }                                                                                                   \
                     else {                                                                                              \
-                        ASSERT_NE( &( inserted_vertices_pointers[k] ) , &( *( insertion_result_j.first ) ) );           \
+                        ASSERT_NE( &( *( inserted_vertices_pointers[k] ) ) , &( *( insertion_result_j.first ) ) );      \
                     }                                                                                                   \
                 }                                                                                                       \
             }                                                                                                           \
