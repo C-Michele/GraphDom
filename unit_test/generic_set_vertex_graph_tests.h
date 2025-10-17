@@ -67,42 +67,59 @@
         }                                                                                                               \
     }                                                                                                                   \
 
-#define SET_VERTEX_GRAPH_CORRECT_VERTEX_POINTER_DEREFERENCING_TEST(TEST_SUITE_NAME,CONCRETE_CLASS_NAME)                     \
-    TEST(TEST_SUITE_NAME, correct_vertex_pointer_dereferencing) {                                                           \
-        CONCRETE_CLASS_NAME graph;                                                                                          \
-        const std::size_t number_of_vertices = 100;                                                                         \
-                                                                                                                            \
-        std::vector<typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::VERTEX_PTR_NAME> inserted_vertices_pointers;       \
-        inserted_vertices_pointers.reserve(number_of_vertices);                                                             \
-        std::vector<const std::size_t*> inserted_vertices_raw_pointers;                                                     \
-        inserted_vertices_raw_pointers.reserve(number_of_vertices);                                                         \
-                                                                                                                            \
-        for(std::size_t i = 0; i < number_of_vertices; ++i) {                                                               \
-            const auto insertion_result_i = graph.insert_vertex(i);                                                         \
-            ASSERT_EQ( *( insertion_result_i.first ) , i );                                                                 \
-            inserted_vertices_pointers.emplace_back( insertion_result_i.first );                                            \
-            inserted_vertices_raw_pointers.emplace_back( &( *( insertion_result_i.first ) ) );                              \
-            for(std::size_t j = 0; j <= i; ++j) {                                                                           \
-                const auto insertion_result_j = graph.insert_vertex(j);                                                     \
-                for(std::size_t k = 0; k<inserted_vertices_raw_pointers.size(); ++k) {                                      \
-                    if(k==j){                                                                                               \
-                        ASSERT_EQ( inserted_vertices_raw_pointers[k] , &( *( insertion_result_j.first ) ) );                \
-                    }                                                                                                       \
-                    else {                                                                                                  \
-                        ASSERT_NE( inserted_vertices_raw_pointers[k] , &( *( insertion_result_j.first ) ) );                \
-                    }                                                                                                       \
-                }                                                                                                           \
-            }                                                                                                               \
-        }                                                                                                                   \
-                                                                                                                            \
-        while( ! inserted_vertices_pointers.empty() ) {                                                                     \
-            graph.erase_vertex( inserted_vertices_pointers.back() );                                                        \
-            inserted_vertices_pointers.pop_back();                                                                          \
-            inserted_vertices_raw_pointers.pop_back();                                                                      \
-            for(std::size_t k = 0; k<inserted_vertices_pointers.size(); ++k) {                                              \
-                ASSERT_EQ( &( *( inserted_vertices_pointers[k] ) ) , inserted_vertices_raw_pointers[k] );                   \
-            }                                                                                                               \
-        }                                                                                                                   \
-    }                                                                                                                       \
+#define SET_VERTEX_GRAPH_CORRECT_VERTEX_POINTER_DEREFERENCING_TEST(TEST_SUITE_NAME,CONCRETE_CLASS_NAME)                 \
+    TEST(TEST_SUITE_NAME, correct_vertex_pointer_dereferencing) {                                                       \
+        CONCRETE_CLASS_NAME graph;                                                                                      \
+        const std::size_t number_of_vertices = 100;                                                                     \
+        typename std::vector<                                                                                           \
+            std::pair<                                                                                                  \
+                typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::VERTEX_PTR_NAME,                                   \
+                const std::size_t*                                                                                      \
+            >                                                                                                           \
+        > inserted_vertices;                                                                                            \
+        inserted_vertices.reserve(number_of_vertices);                                                                  \
+        for(std::size_t i = 0; i < number_of_vertices; ++i) {                                                           \
+            const auto insertion_result_i = graph.insert_vertex(i);                                                     \
+            ASSERT_EQ( *( insertion_result_i.first ) , i );                                                             \
+            inserted_vertices.emplace_back( insertion_result_i.first , &( *( insertion_result_i.first ) ) );            \
+            for(std::size_t j = 0; j <= i; ++j) {                                                                       \
+                const auto insertion_result_j = graph.insert_vertex(j);                                                 \
+                for(std::size_t k = 0; k<inserted_vertices.size(); ++k) {                                               \
+                    ASSERT_EQ( *( ( inserted_vertices[k] ).first ) , k );                                               \
+                    if(k==j){                                                                                           \
+                        ASSERT_EQ( ( inserted_vertices[k] ).second , &( *( insertion_result_j.first ) ) );              \
+                    }                                                                                                   \
+                    else {                                                                                              \
+                        ASSERT_NE( ( inserted_vertices[k] ).second , &( *( insertion_result_j.first ) ) );              \
+                    }                                                                                                   \
+                }                                                                                                       \
+            }                                                                                                           \
+        }                                                                                                               \
+    }                                                                                                                   \
+
+#define SET_VERTEX_GRAPH_CORRECT_VERTEX_POINTER_DEREFERENCING_AFTER_OTHER_VERTICES_ERASION_TEST(TEST_SUITE_NAME,CONCRETE_CLASS_NAME)    \
+    TEST(TEST_SUITE_NAME, correct_vertex_pointer_dereferencing_after_other_vertices_erasion) {                                          \
+        CONCRETE_CLASS_NAME graph;                                                                                                      \
+        const std::size_t number_of_vertices = 100;                                                                                     \
+        typename std::vector<                                                                                                           \
+            std::pair<                                                                                                                  \
+                typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::VERTEX_PTR_NAME,                                                   \
+                const std::size_t*                                                                                                      \
+            >                                                                                                                           \
+        > inserted_vertices;                                                                                                            \
+        inserted_vertices.reserve(number_of_vertices);                                                                                  \
+        for(std::size_t i = 0; i < number_of_vertices; ++i) {                                                                           \
+            const auto insertion_result_i = graph.insert_vertex(i);                                                                     \
+            inserted_vertices.emplace_back( insertion_result_i.first , &( *( insertion_result_i.first ) ) );                            \
+        }                                                                                                                               \
+        while( ! inserted_vertices.empty() ) {                                                                                          \
+            graph.erase_vertex( ( inserted_vertices.back() ).first );                                                                   \
+            inserted_vertices.pop_back();                                                                                               \
+            for(std::size_t k = 0; k<inserted_vertices.size(); ++k) {                                                                   \
+                ASSERT_EQ( *( ( inserted_vertices[k] ).first ) , k );                                                                   \
+                ASSERT_EQ( &( *( ( inserted_vertices[k] ).first ) ) , ( inserted_vertices[k] ).second );                                \
+            }                                                                                                                           \
+        }                                                                                                                               \
+    }                                                                                                                                   \
 
 #endif //GENERIC_SET_VERTEX_GRAPH_TESTS_H
