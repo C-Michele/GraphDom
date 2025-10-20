@@ -12,6 +12,7 @@ add_compile_definitions(CPP_REPO_UNIT_TEST_DIR="${CMAKE_CURRENT_SOURCE_DIR}")
 
 set(SOURCE_TEST_FILES run_all_tests.cpp
         generic_graph_tests.h
-        generic_set_vertex_graph_tests.h)
+        generic_set_vertex_graph_tests.h
+        generic_multiset_vertex_graph_tests.h)
 add_executable(run_all_tests ${SOURCE_TEST_FILES})
 target_link_libraries(run_all_tests gtest_main graphlab)
