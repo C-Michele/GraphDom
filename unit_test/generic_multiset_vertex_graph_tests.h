@@ -3,18 +3,25 @@
 
 #include <utility>
 #include <forward_list>
-#include <vector>
+#include <set>
 #include <cstddef>
 
 #include "gtest/gtest.h"
 #include "../graph.h"
 #include "../multiset_vertex_graph.h"
+#include "../set_vertex_graph.h"
 
 #define MULTISET_VERTEX_GRAPH_IS_A_MULTISET_VERTEX_GRAPH_TEST(TEST_SUITE_NAME,CONCRETE_CLASS_NAME,VERTEX_TYPENAME)              \
     TEST(TEST_SUITE_NAME,is_a_multiset_vertex_graph) {                                                                          \
         CONCRETE_CLASS_NAME graph;                                                                                              \
         EXPECT_NE(dynamic_cast< typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VERTEX_TYPENAME>* >( &graph ),nullptr);  \
     }                                                                                                                           \
+
+#define MULTISET_VERTEX_GRAPH_IS_NOT_A_SET_VERTEX_GRAPH_TEST(TEST_SUITE_NAME,CONCRETE_CLASS_NAME,VERTEX_TYPENAME)           \
+    TEST(TEST_SUITE_NAME,is_not_a_set_vertex_graph) {                                                                       \
+        CONCRETE_CLASS_NAME graph;                                                                                          \
+        EXPECT_EQ(dynamic_cast< typename MAIN_LIBRARY_NAMESPACE::set_vertex_graph<VERTEX_TYPENAME>* >( &graph ),nullptr);   \
+    }                                                                                                                       \
 
 #define MULTISET_VERTEX_GRAPH_ORDER_METHOD_TEST(TEST_SUITE_NAME,CONCRETE_CLASS_NAME)                                            \
     TEST(TEST_SUITE_NAME, order_method) {                                                                                       \
@@ -26,7 +33,7 @@
         for(std::size_t i = 0; i < number_of_different_vertex_values; ++i) {                                                    \
             for(std::size_t j = 0; j < number_of_repetitions; ++j) {                                                            \
                 inserted_vertices_pointers.emplace_front( graph.insert_vertex(i) );                                             \
-                ASSERT_EQ(graph.order(),(i+1)*(j+1));                                                                           \
+                ASSERT_EQ(graph.order(),inserted_vertices_pointers.size());                                                     \
             }                                                                                                                   \
         }                                                                                                                       \
         for(std::size_t i = 0; i < number_of_different_vertex_values * number_of_repetitions; ++i) {                            \
@@ -35,5 +42,272 @@
             inserted_vertices_pointers.pop_front();                                                                             \
         }                                                                                                                       \
     }                                                                                                                           \
+
+#define MULTISET_VERTEX_GRAPH_CORRECT_VERTEX_POINTER_DEREFERENCING_TEST(TEST_SUITE_NAME,CONCRETE_CLASS_NAME)                \
+    TEST(TEST_SUITE_NAME, correct_vertex_pointer_dereferencing) {                                                           \
+        CONCRETE_CLASS_NAME graph;                                                                                          \
+        const std::size_t number_of_different_vertex_values = 100;                                                          \
+        const std::size_t number_of_repetitions = 10;                                                                       \
+        typename std::set<const std::size_t*> inserted_vertices_raw_pointers;                                               \
+        for(std::size_t i = 0; i < number_of_different_vertex_values; ++i) {                                                \
+            for(std::size_t j = 0; j < number_of_repetitions; ++j) {                                                        \
+                const auto insertion_result = inserted_vertices_raw_pointers.emplace( &( *( graph.insert_vertex(i) ) ) );   \
+                ASSERT_TRUE( insertion_result.second );                                                                     \
+                ASSERT_EQ( *( *( insertion_result.first ) ) , i );                                                          \
+            }                                                                                                               \
+        }                                                                                                                   \
+    }                                                                                                                       \
+
+#define MULTISET_VERTEX_GRAPH_CORRECT_VERTEX_POINTER_DEREFERENCING_AFTER_OTHER_VERTICES_ERASION_TEST(TEST_SUITE_NAME,CONCRETE_CLASS_NAME)   \
+    TEST(TEST_SUITE_NAME, correct_vertex_pointer_dereferencing_after_other_vertices_erasion) {                                              \
+        CONCRETE_CLASS_NAME graph;                                                                                                          \
+        const std::size_t number_of_different_vertex_values = 100;                                                                          \
+        const std::size_t number_of_repetitions = 10;                                                                                       \
+        typename std::vector<                                                                                                               \
+            std::pair<                                                                                                                      \
+                typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::VERTEX_PTR_NAME,                                                       \
+                const std::size_t*                                                                                                          \
+            >                                                                                                                               \
+        > inserted_vertices;                                                                                                                \
+        inserted_vertices.reserve( number_of_different_vertex_values * number_of_repetitions );                                             \
+        for(std::size_t i = 0; i < number_of_different_vertex_values; ++i) {                                                                \
+            for(std::size_t j = 0; j < number_of_repetitions; ++j) {                                                                        \
+                inserted_vertices.emplace_back( graph.insert_vertex(i) , nullptr );                                                         \
+                ( inserted_vertices.back() ).second = &( *( ( inserted_vertices.back() ).first ) );                                         \
+            }                                                                                                                               \
+        }                                                                                                                                   \
+        while( ! inserted_vertices.empty() ) {                                                                                              \
+            graph.erase_vertex( ( inserted_vertices.back() ).first );                                                                       \
+            inserted_vertices.pop_back();                                                                                                   \
+            for(std::size_t k = 0; k<inserted_vertices.size(); ++k) {                                                                       \
+                ASSERT_EQ( *( ( inserted_vertices[k] ).first ) , k/number_of_repetitions );                                                 \
+                ASSERT_EQ( &( *( ( inserted_vertices[k] ).first ) ) , ( inserted_vertices[k] ).second );                                    \
+            }                                                                                                                               \
+        }                                                                                                                                   \
+    }                                                                                                                                       \
+
+#define MULTISET_VERTEX_GRAPH_CORRECT_CONSTANT_VERTEX_POINTER_CONVERSION_TEST_1(TEST_SUITE_NAME,CONCRETE_CLASS_NAME)                                    \
+    TEST(TEST_SUITE_NAME, correct_constant_vertex_pointer_conversion_1) {                                                                               \
+        CONCRETE_CLASS_NAME graph;                                                                                                                      \
+        const std::size_t number_of_different_vertex_values = 100;                                                                                      \
+        const std::size_t number_of_repetitions = 10;                                                                                                   \
+        typename std::vector<                                                                                                                           \
+            std::pair<                                                                                                                                  \
+                typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::VERTEX_PTR_NAME,                                                                   \
+                const std::size_t*                                                                                                                      \
+            >                                                                                                                                           \
+        > inserted_vertices;                                                                                                                            \
+        inserted_vertices.reserve( number_of_different_vertex_values * number_of_repetitions );                                                         \
+        for(std::size_t i = 0; i < number_of_different_vertex_values; ++i) {                                                                            \
+            for(std::size_t j = 0; j < number_of_repetitions; ++j) {                                                                                    \
+                inserted_vertices.emplace_back( graph.insert_vertex(i) , nullptr );                                                                     \
+                ( inserted_vertices.back() ).second = &( *( ( inserted_vertices.back() ).first ) );                                                     \
+            }                                                                                                                                           \
+        }                                                                                                                                               \
+        for(std::size_t k = 0; k < inserted_vertices.size(); ++k ) {                                                                                    \
+            const typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::CONSTANT_VERTEX_PTR_NAME const_vertex_ptr_k = ( inserted_vertices(k) ).first;    \
+            ASSERT_EQ( *const_vertex_ptr_k , k/number_of_repetitions );                                                                                 \
+            for(std::size_t j = 0; j < inserted_vertices.size(); ++j ) {                                                                                \
+                if(j==k) {                                                                                                                              \
+                    ASSERT_EQ( ( inserted_vertices[j] ).second , &( *( const_vertex_ptr_k ) ) );                                                        \
+                }                                                                                                                                       \
+                else {                                                                                                                                  \
+                    ASSERT_NE( ( inserted_vertices[j] ).second , &( *( const_vertex_ptr_k ) ) );                                                        \
+                }                                                                                                                                       \
+            }                                                                                                                                           \
+        }                                                                                                                                               \
+    }                                                                                                                                                   \
+
+#define MULTISET_VERTEX_GRAPH_VERTEX_POINTER_EQUALITY_OPERATOR_TEST(TEST_SUITE_NAME,CONCRETE_CLASS_NAME)                \
+    TEST(TEST_SUITE_NAME, vertex_pointer_equality_operator) {                                                           \
+        CONCRETE_CLASS_NAME graph;                                                                                      \
+        const std::size_t number_of_different_vertex_values = 100;                                                      \
+        const std::size_t number_of_repetitions = 10;                                                                   \
+        typename std::vector< typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::VERTEX_PTR_NAME> inserted_vertices;  \
+        inserted_vertices.reserve( number_of_different_vertex_values * number_of_repetitions );                         \
+        for(std::size_t i = 0; i < number_of_different_vertex_values; ++i ) {                                           \
+            for(std::size_t j = 0; j < number_of_repetitions; ++j ) {                                                   \
+                inserted_vertices_pointers.emplace_back( graph.insert_vertex(i) );                                      \
+                const auto last_inserted_vertex = inserted_vertices_pointers.back();                                    \
+                for(std::size_t k = 0; k < inserted_vertices_pointers.size(); ++k ){                                    \
+                    if( k == inserted_vertices_pointers.size()-1 ){                                                     \
+                        ASSERT_TRUE(inserted_vertices_pointers[k] == last_inserted_vertex);                             \
+                        ASSERT_TRUE(last_inserted_vertex == inserted_vertices_pointers[k]);                             \
+                    }                                                                                                   \
+                    else {                                                                                              \
+                        ASSERT_FALSE(inserted_vertices_pointers[k] == last_inserted_vertex);                            \
+                        ASSERT_FALSE(last_inserted_vertex == inserted_vertices_pointers[k]);                            \
+                    }                                                                                                   \
+                }                                                                                                       \
+            }                                                                                                           \
+        }                                                                                                               \
+    }                                                                                                                   \
+
+#define MULTISET_VERTEX_GRAPH_VERTEX_POINTER_INEQUALITY_OPERATOR_TEST(TEST_SUITE_NAME,CONCRETE_CLASS_NAME)              \
+    TEST(TEST_SUITE_NAME, vertex_pointer_inequality_operator) {                                                         \
+        CONCRETE_CLASS_NAME graph;                                                                                      \
+        const std::size_t number_of_different_vertex_values = 100;                                                      \
+        const std::size_t number_of_repetitions = 10;                                                                   \
+        typename std::vector< typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::VERTEX_PTR_NAME> inserted_vertices;  \
+        inserted_vertices.reserve( number_of_different_vertex_values * number_of_repetitions );                         \
+        for(std::size_t i = 0; i < number_of_different_vertex_values; ++i ) {                                           \
+            for(std::size_t j = 0; j < number_of_repetitions; ++j ) {                                                   \
+                inserted_vertices_pointers.emplace_back( graph.insert_vertex(i) );                                      \
+                const auto last_inserted_vertex = inserted_vertices_pointers.back();                                    \
+                for(std::size_t k = 0; k < inserted_vertices_pointers.size(); ++k ){                                    \
+                    if( k == inserted_vertices_pointers.size()-1 ){                                                     \
+                        ASSERT_FALSE(inserted_vertices_pointers[k] != last_inserted_vertex);                            \
+                        ASSERT_FALSE(last_inserted_vertex != inserted_vertices_pointers[k]);                            \
+                    }                                                                                                   \
+                    else {                                                                                              \
+                        ASSERT_TRUE(inserted_vertices_pointers[k] != last_inserted_vertex);                             \
+                        ASSERT_TRUE(last_inserted_vertex != inserted_vertices_pointers[k]);                             \
+                    }                                                                                                   \
+                }                                                                                                       \
+            }                                                                                                           \
+        }                                                                                                               \
+    }                                                                                                                   \
+
+#define MULTISET_VERTEX_GRAPH_CONSTANT_VERTEX_POINTER_EQUALITY_OPERATOR_TEST(TEST_SUITE_NAME,CONCRETE_CLASS_NAME)                                               \
+    TEST(TEST_SUITE_NAME, constant_vertex_pointer_equality_operator) {                                                                                          \
+        CONCRETE_CLASS_NAME graph;                                                                                                                              \
+        const std::size_t number_of_different_vertex_values = 100;                                                                                              \
+        const std::size_t number_of_repetitions = 10;                                                                                                           \
+        typename std::vector< typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::CONSTANT_VERTEX_PTR_NAME> inserted_vertices;                                 \
+        inserted_vertices.reserve( number_of_different_vertex_values * number_of_repetitions );                                                                 \
+        for(std::size_t i = 0; i < number_of_different_vertex_values; ++i ) {                                                                                   \
+            for(std::size_t j = 0; j < number_of_repetitions; ++j ) {                                                                                           \
+                inserted_vertices_pointers.emplace_back( graph.insert_vertex(i) );                                                                              \
+                const typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::CONSTANT_VERTEX_PTR_NAME last_inserted_vertex = inserted_vertices_pointers.back();   \
+                for(std::size_t k = 0; k < inserted_vertices_pointers.size(); ++k ){                                                                            \
+                    if( k == inserted_vertices_pointers.size()-1 ){                                                                                             \
+                        ASSERT_TRUE(inserted_vertices_pointers[k] == last_inserted_vertex);                                                                     \
+                        ASSERT_TRUE(last_inserted_vertex == inserted_vertices_pointers[k]);                                                                     \
+                    }                                                                                                                                           \
+                    else {                                                                                                                                      \
+                        ASSERT_FALSE(inserted_vertices_pointers[k] == last_inserted_vertex);                                                                    \
+                        ASSERT_FALSE(last_inserted_vertex == inserted_vertices_pointers[k]);                                                                    \
+                    }                                                                                                                                           \
+                }                                                                                                                                               \
+            }                                                                                                                                                   \
+        }                                                                                                                                                       \
+    }                                                                                                                                                           \
+
+#define MULTISET_VERTEX_GRAPH_CONSTANT_VERTEX_POINTER_INEQUALITY_OPERATOR_TEST(TEST_SUITE_NAME,CONCRETE_CLASS_NAME)                                             \
+    TEST(TEST_SUITE_NAME, constant_vertex_pointer_inequality_operator) {                                                                                        \
+        CONCRETE_CLASS_NAME graph;                                                                                                                              \
+        const std::size_t number_of_different_vertex_values = 100;                                                                                              \
+        const std::size_t number_of_repetitions = 10;                                                                                                           \
+        typename std::vector< typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::CONSTANT_VERTEX_PTR_NAME> inserted_vertices;                                 \
+        inserted_vertices.reserve( number_of_different_vertex_values * number_of_repetitions );                                                                 \
+        for(std::size_t i = 0; i < number_of_different_vertex_values; ++i ) {                                                                                   \
+            for(std::size_t j = 0; j < number_of_repetitions; ++j ) {                                                                                           \
+                inserted_vertices_pointers.emplace_back( graph.insert_vertex(i) );                                                                              \
+                const typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::CONSTANT_VERTEX_PTR_NAME last_inserted_vertex = inserted_vertices_pointers.back();   \
+                for(std::size_t k = 0; k < inserted_vertices_pointers.size(); ++k ){                                                                            \
+                    if( k == inserted_vertices_pointers.size()-1 ){                                                                                             \
+                        ASSERT_FALSE(inserted_vertices_pointers[k] != last_inserted_vertex);                                                                    \
+                        ASSERT_FALSE(last_inserted_vertex != inserted_vertices_pointers[k]);                                                                    \
+                    }                                                                                                                                           \
+                    else {                                                                                                                                      \
+                        ASSERT_TRUE(inserted_vertices_pointers[k] != last_inserted_vertex);                                                                     \
+                        ASSERT_TRUE(last_inserted_vertex != inserted_vertices_pointers[k]);                                                                     \
+                    }                                                                                                                                           \
+                }                                                                                                                                               \
+            }                                                                                                                                                   \
+        }                                                                                                                                                       \
+    }                                                                                                                                                           \
+
+#define MULTISET_VERTEX_GRAPH_CORRECT_RETURNED_VERTEX_POINTER_REFERENCE_AFTER_ASSIGNMENT_TEST(TEST_SUITE_NAME,CONCRETE_CLASS_NAME)      \
+    TEST(TEST_SUITE_NAME, correct_returned_vertex_pointer_reference_after_assignment) {                                                 \
+        CONCRETE_CLASS_NAME graph;                                                                                                      \
+        const std::size_t number_of_different_vertex_values = 100;                                                                      \
+        const std::size_t number_of_repetitions = 10;                                                                                   \
+        typename std::vector< typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::VERTEX_PTR_NAME > inserted_vertices_pointers;        \
+        inserted_vertices_pointers.reserve( number_of_different_vertex_values * number_of_repetitions );                                \
+        for(std::size_t i = 0; i < number_of_different_vertex_values; ++i) {                                                            \
+            for(std::size_t j = 0; j < number_of_repetitions; ++j) {                                                                    \
+                inserted_vertices_pointers.emplace_back( graph.insert_vertex(i) );                                                      \
+                typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::VERTEX_PTR_NAME vertex_ptr = inserted_vertices_pointers.back();    \
+                const typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::VERTEX_PTR_NAME* const vertex_ptr_address = &vertex_ptr;     \
+                for(std::size_t k = 0; k < inserted_vertices_pointers.size(); ++k )  {                                                  \
+                    ASSERT_EQ( &( vertex_ptr = inserted_vertices_pointers[k] ), vertex_ptr_address );                                   \
+                }                                                                                                                       \
+            }                                                                                                                           \
+        }                                                                                                                               \
+    }                                                                                                                                   \
+
+#define MULTISET_VERTEX_GRAPH_VERTEX_POINTER_ASSIGNMENT_OPERATOR_TEST_1(TEST_SUITE_NAME,CONCRETE_CLASS_NAME)                            \
+    TEST(TEST_SUITE_NAME, vertex_pointer_assignment_operator_test_1) {                                                                  \
+        CONCRETE_CLASS_NAME graph;                                                                                                      \
+        const std::size_t number_of_different_vertex_values = 100;                                                                      \
+        const std::size_t number_of_repetitions = 10;                                                                                   \
+        typename std::vector<                                                                                                           \
+            std::pair<                                                                                                                  \
+                typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::VERTEX_PTR_NAME,                                                   \
+                const std::size_t*                                                                                                      \
+            >                                                                                                                           \
+        > inserted_vertices;                                                                                                            \
+        inserted_vertices.reserve( number_of_different_vertex_values * number_of_repetitions );                                         \
+        for(std::size_t i = 0; i < number_of_different_vertex_values; ++i) {                                                            \
+            for(std::size_t j = 0; j < number_of_repetitions; ++j) {                                                                    \
+                inserted_vertices.emplace_back( graph.insert_vertex(i) , nullptr );                                                     \
+                ( inserted_vertices.back() ).second = &( *( ( inserted_vertices.back() ).first ) );                                     \
+                typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::VERTEX_PTR_NAME vertex_ptr = ( inserted_vertices.back() ).first;   \
+                for(std::size_t k = 0; k < inserted_vertices.size(); ++k )  {                                                           \
+                    vertex_ptr = ( inserted_vertices[k] ).first;                                                                        \
+                    ASSERT_EQ( vertex_ptr , ( inserted_vertices[k] ).first );                                                           \
+                    ASSERT_EQ( &( *vertex_ptr ) , ( inserted_vertices[k] ).second );                                                    \
+                    ASSERT_EQ( *vertex_ptr , k/number_of_repetitions );                                                                 \
+                }                                                                                                                       \
+            }                                                                                                                           \
+        }                                                                                                                               \
+    }                                                                                                                                   \
+
+#define MULTISET_VERTEX_GRAPH_CORRECT_RETURNED_CONSTANT_VERTEX_POINTER_REFERENCE_AFTER_ASSIGNMENT_TEST(TEST_SUITE_NAME,CONCRETE_CLASS_NAME)     \
+    TEST(TEST_SUITE_NAME, correct_returned_constant_vertex_pointer_reference_after_assignment) {                                                \
+        CONCRETE_CLASS_NAME graph;                                                                                                              \
+        const std::size_t number_of_different_vertex_values = 100;                                                                              \
+        const std::size_t number_of_repetitions = 10;                                                                                           \
+        typename std::vector< typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::CONSTANT_VERTEX_PTR_NAME > inserted_vertices_pointers;       \
+        inserted_vertices_pointers.reserve( number_of_different_vertex_values * number_of_repetitions );                                        \
+        for(std::size_t i = 0; i < number_of_different_vertex_values; ++i) {                                                                    \
+            for(std::size_t j = 0; j < number_of_repetitions; ++j) {                                                                            \
+                inserted_vertices_pointers.emplace_back( graph.insert_vertex(i) );                                                              \
+                typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::CONSTANT_VERTEX_PTR_NAME vertex_ptr = inserted_vertices_pointers.back();   \
+                const typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::VERTEX_PTR_NAME* const vertex_ptr_address = &vertex_ptr;             \
+                for(std::size_t k = 0; k < inserted_vertices_pointers.size(); ++k )  {                                                          \
+                    ASSERT_EQ( &( vertex_ptr = inserted_vertices_pointers[k] ), vertex_ptr_address );                                           \
+                }                                                                                                                               \
+            }                                                                                                                                   \
+        }                                                                                                                                       \
+    }                                                                                                                                           \
+
+#define MULTISET_VERTEX_GRAPH_CONSTANT_VERTEX_POINTER_ASSIGNMENT_OPERATOR_TEST_1(TEST_SUITE_NAME,CONCRETE_CLASS_NAME)                           \
+    TEST(TEST_SUITE_NAME, constant_vertex_pointer_assignment_operator_test_1) {                                                                 \
+        CONCRETE_CLASS_NAME graph;                                                                                                              \
+        const std::size_t number_of_different_vertex_values = 100;                                                                              \
+        const std::size_t number_of_repetitions = 10;                                                                                           \
+        typename std::vector<                                                                                                                   \
+            std::pair<                                                                                                                          \
+                typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::CONSTANT_VERTEX_PTR_NAME,                                                  \
+                const std::size_t*                                                                                                              \
+            >                                                                                                                                   \
+        > inserted_vertices;                                                                                                                    \
+        inserted_vertices.reserve( number_of_different_vertex_values * number_of_repetitions );                                                 \
+        for(std::size_t i = 0; i < number_of_different_vertex_values; ++i) {                                                                    \
+            for(std::size_t j = 0; j < number_of_repetitions; ++j) {                                                                            \
+                inserted_vertices.emplace_back( graph.insert_vertex(i) , nullptr );                                                             \
+                ( inserted_vertices.back() ).second = &( *( ( inserted_vertices.back() ).first ) );                                             \
+                typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::CONSTANT_VERTEX_PTR_NAME vertex_ptr = ( inserted_vertices.back() ).first;  \
+                for(std::size_t k = 0; k < inserted_vertices.size(); ++k )  {                                                                   \
+                    vertex_ptr = ( inserted_vertices[k] ).first;                                                                                \
+                    ASSERT_EQ( vertex_ptr , ( inserted_vertices[k] ).first );                                                                   \
+                    ASSERT_EQ( &( *vertex_ptr ) , ( inserted_vertices[k] ).second );                                                            \
+                    ASSERT_EQ( *vertex_ptr , k/number_of_repetitions );                                                                         \
+                }                                                                                                                               \
+            }                                                                                                                                   \
+        }                                                                                                                                       \
+    }                                                                                                                                           \
 
 #endif //GRAPHLAB_GENERIC_MULTISET_VERTEX_GRAPH_TESTS_H

@@ -9,12 +9,19 @@
 #include "gtest/gtest.h"
 #include "../graph.h"
 #include "../set_vertex_graph.h"
+#include "../multiset_vertex_graph.h"
 
 #define SET_VERTEX_GRAPH_IS_A_SET_VERTEX_GRAPH_TEST(TEST_SUITE_NAME,CONCRETE_CLASS_NAME,VERTEX_TYPENAME)                    \
     TEST(TEST_SUITE_NAME,is_a_set_vertex_graph) {                                                                           \
         CONCRETE_CLASS_NAME graph;                                                                                          \
         EXPECT_NE(dynamic_cast< typename MAIN_LIBRARY_NAMESPACE::set_vertex_graph<VERTEX_TYPENAME>* >( &graph ),nullptr);   \
     }                                                                                                                       \
+
+#define SET_VERTEX_GRAPH_IS_NOT_A_MULTISET_VERTEX_GRAPH_TEST(TEST_SUITE_NAME,CONCRETE_CLASS_NAME,VERTEX_TYPENAME)               \
+    TEST(TEST_SUITE_NAME,is_not_a_multiset_vertex_graph) {                                                                      \
+        CONCRETE_CLASS_NAME graph;                                                                                              \
+        EXPECT_EQ(dynamic_cast< typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VERTEX_TYPENAME>* >( &graph ),nullptr);  \
+    }                                                                                                                           \
 
 #define SET_VERTEX_GRAPH_ORDER_METHOD_TEST(TEST_SUITE_NAME,CONCRETE_CLASS_NAME)                                             \
     TEST(TEST_SUITE_NAME, order_method) {                                                                                   \
