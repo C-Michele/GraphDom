@@ -14,7 +14,7 @@ class MAIN_LIBRARY_NAMESPACE::graph<VertexType>::EDGE_ITERATOR_NAME final {
         [[nodiscard]] bool operator==(const CONSTANT_EDGE_ITERATOR_NAME&) const;
         [[nodiscard]] bool operator!=(const CONSTANT_EDGE_ITERATOR_NAME&) const;
 
-        EDGE_ITERATOR_NAME& operator=(const CONSTANT_EDGE_ITERATOR_NAME&);
+        EDGE_ITERATOR_NAME& operator=(const EDGE_ITERATOR_NAME&);
         EDGE_ITERATOR_NAME& operator++();
         [[nodiscard]] EDGE_ITERATOR_NAME operator++(int);
 
