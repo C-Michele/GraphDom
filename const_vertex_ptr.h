@@ -8,7 +8,7 @@ class MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME final 
     public:
         CONSTANT_VERTEX_PTR_NAME() = delete;
         CONSTANT_VERTEX_PTR_NAME(const CONSTANT_VERTEX_PTR_NAME&);
-        CONSTANT_VERTEX_PTR_NAME(MAIN_LIBRARY_NAMESPACE::graph<VertexType>::VERTEX_PTR_NAME&);
+        CONSTANT_VERTEX_PTR_NAME(const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::VERTEX_PTR_NAME&);
 
         [[nodiscard]] const VertexType& operator*() const;
         [[nodiscard]] const VertexType* operator->() const;
@@ -29,6 +29,8 @@ class MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME final 
         [[nodiscard]] MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST const_adj_list(MAIN_LIBRARY_NAMESPACE::graph<VertexType>::edge_type) const;
         template <typename Compare>
         [[nodiscard]] MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST const_adj_list(MAIN_LIBRARY_NAMESPACE::graph<VertexType>::edge_type, Compare comp) const;
+
+        friend class MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME;
 };
 
 //TODO: class implementation
