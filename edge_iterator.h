@@ -8,6 +8,7 @@ class MAIN_LIBRARY_NAMESPACE::graph<VertexType>::EDGE_ITERATOR_NAME final {
     public:
         EDGE_ITERATOR_NAME() = delete;
         EDGE_ITERATOR_NAME(const EDGE_ITERATOR_NAME&);
+        EDGE_ITERATOR_NAME(const typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::EDGE_ITERATOR_NAME&);
 
         [[nodiscard]] MAIN_LIBRARY_NAMESPACE::graph<VertexType>::VERTEX_PTR_NAME operator*() const;
         [[nodiscard]] MAIN_LIBRARY_NAMESPACE::graph<VertexType>::VERTEX_PTR_NAME operator->() const;
@@ -22,6 +23,7 @@ class MAIN_LIBRARY_NAMESPACE::graph<VertexType>::EDGE_ITERATOR_NAME final {
 
         friend class MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME;
         friend class MAIN_LIBRARY_NAMESPACE::graph<VertexType>::ADJ_LIST;
+        friend class MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::EDGE_ITERATOR_NAME;
 };
 
 //TODO: class implementation

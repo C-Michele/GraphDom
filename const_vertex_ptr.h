@@ -2,6 +2,7 @@
 #define CONST_VERTEX_PTR_H
 
 #include "graph.h"
+#include "multiset_vertex_graph.h"
 
 template <typename VertexType>
 class MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME final {
@@ -9,6 +10,7 @@ class MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME final 
         CONSTANT_VERTEX_PTR_NAME() = delete;
         CONSTANT_VERTEX_PTR_NAME(const CONSTANT_VERTEX_PTR_NAME&);
         CONSTANT_VERTEX_PTR_NAME(const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::VERTEX_PTR_NAME&);
+        CONSTANT_VERTEX_PTR_NAME(const typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::VERTEX_PTR_NAME&);
 
         [[nodiscard]] const VertexType& operator*() const;
         [[nodiscard]] const VertexType* operator->() const;

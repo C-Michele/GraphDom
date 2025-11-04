@@ -2,12 +2,14 @@
 #define VERTEX_PTR_H
 
 #include "graph.h"
+#include "multiset_vertex_graph.h"
 
 template <typename VertexType>
 class MAIN_LIBRARY_NAMESPACE::graph<VertexType>::VERTEX_PTR_NAME final {
     public:
         VERTEX_PTR_NAME() = delete;
         VERTEX_PTR_NAME(const VERTEX_PTR_NAME&);
+        VERTEX_PTR_NAME(const typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::VERTEX_PTR_NAME&);
 
         [[nodiscard]] const VertexType& operator*() const;
         [[nodiscard]] const VertexType* operator->() const;
@@ -31,6 +33,7 @@ class MAIN_LIBRARY_NAMESPACE::graph<VertexType>::VERTEX_PTR_NAME final {
 
         friend class MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME;
         friend class MAIN_LIBRARY_NAMESPACE::graph<VertexType>::EDGE_ITERATOR_NAME;
+        friend class MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::VERTEX_PTR_NAME;
 };
 
 //TODO: class implementation
