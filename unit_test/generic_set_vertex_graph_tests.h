@@ -5,6 +5,7 @@
 #include <forward_list>
 #include <vector>
 #include <cstddef>
+#include <exception>
 
 #include "gtest/gtest.h"
 #include "../graph.h"
@@ -309,5 +310,25 @@
             }                                                                                                                               \
         }                                                                                                                                   \
     }                                                                                                                                       \
+
+#define SET_VERTEX_GRAPH_UNABLE_TO_CONVERT_A_VERTEX_POINTER_TO_MULTISET_VERTEX_POINTER_TEST(TEST_SUITE_NAME,CONCRETE_CLASS_NAME)                                                                \
+    TEST(TEST_SUITE_NAME, unable_to_convert_a_vertex_pointer_to_multiset_vertex_pointer) {                                                                                                      \
+        CONCRETE_CLASS_NAME graph;                                                                                                                                                              \
+        const std::size_t number_of_vertices = 100;                                                                                                                                             \
+        typename std::vector<                                                                                                                                                                   \
+            std::pair<                                                                                                                                                                          \
+                typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::VERTEX_PTR_NAME,                                                                                                           \
+                const std::size_t*                                                                                                                                                              \
+            >                                                                                                                                                                                   \
+        > inserted_vertices;                                                                                                                                                                    \
+        inserted_vertices.reserve(number_of_vertices);                                                                                                                                          \
+        for(std::size_t i = 0; i < number_of_vertices; ++i) {                                                                                                                                   \
+            inserted_vertices.emplace_back( ( graph.insert_vertex(i) ).first , nullptr );                                                                                                       \
+            ( inserted_vertices.back() ).second = &( *( ( inserted_vertices.back() ).first ) );                                                                                                 \
+        }                                                                                                                                                                                       \
+        for(std::size_t i = 0; i < number_of_vertices; ++i) {                                                                                                                                   \
+            ASSERT_THROW(const typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<std::size_t>::VERTEX_PTR_NAME multiset_vertex_ptr_i = ( inserted_vertices[i] ).first, std::exception);    \
+        }                                                                                                                                                                                       \
+    }                                                                                                                                                                                           \
 
 #endif //GENERIC_SET_VERTEX_GRAPH_TESTS_H
