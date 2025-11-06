@@ -1,5 +1,5 @@
-#ifndef GRAPHLAB_GENERIC_MULTISET_VERTEX_GRAPH_TESTS_H
-#define GRAPHLAB_GENERIC_MULTISET_VERTEX_GRAPH_TESTS_H
+#ifndef GENERIC_MULTISET_VERTEX_GRAPH_TESTS_H
+#define GENERIC_MULTISET_VERTEX_GRAPH_TESTS_H
 
 #include <utility>
 #include <forward_list>
@@ -470,4 +470,4 @@
         }                                                                                                                                       \
     }                                                                                                                                           \
 
-#endif //GRAPHLAB_GENERIC_MULTISET_VERTEX_GRAPH_TESTS_H
+#endif //GENERIC_MULTISET_VERTEX_GRAPH_TESTS_H
