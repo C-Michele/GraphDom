@@ -21,7 +21,7 @@ class MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME fin
         CONSTANT_EDGE_ITERATOR_NAME& operator++();
         [[nodiscard]] CONSTANT_EDGE_ITERATOR_NAME operator++(int);
 
-        [[nodiscard]] MAIN_LIBRARY_NAMESPACE::graph<VertexType>::edge_type edge_type() const;
+        [[nodiscard]] MAIN_LIBRARY_NAMESPACE::edge_type edge_type() const;
 
         friend class MAIN_LIBRARY_NAMESPACE::graph<VertexType>::ADJ_LIST;
         friend class MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST;

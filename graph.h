@@ -13,14 +13,14 @@
 #include <cstddef>
 
 namespace MAIN_LIBRARY_NAMESPACE {
+    enum edge_type : std::uint8_t {
+        undirected,
+        directed
+    };
+
     template <typename VertexType>
     class graph {
         public:
-            enum edge_type : std::uint8_t {
-                undirected,
-                directed
-            };
-
             class VERTEX_PTR_NAME;
             class CONSTANT_VERTEX_PTR_NAME;
             class ADJ_LIST;
