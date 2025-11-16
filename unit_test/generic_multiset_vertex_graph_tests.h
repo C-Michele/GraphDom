@@ -191,16 +191,16 @@
         inserted_vertices.reserve( number_of_different_vertex_values * number_of_repetitions );                                         \
         for(std::size_t i = 0; i < number_of_different_vertex_values; ++i ) {                                                           \
             for(std::size_t j = 0; j < number_of_repetitions; ++j ) {                                                                   \
-                inserted_vertices_pointers.emplace_back( graph.insert_vertex(i) );                                                      \
-                const auto last_inserted_vertex = inserted_vertices_pointers.back();                                                    \
-                for(std::size_t k = 0; k < inserted_vertices_pointers.size(); ++k ){                                                    \
-                    if( k == inserted_vertices_pointers.size()-1 ){                                                                     \
-                        ASSERT_TRUE(inserted_vertices_pointers[k] == last_inserted_vertex);                                             \
-                        ASSERT_TRUE(last_inserted_vertex == inserted_vertices_pointers[k]);                                             \
+                inserted_vertices.emplace_back( graph.insert_vertex(i) );                                                               \
+                const auto last_inserted_vertex = inserted_vertices.back();                                                             \
+                for(std::size_t k = 0; k < inserted_vertices.size(); ++k ){                                                             \
+                    if( k == inserted_vertices.size()-1 ){                                                                              \
+                        ASSERT_TRUE(inserted_vertices[k] == last_inserted_vertex);                                                      \
+                        ASSERT_TRUE(last_inserted_vertex == inserted_vertices[k]);                                                      \
                     }                                                                                                                   \
                     else {                                                                                                              \
-                        ASSERT_FALSE(inserted_vertices_pointers[k] == last_inserted_vertex);                                            \
-                        ASSERT_FALSE(last_inserted_vertex == inserted_vertices_pointers[k]);                                            \
+                        ASSERT_FALSE(inserted_vertices[k] == last_inserted_vertex);                                                     \
+                        ASSERT_FALSE(last_inserted_vertex == inserted_vertices[k]);                                                     \
                     }                                                                                                                   \
                 }                                                                                                                       \
             }                                                                                                                           \
@@ -216,16 +216,16 @@
         inserted_vertices.reserve( number_of_different_vertex_values * number_of_repetitions );                                         \
         for(std::size_t i = 0; i < number_of_different_vertex_values; ++i ) {                                                           \
             for(std::size_t j = 0; j < number_of_repetitions; ++j ) {                                                                   \
-                inserted_vertices_pointers.emplace_back( graph.insert_vertex(i) );                                                      \
-                const auto last_inserted_vertex = inserted_vertices_pointers.back();                                                    \
-                for(std::size_t k = 0; k < inserted_vertices_pointers.size(); ++k ){                                                    \
-                    if( k == inserted_vertices_pointers.size()-1 ){                                                                     \
-                        ASSERT_FALSE(inserted_vertices_pointers[k] != last_inserted_vertex);                                            \
-                        ASSERT_FALSE(last_inserted_vertex != inserted_vertices_pointers[k]);                                            \
+                inserted_vertices.emplace_back( graph.insert_vertex(i) );                                                               \
+                const auto last_inserted_vertex = inserted_vertices.back();                                                             \
+                for(std::size_t k = 0; k < inserted_vertices.size(); ++k ){                                                             \
+                    if( k == inserted_vertices.size()-1 ){                                                                              \
+                        ASSERT_FALSE(inserted_vertices[k] != last_inserted_vertex);                                                     \
+                        ASSERT_FALSE(last_inserted_vertex != inserted_vertices[k]);                                                     \
                     }                                                                                                                   \
                     else {                                                                                                              \
-                        ASSERT_TRUE(inserted_vertices_pointers[k] != last_inserted_vertex);                                             \
-                        ASSERT_TRUE(last_inserted_vertex != inserted_vertices_pointers[k]);                                             \
+                        ASSERT_TRUE(inserted_vertices[k] != last_inserted_vertex);                                                      \
+                        ASSERT_TRUE(last_inserted_vertex != inserted_vertices[k]);                                                      \
                     }                                                                                                                   \
                 }                                                                                                                       \
             }                                                                                                                           \
@@ -241,16 +241,16 @@
         inserted_vertices.reserve( number_of_different_vertex_values * number_of_repetitions );                                                         \
         for(std::size_t i = 0; i < number_of_different_vertex_values; ++i ) {                                                                           \
             for(std::size_t j = 0; j < number_of_repetitions; ++j ) {                                                                                   \
-                inserted_vertices_pointers.emplace_back( graph.insert_vertex(i) );                                                                      \
-                const typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::VERTEX_PTR_NAME last_inserted_vertex = inserted_vertices_pointers.back();    \
-                for(std::size_t k = 0; k < inserted_vertices_pointers.size(); ++k ){                                                                    \
-                    if( k == inserted_vertices_pointers.size()-1 ){                                                                                     \
-                        ASSERT_TRUE(inserted_vertices_pointers[k] == last_inserted_vertex);                                                             \
-                        ASSERT_TRUE(last_inserted_vertex == inserted_vertices_pointers[k]);                                                             \
+                inserted_vertices.emplace_back( graph.insert_vertex(i) );                                                                               \
+                const typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::VERTEX_PTR_NAME last_inserted_vertex = inserted_vertices.back();             \
+                for(std::size_t k = 0; k < inserted_vertices.size(); ++k ){                                                                             \
+                    if( k == inserted_vertices.size()-1 ){                                                                                              \
+                        ASSERT_TRUE(inserted_vertices[k] == last_inserted_vertex);                                                                      \
+                        ASSERT_TRUE(last_inserted_vertex == inserted_vertices[k]);                                                                      \
                     }                                                                                                                                   \
                     else {                                                                                                                              \
-                        ASSERT_FALSE(inserted_vertices_pointers[k] == last_inserted_vertex);                                                            \
-                        ASSERT_FALSE(last_inserted_vertex == inserted_vertices_pointers[k]);                                                            \
+                        ASSERT_FALSE(inserted_vertices[k] == last_inserted_vertex);                                                                     \
+                        ASSERT_FALSE(last_inserted_vertex == inserted_vertices[k]);                                                                     \
                     }                                                                                                                                   \
                 }                                                                                                                                       \
             }                                                                                                                                           \
@@ -266,16 +266,16 @@
         inserted_vertices.reserve( number_of_different_vertex_values * number_of_repetitions );                                                         \
         for(std::size_t i = 0; i < number_of_different_vertex_values; ++i ) {                                                                           \
             for(std::size_t j = 0; j < number_of_repetitions; ++j ) {                                                                                   \
-                inserted_vertices_pointers.emplace_back( graph.insert_vertex(i) );                                                                      \
-                const typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::VERTEX_PTR_NAME last_inserted_vertex = inserted_vertices_pointers.back();    \
-                for(std::size_t k = 0; k < inserted_vertices_pointers.size(); ++k ){                                                                    \
-                    if( k == inserted_vertices_pointers.size()-1 ){                                                                                     \
-                        ASSERT_FALSE(inserted_vertices_pointers[k] != last_inserted_vertex);                                                            \
-                        ASSERT_FALSE(last_inserted_vertex != inserted_vertices_pointers[k]);                                                            \
+                inserted_vertices.emplace_back( graph.insert_vertex(i) );                                                                               \
+                const typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::VERTEX_PTR_NAME last_inserted_vertex = inserted_vertices.back();             \
+                for(std::size_t k = 0; k < inserted_vertices.size(); ++k ){                                                                             \
+                    if( k == inserted_vertices.size()-1 ){                                                                                              \
+                        ASSERT_FALSE(inserted_vertices[k] != last_inserted_vertex);                                                                     \
+                        ASSERT_FALSE(last_inserted_vertex != inserted_vertices[k]);                                                                     \
                     }                                                                                                                                   \
                     else {                                                                                                                              \
-                        ASSERT_TRUE(inserted_vertices_pointers[k] != last_inserted_vertex);                                                             \
-                        ASSERT_TRUE(last_inserted_vertex != inserted_vertices_pointers[k]);                                                             \
+                        ASSERT_TRUE(inserted_vertices[k] != last_inserted_vertex);                                                                      \
+                        ASSERT_TRUE(last_inserted_vertex != inserted_vertices[k]);                                                                      \
                     }                                                                                                                                   \
                 }                                                                                                                                       \
             }                                                                                                                                           \
@@ -291,16 +291,16 @@
         inserted_vertices.reserve( number_of_different_vertex_values * number_of_repetitions );                                                                 \
         for(std::size_t i = 0; i < number_of_different_vertex_values; ++i ) {                                                                                   \
             for(std::size_t j = 0; j < number_of_repetitions; ++j ) {                                                                                           \
-                inserted_vertices_pointers.emplace_back( graph.insert_vertex(i) );                                                                              \
-                const typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::CONSTANT_VERTEX_PTR_NAME last_inserted_vertex = inserted_vertices_pointers.back();   \
-                for(std::size_t k = 0; k < inserted_vertices_pointers.size(); ++k ){                                                                            \
-                    if( k == inserted_vertices_pointers.size()-1 ){                                                                                             \
-                        ASSERT_TRUE(inserted_vertices_pointers[k] == last_inserted_vertex);                                                                     \
-                        ASSERT_TRUE(last_inserted_vertex == inserted_vertices_pointers[k]);                                                                     \
+                inserted_vertices.emplace_back( graph.insert_vertex(i) );                                                                                       \
+                const typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::CONSTANT_VERTEX_PTR_NAME last_inserted_vertex = inserted_vertices.back();            \
+                for(std::size_t k = 0; k < inserted_vertices.size(); ++k ){                                                                                     \
+                    if( k == inserted_vertices.size()-1 ){                                                                                                      \
+                        ASSERT_TRUE(inserted_vertices[k] == last_inserted_vertex);                                                                              \
+                        ASSERT_TRUE(last_inserted_vertex == inserted_vertices[k]);                                                                              \
                     }                                                                                                                                           \
                     else {                                                                                                                                      \
-                        ASSERT_FALSE(inserted_vertices_pointers[k] == last_inserted_vertex);                                                                    \
-                        ASSERT_FALSE(last_inserted_vertex == inserted_vertices_pointers[k]);                                                                    \
+                        ASSERT_FALSE(inserted_vertices[k] == last_inserted_vertex);                                                                             \
+                        ASSERT_FALSE(last_inserted_vertex == inserted_vertices[k]);                                                                             \
                     }                                                                                                                                           \
                 }                                                                                                                                               \
             }                                                                                                                                                   \
@@ -316,16 +316,16 @@
         inserted_vertices.reserve( number_of_different_vertex_values * number_of_repetitions );                                                                 \
         for(std::size_t i = 0; i < number_of_different_vertex_values; ++i ) {                                                                                   \
             for(std::size_t j = 0; j < number_of_repetitions; ++j ) {                                                                                           \
-                inserted_vertices_pointers.emplace_back( graph.insert_vertex(i) );                                                                              \
-                const typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::CONSTANT_VERTEX_PTR_NAME last_inserted_vertex = inserted_vertices_pointers.back();   \
-                for(std::size_t k = 0; k < inserted_vertices_pointers.size(); ++k ){                                                                            \
-                    if( k == inserted_vertices_pointers.size()-1 ){                                                                                             \
-                        ASSERT_FALSE(inserted_vertices_pointers[k] != last_inserted_vertex);                                                                    \
-                        ASSERT_FALSE(last_inserted_vertex != inserted_vertices_pointers[k]);                                                                    \
+                inserted_vertices.emplace_back( graph.insert_vertex(i) );                                                                                       \
+                const typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::CONSTANT_VERTEX_PTR_NAME last_inserted_vertex = inserted_vertices.back();            \
+                for(std::size_t k = 0; k < inserted_vertices.size(); ++k ){                                                                                     \
+                    if( k == inserted_vertices.size()-1 ){                                                                                                      \
+                        ASSERT_FALSE(inserted_vertices[k] != last_inserted_vertex);                                                                             \
+                        ASSERT_FALSE(last_inserted_vertex != inserted_vertices[k]);                                                                             \
                     }                                                                                                                                           \
                     else {                                                                                                                                      \
-                        ASSERT_TRUE(inserted_vertices_pointers[k] != last_inserted_vertex);                                                                     \
-                        ASSERT_TRUE(last_inserted_vertex != inserted_vertices_pointers[k]);                                                                     \
+                        ASSERT_TRUE(inserted_vertices[k] != last_inserted_vertex);                                                                              \
+                        ASSERT_TRUE(last_inserted_vertex != inserted_vertices[k]);                                                                              \
                     }                                                                                                                                           \
                 }                                                                                                                                               \
             }                                                                                                                                                   \
