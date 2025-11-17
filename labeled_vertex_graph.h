@@ -11,7 +11,7 @@ namespace MAIN_LIBRARY_NAMESPACE {
 
             [[nodiscard]] virtual const VertexLabelType& get_vertex_label(const typename graph<VertexType>::CONSTANT_VERTEX_PTR_NAME&) const = 0;
 
-            [[nodiscard]] virtual VertexLabelType& get_vertex_label(const typename graph<VertexType>::VERTEX_PTR_NAME&) = 0; //TODO: check the signature correctness
+            [[nodiscard]] virtual VertexLabelType& get_vertex_label(const typename graph<VertexType>::CONSTANT_VERTEX_PTR_NAME&) = 0; //TODO: check the signature correctness
     };
 }
 

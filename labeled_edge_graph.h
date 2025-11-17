@@ -11,7 +11,7 @@ namespace MAIN_LIBRARY_NAMESPACE {
 
             [[nodiscard]] virtual const EdgeLabelType& get_edge_label(const typename graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME&) const = 0;
 
-            [[nodiscard]] virtual EdgeLabelType& get_edge_label(const typename graph<VertexType>::EDGE_ITERATOR_NAME&) = 0; //TODO: check the signature correctness
+            [[nodiscard]] virtual EdgeLabelType& get_edge_label(const typename graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME&) = 0; //TODO: check the signature correctness
     };
 }
 

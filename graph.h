@@ -35,8 +35,8 @@ namespace MAIN_LIBRARY_NAMESPACE {
 
             //  template <typename... Args >
             //  [[nodiscard]] VERTEX_PTR_NAME emplace_vertex( Args&&... args );
-            virtual void erase_vertex(CONSTANT_VERTEX_PTR_NAME&) = 0;
-            [[nodiscard]] virtual EDGE_ITERATOR_NAME erase_edge(CONSTANT_EDGE_ITERATOR_NAME&) = 0;
+            virtual void erase_vertex(const CONSTANT_VERTEX_PTR_NAME&) = 0;
+            [[nodiscard]] virtual EDGE_ITERATOR_NAME erase_edge(const CONSTANT_EDGE_ITERATOR_NAME&) = 0;
     };
 }
 
