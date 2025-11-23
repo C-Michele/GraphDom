@@ -11,6 +11,8 @@
 
 #include <cstdint>
 #include <cstddef>
+#include <memory>
+#include <set>
 
 namespace MAIN_LIBRARY_NAMESPACE {
     enum edge_type : std::uint8_t {
@@ -37,6 +39,136 @@ namespace MAIN_LIBRARY_NAMESPACE {
             //  [[nodiscard]] VERTEX_PTR_NAME emplace_vertex( Args&&... args );
             virtual void erase_vertex(const CONSTANT_VERTEX_PTR_NAME&) = 0;
             [[nodiscard]] virtual EDGE_ITERATOR_NAME erase_edge(const CONSTANT_EDGE_ITERATOR_NAME&) = 0;
+        protected:
+            class vertex_container {
+                public:
+                    vertex_container() = delete;
+                    vertex_container(const vertex_container&) = delete;
+                    vertex_container(vertex_container&&) = delete;
+                    explicit vertex_container(const VertexType& v) : vertex(v) {}
+                    explicit vertex_container(VertexType&& v) : vertex(std::move(v)) {}
+
+                    ~vertex_container() = default;
+
+                    VertexType vertex;
+            };
+            template<typename VertexContainerPointerType>
+            class edge_endpoint {
+                public:
+                    edge_endpoint() = delete;
+                    edge_endpoint(const edge_endpoint&) = delete;
+                    edge_endpoint(edge_endpoint&&) = delete;
+                    explicit edge_endpoint(const VertexContainerPointerType ptr) : vertex_container_ptr(ptr){}
+
+                    ~edge_endpoint() = default;
+
+                    VertexContainerPointerType vertex_container_ptr;
+            };
+            template <typename VertexContainerPointerType, typename EdgeLabelType>
+            class labeled_directed_edge_endpoint final : public edge_endpoint<VertexContainerPointerType> {
+                public:
+                    labeled_directed_edge_endpoint() = delete;
+                    labeled_directed_edge_endpoint(const labeled_directed_edge_endpoint&) = delete;
+                    labeled_directed_edge_endpoint(labeled_directed_edge_endpoint&&) = delete;
+                    labeled_directed_edge_endpoint(const VertexContainerPointerType ptr, const EdgeLabelType& edge) :
+                        edge_endpoint<VertexContainerPointerType>(ptr),
+                        edge_label(edge) {}
+                    labeled_directed_edge_endpoint(const VertexContainerPointerType ptr, EdgeLabelType&& edge) :
+                        edge_endpoint<VertexContainerPointerType>(ptr),
+                        edge_label(std::move(edge)) {}
+
+                    ~labeled_directed_edge_endpoint() = default;
+
+                    mutable EdgeLabelType edge_label;
+            };
+            template <typename VertexContainerPointerType, typename EdgeLabelType>
+            class labeled_undirected_edge_endpoint final : public edge_endpoint<VertexContainerPointerType> {
+                public:
+                    labeled_undirected_edge_endpoint() = delete;
+                    labeled_undirected_edge_endpoint(const labeled_undirected_edge_endpoint&) = delete;
+                    labeled_undirected_edge_endpoint(labeled_undirected_edge_endpoint&&) = delete;
+                    labeled_undirected_edge_endpoint(const VertexContainerPointerType ptr, const EdgeLabelType& edge) :
+                        edge_endpoint<VertexContainerPointerType>(ptr),
+                        edge_label_ptr(std::make_shared<EdgeLabelType>(edge)) {}
+                    labeled_undirected_edge_endpoint(const VertexContainerPointerType ptr, EdgeLabelType&& edge) :
+                        edge_endpoint<VertexContainerPointerType>(ptr),
+                        edge_label_ptr(std::make_shared<EdgeLabelType>(std::move(edge))) {}
+                    labeled_undirected_edge_endpoint(const VertexContainerPointerType ptr, const std::shared_ptr<EdgeLabelType>& existent_edge_label_ptr) :
+                        edge_endpoint<VertexContainerPointerType>(ptr),
+                        edge_label_ptr(existent_edge_label_ptr) {}
+
+                    ~labeled_undirected_edge_endpoint() = default;
+
+                    mutable std::shared_ptr<EdgeLabelType> edge_label_ptr;
+            };
+            template<typename VertexContainerPointerType>
+            class custom_edge_endpoint_less {
+                public:
+                    bool operator()(const edge_endpoint<VertexContainerPointerType>* const left, const edge_endpoint<VertexContainerPointerType>* const right) const {
+                        return std::less<VertexContainerPointerType>()( left->vertex_container_ptr , right->vertex_container_ptr );
+                    }
+            };
+            template<typename VertexContainerPointerType>
+            class non_mixed_graph_vertex_container : public vertex_container {
+                public:
+                    non_mixed_graph_vertex_container() = delete;
+                    non_mixed_graph_vertex_container(const non_mixed_graph_vertex_container&) = delete;
+                    non_mixed_graph_vertex_container(non_mixed_graph_vertex_container&&) = delete;
+                    explicit non_mixed_graph_vertex_container(const VertexType& v) : vertex_container(v) {}
+                    explicit non_mixed_graph_vertex_container(VertexType&& v) : vertex_container(std::move(v)) {}
+
+                    ~non_mixed_graph_vertex_container() = default;
+
+                    mutable std::set< edge_endpoint<VertexContainerPointerType>* , custom_edge_endpoint_less<VertexContainerPointerType> > adj;
+            };
+            template<typename VertexContainerPointerType>
+            class mixed_graph_vertex_container : public vertex_container {
+                public:
+                    mixed_graph_vertex_container() = delete;
+                    mixed_graph_vertex_container(const mixed_graph_vertex_container&) = delete;
+                    mixed_graph_vertex_container(mixed_graph_vertex_container&&) = delete;
+                    explicit mixed_graph_vertex_container(const VertexType& v) : vertex_container(v) {}
+                    explicit mixed_graph_vertex_container(VertexType&& v) : vertex_container(std::move(v)) {}
+
+                    ~mixed_graph_vertex_container() = default;
+
+                    mutable std::set< edge_endpoint<VertexContainerPointerType>* , custom_edge_endpoint_less<VertexContainerPointerType> > directed_adj;
+                    mutable std::set< edge_endpoint<VertexContainerPointerType>* , custom_edge_endpoint_less<VertexContainerPointerType> > undirected_adj;
+            };
+            template<typename VertexContainerPointerType, typename VertexLabelType>
+            class non_mixed_graph_labeled_vertex_container final : public non_mixed_graph_vertex_container<VertexContainerPointerType> {
+                public:
+                    non_mixed_graph_labeled_vertex_container() = delete;
+                    non_mixed_graph_labeled_vertex_container(const non_mixed_graph_labeled_vertex_container&) = delete;
+                    non_mixed_graph_labeled_vertex_container(non_mixed_graph_labeled_vertex_container&&) = delete;
+                    explicit non_mixed_graph_labeled_vertex_container(const std::pair<VertexType,VertexLabelType>& pair) :
+                        non_mixed_graph_vertex_container<VertexContainerPointerType>(pair.first),
+                        vertex_label(pair.second) {}
+                    explicit non_mixed_graph_labeled_vertex_container(std::pair<VertexType,VertexLabelType>&& pair) :
+                        non_mixed_graph_vertex_container<VertexContainerPointerType>(std::move(pair.first)),
+                        vertex_label(std::move(pair.second)) {}
+
+                    ~non_mixed_graph_labeled_vertex_container() = default;
+
+                    mutable VertexLabelType vertex_label;
+            };
+            template<typename VertexContainerPointerType, typename VertexLabelType>
+            class mixed_graph_labeled_vertex_container final : public mixed_graph_vertex_container<VertexContainerPointerType> {
+                public:
+                    mixed_graph_labeled_vertex_container() = delete;
+                    mixed_graph_labeled_vertex_container(const mixed_graph_labeled_vertex_container&) = delete;
+                    mixed_graph_labeled_vertex_container(mixed_graph_labeled_vertex_container&&) = delete;
+                    explicit mixed_graph_labeled_vertex_container(const std::pair<VertexType,VertexLabelType>& pair) :
+                        mixed_graph_vertex_container<VertexContainerPointerType>(std::move(pair.first)),
+                        vertex_label(pair.second) {}
+                    explicit mixed_graph_labeled_vertex_container(std::pair<VertexType,VertexLabelType>&& pair) :
+                        mixed_graph_vertex_container<VertexContainerPointerType>(std::move(pair.first)),
+                        vertex_label(pair.second) {}
+
+                    ~mixed_graph_labeled_vertex_container() = default;
+
+                    mutable VertexLabelType vertex_label;
+            };
     };
 }
 
