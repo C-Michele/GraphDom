@@ -5,6 +5,14 @@
 
 namespace MAIN_LIBRARY_NAMESPACE {
     template <typename VertexType, typename VertexLabelType>
+    class DefaultVertexLabellerType {
+        public:
+            VertexLabelType operator()(const VertexType&) const {
+                return VertexLabelType();
+            }
+    };
+
+    template <typename VertexType, typename VertexLabelType>
     class labeled_vertex_graph : virtual public graph<VertexType> {
         public:
             ~labeled_vertex_graph() override = default;

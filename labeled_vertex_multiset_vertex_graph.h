@@ -7,7 +7,7 @@
 #include "multiset_vertex_graph.h"
 
 namespace MAIN_LIBRARY_NAMESPACE {
-    template <typename VertexType, typename VertexLabelType, typename T>  //TODO: find a better name for "T"
+    template <typename VertexType, typename VertexLabelType, typename T = DefaultVertexLabellerType<VertexType,VertexLabelType>>  //TODO: find a better name for "T"
     class labeled_vertex_multiset_vertex_graph : virtual public labeled_vertex_graph<VertexType,VertexLabelType>, virtual public multiset_vertex_graph<VertexType> {
         public:
             labeled_vertex_multiset_vertex_graph() = default;

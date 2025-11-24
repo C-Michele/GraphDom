@@ -5,6 +5,17 @@
 
 namespace MAIN_LIBRARY_NAMESPACE {
     template <typename VertexType, typename EdgeLabelType>
+    class DefaultEdgeLabellerType {
+        public:
+            EdgeLabelType operator()(const typename graph<VertexType>::CONSTANT_VERTEX_PTR_NAME&, const typename graph<VertexType>::CONSTANT_VERTEX_PTR_NAME&) const {
+                return EdgeLabelType();
+            }
+            EdgeLabelType operator()(const typename graph<VertexType>::CONSTANT_VERTEX_PTR_NAME&, const typename graph<VertexType>::CONSTANT_VERTEX_PTR_NAME&, edge_type) const {
+                return EdgeLabelType();
+            }
+    };
+
+    template <typename VertexType, typename EdgeLabelType>
     class labeled_edge_graph : virtual public graph<VertexType> {
         public:
             ~labeled_edge_graph() override = default;

@@ -5,7 +5,7 @@
 #include "non_mixed_graph.h"
 
 namespace MAIN_LIBRARY_NAMESPACE {
-    template <typename VertexType, typename EdgeLabelType, typename T> //TODO: find a better name for "T"
+    template <typename VertexType, typename EdgeLabelType, typename T = DefaultEdgeLabellerType<VertexType,EdgeLabelType>> //TODO: find a better name for "T"
     class labeled_edge_non_mixed_graph : virtual public labeled_edge_graph<VertexType,EdgeLabelType>, virtual public non_mixed_graph<VertexType> {
         public:
             labeled_edge_non_mixed_graph() = default;
