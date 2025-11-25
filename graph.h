@@ -141,12 +141,18 @@ namespace MAIN_LIBRARY_NAMESPACE {
                     non_mixed_graph_labeled_vertex_container() = delete;
                     non_mixed_graph_labeled_vertex_container(const non_mixed_graph_labeled_vertex_container&) = delete;
                     non_mixed_graph_labeled_vertex_container(non_mixed_graph_labeled_vertex_container&&) = delete;
-                    explicit non_mixed_graph_labeled_vertex_container(const std::pair<VertexType,VertexLabelType>& pair) :
-                        non_mixed_graph_vertex_container<VertexContainerPointerType>(pair.first),
-                        vertex_label(pair.second) {}
-                    explicit non_mixed_graph_labeled_vertex_container(std::pair<VertexType,VertexLabelType>&& pair) :
-                        non_mixed_graph_vertex_container<VertexContainerPointerType>(std::move(pair.first)),
-                        vertex_label(std::move(pair.second)) {}
+                    non_mixed_graph_labeled_vertex_container(const VertexType& v, const VertexLabelType& vl) :
+                        non_mixed_graph_vertex_container<VertexContainerPointerType>(v),
+                        vertex_label(vl) {}
+                    non_mixed_graph_labeled_vertex_container(const VertexType& v, VertexLabelType&& vl) :
+                        non_mixed_graph_vertex_container<VertexContainerPointerType>(v),
+                        vertex_label(std::move(vl)) {}
+                    non_mixed_graph_labeled_vertex_container(VertexType&& v, const VertexLabelType& vl) :
+                        non_mixed_graph_vertex_container<VertexContainerPointerType>(std::move(v)),
+                        vertex_label(vl) {}
+                    non_mixed_graph_labeled_vertex_container(VertexType&& v, VertexLabelType&& vl) :
+                        non_mixed_graph_vertex_container<VertexContainerPointerType>(std::move(v)),
+                        vertex_label(std::move(vl)) {}
 
                     ~non_mixed_graph_labeled_vertex_container() = default;
 
@@ -158,12 +164,18 @@ namespace MAIN_LIBRARY_NAMESPACE {
                     mixed_graph_labeled_vertex_container() = delete;
                     mixed_graph_labeled_vertex_container(const mixed_graph_labeled_vertex_container&) = delete;
                     mixed_graph_labeled_vertex_container(mixed_graph_labeled_vertex_container&&) = delete;
-                    explicit mixed_graph_labeled_vertex_container(const std::pair<VertexType,VertexLabelType>& pair) :
-                        mixed_graph_vertex_container<VertexContainerPointerType>(std::move(pair.first)),
-                        vertex_label(pair.second) {}
-                    explicit mixed_graph_labeled_vertex_container(std::pair<VertexType,VertexLabelType>&& pair) :
-                        mixed_graph_vertex_container<VertexContainerPointerType>(std::move(pair.first)),
-                        vertex_label(pair.second) {}
+                    mixed_graph_labeled_vertex_container(const VertexType& v, const VertexLabelType& vl) :
+                        mixed_graph_vertex_container<VertexContainerPointerType>(v),
+                        vertex_label(vl) {}
+                    mixed_graph_labeled_vertex_container(const VertexType& v, VertexLabelType&& vl) :
+                        mixed_graph_vertex_container<VertexContainerPointerType>(v),
+                        vertex_label(std::move(vl)) {}
+                    mixed_graph_labeled_vertex_container(VertexType&& v, const VertexLabelType& vl) :
+                        mixed_graph_vertex_container<VertexContainerPointerType>(std::move(v)),
+                        vertex_label(vl) {}
+                    mixed_graph_labeled_vertex_container(VertexType&& v, VertexLabelType&& vl) :
+                        mixed_graph_vertex_container<VertexContainerPointerType>(std::move(v)),
+                        vertex_label(std::move(vl)) {}
 
                     ~mixed_graph_labeled_vertex_container() = default;
 
