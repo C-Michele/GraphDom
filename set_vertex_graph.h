@@ -21,6 +21,7 @@ namespace MAIN_LIBRARY_NAMESPACE {
             template <typename EdgeLabelType>
             using labeled_undirected_edge_endpoint = typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::template labeled_undirected_edge_endpoint<VertexContainerPointerType,EdgeLabelType>;
             using custom_edge_endpoint_less = typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::template custom_edge_endpoint_less<VertexContainerPointerType>;
+            using adj_set = typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::template adj_set<VertexContainerPointerType>;
             using non_mixed_graph_vertex_container = typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::template non_mixed_graph_vertex_container<VertexContainerPointerType>;
             using mixed_graph_vertex_container = typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::template mixed_graph_vertex_container<VertexContainerPointerType>;
             template <typename EdgeLabelType>
