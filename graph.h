@@ -109,6 +109,8 @@ namespace MAIN_LIBRARY_NAMESPACE {
                     }
             };
             template<typename VertexContainerPointerType>
+            using adj_set = std::set< edge_endpoint<VertexContainerPointerType>* , custom_edge_endpoint_less<VertexContainerPointerType> >;
+            template<typename VertexContainerPointerType>
             class non_mixed_graph_vertex_container : public vertex_container {
                 public:
                     non_mixed_graph_vertex_container() = delete;
@@ -119,7 +121,7 @@ namespace MAIN_LIBRARY_NAMESPACE {
 
                     ~non_mixed_graph_vertex_container() = default;
 
-                    mutable std::set< edge_endpoint<VertexContainerPointerType>* , custom_edge_endpoint_less<VertexContainerPointerType> > adj;
+                    mutable adj_set<VertexContainerPointerType> adj;
             };
             template<typename VertexContainerPointerType>
             class mixed_graph_vertex_container : public vertex_container {
@@ -132,8 +134,8 @@ namespace MAIN_LIBRARY_NAMESPACE {
 
                     ~mixed_graph_vertex_container() = default;
 
-                    mutable std::set< edge_endpoint<VertexContainerPointerType>* , custom_edge_endpoint_less<VertexContainerPointerType> > directed_adj;
-                    mutable std::set< edge_endpoint<VertexContainerPointerType>* , custom_edge_endpoint_less<VertexContainerPointerType> > undirected_adj;
+                    mutable adj_set<VertexContainerPointerType> directed_adj;
+                    mutable adj_set<VertexContainerPointerType> undirected_adj;
             };
             template<typename VertexContainerPointerType, typename VertexLabelType>
             class non_mixed_graph_labeled_vertex_container final : public non_mixed_graph_vertex_container<VertexContainerPointerType> {
