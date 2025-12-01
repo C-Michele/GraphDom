@@ -32,9 +32,62 @@ namespace MAIN_LIBRARY_NAMESPACE {
             using non_mixed_graph_labeled_vertex_container = typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::template non_mixed_graph_labeled_vertex_container<VertexContainerPointerType,EdgeLabelType>;
             template <typename EdgeLabelType>
             using mixed_graph_labeled_vertex_container = typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::template mixed_graph_labeled_vertex_container<VertexContainerPointerType,EdgeLabelType>;
+
+            static VERTEX_PTR_NAME vertex_ptr_factory(
+                const MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>*,
+                typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::template non_mixed_graph_vertex_container<VertexContainerPointerType>&,
+                MAIN_LIBRARY_NAMESPACE::edge_type non_mixed_graph_type
+            );
+
+            static VERTEX_PTR_NAME vertex_ptr_factory(
+                const MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>*,
+                typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::template mixed_graph_vertex_container<VertexContainerPointerType>&
+            );
+
+            static typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME const_vertex_ptr_factory(
+                const MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>*,
+                const typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::template non_mixed_graph_vertex_container<VertexContainerPointerType>&,
+                MAIN_LIBRARY_NAMESPACE::edge_type non_mixed_graph_type
+            );
+
+            static typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME const_vertex_ptr_factory(
+                const MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>*,
+                const typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::template mixed_graph_vertex_container<VertexContainerPointerType>&
+            );
     };
+
 }
 
 #include "multiset_vertex_graph_vertex_ptr.h"
+
+template<typename VertexType>
+typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::VERTEX_PTR_NAME MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::vertex_ptr_factory(
+    const MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>* const graph_ptr,
+    typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::template non_mixed_graph_vertex_container<VertexContainerPointerType>& vertex_container_reference,
+    MAIN_LIBRARY_NAMESPACE::edge_type const non_mixed_graph_type) {
+    return MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::VERTEX_PTR_NAME(graph_ptr,vertex_container_reference,non_mixed_graph_type);
+}
+
+template<typename VertexType>
+typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::VERTEX_PTR_NAME MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::vertex_ptr_factory(
+    const MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>* const graph_ptr,
+    typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::template mixed_graph_vertex_container<VertexContainerPointerType>& vertex_container_reference) {
+    return MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::VERTEX_PTR_NAME(graph_ptr,vertex_container_reference);
+}
+
+template<typename VertexType>
+typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::const_vertex_ptr_factory(
+    const MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>* const graph_ptr,
+    const typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::template non_mixed_graph_vertex_container<VertexContainerPointerType>& vertex_container_reference,
+    MAIN_LIBRARY_NAMESPACE::edge_type non_mixed_graph_type) {
+    return MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME(graph_ptr,vertex_container_reference,non_mixed_graph_type);
+}
+
+template<typename VertexType>
+typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::const_vertex_ptr_factory(
+    const MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>* const graph_ptr,
+    const typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::template mixed_graph_vertex_container<VertexContainerPointerType>& vertex_container_reference) {
+    return MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME(graph_ptr,vertex_container_reference);
+}
 
 #endif //MULTISET_VERTEX_GRAPH_H
