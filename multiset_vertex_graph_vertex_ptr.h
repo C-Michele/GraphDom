@@ -18,7 +18,7 @@ class MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::VERTEX_PTR_NAME
         [[nodiscard]] bool operator==(const typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME&) const;
         [[nodiscard]] bool operator!=(const typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME&) const;
 
-        VERTEX_PTR_NAME& operator=(const VERTEX_PTR_NAME&);
+        VERTEX_PTR_NAME& operator=(const VERTEX_PTR_NAME&) = default;
 
         [[nodiscard]] MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::ADJ_LIST adj_list() const;
         template <typename Compare>
@@ -62,6 +62,37 @@ MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::VERTEX_PTR_NAME::VERT
     if ( vertex_owner == nullptr ) {
         throw std::runtime_error("Impossible to convert"); //TODO: write a better message
     }
+}
+
+template<typename VertexType>
+VertexType& MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::VERTEX_PTR_NAME::operator*() const {
+    if (multiset_graph_vertex_container!=nullptr) {
+        return multiset_graph_vertex_container->vertex;
+    }
+    throw std::runtime_error("Impossible to dereference a multiset_vertex_graph::vertex_ptr"); //TODO: write a better message
+}
+
+template<typename VertexType>
+VertexType* MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::VERTEX_PTR_NAME::operator->() const {
+    if (multiset_graph_vertex_container!=nullptr) {
+        return &(multiset_graph_vertex_container->vertex);
+    }
+    throw std::runtime_error("Impossible to dereference a multiset_vertex_graph::vertex_ptr"); //TODO: write a better message
+}
+
+template<typename VertexType>
+bool MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::VERTEX_PTR_NAME::operator==(
+    const typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::const_vertex_ptr& other) const {
+    if(vertex_owner!=other.vertex_owner) {
+        return false;
+    }
+    return multiset_graph_vertex_container == other.graph_vertex_container;
+}
+
+template<typename VertexType>
+bool MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::VERTEX_PTR_NAME::operator!=(
+    const typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME& other) const {
+    return !( (*this) == other );
 }
 
 template<typename VertexType>

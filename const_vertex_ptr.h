@@ -2,7 +2,9 @@
 #define CONST_VERTEX_PTR_H
 
 #include "graph.h"
+#include "const_vertex_ptr.h"
 #include "multiset_vertex_graph.h"
+#include "multiset_vertex_graph_vertex_ptr.h"
 
 template <typename VertexType>
 class MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME final {
@@ -17,7 +19,7 @@ class MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME final 
         [[nodiscard]] bool operator==(const CONSTANT_VERTEX_PTR_NAME&) const;
         [[nodiscard]] bool operator!=(const CONSTANT_VERTEX_PTR_NAME&) const;
 
-        CONSTANT_VERTEX_PTR_NAME& operator=(const CONSTANT_VERTEX_PTR_NAME&);
+        CONSTANT_VERTEX_PTR_NAME& operator=(const CONSTANT_VERTEX_PTR_NAME&) = default;
 
         [[nodiscard]] MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST adj_list() const;
         template <typename Compare>
@@ -73,6 +75,32 @@ MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME::CONSTANT_VE
     vertex_owner(other.vertex_owner),
     graph_vertex_container(other.multiset_graph_vertex_container),
     edges_type(other.edges_type){}
+
+template<typename VertexType>
+const VertexType& MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME::operator*() const {
+    if (graph_vertex_container!=nullptr) {
+        return graph_vertex_container->vertex;
+    }
+    throw std::runtime_error("Impossible to dereference a const_vertex_ptr"); //TODO: write a better message
+}
+
+template<typename VertexType>
+const VertexType* MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME::operator->() const {
+    if (graph_vertex_container!=nullptr) {
+        return &(graph_vertex_container->vertex);
+    }
+    throw std::runtime_error("Impossible to dereference a const_vertex_ptr"); //TODO: write a better message
+}
+
+template<typename VertexType>
+bool MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME::operator==(const CONSTANT_VERTEX_PTR_NAME& other) const {
+    return (vertex_owner == other.vertex_owner) && (graph_vertex_container == other.graph_vertex_container);
+}
+
+template<typename VertexType>
+bool MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME::operator!=(const CONSTANT_VERTEX_PTR_NAME& other) const {
+    return !( (*this)== other );
+}
 
 template<typename VertexType>
 MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME::CONSTANT_VERTEX_PTR_NAME(
