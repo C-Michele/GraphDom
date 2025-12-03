@@ -27,6 +27,7 @@ add_library(${PROJECT_NAME} SHARED graph.h
         multiset_vertex_graph_vertex_ptr.h
         multiset_vertex_graph_adj_list.h
         multiset_vertex_graph_edge_iterator.h
+        full_labeled_set_vertex_digraph.h
 )
 
 add_subdirectory(unit_test)
