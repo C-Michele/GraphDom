@@ -16,7 +16,7 @@ namespace MAIN_LIBRARY_NAMESPACE {
 
             ~labeled_vertex_set_vertex_graph() override = default;
 
-            using labeled_vertex_graph<VertexType,VertexLabelType>::insert_vertex;
+            using set_vertex_graph<VertexType>::insert_vertex;
             [[nodiscard]] std::pair<typename graph<VertexType>::VERTEX_PTR_NAME,bool> insert_vertex(const VertexType&) final;
             [[nodiscard]] std::pair<typename graph<VertexType>::VERTEX_PTR_NAME,bool> insert_vertex(VertexType&&) final;
             [[nodiscard]] virtual std::pair<typename graph<VertexType>::VERTEX_PTR_NAME,bool> insert_vertex(const VertexType&, const VertexLabelType&) = 0;
