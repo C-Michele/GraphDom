@@ -8,8 +8,6 @@
 
 #include "gtest/gtest.h"
 #include "../graph.h"
-#include "../multiset_vertex_graph.h"
-#include "../set_vertex_graph.h"
 
 #define MULTISET_VERTEX_GRAPH_IS_A_MULTISET_VERTEX_GRAPH_TEST(TEST_SUITE_NAME,CONCRETE_CLASS_NAME,VERTEX_TYPENAME)              \
     TEST(TEST_SUITE_NAME,is_a_multiset_vertex_graph) {                                                                          \

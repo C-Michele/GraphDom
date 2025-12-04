@@ -5,8 +5,6 @@
 
 #include "gtest/gtest.h"
 #include "../graph.h"
-#include "../set_vertex_graph.h"
-#include "../multiset_vertex_graph.h"
 
 template <typename VertexType>
 [[nodiscard]] std::pair<typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::VERTEX_PTR_NAME,bool> graph_vertex_insertion(MAIN_LIBRARY_NAMESPACE::graph<VertexType>& graph, const VertexType& vertex_to_insert) {

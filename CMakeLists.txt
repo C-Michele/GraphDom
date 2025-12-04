@@ -8,26 +8,18 @@ add_compile_definitions(MAIN_LIBRARY_NAMESPACE=${PROJECT_NAME})
 add_library(${PROJECT_NAME} SHARED graph.h
         utility/address_less.h
         dummy.cpp
-        const_vertex_ptr.h
-        vertex_ptr.h
-        edge_iterator.h
-        const_edge_iterator.h
         non_mixed_graph.h
         mixed_graph.h
-        set_vertex_graph.h
-        multiset_vertex_graph.h
         labeled_edge_non_mixed_graph.h
         labeled_edge_mixed_graph.h
         labeled_edge_graph.h
         labeled_vertex_graph.h
         labeled_vertex_set_vertex_graph.h
         labeled_vertex_multiset_vertex_graph.h
-        adj_list.h
-        const_adj_list.h
-        multiset_vertex_graph_vertex_ptr.h
-        multiset_vertex_graph_adj_list.h
-        multiset_vertex_graph_edge_iterator.h
         full_labeled_set_vertex_digraph.h
+        graph.h
+        handlers_declarations.h
+        handlers_implementations.h
 )
 
 add_subdirectory(unit_test)

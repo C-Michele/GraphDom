@@ -4,7 +4,6 @@
 #include <set>
 
 #include "graph.h"
-#include "set_vertex_graph.h"
 #include "labeled_vertex_graph.h"
 #include "labeled_vertex_set_vertex_graph.h"
 #include "labeled_edge_graph.h"

@@ -4,7 +4,6 @@
 #include <utility>
 
 #include "labeled_vertex_graph.h"
-#include "multiset_vertex_graph.h"
 
 namespace MAIN_LIBRARY_NAMESPACE {
     template <typename VertexType, typename VertexLabelType, typename T = DefaultVertexLabellerType<VertexType,VertexLabelType>>  //TODO: find a better name for "T"
