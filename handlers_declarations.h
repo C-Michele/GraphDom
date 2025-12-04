@@ -79,7 +79,10 @@ class MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME final 
         template <typename Compare>
         [[nodiscard]] MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST const_adj_list(MAIN_LIBRARY_NAMESPACE::edge_type, Compare comp) const; //TODO: implementation
 
+        friend bool MAIN_LIBRARY_NAMESPACE::graph<VertexType>::VERTEX_PTR_NAME::operator==(const CONSTANT_VERTEX_PTR_NAME&) const;
+        friend bool MAIN_LIBRARY_NAMESPACE::graph<VertexType>::VERTEX_PTR_NAME::operator!=(const CONSTANT_VERTEX_PTR_NAME&) const;
         friend class MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME;
+        friend class MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::VERTEX_PTR_NAME;
         friend class MAIN_LIBRARY_NAMESPACE::graph<VertexType>;
         friend class MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>;
     private:
