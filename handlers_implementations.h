@@ -15,12 +15,17 @@ MAIN_LIBRARY_NAMESPACE::graph<VertexType>::VERTEX_PTR_NAME::VERTEX_PTR_NAME(
     edges_type(other.edges_type){}
 
 template<typename VertexType>
+MAIN_LIBRARY_NAMESPACE::graph<VertexType>::VERTEX_PTR_NAME::operator typename multiset_vertex_graph<VertexType>::VERTEX_PTR_NAME() const {
+    return typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::VERTEX_PTR_NAME(*this);
+}
+
+template<typename VertexType>
 const VertexType& MAIN_LIBRARY_NAMESPACE::graph<VertexType>::VERTEX_PTR_NAME::operator*() const {
     if (set_graph_vertex_container!=nullptr) {
         return set_graph_vertex_container->vertex;
     }
     if (multiset_graph_vertex_container!=nullptr) {
-        return multiset_graph_vertex_container->value;
+        return multiset_graph_vertex_container->vertex;
     }
     throw std::runtime_error("Impossible to dereference a vertex_ptr"); //TODO: write a better message
 }
@@ -83,8 +88,14 @@ template<typename VertexType>
 MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME::CONSTANT_VERTEX_PTR_NAME(
     const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::VERTEX_PTR_NAME& other) :
     vertex_owner(other.vertex_owner),
-    graph_vertex_container(other.multiset_graph_vertex_container),
-    edges_type(other.edges_type) {}
+    graph_vertex_container(nullptr),
+    edges_type(other.edges_type) {
+    if (other.set_graph_vertex_container != nullptr) {
+        graph_vertex_container = other.set_graph_vertex_container;
+    }else {
+        graph_vertex_container = other.multiset_graph_vertex_container;
+    }
+}
 
 template<typename VertexType>
 MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME::CONSTANT_VERTEX_PTR_NAME(

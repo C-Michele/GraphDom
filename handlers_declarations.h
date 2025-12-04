@@ -10,6 +10,7 @@ class MAIN_LIBRARY_NAMESPACE::graph<VertexType>::VERTEX_PTR_NAME final {
         VERTEX_PTR_NAME(const VERTEX_PTR_NAME&) = default;
         VERTEX_PTR_NAME(const typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::VERTEX_PTR_NAME&);
 
+        explicit operator typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::VERTEX_PTR_NAME() const;
         [[nodiscard]] const VertexType& operator*() const;
         [[nodiscard]] const VertexType* operator->() const;
         [[nodiscard]] bool operator==(const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME&) const;

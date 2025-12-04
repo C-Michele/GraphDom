@@ -14,8 +14,6 @@ set(SOURCE_TEST_FILES run_all_tests.cpp
         generic_graph_tests.h
         generic_set_vertex_graph_tests.h
         generic_multiset_vertex_graph_tests.h
-        generic_digraph_tests.h
-        generic_ugraph_tests.h
         full_labeled_set_vertex_digraph_tests.cpp)
 add_executable(run_all_tests ${SOURCE_TEST_FILES})
 target_link_libraries(run_all_tests gtest_main graphlab)
