@@ -20,6 +20,7 @@ add_library(${PROJECT_NAME} SHARED graph.h
         graph.h
         handlers_declarations.h
         handlers_implementations.h
+        full_labeled_multiset_vertex_digraph.h
 )
 
 add_subdirectory(unit_test)
