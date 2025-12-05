@@ -32,7 +32,7 @@ namespace MAIN_LIBRARY_NAMESPACE {
             full_labeled_set_vertex_digraph(Compare&& v_comp, T1&& v_lab, const T2& e_lab);
             explicit full_labeled_set_vertex_digraph(Compare&& v_comp, T1&& v_lab = T1(), T2&& e_lab = T2());
 
-            ~full_labeled_set_vertex_digraph() override; //TODO: look out to memory leaks in ADJs
+            ~full_labeled_set_vertex_digraph() override;
 
             [[nodiscard]] std::size_t order() const override;
             [[nodiscard]] const VertexLabelType& get_vertex_label(const typename graph<VertexType>::CONSTANT_VERTEX_PTR_NAME&) const override;
@@ -130,7 +130,16 @@ vertices( custom_set_less(std::move(v_comp)) ) {}
 
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename T1, typename T2>
 MAIN_LIBRARY_NAMESPACE::full_labeled_set_vertex_digraph<VertexType,VertexLabelType,EdgeLabelType,Compare,T1,T2>::~full_labeled_set_vertex_digraph() {
-    //TODO: real implementation, look out to memory leaks in ADJs
+    for (auto digraph_vertices_itr = vertices.begin(); digraph_vertices_itr != vertices.end(); ++digraph_vertices_itr) {
+        auto& dv_itr_vertex_container = *digraph_vertices_itr;
+        auto& dv_itr_vc_adj = dv_itr_vertex_container.adj;
+        for (auto dv_itr_vc_adj_itr = dv_itr_vc_adj.begin(); dv_itr_vc_adj_itr != dv_itr_vc_adj.end(); ++dv_itr_vc_adj_itr) {
+            delete static_cast<typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::template labeled_directed_edge_endpoint<typename MAIN_LIBRARY_NAMESPACE::set_vertex_graph<VertexType>::VertexContainerPointerType,EdgeLabelType>* const>(
+                *dv_itr_vc_adj_itr
+            ); // This is to avoid memory leaks
+        }
+        dv_itr_vc_adj.clear();
+    }
 }
 
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename T1, typename T2>
