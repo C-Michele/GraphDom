@@ -108,6 +108,16 @@ namespace MAIN_LIBRARY_NAMESPACE {
                     bool operator()(const edge_endpoint<VertexContainerPointerType>* const left, const edge_endpoint<VertexContainerPointerType>* const right) const {
                         return std::less<VertexContainerPointerType>()( left->vertex_container_ptr , right->vertex_container_ptr );
                     }
+
+                    using is_transparent = void;
+
+                    bool operator()(const edge_endpoint<VertexContainerPointerType>* const left, const vertex_container* const right) const {
+                        return std::less<const vertex_container*>()( left->vertex_container_ptr , right );
+                    }
+
+                    bool operator()(const vertex_container* const left, const edge_endpoint<VertexContainerPointerType>* const right) const {
+                        return std::less<const vertex_container*>()( left , right->vertex_container_ptr );
+                    }
             };
             template<typename VertexContainerPointerType>
             using adj_set = std::set< edge_endpoint<VertexContainerPointerType>* , custom_edge_endpoint_less<VertexContainerPointerType> >;
@@ -190,6 +200,12 @@ namespace MAIN_LIBRARY_NAMESPACE {
                     mutable VertexLabelType vertex_label;
             };
 
+            template<typename VertexContainerPointerType>
+            static void safe_non_labeled_edge_endpoint_deallocation(edge_endpoint<VertexContainerPointerType>*);
+
+            template<typename VertexContainerPointerType, typename EdgeLabelType>
+            static void safe_labeled_edge_endpoint_deallocation(edge_endpoint<VertexContainerPointerType>*,edge_type);
+
             static VERTEX_PTR_NAME vertex_ptr_factory(
                 const MAIN_LIBRARY_NAMESPACE::graph<VertexType>*,
                 const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::non_mixed_graph_vertex_container<const vertex_container*>&,
@@ -241,6 +257,11 @@ namespace MAIN_LIBRARY_NAMESPACE {
             using non_mixed_graph_labeled_vertex_container = typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::template non_mixed_graph_labeled_vertex_container<VertexContainerPointerType,EdgeLabelType>;
             template <typename EdgeLabelType>
             using mixed_graph_labeled_vertex_container = typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::template mixed_graph_labeled_vertex_container<VertexContainerPointerType,EdgeLabelType>;
+
+            static void safe_non_labeled_edge_endpoint_deallocation(edge_endpoint*);
+
+            template<typename EdgeLabelType>
+            static void safe_labeled_edge_endpoint_deallocation(edge_endpoint*,edge_type);
     };
 }
 
@@ -274,6 +295,11 @@ namespace MAIN_LIBRARY_NAMESPACE {
             template <typename EdgeLabelType>
             using mixed_graph_labeled_vertex_container = typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::template mixed_graph_labeled_vertex_container<VertexContainerPointerType,EdgeLabelType>;
 
+            static void safe_non_labeled_edge_endpoint_deallocation(edge_endpoint*);
+
+            template<typename VertexLabelType>
+            static void safe_labeled_edge_endpoint_deallocation(edge_endpoint*,edge_type);
+
             static VERTEX_PTR_NAME vertex_ptr_factory(
                 const MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>*,
                 typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::template non_mixed_graph_vertex_container<VertexContainerPointerType>&,
@@ -302,6 +328,27 @@ namespace MAIN_LIBRARY_NAMESPACE {
 
 #include "handlers_declarations.h"
 #include "handlers_implementations.h"
+
+template<typename VertexType>
+template<typename VertexContainerPointerType>
+void MAIN_LIBRARY_NAMESPACE::graph<VertexType>::safe_non_labeled_edge_endpoint_deallocation(edge_endpoint<VertexContainerPointerType>* const ee_ptr) {
+    delete ee_ptr;
+}
+
+template<typename VertexType>
+template<typename VertexContainerPointerType, typename EdgeLabelType>
+void MAIN_LIBRARY_NAMESPACE::graph<VertexType>::safe_labeled_edge_endpoint_deallocation(
+    edge_endpoint<VertexContainerPointerType>* const ee_ptr,
+    const edge_type et) {
+    switch (et) {
+        case undirected:
+            delete static_cast< labeled_undirected_edge_endpoint<VertexContainerPointerType,EdgeLabelType>* >(ee_ptr);
+            break;
+        case directed:
+            delete static_cast< labeled_directed_edge_endpoint<VertexContainerPointerType,EdgeLabelType>* >(ee_ptr);
+            break;
+    }
+}
 
 template<typename VertexType>
 typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::VERTEX_PTR_NAME MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_ptr_factory(
@@ -343,6 +390,32 @@ template<typename VertexType>
 const typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container* MAIN_LIBRARY_NAMESPACE::graph<VertexType>::get_vertex_container(
     const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME& ptr) {
     return ptr.graph_vertex_container;
+}
+
+template<typename VertexType>
+void MAIN_LIBRARY_NAMESPACE::set_vertex_graph<VertexType>::safe_non_labeled_edge_endpoint_deallocation(edge_endpoint* const ee_ptr) {
+    MAIN_LIBRARY_NAMESPACE::graph<VertexType>::template safe_non_labeled_edge_endpoint_deallocation<VertexContainerPointerType>(ee_ptr);
+}
+
+template<typename VertexType>
+template<typename EdgeLabelType>
+void MAIN_LIBRARY_NAMESPACE::set_vertex_graph<VertexType>::safe_labeled_edge_endpoint_deallocation(
+    edge_endpoint* const ee_ptr,
+    const edge_type ee_type) {
+    MAIN_LIBRARY_NAMESPACE::graph<VertexType>::template safe_labeled_edge_endpoint_deallocation<VertexContainerPointerType,EdgeLabelType>(ee_ptr,ee_type);
+}
+
+template<typename VertexType>
+void MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::safe_non_labeled_edge_endpoint_deallocation(edge_endpoint* const ee_ptr) {
+    MAIN_LIBRARY_NAMESPACE::graph<VertexType>::template safe_non_labeled_edge_endpoint_deallocation<VertexContainerPointerType>(ee_ptr);
+}
+
+template<typename VertexType>
+template<typename EdgeLabelType>
+void MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::safe_labeled_edge_endpoint_deallocation(
+    edge_endpoint* const ee_ptr,
+    const edge_type ee_type) {
+    MAIN_LIBRARY_NAMESPACE::graph<VertexType>::template safe_labeled_edge_endpoint_deallocation<VertexContainerPointerType,EdgeLabelType>(ee_ptr,ee_type);
 }
 
 template<typename VertexType>

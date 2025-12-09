@@ -15,7 +15,7 @@ namespace MAIN_LIBRARY_NAMESPACE {
 
             ~labeled_vertex_multiset_vertex_graph() override = default;
 
-            using labeled_vertex_graph<VertexType,VertexLabelType>::insert_vertex;
+            using multiset_vertex_graph<VertexType>::insert_vertex;
             [[nodiscard]] typename multiset_vertex_graph<VertexType>::VERTEX_PTR_NAME insert_vertex(const VertexType&) final;
             [[nodiscard]] typename multiset_vertex_graph<VertexType>::VERTEX_PTR_NAME insert_vertex(VertexType&&) final;
             [[nodiscard]] virtual typename multiset_vertex_graph<VertexType>::VERTEX_PTR_NAME insert_vertex(const VertexType&, const VertexLabelType&) = 0;

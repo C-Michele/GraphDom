@@ -8,15 +8,19 @@
 
 using tested_graph = MAIN_LIBRARY_NAMESPACE::full_labeled_set_vertex_digraph<std::size_t,std::string,std::string>;
 
-SET_VERTEX_GRAPH_IS_A_GRAPH_TEST(full_labeled_set_vertex_digraph,tested_graph,std::size_t);
+IS_A_GRAPH_TEST(full_labeled_set_vertex_digraph,tested_graph,std::size_t);
 
 NO_VERTICES_AFTER_DEFAULT_CONSTRUCTION_TEST(full_labeled_set_vertex_digraph,tested_graph);
 
 SET_VERTEX_GRAPH_IS_A_SET_VERTEX_GRAPH_TEST(full_labeled_set_vertex_digraph,tested_graph,std::size_t);
 
+SET_VERTEX_GRAPH_IS_NOT_A_MULTISET_VERTEX_GRAPH_TEST(full_labeled_set_vertex_digraph,tested_graph,std::size_t);
+
 SET_VERTEX_GRAPH_ORDER_METHOD_TEST(full_labeled_set_vertex_digraph,tested_graph);
 
 SET_VERTEX_GRAPH_CORRECT_RETURNED_BOOLEAN_AFTER_VERTEX_INSERTION_TEST(full_labeled_set_vertex_digraph,tested_graph);
+
+SET_VERTEX_GRAPH_CORRECT_VERTEX_POINTER_DEREFERENCING_TEST(full_labeled_set_vertex_digraph,tested_graph);
 
 SET_VERTEX_GRAPH_CORRECT_VERTEX_POINTER_DEREFERENCING_AFTER_OTHER_VERTICES_ERASION_TEST(full_labeled_set_vertex_digraph,tested_graph);
 

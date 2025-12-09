@@ -41,15 +41,22 @@ namespace MAIN_LIBRARY_NAMESPACE {
             void erase_vertex(const typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME&) override; //TODO: look out to memory leaks in ADJ
             [[nodiscard]] typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::EDGE_ITERATOR_NAME erase_edge(const typename graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME&) override; //TODO: look out to memory leaks in ADJ
             [[nodiscard]] VertexLabelType& get_vertex_label(const typename graph<VertexType>::CONSTANT_VERTEX_PTR_NAME&) override;
-            using MAIN_LIBRARY_NAMESPACE::set_vertex_graph<VertexType>::insert_vertex;
+            using MAIN_LIBRARY_NAMESPACE::labeled_vertex_set_vertex_graph<VertexType,VertexLabelType,T1>::insert_vertex;
             [[nodiscard]] std::pair<typename graph<VertexType>::VERTEX_PTR_NAME,bool> insert_vertex(const VertexType&, const VertexLabelType&) override;
             [[nodiscard]] std::pair<typename graph<VertexType>::VERTEX_PTR_NAME,bool> insert_vertex(const VertexType&, VertexLabelType&&) override;
             [[nodiscard]] std::pair<typename graph<VertexType>::VERTEX_PTR_NAME,bool> insert_vertex(VertexType&&, const VertexLabelType&) override;
             [[nodiscard]] std::pair<typename graph<VertexType>::VERTEX_PTR_NAME,bool> insert_vertex(VertexType&&, VertexLabelType&&) override;
             [[nodiscard]] EdgeLabelType& get_edge_label(const typename graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME&) override;
+            using MAIN_LIBRARY_NAMESPACE::labeled_edge_non_mixed_graph<VertexType,EdgeLabelType,T2>::insert_edge;
             void insert_edge(const typename graph<VertexType>::CONSTANT_VERTEX_PTR_NAME&, const typename graph<VertexType>::CONSTANT_VERTEX_PTR_NAME&, const EdgeLabelType&) override;
             void insert_edge(const typename graph<VertexType>::CONSTANT_VERTEX_PTR_NAME&, const typename graph<VertexType>::CONSTANT_VERTEX_PTR_NAME&, EdgeLabelType&&) override;
         private:
+            using VertexContainerPointerType = typename MAIN_LIBRARY_NAMESPACE::set_vertex_graph<VertexType>::VertexContainerPointerType;
+            using edge_endpoint = typename MAIN_LIBRARY_NAMESPACE::set_vertex_graph<VertexType>::template labeled_undirected_edge_endpoint<VertexLabelType>;
+            using vertex_container = typename MAIN_LIBRARY_NAMESPACE::set_vertex_graph<VertexType>::template non_mixed_graph_labeled_vertex_container<EdgeLabelType>;
+
+            static void safe_edge_endpoint_deallocation(typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::template edge_endpoint<VertexContainerPointerType>*);
+
             class custom_set_less {
                 public:
                     custom_set_less() = default;
@@ -57,16 +64,30 @@ namespace MAIN_LIBRARY_NAMESPACE {
                     explicit custom_set_less(Compare&& comp) : external_vertex_less_functor(std::move(comp)){}
 
                     bool operator()(
-                        const typename MAIN_LIBRARY_NAMESPACE::set_vertex_graph<VertexType>::template non_mixed_graph_labeled_vertex_container<EdgeLabelType>& left,
-                        const typename MAIN_LIBRARY_NAMESPACE::set_vertex_graph<VertexType>::template non_mixed_graph_labeled_vertex_container<EdgeLabelType>& right ) const {
+                        const vertex_container& left,
+                        const vertex_container& right ) const {
                         return external_vertex_less_functor(left.vertex,right.vertex);
+                    }
+
+                    using is_transparent = void;
+
+                    bool operator()(
+                        const vertex_container& left,
+                        const VertexType& right ) const {
+                        return external_vertex_less_functor(left.vertex,right);
+                    }
+
+                    bool operator()(
+                        const VertexType& left,
+                        const vertex_container& right ) const {
+                        return external_vertex_less_functor(left,right);
                     }
                 private:
                     Compare external_vertex_less_functor;
             };
 
             std::set<
-                typename MAIN_LIBRARY_NAMESPACE::set_vertex_graph<VertexType>::template non_mixed_graph_labeled_vertex_container<EdgeLabelType>,
+                vertex_container,
                 custom_set_less
             > vertices;
     };
@@ -134,9 +155,7 @@ MAIN_LIBRARY_NAMESPACE::full_labeled_set_vertex_digraph<VertexType,VertexLabelTy
         auto& dv_itr_vertex_container = *digraph_vertices_itr;
         auto& dv_itr_vc_adj = dv_itr_vertex_container.adj;
         for (auto dv_itr_vc_adj_itr = dv_itr_vc_adj.begin(); dv_itr_vc_adj_itr != dv_itr_vc_adj.end(); ++dv_itr_vc_adj_itr) {
-            delete static_cast<typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::template labeled_directed_edge_endpoint<typename MAIN_LIBRARY_NAMESPACE::set_vertex_graph<VertexType>::VertexContainerPointerType,EdgeLabelType>* const>(
-                *dv_itr_vc_adj_itr
-            ); // This is to avoid memory leaks
+            safe_edge_endpoint_deallocation(*dv_itr_vc_adj_itr); // This is to avoid memory leaks
         }
         dv_itr_vc_adj.clear();
     }
@@ -172,15 +191,9 @@ void MAIN_LIBRARY_NAMESPACE::full_labeled_set_vertex_digraph<VertexType,VertexLa
                     vertex_container_to_erase_found_vertices_itr = digraph_vertices_itr;
                 }
                 auto& digraph_vertices_itr_vertex_container_adj = digraph_vertices_itr_vertex_container.adj;
-                typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::template edge_endpoint<typename MAIN_LIBRARY_NAMESPACE::set_vertex_graph<VertexType>::VertexContainerPointerType>
-                edge_endpoint_bait(vertex_container_to_erase_ptr);
-                auto itr_vertex_container_adj_found_result_itr = digraph_vertices_itr_vertex_container_adj.find(&edge_endpoint_bait);
+                auto itr_vertex_container_adj_found_result_itr = digraph_vertices_itr_vertex_container_adj.find(vertex_container_to_erase_ptr);
                 if (itr_vertex_container_adj_found_result_itr != digraph_vertices_itr_vertex_container_adj.end()) {
-                    auto edge_endpoint_to_erase_ptr =
-                        static_cast<typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::template labeled_directed_edge_endpoint<typename MAIN_LIBRARY_NAMESPACE::set_vertex_graph<VertexType>::VertexContainerPointerType,EdgeLabelType>* const>(
-                            *itr_vertex_container_adj_found_result_itr
-                        );
-                    delete edge_endpoint_to_erase_ptr; // This is to avoid memory leaks
+                    safe_edge_endpoint_deallocation(*itr_vertex_container_adj_found_result_itr); // This is to avoid memory leaks
                     digraph_vertices_itr_vertex_container_adj.erase(itr_vertex_container_adj_found_result_itr);
                 }
             }
@@ -189,11 +202,7 @@ void MAIN_LIBRARY_NAMESPACE::full_labeled_set_vertex_digraph<VertexType,VertexLa
                 auto& vertex_container_to_erase_adj = vertex_container_to_erase.adj;
                 for(auto vertex_container_to_erase_adj_itr = vertex_container_to_erase_adj.begin();
                     vertex_container_to_erase_adj_itr != vertex_container_to_erase_adj.end();) {
-                    auto edge_endpoint_to_erase_ptr =
-                        static_cast<typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::template labeled_directed_edge_endpoint<typename MAIN_LIBRARY_NAMESPACE::set_vertex_graph<VertexType>::VertexContainerPointerType,EdgeLabelType>* const>(
-                            *vertex_container_to_erase_adj_itr
-                        );
-                    delete edge_endpoint_to_erase_ptr; // This is to avoid memory leaks
+                    safe_edge_endpoint_deallocation(*vertex_container_to_erase_adj_itr); // This is to avoid memory leaks
                     vertex_container_to_erase_adj_itr = vertex_container_to_erase_adj.erase(vertex_container_to_erase_adj_itr);
                 }
                 vertices.erase(vertex_container_to_erase_found_vertices_itr);
@@ -310,6 +319,16 @@ void MAIN_LIBRARY_NAMESPACE::full_labeled_set_vertex_digraph<VertexType,VertexLa
     const typename graph<VertexType>::CONSTANT_VERTEX_PTR_NAME&,
     EdgeLabelType&&) {
     //TODO: real implementation
+}
+
+template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename T1, typename T2>
+void MAIN_LIBRARY_NAMESPACE::full_labeled_set_vertex_digraph<VertexType,VertexLabelType,EdgeLabelType,Compare,T1,T2>::
+safe_edge_endpoint_deallocation(
+    typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::template edge_endpoint<VertexContainerPointerType>* ee_ptr) {
+    MAIN_LIBRARY_NAMESPACE::set_vertex_graph<VertexType>::template safe_labeled_edge_endpoint_deallocation<EdgeLabelType>(
+        ee_ptr,
+        MAIN_LIBRARY_NAMESPACE::edge_type::directed
+    );
 }
 
 //TODO: continue class implementation

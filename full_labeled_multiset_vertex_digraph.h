@@ -12,23 +12,18 @@ namespace MAIN_LIBRARY_NAMESPACE {
         typename VertexType,
         typename VertexLabelType,
         typename EdgeLabelType,
-        typename Compare = std::equal_to<VertexType>,
         typename T1 = DefaultVertexLabellerType<VertexType,VertexLabelType>, //TODO:: find a better name for T1
         typename T2 = DefaultEdgeLabellerType<VertexType,EdgeLabelType> // TODO: find a better name for T2
     >
     class full_labeled_multiset_vertex_digraph final :
-        virtual public labeled_vertex_multiset_vertex_graph<VertexLabelType,VertexLabelType,T1>,
+        virtual public labeled_vertex_multiset_vertex_graph<VertexType,VertexLabelType,T1>,
         virtual public labeled_edge_non_mixed_graph<VertexType,EdgeLabelType,T2> {
             public:
-                full_labeled_multiset_vertex_digraph() = default;
-                full_labeled_multiset_vertex_digraph(const Compare& v_comp, const T1& v_lab, const T2& e_lab);
-                full_labeled_multiset_vertex_digraph(const Compare& v_comp, const T1& v_lab, T2&& e_lab = T2());
-                full_labeled_multiset_vertex_digraph(const Compare& v_comp, T1&& v_lab, const T2& e_lab);
-                explicit full_labeled_multiset_vertex_digraph(const Compare& v_comp, T1&& v_lab = T1(), T2&& e_lab = T2());
-                full_labeled_multiset_vertex_digraph(Compare&& v_comp, const T1& v_lab, const T2& e_lab);
-                full_labeled_multiset_vertex_digraph(Compare&& v_comp, const T1& v_lab, T2&& e_lab = T2());
-                full_labeled_multiset_vertex_digraph(Compare&& v_comp, T1&& v_lab, const T2& e_lab);
-                explicit full_labeled_multiset_vertex_digraph(Compare&& v_comp, T1&& v_lab = T1(), T2&& e_lab = T2());
+                full_labeled_multiset_vertex_digraph();
+                full_labeled_multiset_vertex_digraph(const T1& v_lab, const T2& e_lab);
+                full_labeled_multiset_vertex_digraph(const T1& v_lab, T2&& e_lab = T2());
+                full_labeled_multiset_vertex_digraph(T1&& v_lab, const T2& e_lab);
+                explicit full_labeled_multiset_vertex_digraph(T1&& v_lab, T2&& e_lab = T2());
 
                 ~full_labeled_multiset_vertex_digraph() override;
 
@@ -45,6 +40,7 @@ namespace MAIN_LIBRARY_NAMESPACE {
                 [[nodiscard]] typename multiset_vertex_graph<VertexType>::VERTEX_PTR_NAME insert_vertex(VertexType&&, const VertexLabelType&) override;
                 [[nodiscard]] typename multiset_vertex_graph<VertexType>::VERTEX_PTR_NAME insert_vertex(VertexType&&, VertexLabelType&&) override;
                 [[nodiscard]] EdgeLabelType& get_edge_label(const typename graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME&) override;
+                using MAIN_LIBRARY_NAMESPACE::labeled_edge_non_mixed_graph<VertexType,EdgeLabelType,T2>::insert_edge;
                 void insert_edge(const typename graph<VertexType>::CONSTANT_VERTEX_PTR_NAME&, const typename graph<VertexType>::CONSTANT_VERTEX_PTR_NAME&, const EdgeLabelType&) override;
                 void insert_edge(const typename graph<VertexType>::CONSTANT_VERTEX_PTR_NAME&, const typename graph<VertexType>::CONSTANT_VERTEX_PTR_NAME&, EdgeLabelType&&) override;
     };

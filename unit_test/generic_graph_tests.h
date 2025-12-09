@@ -26,7 +26,7 @@ template <typename VertexType>
     return std::pair<typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::VERTEX_PTR_NAME,bool>(multiset_vertex_graph.insert_vertex(vertex_to_insert),true);
 }
 
-#define SET_VERTEX_GRAPH_IS_A_GRAPH_TEST(TEST_SUITE_NAME,CONCRETE_CLASS_NAME,VERTEX_TYPENAME)                   \
+#define IS_A_GRAPH_TEST(TEST_SUITE_NAME,CONCRETE_CLASS_NAME,VERTEX_TYPENAME)                                    \
     TEST(TEST_SUITE_NAME,is_a_graph) {                                                                          \
         CONCRETE_CLASS_NAME graph;                                                                              \
         EXPECT_NE(dynamic_cast< typename MAIN_LIBRARY_NAMESPACE::graph<VERTEX_TYPENAME>* >( &graph ),nullptr);  \
