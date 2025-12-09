@@ -2,7 +2,7 @@
 #define GENERIC_MULTISET_VERTEX_GRAPH_TESTS_H
 
 #include <utility>
-#include <forward_list>
+#include <list>
 #include <set>
 #include <cstddef>
 
@@ -27,7 +27,7 @@
         ASSERT_EQ(graph.order(),0);                                                                                                             \
         const std::size_t number_of_different_vertex_values = 100;                                                                              \
         const std::size_t number_of_repetitions = 10;                                                                                           \
-        std::forward_list<typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<std::size_t>::VERTEX_PTR_NAME> inserted_vertices_pointers;     \
+        std::list<typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<std::size_t>::VERTEX_PTR_NAME> inserted_vertices_pointers;             \
         for(std::size_t i = 0; i < number_of_different_vertex_values; ++i) {                                                                    \
             for(std::size_t j = 0; j < number_of_repetitions; ++j) {                                                                            \
                 inserted_vertices_pointers.emplace_front( graph.insert_vertex(i) );                                                             \
@@ -103,7 +103,7 @@
             }                                                                                                                                           \
         }                                                                                                                                               \
         for(std::size_t k = 0; k < inserted_vertices.size(); ++k ) {                                                                                    \
-            const typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::CONSTANT_VERTEX_PTR_NAME const_vertex_ptr_k = ( inserted_vertices(k) ).first;    \
+            const typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::CONSTANT_VERTEX_PTR_NAME const_vertex_ptr_k = ( inserted_vertices[k] ).first;    \
             ASSERT_EQ( *const_vertex_ptr_k , k/number_of_repetitions );                                                                                 \
             for(std::size_t j = 0; j < inserted_vertices.size(); ++j ) {                                                                                \
                 if(j==k) {                                                                                                                              \
@@ -135,7 +135,7 @@
             }                                                                                                                                           \
         }                                                                                                                                               \
         for(std::size_t k = 0; k < inserted_vertices.size(); ++k ) {                                                                                    \
-            const typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::VERTEX_PTR_NAME vertex_ptr_k = ( inserted_vertices(k) ).first;                   \
+            const typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::VERTEX_PTR_NAME vertex_ptr_k = ( inserted_vertices[k] ).first;                   \
             ASSERT_EQ( *vertex_ptr_k , k/number_of_repetitions );                                                                                       \
             for(std::size_t j = 0; j < inserted_vertices.size(); ++j ) {                                                                                \
                 if(j==k) {                                                                                                                              \
@@ -167,7 +167,7 @@
             }                                                                                                                                           \
         }                                                                                                                                               \
         for(std::size_t k = 0; k < inserted_vertices.size(); ++k ) {                                                                                    \
-            const typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<std::size_t>::VERTEX_PTR_NAME vertex_ptr_k = ( inserted_vertices(k) ).first;   \
+            const typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<std::size_t>::VERTEX_PTR_NAME vertex_ptr_k( ( inserted_vertices[k] ).first );  \
             ASSERT_EQ( *vertex_ptr_k , k/number_of_repetitions );                                                                                       \
             for(std::size_t j = 0; j < inserted_vertices.size(); ++j ) {                                                                                \
                 if(j==k) {                                                                                                                              \
@@ -433,7 +433,7 @@
             for(std::size_t j = 0; j < number_of_repetitions; ++j) {                                                                            \
                 inserted_vertices_pointers.emplace_back( graph.insert_vertex(i) );                                                              \
                 typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::CONSTANT_VERTEX_PTR_NAME vertex_ptr = inserted_vertices_pointers.back();   \
-                const typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::VERTEX_PTR_NAME* const vertex_ptr_address = &vertex_ptr;             \
+                const typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::CONSTANT_VERTEX_PTR_NAME* const vertex_ptr_address = &vertex_ptr;    \
                 for(std::size_t k = 0; k < inserted_vertices_pointers.size(); ++k )  {                                                          \
                     ASSERT_EQ( &( vertex_ptr = inserted_vertices_pointers[k] ), vertex_ptr_address );                                           \
                 }                                                                                                                               \
