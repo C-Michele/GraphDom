@@ -19,17 +19,17 @@ class MAIN_LIBRARY_NAMESPACE::graph<VertexType>::VERTEX_PTR_NAME final {
         VERTEX_PTR_NAME& operator=(const VERTEX_PTR_NAME&) = default;
 
         [[nodiscard]] MAIN_LIBRARY_NAMESPACE::graph<VertexType>::ADJ_LIST adj_list() const; //TODO: implementation
-        template <typename Compare>
-        [[nodiscard]] MAIN_LIBRARY_NAMESPACE::graph<VertexType>::ADJ_LIST adj_list(Compare comp) const; //TODO: implementation
+        //template <typename Compare>
+        // [[nodiscard]] MAIN_LIBRARY_NAMESPACE::graph<VertexType>::ADJ_LIST adj_list(Compare comp) const; //TODO: implementation
         [[nodiscard]] MAIN_LIBRARY_NAMESPACE::graph<VertexType>::ADJ_LIST adj_list(MAIN_LIBRARY_NAMESPACE::edge_type) const; //TODO: implementation
-        template <typename Compare>
-        [[nodiscard]] MAIN_LIBRARY_NAMESPACE::graph<VertexType>::ADJ_LIST adj_list(MAIN_LIBRARY_NAMESPACE::edge_type, Compare comp) const; //TODO: implementation
+        //template <typename Compare>
+        //[[nodiscard]] MAIN_LIBRARY_NAMESPACE::graph<VertexType>::ADJ_LIST adj_list(MAIN_LIBRARY_NAMESPACE::edge_type, Compare comp) const; //TODO: implementation
         [[nodiscard]] MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST const_adj_list() const; //TODO: implementation
-        template <typename Compare>
-        [[nodiscard]] MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST const_adj_list(Compare comp) const; //TODO: implementation
+        //template <typename Compare>
+        //[[nodiscard]] MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST const_adj_list(Compare comp) const; //TODO: implementation
         [[nodiscard]] MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST const_adj_list(MAIN_LIBRARY_NAMESPACE::edge_type) const; //TODO: implementation
-        template <typename Compare>
-        [[nodiscard]] MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST const_adj_list(MAIN_LIBRARY_NAMESPACE::edge_type, Compare comp) const; //TODO: implementation
+        //template <typename Compare>
+        //[[nodiscard]] MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST const_adj_list(MAIN_LIBRARY_NAMESPACE::edge_type, Compare comp) const; //TODO: implementation
 
         friend class MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME;
         friend class MAIN_LIBRARY_NAMESPACE::graph<VertexType>::EDGE_ITERATOR_NAME;
@@ -68,17 +68,17 @@ class MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME final 
         CONSTANT_VERTEX_PTR_NAME& operator=(const CONSTANT_VERTEX_PTR_NAME&) = default;
 
         [[nodiscard]] MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST adj_list() const; //TODO: implementation
-        template <typename Compare>
-        [[nodiscard]] MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST adj_list(Compare comp) const; //TODO: implementation
+        //template <typename Compare>
+        //[[nodiscard]] MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST adj_list(Compare comp) const; //TODO: implementation
         [[nodiscard]] MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST adj_list(MAIN_LIBRARY_NAMESPACE::edge_type) const; //TODO: implementation
-        template <typename Compare>
-        [[nodiscard]] MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST adj_list(MAIN_LIBRARY_NAMESPACE::edge_type, Compare comp) const; //TODO: implementation
+        //template <typename Compare>
+        //[[nodiscard]] MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST adj_list(MAIN_LIBRARY_NAMESPACE::edge_type, Compare comp) const; //TODO: implementation
         [[nodiscard]] MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST const_adj_list() const; //TODO: implementation
-        template <typename Compare>
-        [[nodiscard]] MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST const_adj_list(Compare comp) const; //TODO: implementation
+        //template <typename Compare>
+        //[[nodiscard]] MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST const_adj_list(Compare comp) const; //TODO: implementation
         [[nodiscard]] MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST const_adj_list(MAIN_LIBRARY_NAMESPACE::edge_type) const; //TODO: implementation
-        template <typename Compare>
-        [[nodiscard]] MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST const_adj_list(MAIN_LIBRARY_NAMESPACE::edge_type, Compare comp) const; //TODO: implementation
+        //template <typename Compare>
+        //[[nodiscard]] MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST const_adj_list(MAIN_LIBRARY_NAMESPACE::edge_type, Compare comp) const; //TODO: implementation
 
         friend bool MAIN_LIBRARY_NAMESPACE::graph<VertexType>::VERTEX_PTR_NAME::operator==(const CONSTANT_VERTEX_PTR_NAME&) const;
         friend bool MAIN_LIBRARY_NAMESPACE::graph<VertexType>::VERTEX_PTR_NAME::operator!=(const CONSTANT_VERTEX_PTR_NAME&) const;
@@ -115,7 +115,7 @@ template <typename VertexType>
 class MAIN_LIBRARY_NAMESPACE::graph<VertexType>::ADJ_LIST { //TODO: class implementation
     public:
         ADJ_LIST() = delete;
-        ADJ_LIST(const ADJ_LIST&);
+        ADJ_LIST(const ADJ_LIST&) = default;
         ADJ_LIST(const typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::ADJ_LIST&);
 
         [[nodiscard]] MAIN_LIBRARY_NAMESPACE::graph<VertexType>::EDGE_ITERATOR_NAME begin() const;
@@ -126,13 +126,34 @@ class MAIN_LIBRARY_NAMESPACE::graph<VertexType>::ADJ_LIST { //TODO: class implem
         friend class MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST;
         friend class MAIN_LIBRARY_NAMESPACE::graph<VertexType>::VERTEX_PTR_NAME;
         friend class MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::ADJ_LIST;
+    private:
+        ADJ_LIST(
+            const MAIN_LIBRARY_NAMESPACE::graph<VertexType>*,
+            const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*,
+            MAIN_LIBRARY_NAMESPACE::graph<VertexType>::graph_edges_type
+        );
+        ADJ_LIST(
+            const MAIN_LIBRARY_NAMESPACE::graph<VertexType>*,
+            MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*,
+            MAIN_LIBRARY_NAMESPACE::graph<VertexType>::graph_edges_type
+        );
+
+        const MAIN_LIBRARY_NAMESPACE::graph<VertexType>* vertex_owner;
+
+        const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container* set_graph_vertex_container;
+        MAIN_LIBRARY_NAMESPACE::graph<VertexType>::adj_set<const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*>* set_graph_undirected_adj;
+        MAIN_LIBRARY_NAMESPACE::graph<VertexType>::adj_set<const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*>* set_graph_directed_adj;
+
+        MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container* multiset_graph_vertex_container;
+        MAIN_LIBRARY_NAMESPACE::graph<VertexType>::adj_set<MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*>* multiset_graph_undirected_adj;
+        MAIN_LIBRARY_NAMESPACE::graph<VertexType>::adj_set<MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*>* multiset_graph_directed_adj;
 };
 
 template <typename VertexType>
 class MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST { //TODO: class implementation
     public:
         CONSTANT_ADJ_LIST() = delete;
-        CONSTANT_ADJ_LIST(const CONSTANT_ADJ_LIST&);
+        CONSTANT_ADJ_LIST(const CONSTANT_ADJ_LIST&) = default;
         CONSTANT_ADJ_LIST(const ADJ_LIST&);
         CONSTANT_ADJ_LIST(const typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::ADJ_LIST&);
 
@@ -144,6 +165,21 @@ class MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST { //TODO: cla
         friend class MAIN_LIBRARY_NAMESPACE::graph<VertexType>::VERTEX_PTR_NAME;
         friend class MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME;
         friend class MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::VERTEX_PTR_NAME;
+    private:
+        CONSTANT_ADJ_LIST(
+            const MAIN_LIBRARY_NAMESPACE::graph<VertexType>*,
+            const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*,
+            MAIN_LIBRARY_NAMESPACE::graph<VertexType>::graph_edges_type
+        );
+
+        const MAIN_LIBRARY_NAMESPACE::graph<VertexType>* vertex_owner;
+        const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container* vertex_container;
+
+        const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::adj_set<const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*>* set_graph_undirected_adj;
+        const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::adj_set<const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*>* set_graph_directed_adj;
+
+        const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::adj_set<MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*>* multiset_graph_undirected_adj;
+        const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::adj_set<MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*>* multiset_graph_directed_adj;
 };
 
 template <typename VertexType>
@@ -208,17 +244,17 @@ class MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::VERTEX_PTR_NAME
         VERTEX_PTR_NAME& operator=(const VERTEX_PTR_NAME&) = default;
 
         [[nodiscard]] MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::ADJ_LIST adj_list() const; //TODO: implementation
-        template <typename Compare>
-        [[nodiscard]] MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::ADJ_LIST adj_list(Compare comp) const; //TODO: implementation
+        //template <typename Compare>
+        //[[nodiscard]] MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::ADJ_LIST adj_list(Compare comp) const; //TODO: implementation
         [[nodiscard]] MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::ADJ_LIST adj_list(MAIN_LIBRARY_NAMESPACE::edge_type) const; //TODO: implementation
-        template <typename Compare>
-        [[nodiscard]] MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::ADJ_LIST adj_list(MAIN_LIBRARY_NAMESPACE::edge_type, Compare comp) const; //TODO: implementation
+        //template <typename Compare>
+        //[[nodiscard]] MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::ADJ_LIST adj_list(MAIN_LIBRARY_NAMESPACE::edge_type, Compare comp) const; //TODO: implementation
         [[nodiscard]] typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST const_adj_list() const; //TODO: implementation
-        template <typename Compare>
-        [[nodiscard]] typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST const_adj_list(Compare comp) const; //TODO: implementation
+        //template <typename Compare>
+        //[[nodiscard]] typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST const_adj_list(Compare comp) const; //TODO: implementation
         [[nodiscard]] typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST const_adj_list(MAIN_LIBRARY_NAMESPACE::edge_type) const; //TODO: implementation
-        template <typename Compare>
-        [[nodiscard]] typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST const_adj_list(MAIN_LIBRARY_NAMESPACE::edge_type, Compare comp) const; //TODO: implementation
+        //template <typename Compare>
+        //[[nodiscard]] typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST const_adj_list(MAIN_LIBRARY_NAMESPACE::edge_type, Compare comp) const; //TODO: implementation
 
         friend class MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME;
         friend class MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::EDGE_ITERATOR_NAME;
@@ -244,7 +280,7 @@ template <typename VertexType>
 class MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::ADJ_LIST { //TODO: class implementation
     public:
         ADJ_LIST() = delete;
-        ADJ_LIST(const ADJ_LIST&);
+        ADJ_LIST(const ADJ_LIST&) = default;
         explicit ADJ_LIST(const typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::ADJ_LIST&);
 
         [[nodiscard]] MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::EDGE_ITERATOR_NAME begin() const;
@@ -255,6 +291,17 @@ class MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::ADJ_LIST { //TO
         friend class MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST;
         friend class MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::VERTEX_PTR_NAME;
         friend class MAIN_LIBRARY_NAMESPACE::graph<VertexType>::ADJ_LIST;
+    private:
+        ADJ_LIST(
+            const MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>*,
+            VertexContainerPointerType,
+            typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::graph_edges_type
+        );
+
+        const MAIN_LIBRARY_NAMESPACE::graph<VertexType>* vertex_owner;
+        typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container* multiset_graph_vertex_container;
+        typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::template adj_set<VertexContainerPointerType>* multiset_graph_undirected_adj;
+        typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::template adj_set<VertexContainerPointerType>* multiset_graph_directed_adj;
 };
 
 template <typename VertexType>

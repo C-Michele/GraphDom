@@ -60,6 +60,94 @@ bool MAIN_LIBRARY_NAMESPACE::graph<VertexType>::VERTEX_PTR_NAME::operator!=(
 }
 
 template<typename VertexType>
+typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::ADJ_LIST
+MAIN_LIBRARY_NAMESPACE::graph<VertexType>::VERTEX_PTR_NAME::adj_list() const {
+    if (vertex_owner!=nullptr) {
+        if (set_graph_vertex_container!=nullptr) {
+            return MAIN_LIBRARY_NAMESPACE::graph<VertexType>::ADJ_LIST(
+                vertex_owner,
+                set_graph_vertex_container,
+                edges_type
+            );
+        }
+        if (multiset_graph_vertex_container!=nullptr) {
+            return MAIN_LIBRARY_NAMESPACE::graph<VertexType>::ADJ_LIST(
+                vertex_owner,
+                multiset_graph_vertex_container,
+                edges_type
+            );
+        }
+    }
+    throw std::runtime_error("Impossible to get adj_list from this vertex_ptr"); //TODO: write a better message
+}
+
+template<typename VertexType>
+typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::ADJ_LIST
+MAIN_LIBRARY_NAMESPACE::graph<VertexType>::VERTEX_PTR_NAME::adj_list(const MAIN_LIBRARY_NAMESPACE::edge_type et) const {
+    if (vertex_owner!=nullptr) {
+        if (set_graph_vertex_container!=nullptr) {
+            return MAIN_LIBRARY_NAMESPACE::graph<VertexType>::ADJ_LIST(
+                vertex_owner,
+                set_graph_vertex_container,
+                et
+            );
+        }
+        if (multiset_graph_vertex_container!=nullptr) {
+            return MAIN_LIBRARY_NAMESPACE::graph<VertexType>::ADJ_LIST(
+                vertex_owner,
+                multiset_graph_vertex_container,
+                et
+            );
+        }
+    }
+    throw std::runtime_error("Impossible to get adj_list from this vertex_ptr"); //TODO: write a better message
+}
+
+template<typename VertexType>
+typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST
+MAIN_LIBRARY_NAMESPACE::graph<VertexType>::VERTEX_PTR_NAME::const_adj_list() const {
+    if (vertex_owner!=nullptr) {
+        if (set_graph_vertex_container!=nullptr) {
+            return MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST(
+                vertex_owner,
+                set_graph_vertex_container,
+                edges_type
+            );
+        }
+        if (multiset_graph_vertex_container!=nullptr) {
+            return MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST(
+                vertex_owner,
+                multiset_graph_vertex_container,
+                edges_type
+            );
+        }
+    }
+    throw std::runtime_error("Impossible to get const_adj_list from this vertex_ptr"); //TODO: write a better message
+}
+
+template<typename VertexType>
+typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST
+MAIN_LIBRARY_NAMESPACE::graph<VertexType>::VERTEX_PTR_NAME::const_adj_list(const MAIN_LIBRARY_NAMESPACE::edge_type et) const {
+    if (vertex_owner!=nullptr) {
+        if (set_graph_vertex_container!=nullptr) {
+            return MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST(
+                vertex_owner,
+                set_graph_vertex_container,
+                et
+            );
+        }
+        if (multiset_graph_vertex_container!=nullptr) {
+            return MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST(
+                vertex_owner,
+                multiset_graph_vertex_container,
+                et
+            );
+        }
+    }
+    throw std::runtime_error("Impossible to get const_adj_list from this vertex_ptr"); //TODO: write a better message
+}
+
+template<typename VertexType>
 MAIN_LIBRARY_NAMESPACE::graph<VertexType>::VERTEX_PTR_NAME::VERTEX_PTR_NAME(
     const MAIN_LIBRARY_NAMESPACE::graph<VertexType>* const vo,
     const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::non_mixed_graph_vertex_container<const vertex_container*>& vc_ref,
@@ -131,6 +219,48 @@ bool MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME::operat
 }
 
 template<typename VertexType>
+typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST
+MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME::adj_list() const {
+    return const_adj_list();
+}
+
+template<typename VertexType>
+typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST
+MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME::adj_list(const MAIN_LIBRARY_NAMESPACE::edge_type et) const {
+    return const_adj_list(et);
+}
+
+template<typename VertexType>
+typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST
+MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME::const_adj_list() const {
+    if (vertex_owner!=nullptr) {
+        if (graph_vertex_container!=nullptr) {
+            return MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST(
+                vertex_owner,
+                graph_vertex_container,
+                edges_type
+            );
+        }
+    }
+    throw std::runtime_error("Impossible to get const_adj_list from this const_vertex_ptr"); //TODO: write a better message
+}
+
+template<typename VertexType>
+typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST
+MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME::const_adj_list(const MAIN_LIBRARY_NAMESPACE::edge_type et) const {
+    if (vertex_owner!=nullptr) {
+        if (graph_vertex_container!=nullptr) {
+            return MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST(
+                vertex_owner,
+                graph_vertex_container,
+                et
+            );
+        }
+    }
+    throw std::runtime_error("Impossible to get const_adj_list from this const_vertex_ptr"); //TODO: write a better message
+}
+
+template<typename VertexType>
 MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME::CONSTANT_VERTEX_PTR_NAME(
     const MAIN_LIBRARY_NAMESPACE::graph<VertexType>* const vo,
     const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::non_mixed_graph_vertex_container<const vertex_container*>& vc_ref,
@@ -177,6 +307,272 @@ MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME::CONSTANT_VE
     edges_type(MAIN_LIBRARY_NAMESPACE::graph<VertexType>::graph_edges_type::mixed) {}
 
 template<typename VertexType>
+MAIN_LIBRARY_NAMESPACE::graph<VertexType>::ADJ_LIST::ADJ_LIST(
+    const typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::ADJ_LIST& other) :
+    vertex_owner(other.vertex_owner),
+    set_graph_vertex_container(nullptr),
+    set_graph_undirected_adj(nullptr),
+    set_graph_directed_adj(nullptr),
+    multiset_graph_vertex_container(other.multiset_graph_vertex_container),
+    multiset_graph_undirected_adj(other.multiset_graph_undirected_adj),
+    multiset_graph_directed_adj(other.multiset_graph_directed_adj) {}
+
+template<typename VertexType>
+MAIN_LIBRARY_NAMESPACE::graph<VertexType>::ADJ_LIST::ADJ_LIST(
+    const MAIN_LIBRARY_NAMESPACE::graph<VertexType>* const vo,
+    const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container* const vc_ptr,
+    const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::graph_edges_type ge_type) :
+    vertex_owner(vo),
+    set_graph_vertex_container(vc_ptr),
+    set_graph_undirected_adj(nullptr),
+    set_graph_directed_adj(nullptr),
+    multiset_graph_vertex_container(nullptr),
+    multiset_graph_undirected_adj(nullptr),
+    multiset_graph_directed_adj(nullptr) {
+    switch(ge_type) {
+        case mixed:
+            set_graph_undirected_adj =
+                 &(
+                    static_cast<
+                        const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::mixed_graph_vertex_container<
+                            const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*
+                        >
+                        *
+                    >(vc_ptr)->undirected_adj
+                 );
+            set_graph_directed_adj =
+                &(
+                    static_cast<
+                        const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::mixed_graph_vertex_container<
+                            const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*
+                        >
+                        *
+                    >(vc_ptr)->directed_adj
+                );
+            break;
+        case undirected:
+            set_graph_undirected_adj =
+                 &(
+                     static_cast<
+                        const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::non_mixed_graph_vertex_container<
+                            const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*
+                        >
+                        *
+                     >(vc_ptr)->adj
+                 );
+            break;
+        case directed:
+            set_graph_directed_adj =
+                 &(
+                     static_cast<
+                        const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::non_mixed_graph_vertex_container<
+                            const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*
+                        >
+                        *
+                     >(vc_ptr)->adj
+                 );
+            break;
+    }
+}
+
+template<typename VertexType>
+MAIN_LIBRARY_NAMESPACE::graph<VertexType>::ADJ_LIST::ADJ_LIST(
+    const MAIN_LIBRARY_NAMESPACE::graph<VertexType>* const vo,
+    MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container* const vc_ptr,
+    const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::graph_edges_type ge_type) :
+    vertex_owner(vo),
+    set_graph_vertex_container(nullptr),
+    set_graph_undirected_adj(nullptr),
+    set_graph_directed_adj(nullptr),
+    multiset_graph_vertex_container(vc_ptr),
+    multiset_graph_undirected_adj(nullptr),
+    multiset_graph_directed_adj(nullptr) {
+    switch(ge_type) {
+        case mixed:
+            multiset_graph_undirected_adj =
+                 &(
+                     static_cast<
+                        MAIN_LIBRARY_NAMESPACE::graph<VertexType>::mixed_graph_vertex_container<
+                            MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*
+                        >
+                        *
+                     >(vc_ptr) -> undirected_adj
+                 );
+            multiset_graph_directed_adj =
+                &(
+                    static_cast<
+                        MAIN_LIBRARY_NAMESPACE::graph<VertexType>::mixed_graph_vertex_container<
+                            MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*
+                        >
+                        *
+                    >(vc_ptr)->directed_adj
+                );
+            break;
+        case undirected:
+            multiset_graph_undirected_adj =
+                 &(
+                     static_cast<
+                        MAIN_LIBRARY_NAMESPACE::graph<VertexType>::non_mixed_graph_vertex_container<
+                            MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*
+                        >
+                        *
+                     >(vc_ptr)->adj
+                 );
+            break;
+        case directed:
+            multiset_graph_directed_adj =
+                 &(
+                     static_cast<
+                        MAIN_LIBRARY_NAMESPACE::graph<VertexType>::non_mixed_graph_vertex_container<
+                            MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*
+                        >
+                        *
+                     >(vc_ptr)->adj
+                 );
+            break;
+    }
+}
+
+template<typename VertexType>
+MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST::CONSTANT_ADJ_LIST(const ADJ_LIST& other) :
+vertex_owner(other.vertex_owner),
+vertex_container(nullptr),
+set_graph_undirected_adj(nullptr),
+set_graph_directed_adj(nullptr),
+multiset_graph_undirected_adj(nullptr),
+multiset_graph_directed_adj(nullptr) {
+    if ( vertex_owner != nullptr ) {
+        if ( other.set_graph_vertex_container != nullptr ) {
+            vertex_container = other.set_graph_vertex_container;
+            set_graph_undirected_adj = other.set_graph_undirected_adj;
+            set_graph_directed_adj = other.set_graph_directed_adj;
+        }
+        else {
+            vertex_container = other.multiset_graph_vertex_container;
+            multiset_graph_undirected_adj = other.multiset_graph_undirected_adj;
+            multiset_graph_directed_adj = other.multiset_graph_directed_adj;
+        }
+    }
+}
+
+template<typename VertexType>
+MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST::CONSTANT_ADJ_LIST(
+    const typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::ADJ_LIST& other ) :
+    vertex_owner(other.vertex_owner),
+    vertex_container(other.multiset_graph_vertex_container),
+    set_graph_undirected_adj(nullptr),
+    set_graph_directed_adj(nullptr),
+    multiset_graph_undirected_adj(other.multiset_graph_undirected_adj),
+    multiset_graph_directed_adj(other.multiset_graph_directed_adj){}
+
+template<typename VertexType>
+MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST::CONSTANT_ADJ_LIST(
+    const MAIN_LIBRARY_NAMESPACE::graph<VertexType>* const vo,
+    const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container* const vc_ptr,
+    const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::graph_edges_type ge_type) :
+    vertex_owner(vo),
+    vertex_container(vc_ptr),
+    set_graph_undirected_adj(nullptr),
+    set_graph_directed_adj(nullptr),
+    multiset_graph_undirected_adj(nullptr),
+    multiset_graph_directed_adj(nullptr) {
+    if ( dynamic_cast<const MAIN_LIBRARY_NAMESPACE::set_vertex_graph<VertexType>*>(vertex_owner) != nullptr ) {
+        switch(ge_type) {
+            case mixed:
+                set_graph_undirected_adj =
+                     &(
+                        static_cast<
+                            const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::mixed_graph_vertex_container<
+                                const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*
+                            >
+                            *
+                        >(vc_ptr)->undirected_adj
+                     );
+                set_graph_directed_adj =
+                    &(
+                        static_cast<
+                            const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::mixed_graph_vertex_container<
+                                const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*
+                            >
+                            *
+                        >(vc_ptr)->directed_adj
+                    );
+                break;
+            case undirected:
+                set_graph_undirected_adj =
+                     &(
+                         static_cast<
+                            const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::non_mixed_graph_vertex_container<
+                                const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*
+                            >
+                            *
+                         >(vc_ptr)->adj
+                     );
+                break;
+            case directed:
+                set_graph_directed_adj =
+                     &(
+                         static_cast<
+                            const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::non_mixed_graph_vertex_container<
+                                const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*
+                            >
+                            *
+                         >(vc_ptr)->adj
+                     );
+                break;
+        }
+
+    }
+    else {
+        switch(ge_type) {
+            case mixed:
+                multiset_graph_undirected_adj =
+                     &(
+                         static_cast<
+                            const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::mixed_graph_vertex_container<
+                                MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*
+                            >
+                            *
+                         >(vc_ptr) -> undirected_adj
+                     );
+                multiset_graph_directed_adj =
+                    &(
+                        static_cast<
+                            const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::mixed_graph_vertex_container<
+                                MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*
+                            >
+                            *
+                        >(vc_ptr)->directed_adj
+                    );
+                break;
+            case undirected:
+                multiset_graph_undirected_adj =
+                     &(
+                         static_cast<
+                            const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::non_mixed_graph_vertex_container<
+                                MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*
+                            >
+                            *
+                         >(vc_ptr)->adj
+                     );
+                break;
+            case directed:
+                multiset_graph_directed_adj =
+                     &(
+                         static_cast<
+                            const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::non_mixed_graph_vertex_container<
+                                MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*
+                            >
+                            *
+                         >(vc_ptr)->adj
+                     );
+                break;
+        }
+    }
+}
+
+
+template<typename VertexType>
 MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::VERTEX_PTR_NAME::VERTEX_PTR_NAME(
     const typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::VERTEX_PTR_NAME& other) :
     vertex_owner(dynamic_cast<const MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>*>(other.vertex_owner)),
@@ -219,6 +615,62 @@ bool MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::VERTEX_PTR_NAME:
 }
 
 template<typename VertexType>
+typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::ADJ_LIST
+MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::VERTEX_PTR_NAME::adj_list() const {
+    if (vertex_owner!=nullptr) {
+        if (multiset_graph_vertex_container!=nullptr){
+            return MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::ADJ_LIST(
+                vertex_owner,
+                multiset_graph_vertex_container,
+                edges_type
+            );
+        }
+    }
+    throw std::runtime_error("Impossible to get adj_list from this multiset_vertex_graph vertex_ptr"); //TODO: write a better message
+}
+
+template<typename VertexType>
+typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::ADJ_LIST
+MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::VERTEX_PTR_NAME::adj_list(const MAIN_LIBRARY_NAMESPACE::edge_type et) const {
+    if (vertex_owner!=nullptr) {
+        if (multiset_graph_vertex_container!=nullptr){
+            return MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::ADJ_LIST(
+                vertex_owner,
+                multiset_graph_vertex_container,
+                et
+            );
+        }
+    }
+    throw std::runtime_error("Impossible to get adj_list from this multiset_vertex_graph vertex_ptr"); //TODO: write a better message
+}
+
+template<typename VertexType>
+typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST
+MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::VERTEX_PTR_NAME::const_adj_list() const {
+    if (vertex_owner!=nullptr) {
+        return MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST(
+            vertex_owner,
+            multiset_graph_vertex_container,
+            edges_type
+        );
+    }
+    throw std::runtime_error("Impossible to get const_adj_list from this multiset_vertex_graph vertex_ptr"); //TODO: write a better message
+}
+
+template<typename VertexType>
+typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST
+MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::VERTEX_PTR_NAME::const_adj_list(MAIN_LIBRARY_NAMESPACE::edge_type et) const {
+    if (vertex_owner!=nullptr) {
+        return MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST(
+            vertex_owner,
+            multiset_graph_vertex_container,
+            et
+        );
+    }
+    throw std::runtime_error("Impossible to get const_adj_list from this multiset_vertex_graph vertex_ptr"); //TODO: write a better message
+}
+
+template<typename VertexType>
 MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::VERTEX_PTR_NAME::VERTEX_PTR_NAME(
     const MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>* vo,
     typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::template non_mixed_graph_vertex_container<VertexContainerPointerType>& vc_ref,
@@ -240,5 +692,72 @@ MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::VERTEX_PTR_NAME::VERT
     vertex_owner(vo),
     multiset_graph_vertex_container(static_cast<VertexContainerPointerType>(&vc_ref)),
     edges_type(MAIN_LIBRARY_NAMESPACE::graph<VertexType>::graph_edges_type::mixed) {}
+
+template<typename VertexType>
+MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::ADJ_LIST::ADJ_LIST(
+    const typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::ADJ_LIST& other) :
+    vertex_owner(dynamic_cast<const MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>*>(other.vertex_owner)),
+    multiset_graph_vertex_container(other.multiset_graph_vertex_container),
+    multiset_graph_undirected_adj(other.multiset_graph_undirected_adj),
+    multiset_graph_directed_adj(other.multiset_graph_directed_adj) {
+    if ( vertex_owner == nullptr ) {
+        throw std::runtime_error("Impossible to convert"); //TODO: write a better message
+    }
+}
+
+template<typename VertexType>
+MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::ADJ_LIST::ADJ_LIST(
+    const MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>* vo_ptr,
+    const VertexContainerPointerType vc_ptr,
+    typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::graph_edges_type ge_type):
+    vertex_owner(vo_ptr),
+    multiset_graph_vertex_container(vc_ptr),
+    multiset_graph_undirected_adj(nullptr),
+    multiset_graph_directed_adj(nullptr) {
+    switch(ge_type) {
+        case undirected:
+            multiset_graph_undirected_adj =
+                 &(
+                     static_cast<
+                        typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::template non_mixed_graph_vertex_container<
+                            VertexContainerPointerType
+                        >
+                        *
+                     >(vc_ptr)->adj
+                 );
+            break;
+        case directed:
+            multiset_graph_directed_adj =
+                 &(
+                     static_cast<
+                        typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::template non_mixed_graph_vertex_container<
+                            VertexContainerPointerType
+                        >
+                        *
+                     >(vc_ptr)->adj
+                 );
+            break;
+        default:
+            multiset_graph_undirected_adj =
+                 &(
+                     static_cast<
+                        typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::template mixed_graph_vertex_container<
+                            VertexContainerPointerType
+                        >
+                        *
+                     >(vc_ptr)->undirected_adj
+                 );
+            multiset_graph_directed_adj =
+                 &(
+                     static_cast<
+                        typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::template mixed_graph_vertex_container<
+                            VertexContainerPointerType
+                        >
+                        *
+                     >(vc_ptr)->directed_adj
+                 );
+            break;
+    }
+}
 
 #endif //HANDLERS_IMPLEMENTATIONS_H
