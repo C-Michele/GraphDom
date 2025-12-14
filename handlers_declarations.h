@@ -47,8 +47,11 @@ class MAIN_LIBRARY_NAMESPACE::graph<VertexType>::VERTEX_PTR_NAME final {
         );
 
         const MAIN_LIBRARY_NAMESPACE::graph<VertexType>* vertex_owner;
-        const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container* set_graph_vertex_container;
-        MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container* multiset_graph_vertex_container;
+        std::variant<
+            std::monostate,
+            const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*,
+            MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*
+        > vertex_container_ptr;
         MAIN_LIBRARY_NAMESPACE::graph<VertexType>::graph_edges_type edges_type;
 };
 
@@ -129,24 +132,32 @@ class MAIN_LIBRARY_NAMESPACE::graph<VertexType>::ADJ_LIST { //TODO: class implem
     private:
         ADJ_LIST(
             const MAIN_LIBRARY_NAMESPACE::graph<VertexType>*,
-            const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*,
-            MAIN_LIBRARY_NAMESPACE::graph<VertexType>::graph_edges_type
-        );
-        ADJ_LIST(
-            const MAIN_LIBRARY_NAMESPACE::graph<VertexType>*,
-            MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*,
+            const std::variant<
+                std::monostate,
+                const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*,
+                MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*
+            >&,
             MAIN_LIBRARY_NAMESPACE::graph<VertexType>::graph_edges_type
         );
 
         const MAIN_LIBRARY_NAMESPACE::graph<VertexType>* vertex_owner;
 
-        const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container* set_graph_vertex_container;
-        MAIN_LIBRARY_NAMESPACE::graph<VertexType>::adj_set<const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*>* set_graph_undirected_adj;
-        MAIN_LIBRARY_NAMESPACE::graph<VertexType>::adj_set<const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*>* set_graph_directed_adj;
-
-        MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container* multiset_graph_vertex_container;
-        MAIN_LIBRARY_NAMESPACE::graph<VertexType>::adj_set<MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*>* multiset_graph_undirected_adj;
-        MAIN_LIBRARY_NAMESPACE::graph<VertexType>::adj_set<MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*>* multiset_graph_directed_adj;
+        std::variant<
+            std::pair<
+                const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*,
+                std::array<
+                    MAIN_LIBRARY_NAMESPACE::graph<VertexType>::adj_set<const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*>*,
+                    2
+                >
+            >,
+            std::pair<
+                MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*,
+                std::array<
+                    MAIN_LIBRARY_NAMESPACE::graph<VertexType>::adj_set<MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*>*,
+                    2
+                >
+            >
+        > vertex_info;
 };
 
 template <typename VertexType>
@@ -175,11 +186,16 @@ class MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST { //TODO: cla
         const MAIN_LIBRARY_NAMESPACE::graph<VertexType>* vertex_owner;
         const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container* vertex_container;
 
-        const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::adj_set<const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*>* set_graph_undirected_adj;
-        const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::adj_set<const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*>* set_graph_directed_adj;
-
-        const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::adj_set<MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*>* multiset_graph_undirected_adj;
-        const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::adj_set<MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*>* multiset_graph_directed_adj;
+        std::variant<
+            std::array<
+                const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::adj_set<const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*>*,
+                2
+            >,
+            std::array<
+                const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::adj_set<MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*>*,
+                2
+            >
+        > vertex_info;
 };
 
 template <typename VertexType>
@@ -300,8 +316,7 @@ class MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::ADJ_LIST { //TO
 
         const MAIN_LIBRARY_NAMESPACE::graph<VertexType>* vertex_owner;
         typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container* multiset_graph_vertex_container;
-        typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::template adj_set<VertexContainerPointerType>* multiset_graph_undirected_adj;
-        typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::template adj_set<VertexContainerPointerType>* multiset_graph_directed_adj;
+        std::array<typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::template adj_set<VertexContainerPointerType>*,2> adj_sets_array;
 };
 
 template <typename VertexType>

@@ -17,8 +17,8 @@
 
 namespace MAIN_LIBRARY_NAMESPACE {
     enum edge_type : std::uint8_t {
-        undirected,
-        directed
+        undirected = 0,
+        directed = 1
     };
 
     template <typename VertexType>
