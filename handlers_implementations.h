@@ -696,6 +696,366 @@ MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST::CONSTANT_ADJ_LIST(
     }
 }
 
+template<typename VertexType>
+bool MAIN_LIBRARY_NAMESPACE::graph<VertexType>::EDGE_ITERATOR_NAME::operator==(const CONSTANT_EDGE_ITERATOR_NAME& other) const {
+    if (edge_owner != other.edge_graph_owner) {
+        throw std::runtime_error("Undefined behavior"); //TODO: write a better message
+    }
+    if ( std::holds_alternative<set_vertex_graph_edge_info>(type_dependent_edge_info) ) {
+        if ( std::holds_alternative<CONSTANT_EDGE_ITERATOR_NAME::multiset_vertex_graph_edge_info>(other.type_dependent_edge_info) ) {
+            throw std::runtime_error("Undefined behavior"); //TODO: write a better message
+        }
+        const auto& this_type_dependent_edge_info = std::get<set_vertex_graph_edge_info>(type_dependent_edge_info);
+        const auto& other_type_dependent_edge_info = std::get<CONSTANT_EDGE_ITERATOR_NAME::set_vertex_graph_edge_info>(other.type_dependent_edge_info);
+        if ( std::get<const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*>(this_type_dependent_edge_info) != other.edge_vertex_container_owner ) {
+            throw std::runtime_error("Undefined behavior"); //TODO: write a better message
+        }
+        if (current_edge_type != other.current_edge_type) {
+            return false;
+        }
+        const auto this_inner_itr =
+            std::get<
+                typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::adj_set<const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*>::iterator
+            >(this_type_dependent_edge_info);
+        return this_inner_itr == other_type_dependent_edge_info.first;
+    }
+    if ( std::holds_alternative<CONSTANT_EDGE_ITERATOR_NAME::set_vertex_graph_edge_info>(other.type_dependent_edge_info) ) {
+        throw std::runtime_error("Undefined behavior"); //TODO: write a better message
+    }
+    const auto& this_type_dependent_edge_info = std::get<multiset_vertex_graph_edge_info>(type_dependent_edge_info);
+    const auto& other_type_dependent_edge_info = std::get<CONSTANT_EDGE_ITERATOR_NAME::multiset_vertex_graph_edge_info>(other.type_dependent_edge_info);
+    if ( std::get<MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*>(this_type_dependent_edge_info) != other.edge_vertex_container_owner ) {
+        throw std::runtime_error("Undefined behavior"); //TODO: write a better message
+    }
+    if (current_edge_type != other.current_edge_type) {
+        return false;
+    }
+    const auto this_inner_itr =
+        std::get<
+            typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::adj_set<MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*>::iterator
+        >(this_type_dependent_edge_info);
+    return this_inner_itr == other_type_dependent_edge_info.first;
+}
+
+template<typename VertexType>
+bool MAIN_LIBRARY_NAMESPACE::graph<VertexType>::EDGE_ITERATOR_NAME::operator!=(const CONSTANT_EDGE_ITERATOR_NAME& other) const {
+    return !( (*this) == other );
+}
+
+template<typename VertexType>
+typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::EDGE_ITERATOR_NAME& MAIN_LIBRARY_NAMESPACE::graph<VertexType>::EDGE_ITERATOR_NAME::operator++() {
+    if ( std::holds_alternative<set_vertex_graph_edge_info>(type_dependent_edge_info) ) {
+        auto& inner_itr =
+            std::get<
+                typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::adj_set<const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*>::iterator
+            >(std::get<set_vertex_graph_edge_info>( type_dependent_edge_info ) );
+        auto& adj_sets_array =
+            std::get<
+                std::array<
+                    MAIN_LIBRARY_NAMESPACE::graph<VertexType>::adj_set<const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*>*,
+                    2
+                >
+            >(std::get<set_vertex_graph_edge_info>( type_dependent_edge_info ) );
+        if ( current_edge_type == undirected ) {
+            if ( inner_itr == ( adj_sets_array[undirected]->end() ) ) {
+                throw std::runtime_error("Generic edge iterator overflow"); //TODO: write a better message
+            }
+            if ( std::next(inner_itr) != ( adj_sets_array[undirected]->end() ) || adj_sets_array[directed] == nullptr ) {
+                ++inner_itr;
+                return *this;
+            }
+            inner_itr = ( adj_sets_array[directed]->begin() );
+            current_edge_type = directed;
+            return *this;
+        }
+        if ( inner_itr == ( adj_sets_array[directed]->end() ) ) {
+            throw std::runtime_error("Generic edge iterator overflow"); //TODO: write a better message
+        }
+        ++inner_itr;
+        return *this;
+    }
+    auto& inner_itr =
+        std::get<
+            typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::adj_set<MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*>::iterator
+        >(std::get<multiset_vertex_graph_edge_info>( type_dependent_edge_info ) );
+    auto& adj_sets_array =
+        std::get<
+            std::array<
+                MAIN_LIBRARY_NAMESPACE::graph<VertexType>::adj_set<MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*>*,
+                2
+            >
+        >(std::get<multiset_vertex_graph_edge_info>( type_dependent_edge_info ) );
+    if ( current_edge_type == undirected ) {
+        if ( inner_itr == ( adj_sets_array[undirected]->end() ) ) {
+            throw std::runtime_error("Generic edge iterator overflow"); //TODO: write a better message
+        }
+        if ( std::next(inner_itr) != ( adj_sets_array[undirected]->end() ) || adj_sets_array[directed] == nullptr ) {
+            ++inner_itr;
+            return *this;
+        }
+        inner_itr = ( adj_sets_array[directed]->begin() );
+        current_edge_type = directed;
+        return *this;
+    }
+    if ( inner_itr == ( adj_sets_array[directed]->end() ) ) {
+        throw std::runtime_error("Generic edge iterator overflow"); //TODO: write a better message
+    }
+    ++inner_itr;
+    return *this;
+}
+
+template<typename VertexType>
+typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::EDGE_ITERATOR_NAME MAIN_LIBRARY_NAMESPACE::graph<VertexType>::EDGE_ITERATOR_NAME::operator++(int) {
+    auto this_before_increment = *this;
+    ++(*this);
+    return this_before_increment;
+}
+
+template<typename VertexType>
+MAIN_LIBRARY_NAMESPACE::edge_type MAIN_LIBRARY_NAMESPACE::graph<VertexType>::EDGE_ITERATOR_NAME::edge_type() const {
+    return current_edge_type;
+}
+
+template<typename VertexType>
+MAIN_LIBRARY_NAMESPACE::graph<VertexType>::EDGE_ITERATOR_NAME::EDGE_ITERATOR_NAME(
+    const MAIN_LIBRARY_NAMESPACE::graph<VertexType>* const edge_o,
+    const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container* const vertex_c,
+    typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::adj_set<const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*>::iterator itr,
+    const std::array<
+        MAIN_LIBRARY_NAMESPACE::graph<VertexType>::adj_set<const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*>*,
+        2
+    >& adj_sets_arr,
+    const graphlab::edge_type edge_t ) :
+    edge_owner(edge_o),
+    type_dependent_edge_info(
+        std::in_place_type< set_vertex_graph_edge_info >,
+        vertex_c,
+        itr,
+        {nullptr,nullptr}
+    ),
+    current_edge_type(edge_t) {
+    auto& this_adj_sets_array =
+        std::get<
+            std::array<
+                MAIN_LIBRARY_NAMESPACE::graph<VertexType>::adj_set<const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*>*,
+                2
+            >
+        >(std::get<set_vertex_graph_edge_info>( type_dependent_edge_info ) );
+    this_adj_sets_array[undirected] = adj_sets_arr[undirected];
+    this_adj_sets_array[directed] = adj_sets_arr[directed];
+}
+
+template<typename VertexType>
+MAIN_LIBRARY_NAMESPACE::graph<VertexType>::EDGE_ITERATOR_NAME::EDGE_ITERATOR_NAME(
+    const MAIN_LIBRARY_NAMESPACE::graph<VertexType>* const edge_o,
+    MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container* const vertex_c,
+    typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::adj_set<MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*>::iterator itr,
+    const std::array<
+        MAIN_LIBRARY_NAMESPACE::graph<VertexType>::adj_set<MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*>*,
+        2
+    >& adj_sets_arr,
+    const graphlab::edge_type edge_t ) :
+    edge_owner(edge_o),
+    type_dependent_edge_info(
+        std::in_place_type< multiset_vertex_graph_edge_info >,
+        vertex_c,
+        itr,
+        {nullptr,nullptr}
+    ),
+    current_edge_type(edge_t) {
+    auto& this_adj_sets_array =
+        std::get<
+            std::array<
+                MAIN_LIBRARY_NAMESPACE::graph<VertexType>::adj_set<MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*>*,
+                2
+            >
+        >(std::get<multiset_vertex_graph_edge_info>( type_dependent_edge_info ) );
+    this_adj_sets_array[undirected] = adj_sets_arr[undirected];
+    this_adj_sets_array[directed] = adj_sets_arr[directed];
+}
+
+template<typename VertexType>
+MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME::CONSTANT_EDGE_ITERATOR_NAME(const EDGE_ITERATOR_NAME& other) :
+edge_graph_owner(other.edge_owner),
+edge_vertex_container_owner(nullptr),
+current_edge_type(other.current_edge_type) {
+    if (std::holds_alternative<EDGE_ITERATOR_NAME::set_vertex_graph_edge_info>(other.type_dependent_edge_info)) {
+        const auto& other_type_dependent_edge_info =
+            std::get<EDGE_ITERATOR_NAME::set_vertex_graph_edge_info>(other.type_dependent_edge_info);
+        edge_vertex_container_owner = std::get<const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*>(other_type_dependent_edge_info);
+        const auto other_inner_itr =
+            std::get<
+                typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::adj_set<const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*>::iterator
+            >(other_type_dependent_edge_info);
+        const auto& other_adj_sets_array =
+            std::get<
+                std::array<
+                    MAIN_LIBRARY_NAMESPACE::graph<VertexType>::adj_set<const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*>*,
+                    2
+                >
+            >(other_type_dependent_edge_info);
+        type_dependent_edge_info.template emplace<set_vertex_graph_edge_info>(other_inner_itr,{nullptr,nullptr});
+        auto& this_adj_sets_array = ( std::get<set_vertex_graph_edge_info>( type_dependent_edge_info ) ).second;
+        this_adj_sets_array[undirected] = other_adj_sets_array[undirected];
+        this_adj_sets_array[directed] = other_adj_sets_array[directed];
+    }
+    else {
+        const auto& other_type_dependent_edge_info =
+            std::get<EDGE_ITERATOR_NAME::multiset_vertex_graph_edge_info>(other.type_dependent_edge_info);
+        edge_vertex_container_owner = std::get<MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*>(other_type_dependent_edge_info);
+        const auto other_inner_itr =
+            std::get<
+                typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::adj_set<MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*>::iterator
+            >(other_type_dependent_edge_info);
+        const auto& other_adj_sets_array =
+            std::get<
+                std::array<
+                    MAIN_LIBRARY_NAMESPACE::graph<VertexType>::adj_set<MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*>*,
+                    2
+                >
+            >(other_type_dependent_edge_info);
+        type_dependent_edge_info.template emplace<multiset_vertex_graph_edge_info>(other_inner_itr,{nullptr,nullptr});
+        auto& this_adj_sets_array = ( std::get<multiset_vertex_graph_edge_info>( type_dependent_edge_info ) ).second;
+        this_adj_sets_array[undirected] = other_adj_sets_array[undirected];
+        this_adj_sets_array[directed] = other_adj_sets_array[directed];
+    }
+}
+
+template<typename VertexType>
+bool MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME::operator==(const CONSTANT_EDGE_ITERATOR_NAME& other) const {
+    if ( ( edge_graph_owner != other.edge_graph_owner ) || ( edge_vertex_container_owner != other.edge_vertex_container_owner ) ) {
+        throw std::runtime_error("Undefined behavior"); //TODO: write a better message
+    }
+    if ( std::holds_alternative<set_vertex_graph_edge_info>(type_dependent_edge_info) ) {
+        if ( std::holds_alternative<multiset_vertex_graph_edge_info>(other.type_dependent_edge_info) ) {
+            throw std::runtime_error("Undefined behavior"); //TODO: write a better message
+        }
+        if ( current_edge_type != other.current_edge_type ) {
+            return false;
+        }
+        const auto& this_type_dependent_edge_info = std::get<CONSTANT_EDGE_ITERATOR_NAME::set_vertex_graph_edge_info>(type_dependent_edge_info);
+        const auto& other_type_dependent_edge_info = std::get<CONSTANT_EDGE_ITERATOR_NAME::set_vertex_graph_edge_info>(other.type_dependent_edge_info);
+        return (this_type_dependent_edge_info.first) == (other_type_dependent_edge_info.first);
+    }
+    if ( std::holds_alternative<set_vertex_graph_edge_info>(other.type_dependent_edge_info) ) {
+        throw std::runtime_error("Undefined behavior"); //TODO: write a better message
+    }
+    if ( current_edge_type != other.current_edge_type ) {
+        return false;
+    }
+    const auto& this_type_dependent_edge_info = std::get<CONSTANT_EDGE_ITERATOR_NAME::multiset_vertex_graph_edge_info>(type_dependent_edge_info);
+    const auto& other_type_dependent_edge_info = std::get<CONSTANT_EDGE_ITERATOR_NAME::multiset_vertex_graph_edge_info>(other.type_dependent_edge_info);
+    return (this_type_dependent_edge_info.first) == (other_type_dependent_edge_info.first);
+}
+
+template<typename VertexType>
+bool MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME::operator!=(const CONSTANT_EDGE_ITERATOR_NAME& other) const {
+    return !( (*this) == other );
+}
+
+template<typename VertexType>
+typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME& MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME::operator++() {
+    if ( std::holds_alternative<set_vertex_graph_edge_info>(type_dependent_edge_info) ) {
+        auto& specific_type_dependent_edge_info = std::get<set_vertex_graph_edge_info>(type_dependent_edge_info);
+        auto& inner_itr = specific_type_dependent_edge_info.first;
+        auto& adj_sets_array = specific_type_dependent_edge_info.second;
+        if ( current_edge_type == undirected ) {
+            if ( inner_itr == ( adj_sets_array[undirected]->end() ) ) {
+                throw std::runtime_error("Generic edge iterator overflow"); //TODO: write a better message
+            }
+            if ( std::next(inner_itr) != ( adj_sets_array[undirected]->end() ) || adj_sets_array[directed] == nullptr ) {
+                ++inner_itr;
+                return (*this);
+            }
+            inner_itr = ( adj_sets_array[directed]->begin() );
+            current_edge_type = directed;
+            return *this;
+        }
+        if ( inner_itr == ( adj_sets_array[directed]->end() ) ) {
+            throw std::runtime_error("Generic edge iterator overflow"); //TODO: write a better message
+        }
+        ++inner_itr;
+        return (*this);
+    }
+    auto& specific_type_dependent_edge_info = std::get<multiset_vertex_graph_edge_info>(type_dependent_edge_info);
+    auto& inner_itr = specific_type_dependent_edge_info.first;
+    auto& adj_sets_array = specific_type_dependent_edge_info.second;
+    if ( current_edge_type == undirected ) {
+        if ( inner_itr == ( adj_sets_array[undirected]->end() ) ) {
+            throw std::runtime_error("Generic edge iterator overflow"); //TODO: write a better message
+        }
+        if ( std::next(inner_itr) != ( adj_sets_array[undirected]->end() ) || adj_sets_array[directed] == nullptr ) {
+            ++inner_itr;
+            return (*this);
+        }
+        inner_itr = ( adj_sets_array[directed]->begin() );
+        current_edge_type = directed;
+        return *this;
+    }
+    if ( inner_itr == ( adj_sets_array[directed]->end() ) ) {
+        throw std::runtime_error("Generic edge iterator overflow"); //TODO: write a better message
+    }
+    ++inner_itr;
+    return (*this);
+}
+
+template<typename VertexType>
+typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME::operator++(int) {
+    auto this_before_increment = *this;
+    ++(*this);
+    return this_before_increment;
+}
+
+template<typename VertexType>
+MAIN_LIBRARY_NAMESPACE::edge_type MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME::edge_type() const {
+    return current_edge_type;
+}
+
+template<typename VertexType>
+MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME::CONSTANT_EDGE_ITERATOR_NAME(
+    const MAIN_LIBRARY_NAMESPACE::graph<VertexType>* const edge_o,
+    const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container* const vertex_c,
+    typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::adj_set<const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*>::const_iterator itr,
+    const std::array<
+        MAIN_LIBRARY_NAMESPACE::graph<VertexType>::adj_set<const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*>*,
+        2
+    >& adj_sets_arr,
+    const graphlab::edge_type edge_t ) :
+    edge_graph_owner(edge_o),
+    edge_vertex_container_owner(vertex_c),
+    type_dependent_edge_info(
+        std::in_place_type< set_vertex_graph_edge_info >,
+        itr,
+        {nullptr,nullptr}
+    ),
+    current_edge_type(edge_t) {
+    auto& this_adj_sets_array = ( std::get< set_vertex_graph_edge_info >(type_dependent_edge_info) ).second;
+    this_adj_sets_array[undirected] = adj_sets_arr[undirected];
+    this_adj_sets_array[directed] = adj_sets_arr[directed];
+}
+
+template<typename VertexType>
+MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME::CONSTANT_EDGE_ITERATOR_NAME(
+    const MAIN_LIBRARY_NAMESPACE::graph<VertexType>* const edge_o,
+    const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container* const vertex_c,
+    typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::adj_set<MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*>::const_iterator itr,
+    const std::array<
+        MAIN_LIBRARY_NAMESPACE::graph<VertexType>::adj_set<MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*>*,
+        2
+    >& adj_sets_arr,
+    const graphlab::edge_type edge_t ) :
+    edge_graph_owner(edge_o),
+    edge_vertex_container_owner(vertex_c),
+    type_dependent_edge_info(
+        std::in_place_type< multiset_vertex_graph_edge_info >,
+        itr,
+        {nullptr,nullptr}
+    ),
+    current_edge_type(edge_t) {
+    auto& this_adj_sets_array = ( std::get< multiset_vertex_graph_edge_info >(type_dependent_edge_info) ).second;
+    this_adj_sets_array[undirected] = adj_sets_arr[undirected];
+    this_adj_sets_array[directed] = adj_sets_arr[directed];
+}
 
 template<typename VertexType>
 MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::VERTEX_PTR_NAME::VERTEX_PTR_NAME(
