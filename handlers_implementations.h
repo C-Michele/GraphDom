@@ -697,6 +697,79 @@ MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST::CONSTANT_ADJ_LIST(
 }
 
 template<typename VertexType>
+typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::VERTEX_PTR_NAME MAIN_LIBRARY_NAMESPACE::graph<VertexType>::EDGE_ITERATOR_NAME::operator*() const {
+    if (std::holds_alternative<set_vertex_graph_edge_info>(type_dependent_edge_info)) {
+        auto& specific_type_dependent_edge_info = std::get<set_vertex_graph_edge_info>(type_dependent_edge_info);
+        auto& inner_itr =
+            std::get<
+                typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::adj_set<const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*>::iterator
+            >(specific_type_dependent_edge_info);
+        auto& adj_sets_array =
+            std::get<
+                std::array<
+                    MAIN_LIBRARY_NAMESPACE::graph<VertexType>::adj_set<const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*>*,
+                    2
+                >
+            >(specific_type_dependent_edge_info);
+        if ( ( adj_sets_array[undirected] != nullptr ) && ( adj_sets_array[directed] != nullptr ) ) {
+            return MAIN_LIBRARY_NAMESPACE::graph<VertexType>::VERTEX_PTR_NAME(
+                edge_owner,
+                *(
+                    static_cast<
+                        MAIN_LIBRARY_NAMESPACE::graph<VertexType>::mixed_graph_vertex_container<const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*>*
+                    >(*inner_itr)
+                )
+            );
+        }
+        return MAIN_LIBRARY_NAMESPACE::graph<VertexType>::VERTEX_PTR_NAME(
+            edge_owner,
+            *(
+                static_cast<
+                    MAIN_LIBRARY_NAMESPACE::graph<VertexType>::non_mixed_graph_vertex_container<const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*>*
+                >(*inner_itr)
+            ),
+            ( adj_sets_array[undirected] != nullptr ) ? undirected : directed
+        );
+    }
+    auto& specific_type_dependent_edge_info = std::get<multiset_vertex_graph_edge_info>(type_dependent_edge_info);
+    auto& inner_itr =
+        std::get<
+            typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::adj_set<MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*>::iterator
+        >(specific_type_dependent_edge_info);
+    auto& adj_sets_array =
+        std::get<
+            std::array<
+                MAIN_LIBRARY_NAMESPACE::graph<VertexType>::adj_set<MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*>*,
+                2
+            >
+        >(specific_type_dependent_edge_info);
+    if ( ( adj_sets_array[undirected] != nullptr ) && ( adj_sets_array[directed] != nullptr ) ) {
+        return MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::VERTEX_PTR_NAME(
+            dynamic_cast< MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>* >(edge_owner),
+            *(
+                static_cast<
+                    MAIN_LIBRARY_NAMESPACE::graph<VertexType>::mixed_graph_vertex_container<MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*>*
+                >(*inner_itr)
+            )
+        );
+    }
+    return MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::VERTEX_PTR_NAME(
+        dynamic_cast< MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>* >(edge_owner),
+        *(
+            static_cast<
+                MAIN_LIBRARY_NAMESPACE::graph<VertexType>::non_mixed_graph_vertex_container<MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*>*
+            >(*inner_itr)
+        ),
+        ( adj_sets_array[undirected] != nullptr ) ? undirected : directed
+    );
+}
+
+template<typename VertexType>
+typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::VERTEX_PTR_NAME MAIN_LIBRARY_NAMESPACE::graph<VertexType>::EDGE_ITERATOR_NAME::operator->() const {
+    return *(*this);
+}
+
+template<typename VertexType>
 bool MAIN_LIBRARY_NAMESPACE::graph<VertexType>::EDGE_ITERATOR_NAME::operator==(const CONSTANT_EDGE_ITERATOR_NAME& other) const {
     if (edge_owner != other.edge_graph_owner) {
         throw std::runtime_error("Undefined behavior"); //TODO: write a better message

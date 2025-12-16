@@ -377,6 +377,7 @@ class MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::VERTEX_PTR_NAME
         friend class MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::EDGE_ITERATOR_NAME;
         friend class MAIN_LIBRARY_NAMESPACE::graph<VertexType>::VERTEX_PTR_NAME;
         friend class MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>;
+        friend typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::VERTEX_PTR_NAME MAIN_LIBRARY_NAMESPACE::graph<VertexType>::EDGE_ITERATOR_NAME::operator*() const;
     private:
         VERTEX_PTR_NAME(
             const MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>*,
