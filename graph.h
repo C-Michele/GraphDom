@@ -374,7 +374,7 @@ typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME MAI
 }
 
 template<typename VertexType>
-typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::const_vertex_ptr MAIN_LIBRARY_NAMESPACE::graph<VertexType>::const_vertex_ptr_factory(
+typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME MAIN_LIBRARY_NAMESPACE::graph<VertexType>::const_vertex_ptr_factory(
     const MAIN_LIBRARY_NAMESPACE::graph<VertexType>* const graph_ptr,
     const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::mixed_graph_vertex_container<const vertex_container*>& vertex_container_reference) {
     return MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME(graph_ptr,vertex_container_reference);
