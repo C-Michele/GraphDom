@@ -228,7 +228,7 @@ namespace MAIN_LIBRARY_NAMESPACE {
                 const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::mixed_graph_vertex_container<const vertex_container*>&
             );
 
-            static const MAIN_LIBRARY_NAMESPACE::graph<VertexType>* get_ptr_owner(const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME&);
+            static const MAIN_LIBRARY_NAMESPACE::graph<VertexType>* get_owner_graph(const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME&);
 
             static const vertex_container* get_vertex_container(const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME&);
     };
@@ -381,7 +381,7 @@ typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME MAI
 }
 
 template<typename VertexType>
-const MAIN_LIBRARY_NAMESPACE::graph<VertexType>* MAIN_LIBRARY_NAMESPACE::graph<VertexType>::get_ptr_owner(
+const MAIN_LIBRARY_NAMESPACE::graph<VertexType>* MAIN_LIBRARY_NAMESPACE::graph<VertexType>::get_owner_graph(
     const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME& ptr) {
     return ptr.vertex_owner;
 }

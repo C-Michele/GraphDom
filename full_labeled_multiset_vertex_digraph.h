@@ -125,7 +125,7 @@ const EdgeLabelType& MAIN_LIBRARY_NAMESPACE::full_labeled_multiset_vertex_digrap
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename T1, typename T2>
 void MAIN_LIBRARY_NAMESPACE::full_labeled_multiset_vertex_digraph<VertexType,VertexLabelType,EdgeLabelType,T1,T2>::erase_vertex(
     const typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME& const_vertex_ptr_to_erase_reference) {
-    if( MAIN_LIBRARY_NAMESPACE::graph<VertexType>::get_ptr_owner(const_vertex_ptr_to_erase_reference) == this ) {
+    if( MAIN_LIBRARY_NAMESPACE::graph<VertexType>::get_owner_graph(const_vertex_ptr_to_erase_reference) == this ) {
         const auto vertex_container_to_erase_ptr = MAIN_LIBRARY_NAMESPACE::graph<VertexType>::get_vertex_container(const_vertex_ptr_to_erase_reference);
         if ( vertex_container_to_erase_ptr != nullptr ) {
             auto before_vertex_container_to_erase_found_vertices_itr = vertices.end();

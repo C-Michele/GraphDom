@@ -181,7 +181,7 @@ const EdgeLabelType& MAIN_LIBRARY_NAMESPACE::full_labeled_set_vertex_digraph<Ver
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename T1, typename T2>
 void MAIN_LIBRARY_NAMESPACE::full_labeled_set_vertex_digraph<VertexType,VertexLabelType,EdgeLabelType,Compare,T1,T2>::erase_vertex(
     const typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME& const_vertex_ptr) {
-    if ( MAIN_LIBRARY_NAMESPACE::graph<VertexType>::get_ptr_owner(const_vertex_ptr) == this ) {
+    if ( MAIN_LIBRARY_NAMESPACE::graph<VertexType>::get_owner_graph(const_vertex_ptr) == this ) {
         const auto vertex_container_to_erase_ptr = MAIN_LIBRARY_NAMESPACE::graph<VertexType>::get_vertex_container(const_vertex_ptr);
         if ( vertex_container_to_erase_ptr != nullptr ) {
             auto vertex_container_to_erase_found_vertices_itr = vertices.end();
