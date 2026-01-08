@@ -3,6 +3,7 @@
 #include "gtest/gtest.h"
 #include "generic_graph_tests.h"
 #include "generic_set_vertex_graph_tests.h"
+#include "generic_set_vertex_digraph_tests.h"
 #include "../graph.h"
 #include "../full_labeled_set_vertex_digraph.h"
 
@@ -43,3 +44,7 @@ SET_VERTEX_GRAPH_CORRECT_RETURNED_CONSTANT_VERTEX_POINTER_REFERENCE_AFTER_ASSIGN
 SET_VERTEX_GRAPH_CONSTANT_VERTEX_POINTER_ASSIGNMENT_OPERATOR_TEST_1(full_labeled_set_vertex_digraph,tested_graph);
 
 SET_VERTEX_GRAPH_UNABLE_TO_CONVERT_A_VERTEX_POINTER_TO_MULTISET_VERTEX_POINTER_TEST(full_labeled_set_vertex_digraph,tested_graph);
+
+SET_VERTEX_DIGRAPH_CORRECT_EDGES_INSERTION_NOT_CONSTANT_VERTEX_PTR_NOT_CONSTANT_ADJ_LIST_NOT_C_METHODS(full_labeled_set_vertex_digraph,tested_graph);
+
+SET_VERTEX_DIGRAPH_CORRECT_EDGES_INSERTION_NOT_CONSTANT_VERTEX_PTR_NOT_CONSTANT_ADJ_LIST_C_METHODS(full_labeled_set_vertex_digraph,tested_graph);

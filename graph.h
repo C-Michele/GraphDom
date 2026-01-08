@@ -78,7 +78,9 @@ namespace MAIN_LIBRARY_NAMESPACE {
                         edge_endpoint<VertexContainerPointerType>(ptr),
                         edge_label(std::move(edge)) {}
 
-                    ~labeled_directed_edge_endpoint() = default;
+                    ~labeled_directed_edge_endpoint(){
+                        std::cerr << "destroy " << this << std::endl;
+                    }
 
                     mutable EdgeLabelType edge_label;
             };
@@ -125,6 +127,10 @@ namespace MAIN_LIBRARY_NAMESPACE {
                 undirected = MAIN_LIBRARY_NAMESPACE::edge_type::undirected,
                 directed = MAIN_LIBRARY_NAMESPACE::edge_type::directed,
                 mixed
+            };
+            enum begin_or_end : std::uint8_t {
+                begin,
+                end
             };
             template<typename VertexContainerPointerType>
             class non_mixed_graph_vertex_container : public vertex_container {
@@ -200,12 +206,6 @@ namespace MAIN_LIBRARY_NAMESPACE {
                     mutable VertexLabelType vertex_label;
             };
 
-            template<typename VertexContainerPointerType>
-            static void safe_non_labeled_edge_endpoint_deallocation(edge_endpoint<VertexContainerPointerType>*);
-
-            template<typename VertexContainerPointerType, typename EdgeLabelType>
-            static void safe_labeled_edge_endpoint_deallocation(edge_endpoint<VertexContainerPointerType>*,edge_type);
-
             static VERTEX_PTR_NAME vertex_ptr_factory(
                 const MAIN_LIBRARY_NAMESPACE::graph<VertexType>*,
                 const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::non_mixed_graph_vertex_container<const vertex_container*>&,
@@ -231,6 +231,12 @@ namespace MAIN_LIBRARY_NAMESPACE {
             static const MAIN_LIBRARY_NAMESPACE::graph<VertexType>* get_owner_graph(const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME&);
 
             static const vertex_container* get_vertex_container(const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME&);
+
+            static const MAIN_LIBRARY_NAMESPACE::graph<VertexType>* get_owner_graph(const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME&);
+
+            static const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container* get_begin_point(const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME&);
+
+            static bool is_limited_by_edge_type(const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME&);
     };
 }
 
@@ -258,10 +264,24 @@ namespace MAIN_LIBRARY_NAMESPACE {
             template <typename EdgeLabelType>
             using mixed_graph_labeled_vertex_container = typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::template mixed_graph_labeled_vertex_container<VertexContainerPointerType,EdgeLabelType>;
 
-            static void safe_non_labeled_edge_endpoint_deallocation(edge_endpoint*);
+            static bool inner_iterator_is_real(const typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME&);
 
-            template<typename EdgeLabelType>
-            static void safe_labeled_edge_endpoint_deallocation(edge_endpoint*,edge_type);
+            static typename adj_set::const_iterator get_inner_iterator(const typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME&);
+
+            static typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::EDGE_ITERATOR_NAME edge_iterator_factory(
+                const MAIN_LIBRARY_NAMESPACE::set_vertex_graph<VertexType>* edge_set_vertex_graph_owner_ptr,
+                const non_mixed_graph_vertex_container* edge_begin_point_ptr,
+                MAIN_LIBRARY_NAMESPACE::edge_type edge_set_vertex_graph_owner_edges_type,
+                typename adj_set::iterator inner_itr
+            );
+
+            static typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::EDGE_ITERATOR_NAME edge_iterator_factory(
+                const MAIN_LIBRARY_NAMESPACE::set_vertex_graph<VertexType>* edge_set_vertex_graph_owner_ptr,
+                const mixed_graph_vertex_container* edge_begin_point_ptr,
+                typename adj_set::iterator inner_itr,
+                MAIN_LIBRARY_NAMESPACE::edge_type inner_itr_edge_type,
+                bool inner_itr_is_limited_by_edge_type = false
+            );
     };
 }
 
@@ -295,11 +315,6 @@ namespace MAIN_LIBRARY_NAMESPACE {
             template <typename EdgeLabelType>
             using mixed_graph_labeled_vertex_container = typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::template mixed_graph_labeled_vertex_container<VertexContainerPointerType,EdgeLabelType>;
 
-            static void safe_non_labeled_edge_endpoint_deallocation(edge_endpoint*);
-
-            template<typename VertexLabelType>
-            static void safe_labeled_edge_endpoint_deallocation(edge_endpoint*,edge_type);
-
             static VERTEX_PTR_NAME vertex_ptr_factory(
                 const MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>*,
                 typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::template non_mixed_graph_vertex_container<VertexContainerPointerType>&,
@@ -323,32 +338,15 @@ namespace MAIN_LIBRARY_NAMESPACE {
             );
 
             static VertexContainerPointerType get_vertex_container(const MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::VERTEX_PTR_NAME&);
+
+            static bool inner_iterator_is_real(const typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME&);
+
+            static typename adj_set::const_iterator get_inner_iterator(const typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME&);
     };
 }
 
 #include "handlers_declarations.h"
 #include "handlers_implementations.h"
-
-template<typename VertexType>
-template<typename VertexContainerPointerType>
-void MAIN_LIBRARY_NAMESPACE::graph<VertexType>::safe_non_labeled_edge_endpoint_deallocation(edge_endpoint<VertexContainerPointerType>* const ee_ptr) {
-    delete ee_ptr;
-}
-
-template<typename VertexType>
-template<typename VertexContainerPointerType, typename EdgeLabelType>
-void MAIN_LIBRARY_NAMESPACE::graph<VertexType>::safe_labeled_edge_endpoint_deallocation(
-    edge_endpoint<VertexContainerPointerType>* const ee_ptr,
-    const edge_type et) {
-    switch (et) {
-        case undirected:
-            delete static_cast< labeled_undirected_edge_endpoint<VertexContainerPointerType,EdgeLabelType>* >(ee_ptr);
-            break;
-        case directed:
-            delete static_cast< labeled_directed_edge_endpoint<VertexContainerPointerType,EdgeLabelType>* >(ee_ptr);
-            break;
-    }
-}
 
 template<typename VertexType>
 typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::VERTEX_PTR_NAME MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_ptr_factory(
@@ -393,29 +391,80 @@ const typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container* MAIN
 }
 
 template<typename VertexType>
-void MAIN_LIBRARY_NAMESPACE::set_vertex_graph<VertexType>::safe_non_labeled_edge_endpoint_deallocation(edge_endpoint* const ee_ptr) {
-    MAIN_LIBRARY_NAMESPACE::graph<VertexType>::template safe_non_labeled_edge_endpoint_deallocation<VertexContainerPointerType>(ee_ptr);
+const MAIN_LIBRARY_NAMESPACE::graph<VertexType>* MAIN_LIBRARY_NAMESPACE::graph<VertexType>::get_owner_graph(
+    const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME& const_edge_itr) {
+    return const_edge_itr.edge_graph_owner;
 }
 
 template<typename VertexType>
-template<typename EdgeLabelType>
-void MAIN_LIBRARY_NAMESPACE::set_vertex_graph<VertexType>::safe_labeled_edge_endpoint_deallocation(
-    edge_endpoint* const ee_ptr,
-    const edge_type ee_type) {
-    MAIN_LIBRARY_NAMESPACE::graph<VertexType>::template safe_labeled_edge_endpoint_deallocation<VertexContainerPointerType,EdgeLabelType>(ee_ptr,ee_type);
+const typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container* MAIN_LIBRARY_NAMESPACE::graph<VertexType>::get_begin_point(
+    const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME& const_edge_itr) {
+    return const_edge_itr.edge_vertex_container_owner;
 }
 
 template<typename VertexType>
-void MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::safe_non_labeled_edge_endpoint_deallocation(edge_endpoint* const ee_ptr) {
-    MAIN_LIBRARY_NAMESPACE::graph<VertexType>::template safe_non_labeled_edge_endpoint_deallocation<VertexContainerPointerType>(ee_ptr);
+bool MAIN_LIBRARY_NAMESPACE::graph<VertexType>::is_limited_by_edge_type(
+    const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME& const_edge_itr) {
+    return const_edge_itr.is_limited_by_edge_type();
 }
 
 template<typename VertexType>
-template<typename EdgeLabelType>
-void MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::safe_labeled_edge_endpoint_deallocation(
-    edge_endpoint* const ee_ptr,
-    const edge_type ee_type) {
-    MAIN_LIBRARY_NAMESPACE::graph<VertexType>::template safe_labeled_edge_endpoint_deallocation<VertexContainerPointerType,EdgeLabelType>(ee_ptr,ee_type);
+bool MAIN_LIBRARY_NAMESPACE::set_vertex_graph<VertexType>::inner_iterator_is_real(
+    const typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME& const_edge_itr) {
+    const auto& set_vertex_graph_edge_info_pair =
+        std::get<MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME::set_vertex_graph_edge_info>( const_edge_itr.type_dependent_edge_info );
+    const auto& inner_itr = set_vertex_graph_edge_info_pair.first;
+    return std::holds_alternative<
+        MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME::real_set_vertex_graph_vertex_container_edge_iterator_type
+    >(
+        inner_itr
+    );
+}
+
+template<typename VertexType>
+typename MAIN_LIBRARY_NAMESPACE::set_vertex_graph<VertexType>::adj_set::const_iterator
+MAIN_LIBRARY_NAMESPACE::set_vertex_graph<VertexType>::get_inner_iterator(
+const typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME& const_edge_itr) {
+    const auto& set_vertex_graph_edge_info_pair =
+        std::get<typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME::set_vertex_graph_edge_info>( const_edge_itr.type_dependent_edge_info );
+    const auto& inner_itr = set_vertex_graph_edge_info_pair.first;
+    return std::get<
+        typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME::real_set_vertex_graph_vertex_container_edge_iterator_type
+    >(
+        inner_itr
+    );
+}
+
+template<typename VertexType>
+typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::EDGE_ITERATOR_NAME
+MAIN_LIBRARY_NAMESPACE::set_vertex_graph<VertexType>::edge_iterator_factory(
+    const MAIN_LIBRARY_NAMESPACE::set_vertex_graph<VertexType>* const edge_set_vertex_graph_owner_ptr,
+    const non_mixed_graph_vertex_container* const edge_begin_point_ptr,
+    const MAIN_LIBRARY_NAMESPACE::edge_type edge_set_vertex_graph_owner_edges_type,
+    const typename adj_set::iterator inner_itr) {
+    return typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::EDGE_ITERATOR_NAME(
+        edge_set_vertex_graph_owner_ptr,
+        edge_begin_point_ptr,
+        edge_set_vertex_graph_owner_edges_type,
+        inner_itr
+    );
+}
+
+template<typename VertexType>
+typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::EDGE_ITERATOR_NAME
+MAIN_LIBRARY_NAMESPACE::set_vertex_graph<VertexType>::edge_iterator_factory(
+    const MAIN_LIBRARY_NAMESPACE::set_vertex_graph<VertexType>* const edge_set_vertex_graph_owner_ptr,
+    const mixed_graph_vertex_container* const edge_begin_point_ptr,
+    const typename adj_set::iterator inner_itr,
+    const MAIN_LIBRARY_NAMESPACE::edge_type inner_itr_edge_type,
+    const bool inner_itr_is_limited_by_edge_type) {
+    return MAIN_LIBRARY_NAMESPACE::graph<VertexType>::EDGE_ITERATOR_NAME(
+        edge_set_vertex_graph_owner_ptr,
+        edge_begin_point_ptr,
+        inner_itr,
+        inner_itr_edge_type,
+        inner_itr_is_limited_by_edge_type
+    );
 }
 
 template<typename VertexType>
@@ -453,6 +502,33 @@ typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::VertexContai
 MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::get_vertex_container(
     const MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::VERTEX_PTR_NAME& ptr) {
     return ptr.multiset_graph_vertex_container;
+}
+
+template<typename VertexType>
+bool MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::inner_iterator_is_real(
+const typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME& const_edge_itr) {
+    const auto& multiset_vertex_graph_edge_info_pair =
+        std::get<MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME::multiset_vertex_graph_edge_info>( const_edge_itr.type_dependent_edge_info );
+    const auto& inner_itr = multiset_vertex_graph_edge_info_pair.first;
+    return std::holds_alternative<
+        MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME::real_multiset_vertex_graph_vertex_container_edge_iterator_type
+    >(
+        inner_itr
+    );
+}
+
+template<typename VertexType>
+typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::adj_set::const_iterator
+MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::get_inner_iterator(
+const typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME& const_edge_itr) {
+    const auto& multiset_vertex_graph_edge_info_pair =
+        std::get<MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME::multiset_vertex_graph_edge_info>( const_edge_itr.type_dependent_edge_info );
+    const auto& inner_itr = multiset_vertex_graph_edge_info_pair.first;
+    return std::get<
+        MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME::real_multiset_vertex_graph_vertex_container_edge_iterator_type
+    >(
+        inner_itr
+    );
 }
 
 #endif //GRAPH_H

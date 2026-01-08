@@ -6,26 +6,6 @@
 #include "gtest/gtest.h"
 #include "../graph.h"
 
-template <typename VertexType>
-[[nodiscard]] std::pair<typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::VERTEX_PTR_NAME,bool> graph_vertex_insertion(MAIN_LIBRARY_NAMESPACE::graph<VertexType>& graph, const VertexType& vertex_to_insert) {
-    if(dynamic_cast<MAIN_LIBRARY_NAMESPACE::set_vertex_graph<VertexType>*>(&graph) != nullptr) {
-        auto& set_vertex_graph = dynamic_cast<MAIN_LIBRARY_NAMESPACE::set_vertex_graph<VertexType>&>(graph);
-        return set_vertex_graph.insert_vertex(vertex_to_insert);
-    }
-    auto& multiset_vertex_graph = dynamic_cast<MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>&>(graph);
-    return std::pair<typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::VERTEX_PTR_NAME,bool>(multiset_vertex_graph.insert_vertex(vertex_to_insert),true);
-}
-
-template <typename VertexType>
-[[nodiscard]] std::pair<typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::VERTEX_PTR_NAME,bool> graph_vertex_insertion(MAIN_LIBRARY_NAMESPACE::graph<VertexType>& graph, VertexType&& vertex_to_insert) {
-    if(dynamic_cast<MAIN_LIBRARY_NAMESPACE::set_vertex_graph<VertexType>*>(&graph) != nullptr) {
-        auto& set_vertex_graph = dynamic_cast<MAIN_LIBRARY_NAMESPACE::set_vertex_graph<VertexType>&>(graph);
-        return set_vertex_graph.insert_vertex(vertex_to_insert);
-    }
-    auto& multiset_vertex_graph = dynamic_cast<MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>&>(graph);
-    return std::pair<typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::VERTEX_PTR_NAME,bool>(multiset_vertex_graph.insert_vertex(vertex_to_insert),true);
-}
-
 #define IS_A_GRAPH_TEST(TEST_SUITE_NAME,CONCRETE_CLASS_NAME,VERTEX_TYPENAME)                                    \
     TEST(TEST_SUITE_NAME,is_a_graph) {                                                                          \
         CONCRETE_CLASS_NAME graph;                                                                              \

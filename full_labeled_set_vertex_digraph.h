@@ -53,6 +53,7 @@ namespace MAIN_LIBRARY_NAMESPACE {
         private:
             using VertexContainerPointerType = typename MAIN_LIBRARY_NAMESPACE::set_vertex_graph<VertexType>::VertexContainerPointerType;
             using edge_endpoint = typename MAIN_LIBRARY_NAMESPACE::set_vertex_graph<VertexType>::template labeled_undirected_edge_endpoint<VertexLabelType>;
+            using adj_set = typename MAIN_LIBRARY_NAMESPACE::set_vertex_graph<VertexType>::adj_set;
             using vertex_container = typename MAIN_LIBRARY_NAMESPACE::set_vertex_graph<VertexType>::template non_mixed_graph_labeled_vertex_container<EdgeLabelType>;
 
             static void safe_edge_endpoint_deallocation(typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::template edge_endpoint<VertexContainerPointerType>*);
@@ -217,8 +218,17 @@ void MAIN_LIBRARY_NAMESPACE::full_labeled_set_vertex_digraph<VertexType,VertexLa
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename T1, typename T2>
 typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::EDGE_ITERATOR_NAME
 MAIN_LIBRARY_NAMESPACE::full_labeled_set_vertex_digraph<VertexType,VertexLabelType,EdgeLabelType,Compare,T1,T2>::erase_edge(
-    const typename graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME&) {
-    //TODO: real implementation
+    const typename graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME& edge_itr) {
+    if ( MAIN_LIBRARY_NAMESPACE::graph<VertexType>::get_owner_graph(edge_itr) != this ) {
+        throw std::runtime_error("Error"); //TODO: write a better message
+    }
+    auto const edge_begin_point = static_cast< const vertex_container* >( MAIN_LIBRARY_NAMESPACE::set_vertex_graph<VertexType>::get_begin_point(edge_itr) );
+    return MAIN_LIBRARY_NAMESPACE::set_vertex_graph<VertexType>::edge_iterator_factory(
+        this,
+        edge_begin_point,
+        directed,
+        ( edge_begin_point->adj ).erase( MAIN_LIBRARY_NAMESPACE::set_vertex_graph<VertexType>::get_inner_iterator( edge_itr ) )
+    );
 }
 
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename T1, typename T2>
@@ -307,28 +317,55 @@ EdgeLabelType& MAIN_LIBRARY_NAMESPACE::full_labeled_set_vertex_digraph<VertexTyp
 
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename T1, typename T2>
 void MAIN_LIBRARY_NAMESPACE::full_labeled_set_vertex_digraph<VertexType,VertexLabelType,EdgeLabelType,Compare,T1,T2>::insert_edge(
-    const typename graph<VertexType>::CONSTANT_VERTEX_PTR_NAME&,
-    const typename graph<VertexType>::CONSTANT_VERTEX_PTR_NAME&,
-    const EdgeLabelType&) {
-    //TODO: real implementation
+    const typename graph<VertexType>::CONSTANT_VERTEX_PTR_NAME& begin_point_vertex_ptr,
+    const typename graph<VertexType>::CONSTANT_VERTEX_PTR_NAME& end_point_vertex_ptr,
+    const EdgeLabelType& edge_label_to_insert) {
+    if (
+        MAIN_LIBRARY_NAMESPACE::graph<VertexType>::get_owner_graph( begin_point_vertex_ptr ) != this ||
+        MAIN_LIBRARY_NAMESPACE::graph<VertexType>::get_owner_graph( end_point_vertex_ptr ) != this
+    ) {
+        throw std::runtime_error("Error"); //TODO: write a better message
+    }
+    auto const begin_point_vertex_container = static_cast< const vertex_container* >( MAIN_LIBRARY_NAMESPACE::graph<VertexType>::get_vertex_container( begin_point_vertex_ptr ) );
+    auto const end_point_vertex_container = MAIN_LIBRARY_NAMESPACE::graph<VertexType>::get_vertex_container( end_point_vertex_ptr );
+    if ( begin_point_vertex_container == nullptr || end_point_vertex_container == nullptr ) {
+        throw std::runtime_error("Error"); //TODO: write a better message
+    }
+    std::unique_ptr< edge_endpoint > edge_endpoint_to_insert( new edge_endpoint( end_point_vertex_container , edge_label_to_insert ) );
+    const auto inner_insertion_result = ( ( begin_point_vertex_container->adj ).insert( edge_endpoint_to_insert.get() ) ).second;
+    if ( inner_insertion_result ) {
+        edge_endpoint_to_insert.release();
+    }
 }
 
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename T1, typename T2>
 void MAIN_LIBRARY_NAMESPACE::full_labeled_set_vertex_digraph<VertexType,VertexLabelType,EdgeLabelType,Compare,T1,T2>::insert_edge(
-    const typename graph<VertexType>::CONSTANT_VERTEX_PTR_NAME&,
-    const typename graph<VertexType>::CONSTANT_VERTEX_PTR_NAME&,
-    EdgeLabelType&&) {
-    //TODO: real implementation
+    const typename graph<VertexType>::CONSTANT_VERTEX_PTR_NAME& begin_point_vertex_ptr,
+    const typename graph<VertexType>::CONSTANT_VERTEX_PTR_NAME& end_point_vertex_ptr,
+    EdgeLabelType&& edge_label_to_insert) {
+    if (
+        MAIN_LIBRARY_NAMESPACE::graph<VertexType>::get_owner_graph( begin_point_vertex_ptr ) != this ||
+        MAIN_LIBRARY_NAMESPACE::graph<VertexType>::get_owner_graph( end_point_vertex_ptr ) != this
+    ) {
+        throw std::runtime_error("Error"); //TODO: write a better message
+    }
+    auto const begin_point_vertex_container = static_cast< const vertex_container* >( MAIN_LIBRARY_NAMESPACE::graph<VertexType>::get_vertex_container( begin_point_vertex_ptr ) );
+    auto const end_point_vertex_container = MAIN_LIBRARY_NAMESPACE::graph<VertexType>::get_vertex_container( end_point_vertex_ptr );
+    if ( begin_point_vertex_container == nullptr || end_point_vertex_container == nullptr ) {
+        throw std::runtime_error("Error"); //TODO: write a better message
+    }
+    std::unique_ptr< edge_endpoint > edge_endpoint_to_insert( new edge_endpoint( end_point_vertex_container , std::move( edge_label_to_insert ) ) );
+    const auto inner_insertion_result = ( ( begin_point_vertex_container->adj ).insert( edge_endpoint_to_insert.get() ) ).second;
+    if ( inner_insertion_result ) {
+        edge_endpoint_to_insert.release();
+    }
 }
 
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename T1, typename T2>
 void MAIN_LIBRARY_NAMESPACE::full_labeled_set_vertex_digraph<VertexType,VertexLabelType,EdgeLabelType,Compare,T1,T2>::
 safe_edge_endpoint_deallocation(
     typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::template edge_endpoint<VertexContainerPointerType>* ee_ptr) {
-    MAIN_LIBRARY_NAMESPACE::set_vertex_graph<VertexType>::template safe_labeled_edge_endpoint_deallocation<EdgeLabelType>(
-        ee_ptr,
-        MAIN_LIBRARY_NAMESPACE::edge_type::directed
-    );
+    delete static_cast<edge_endpoint*>(ee_ptr);
 }
 
 //TODO: continue class implementation

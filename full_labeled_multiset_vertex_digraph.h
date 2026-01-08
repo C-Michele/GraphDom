@@ -263,10 +263,7 @@ template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, 
 void MAIN_LIBRARY_NAMESPACE::full_labeled_multiset_vertex_digraph<VertexType,VertexLabelType,EdgeLabelType,T1,T2>::
 safe_edge_endpoint_deallocation(
     typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::template edge_endpoint<VertexContainerPointerType>* ee_ptr) {
-    MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::template safe_labeled_edge_endpoint_deallocation<EdgeLabelType>(
-        ee_ptr,
-        MAIN_LIBRARY_NAMESPACE::edge_type::directed
-    );
+    delete static_cast< edge_endpoint* >( ee_ptr );
 }
 
 #endif //FULL_LABELED_MULTISET_VERTEX_DIGRAPH_H
