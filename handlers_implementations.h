@@ -84,22 +84,47 @@ typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::ADJ_LIST MAIN_LIBRARY_NAMESP
 
 template<typename VertexType>
 typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST MAIN_LIBRARY_NAMESPACE::graph<VertexType>::VERTEX_PTR_NAME::const_adj_list() const {
-    return MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST(
-        vertex_owner,
-        vertex_container_ptr,
-        edges_type
-    );
+    if ( std::holds_alternative <std::monostate >( vertex_container_ptr ) ) {
+        throw std::runtime_error("Error"); //TODO: write better message
+    }
+    else if ( std::holds_alternative< const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container* >( vertex_container_ptr ) ) {
+        return MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST(
+            vertex_owner,
+            std::get< const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container* >( vertex_container_ptr ),
+            edges_type
+        );
+    }
+    else {
+        return MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST(
+            vertex_owner,
+            std::get< MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container* >( vertex_container_ptr ),
+            edges_type
+        );
+    }
 }
 
 template<typename VertexType>
 typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST MAIN_LIBRARY_NAMESPACE::graph<VertexType>::VERTEX_PTR_NAME::const_adj_list(
-    const MAIN_LIBRARY_NAMESPACE::edge_type selection ) const {
-    return MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST(
-        vertex_owner,
-        vertex_container_ptr,
-        edges_type,
-        selection
-    );
+const MAIN_LIBRARY_NAMESPACE::edge_type selection ) const {
+    if ( std::holds_alternative< std::monostate >( vertex_container_ptr ) ) {
+        throw std::runtime_error("Error"); //TODO: write better message
+    }
+    else if ( std::holds_alternative< const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container* >( vertex_container_ptr ) ) {
+        return MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST(
+            vertex_owner,
+            std::get< const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container* >( vertex_container_ptr ),
+            edges_type,
+            selection
+        );
+    }
+    else {
+        return MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST(
+            vertex_owner,
+            std::get< MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container* >( vertex_container_ptr ),
+            edges_type,
+            selection
+        );
+    }
 }
 
 template<typename VertexType>
@@ -615,7 +640,7 @@ MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST::cbegin() const {
 template<typename VertexType>
 typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME
 MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST::cend() const {
-    return begin();
+    return end();
 }
 
 template<typename VertexType>
@@ -1606,7 +1631,7 @@ MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME::CONSTANT
     const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container* const edge_begin_point_ptr,
     const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::graph_edges_type edge_set_vertex_graph_owner_edges_type,
     const std::array<
-        MAIN_LIBRARY_NAMESPACE::graph<VertexType>::adj_set<const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*>*,
+        const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::adj_set<const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*>*,
         2
     >& edge_begin_point_adj_sets_array_ptr,
     const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::begin_or_end begin_or_end_indicator) :
@@ -1619,7 +1644,7 @@ MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME::CONSTANT
         edge_begin_point_adj_sets_array_ptr
     ){
     if ( edge_begin_point_adj_sets_array_ptr[undirected] == nullptr && edge_begin_point_adj_sets_array_ptr[directed] == nullptr ) {
-        current_edge_type = ( begin_or_end_indicator == MAIN_LIBRARY_NAMESPACE::edge_type::undirected ) ? MAIN_LIBRARY_NAMESPACE::edge_type::undirected :  MAIN_LIBRARY_NAMESPACE::edge_type::directed;
+        current_edge_type = ( edge_set_vertex_graph_owner_edges_type == undirected ) ? MAIN_LIBRARY_NAMESPACE::edge_type::undirected :  MAIN_LIBRARY_NAMESPACE::edge_type::directed;
     }
     else {
         auto& set_vertex_graph_edge_info_pair = std::get< set_vertex_graph_edge_info >(type_dependent_edge_info);
@@ -1630,38 +1655,38 @@ MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME::CONSTANT
                     if ( edge_begin_point_adj_sets_array_ptr[undirected]->empty() && edge_begin_point_adj_sets_array_ptr[directed] != nullptr ) {
                         if ( edge_begin_point_adj_sets_array_ptr[directed]->empty() ) {
                             set_vertex_graph_inner_edge_iterator = edge_begin_point_adj_sets_array_ptr[undirected]->begin();
-                            current_edge_type = undirected;
+                            current_edge_type = MAIN_LIBRARY_NAMESPACE::edge_type::undirected;
                         }
                         else {
                             set_vertex_graph_inner_edge_iterator = edge_begin_point_adj_sets_array_ptr[directed]->begin();
-                            current_edge_type = directed;
+                            current_edge_type = MAIN_LIBRARY_NAMESPACE::edge_type::directed;
                         }
                     }
                     else {
                         // ( ! edge_begin_point_adj_sets_array_ptr[undirected]->empty() ) || edge_begin_point_adj_sets_array_ptr[directed] == nullptr
                         set_vertex_graph_inner_edge_iterator = edge_begin_point_adj_sets_array_ptr[undirected]->begin();
-                        current_edge_type = undirected;
+                        current_edge_type = MAIN_LIBRARY_NAMESPACE::edge_type::undirected;
                     }
                 }
                 else {
                     set_vertex_graph_inner_edge_iterator = edge_begin_point_adj_sets_array_ptr[directed]->begin();
-                    current_edge_type = directed;
+                    current_edge_type = MAIN_LIBRARY_NAMESPACE::edge_type::directed;
                 }
                 break;
             case end:
                 if ( edge_begin_point_adj_sets_array_ptr[directed] != nullptr ) {
                     if ( edge_begin_point_adj_sets_array_ptr[directed]->empty() && edge_begin_point_adj_sets_array_ptr[undirected] != nullptr ) {
                         set_vertex_graph_inner_edge_iterator = edge_begin_point_adj_sets_array_ptr[undirected]->end();
-                        current_edge_type = undirected;
+                        current_edge_type = MAIN_LIBRARY_NAMESPACE::edge_type::undirected;
                     }
                     else {
                         set_vertex_graph_inner_edge_iterator = edge_begin_point_adj_sets_array_ptr[directed]->end();
-                        current_edge_type = directed;
+                        current_edge_type = MAIN_LIBRARY_NAMESPACE::edge_type::directed;
                     }
                 }
                 else {
                     set_vertex_graph_inner_edge_iterator = edge_begin_point_adj_sets_array_ptr[undirected]->end();
-                    current_edge_type = undirected;
+                    current_edge_type = MAIN_LIBRARY_NAMESPACE::edge_type::undirected;
                 }
                 break;
         }
@@ -1674,7 +1699,7 @@ MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME::CONSTANT
     const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container* const edge_begin_point_ptr,
     const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::graph_edges_type edge_multiset_vertex_graph_owner_edges_type,
     const std::array<
-        MAIN_LIBRARY_NAMESPACE::graph<VertexType>::adj_set<MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*>*,
+        const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::adj_set<MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*>*,
         2
     >& edge_begin_point_adj_sets_array_ptr,
     const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::begin_or_end begin_or_end_indicator) :
@@ -1687,7 +1712,7 @@ MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME::CONSTANT
         edge_begin_point_adj_sets_array_ptr
     ){
     if ( edge_begin_point_adj_sets_array_ptr[undirected] == nullptr && edge_begin_point_adj_sets_array_ptr[directed] == nullptr ) {
-        current_edge_type = ( begin_or_end_indicator == MAIN_LIBRARY_NAMESPACE::edge_type::undirected ) ? MAIN_LIBRARY_NAMESPACE::edge_type::undirected :  MAIN_LIBRARY_NAMESPACE::edge_type::directed;
+        current_edge_type = ( edge_multiset_vertex_graph_owner_edges_type == undirected ) ? MAIN_LIBRARY_NAMESPACE::edge_type::undirected :  MAIN_LIBRARY_NAMESPACE::edge_type::directed;
     }
     else {
         auto& set_vertex_graph_edge_info_pair = std::get< multiset_vertex_graph_edge_info >(type_dependent_edge_info);
@@ -1698,38 +1723,38 @@ MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME::CONSTANT
                     if ( edge_begin_point_adj_sets_array_ptr[undirected]->empty() && edge_begin_point_adj_sets_array_ptr[directed] != nullptr ) {
                         if ( edge_begin_point_adj_sets_array_ptr[directed]->empty() ) {
                             set_vertex_graph_inner_edge_iterator = edge_begin_point_adj_sets_array_ptr[undirected]->begin();
-                            current_edge_type = undirected;
+                            current_edge_type = MAIN_LIBRARY_NAMESPACE::edge_type::undirected;
                         }
                         else {
                             set_vertex_graph_inner_edge_iterator = edge_begin_point_adj_sets_array_ptr[directed]->begin();
-                            current_edge_type = directed;
+                            current_edge_type = MAIN_LIBRARY_NAMESPACE::edge_type::directed;
                         }
                     }
                     else {
                         // ( ! edge_begin_point_adj_sets_array_ptr[undirected]->empty() ) || edge_begin_point_adj_sets_array_ptr[directed] == nullptr
                         set_vertex_graph_inner_edge_iterator = edge_begin_point_adj_sets_array_ptr[undirected]->begin();
-                        current_edge_type = undirected;
+                        current_edge_type = MAIN_LIBRARY_NAMESPACE::edge_type::undirected;
                     }
                 }
                 else {
                     set_vertex_graph_inner_edge_iterator = edge_begin_point_adj_sets_array_ptr[directed]->begin();
-                    current_edge_type = directed;
+                    current_edge_type = MAIN_LIBRARY_NAMESPACE::edge_type::directed;
                 }
                 break;
             case end:
                 if ( edge_begin_point_adj_sets_array_ptr[directed] != nullptr ) {
                     if ( edge_begin_point_adj_sets_array_ptr[directed]->empty() && edge_begin_point_adj_sets_array_ptr[undirected] != nullptr ) {
                         set_vertex_graph_inner_edge_iterator = edge_begin_point_adj_sets_array_ptr[undirected]->end();
-                        current_edge_type = undirected;
+                        current_edge_type = MAIN_LIBRARY_NAMESPACE::edge_type::undirected;
                     }
                     else {
                         set_vertex_graph_inner_edge_iterator = edge_begin_point_adj_sets_array_ptr[directed]->end();
-                        current_edge_type = directed;
+                        current_edge_type = MAIN_LIBRARY_NAMESPACE::edge_type::directed;
                     }
                 }
                 else {
                     set_vertex_graph_inner_edge_iterator = edge_begin_point_adj_sets_array_ptr[undirected]->end();
-                    current_edge_type = undirected;
+                    current_edge_type = MAIN_LIBRARY_NAMESPACE::edge_type::undirected;
                 }
                 break;
         }

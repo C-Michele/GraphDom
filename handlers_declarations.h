@@ -396,7 +396,7 @@ class MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME fin
             const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container* edge_begin_point_ptr,
             MAIN_LIBRARY_NAMESPACE::graph<VertexType>::graph_edges_type edge_set_vertex_graph_owner_edges_type,
             const std::array<
-                MAIN_LIBRARY_NAMESPACE::graph<VertexType>::adj_set<const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*>*,
+                const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::adj_set<const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*>*,
                 2
             >& edge_begin_point_adj_sets_array_ptr,
             MAIN_LIBRARY_NAMESPACE::graph<VertexType>::begin_or_end begin_or_end_indicator
@@ -406,7 +406,7 @@ class MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME fin
             const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container* edge_begin_point_ptr,
             MAIN_LIBRARY_NAMESPACE::graph<VertexType>::graph_edges_type edge_multiset_vertex_graph_owner_edges_type,
             const std::array<
-                MAIN_LIBRARY_NAMESPACE::graph<VertexType>::adj_set<MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*>*,
+                const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::adj_set<MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*>*,
                 2
             >& edge_begin_point_adj_sets_array_ptr,
             MAIN_LIBRARY_NAMESPACE::graph<VertexType>::begin_or_end begin_or_end_indicator
