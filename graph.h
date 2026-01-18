@@ -78,9 +78,7 @@ namespace MAIN_LIBRARY_NAMESPACE {
                         edge_endpoint<VertexContainerPointerType>(ptr),
                         edge_label(std::move(edge)) {}
 
-                    ~labeled_directed_edge_endpoint(){
-                        std::cerr << "destroy " << this << std::endl;
-                    }
+                    ~labeled_directed_edge_endpoint() = default;
 
                     mutable EdgeLabelType edge_label;
             };

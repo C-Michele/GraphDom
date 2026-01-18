@@ -222,12 +222,15 @@ MAIN_LIBRARY_NAMESPACE::full_labeled_set_vertex_digraph<VertexType,VertexLabelTy
     if ( MAIN_LIBRARY_NAMESPACE::graph<VertexType>::get_owner_graph(edge_itr) != this ) {
         throw std::runtime_error("Error"); //TODO: write a better message
     }
-    auto const edge_begin_point = static_cast< const vertex_container* >( MAIN_LIBRARY_NAMESPACE::set_vertex_graph<VertexType>::get_begin_point(edge_itr) );
+    auto const edge_itr_begin_point = static_cast< const vertex_container* >( MAIN_LIBRARY_NAMESPACE::set_vertex_graph<VertexType>::get_begin_point(edge_itr) );
+    auto edge_itr_inner_iterator = MAIN_LIBRARY_NAMESPACE::set_vertex_graph<VertexType>::get_inner_iterator( edge_itr );
+    auto const edge_itr_endpoint = *edge_itr_inner_iterator;
+    safe_edge_endpoint_deallocation(edge_itr_endpoint);
     return MAIN_LIBRARY_NAMESPACE::set_vertex_graph<VertexType>::edge_iterator_factory(
         this,
-        edge_begin_point,
+        edge_itr_begin_point,
         directed,
-        ( edge_begin_point->adj ).erase( MAIN_LIBRARY_NAMESPACE::set_vertex_graph<VertexType>::get_inner_iterator( edge_itr ) )
+        ( edge_itr_begin_point->adj ).erase( edge_itr_inner_iterator )
     );
 }
 
