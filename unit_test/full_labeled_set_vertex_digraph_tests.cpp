@@ -2,6 +2,7 @@
 
 #include "gtest/gtest.h"
 #include "generic_graph_tests.h"
+#include "generic_digraph_tests.h"
 #include "generic_set_vertex_graph_tests.h"
 #include "generic_set_vertex_digraph_tests.h"
 #include "../graph.h"
@@ -10,6 +11,10 @@
 using tested_graph = MAIN_LIBRARY_NAMESPACE::full_labeled_set_vertex_digraph<std::size_t,std::string,std::string>;
 
 IS_A_GRAPH_TEST(full_labeled_set_vertex_digraph,tested_graph,std::size_t);
+
+DIGRAPH_IS_A_NON_MIXED_GRAPH_TEST(full_labeled_set_vertex_digraph,tested_graph,std::size_t);
+
+DIGRAPH_IS_NOT_A_MIXED_GRAPH_TEST(full_labeled_set_vertex_digraph,tested_graph,std::size_t);
 
 NO_VERTICES_AFTER_DEFAULT_CONSTRUCTION_TEST(full_labeled_set_vertex_digraph,tested_graph);
 

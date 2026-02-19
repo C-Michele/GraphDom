@@ -2,6 +2,7 @@
 
 #include "gtest/gtest.h"
 #include "generic_graph_tests.h"
+#include "generic_digraph_tests.h"
 #include "generic_multiset_vertex_graph_tests.h"
 #include "../graph.h"
 #include "../full_labeled_multiset_vertex_digraph.h"
@@ -9,6 +10,10 @@
 using tested_graph = MAIN_LIBRARY_NAMESPACE::full_labeled_multiset_vertex_digraph<std::size_t,std::string,std::string>;
 
 IS_A_GRAPH_TEST(full_labeled_multiset_vertex_digraph,tested_graph,std::size_t);
+
+DIGRAPH_IS_A_NON_MIXED_GRAPH_TEST(full_labeled_multiset_vertex_digraph,tested_graph,std::size_t);
+
+DIGRAPH_IS_NOT_A_MIXED_GRAPH_TEST(full_labeled_multiset_vertex_digraph,tested_graph,std::size_t);
 
 NO_VERTICES_AFTER_DEFAULT_CONSTRUCTION_TEST(full_labeled_multiset_vertex_digraph,tested_graph);
 
@@ -51,4 +56,3 @@ MULTISET_VERTEX_GRAPH_VERTEX_POINTER_ASSIGNMENT_OPERATOR_TEST_1(full_labeled_mul
 MULTISET_VERTEX_GRAPH_CORRECT_RETURNED_CONSTANT_VERTEX_POINTER_REFERENCE_AFTER_ASSIGNMENT_TEST(full_labeled_multiset_vertex_digraph,tested_graph);
 
 MULTISET_VERTEX_GRAPH_CONSTANT_VERTEX_POINTER_ASSIGNMENT_OPERATOR_TEST_1(full_labeled_multiset_vertex_digraph,tested_graph);
-
