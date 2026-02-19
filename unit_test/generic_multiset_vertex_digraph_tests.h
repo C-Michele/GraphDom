@@ -766,13 +766,13 @@
         typename std::vector<                                                                                                                                                               \
             typename std::pair<                                                                                                                                                             \
                 typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<std::size_t>::VERTEX_PTR_NAME,                                                                                       \
-                typename std::set< std::size_t* >                                                                                                                                           \
+                typename std::set< std::size_t* , std::less<> >                                                                                                                                           \
             >                                                                                                                                                                               \
         > inserted_vertices_and_incidence_matrix;                                                                                                                                           \
         inserted_vertices_and_incidence_matrix.reserve( number_of_different_vertex_values * number_of_repetitions );                                                                        \
         for(std::size_t i = 0; i < number_of_different_vertex_values; ++i) {                                                                                                                \
             for(std::size_t j = 0; j < number_of_repetitions; ++j ) {                                                                                                                       \
-                inserted_vertices_and_incidence_matrix.emplace_back( graph.insert_vertex( i ) , std::set< std::size_t* >() );                                                               \
+                inserted_vertices_and_incidence_matrix.emplace_back( graph.insert_vertex( i ) , std::set< std::size_t* , std::less<> >() );                                                               \
             }                                                                                                                                                                               \
         }                                                                                                                                                                                   \
         for(std::size_t first = 0; first < inserted_vertices_and_incidence_matrix.size(); ++first) {                                                                                        \
@@ -833,13 +833,13 @@
         typename std::vector<                                                                                                                                                               \
             typename std::pair<                                                                                                                                                             \
                 typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<std::size_t>::VERTEX_PTR_NAME,                                                                                       \
-                typename std::set< std::size_t* >                                                                                                                                           \
+                typename std::set< std::size_t* , std::less<> >                                                                                                                                           \
             >                                                                                                                                                                               \
         > inserted_vertices_and_incidence_matrix;                                                                                                                                           \
         inserted_vertices_and_incidence_matrix.reserve( number_of_different_vertex_values * number_of_repetitions );                                                                        \
         for(std::size_t i = 0; i < number_of_different_vertex_values; ++i) {                                                                                                                \
             for(std::size_t j = 0; j < number_of_repetitions; ++j ) {                                                                                                                       \
-                inserted_vertices_and_incidence_matrix.emplace_back( graph.insert_vertex( i ) , std::set< std::size_t* >() );                                                               \
+                inserted_vertices_and_incidence_matrix.emplace_back( graph.insert_vertex( i ) , std::set< std::size_t* , std::less<> >() );                                                               \
             }                                                                                                                                                                               \
         }                                                                                                                                                                                   \
         for(std::size_t first = 0; first < inserted_vertices_and_incidence_matrix.size(); ++first) {                                                                                        \
@@ -900,13 +900,13 @@
         typename std::vector<                                                                                                                                                               \
             typename std::pair<                                                                                                                                                             \
                 typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<std::size_t>::VERTEX_PTR_NAME,                                                                                       \
-                typename std::set< std::size_t* >                                                                                                                                           \
+                typename std::set< std::size_t* , std::less<> >                                                                                                                                           \
             >                                                                                                                                                                               \
         > inserted_vertices_and_incidence_matrix;                                                                                                                                           \
         inserted_vertices_and_incidence_matrix.reserve( number_of_different_vertex_values * number_of_repetitions );                                                                        \
         for(std::size_t i = 0; i < number_of_different_vertex_values; ++i) {                                                                                                                \
             for(std::size_t j = 0; j < number_of_repetitions; ++j ) {                                                                                                                       \
-                inserted_vertices_and_incidence_matrix.emplace_back( graph.insert_vertex( i ) , std::set< std::size_t* >() );                                                               \
+                inserted_vertices_and_incidence_matrix.emplace_back( graph.insert_vertex( i ) , std::set< std::size_t* , std::less<> >() );                                                               \
             }                                                                                                                                                                               \
         }                                                                                                                                                                                   \
         for(std::size_t first = 0; first < inserted_vertices_and_incidence_matrix.size(); ++first) {                                                                                        \
