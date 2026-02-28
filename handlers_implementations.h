@@ -1399,14 +1399,18 @@ current_edge_type(other.current_edge_type) {
 template<typename VertexType>
 MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME::CONSTANT_EDGE_ITERATOR_NAME(
     const typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::EDGE_ITERATOR_NAME& other) :
-    edge_graph_owner(other.edge_graph_owner),
-    edge_vertex_container_owner(other.vertex_container_begin_point),
-    type_dependent_edge_info(
-        std::in_place_type< multiset_vertex_graph_edge_info >,
-        other.inner_itr,
-        other.adj_sets_array
-    ),
-    current_edge_type(other.current_edge_type){}
+    edge_graph_owner(other.edge_owner),
+    edge_vertex_container_owner(other.edge_vertex_container_owner),
+    graph_owner_edges_type(other.graph_owner_edges_type),
+    type_dependent_edge_info(std::in_place_type< MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME::multiset_vertex_graph_edge_info >),
+    current_edge_type(other.current_edge_type) {
+    auto& this_multiset_vertex_graph_edge_info = std::get< MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME::multiset_vertex_graph_edge_info >( type_dependent_edge_info );
+    auto& this_multiset_vertex_graph_inner_edge_iterator_type = std::get< MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME::multiset_vertex_graph_inner_edge_iterator_type >( this_multiset_vertex_graph_edge_info );
+    this_multiset_vertex_graph_inner_edge_iterator_type = other.inner_edge_iterator;
+    auto& this_multiset_vertex_graph_vertex_container_adj_sets_ptr_array_type = std::get< MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME::multiset_vertex_graph_vertex_container_adj_sets_ptr_array_type >( this_multiset_vertex_graph_edge_info );
+    this_multiset_vertex_graph_vertex_container_adj_sets_ptr_array_type[undirected] = (other.vertex_container_adj_sets_ptr_array)[undirected];
+    this_multiset_vertex_graph_vertex_container_adj_sets_ptr_array_type[directed] = (other.vertex_container_adj_sets_ptr_array)[directed];
+}
 
 template<typename VertexType>
 typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME
@@ -1857,6 +1861,7 @@ MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::VERTEX_PTR_NAME::adj_
             return MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::ADJ_LIST(
                 vertex_owner,
                 multiset_graph_vertex_container,
+                edges_type,
                 et
             );
         }
@@ -1914,69 +1919,193 @@ MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::VERTEX_PTR_NAME::VERT
     edges_type(MAIN_LIBRARY_NAMESPACE::graph<VertexType>::graph_edges_type::mixed) {}
 
 template<typename VertexType>
-MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::EDGE_ITERATOR_NAME::EDGE_ITERATOR_NAME(
-    const typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::EDGE_ITERATOR_NAME& other) :
-    edge_graph_owner(other.edge_owner),
-    vertex_container_begin_point(nullptr),
-    adj_sets_array({nullptr,nullptr}),
-    current_edge_type(other.current_edge_type) {
+MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::ADJ_LIST::ADJ_LIST(
+    const typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::ADJ_LIST& other_adj_list) :
+    vertex_container_graph_owner(
+        dynamic_cast< const MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>* >( other_adj_list.vertex_container_graph_owner )
+    ),
+    vertex_container_graph_owner_edges_type( other_adj_list.vertex_container_graph_owner_edges_type ),
+    vertex_container_ptr( nullptr ),
+    adj_sets_array( {nullptr,nullptr} ) {
     if (
-        std::holds_alternative<
-            typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::EDGE_ITERATOR_NAME::set_vertex_graph_edge_info
-        >( other.type_dependent_edge_info )
+        std::holds_alternative< typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::ADJ_LIST::multiset_vertex_graph_vertex_container_info_type > (
+            other_adj_list.graph_type_dependent_vertex_container_info
+        )
     ) {
+        const auto& multiset_vertex_graph_vertex_container_info_type_pair =
+            std::get< typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::ADJ_LIST::multiset_vertex_graph_vertex_container_info_type >(
+                other_adj_list.graph_type_dependent_vertex_container_info
+            );
+        vertex_container_ptr = multiset_vertex_graph_vertex_container_info_type_pair.first;
+        adj_sets_array = multiset_vertex_graph_vertex_container_info_type_pair.second;
+    }
+    else {
         throw std::runtime_error("Impossible to convert"); //TODO: write a better message
     }
-    auto& other_type_dependent_edge_info =
-        std::get<
-            typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::EDGE_ITERATOR_NAME::multiset_vertex_graph_edge_info
-        >( other.type_dependent_edge_info );
-    vertex_container_begin_point = std::get< VertexContainerPointerType >( other_type_dependent_edge_info ) ;
-    adj_sets_array =
-        std::get<
-            std::array<
-                typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::template adj_set<
-                    typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*
-                >
-                *,
-                2
-            >
-        >( other_type_dependent_edge_info );
-    inner_itr =
-        std::get<
-            typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::template adj_set<
-                typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*
-            >::iterator
-        >( other_type_dependent_edge_info );
+}
+
+template<typename VertexType>
+typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::EDGE_ITERATOR_NAME
+MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::ADJ_LIST::begin() const {
+    return MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::EDGE_ITERATOR_NAME(
+        vertex_container_graph_owner,
+        vertex_container_ptr,
+        vertex_container_graph_owner_edges_type,
+        adj_sets_array,
+        MAIN_LIBRARY_NAMESPACE::graph<VertexType>::begin_or_end::begin
+    );
+}
+
+template<typename VertexType>
+typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::EDGE_ITERATOR_NAME
+MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::ADJ_LIST::end() const {
+    return MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::EDGE_ITERATOR_NAME(
+        vertex_container_graph_owner,
+        vertex_container_ptr,
+        vertex_container_graph_owner_edges_type,
+        adj_sets_array,
+        MAIN_LIBRARY_NAMESPACE::graph<VertexType>::begin_or_end::end
+    );
+}
+
+template<typename VertexType>
+MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::ADJ_LIST::ADJ_LIST(
+    const MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>* const vertex_container_graph_owner_ptr,
+    const VertexContainerPointerType vertex_container_ptr,
+    const typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::graph_edges_type vertex_container_graph_owner_edges_type) :
+    vertex_container_graph_owner(vertex_container_graph_owner_ptr),
+    vertex_container_graph_owner_edges_type(vertex_container_graph_owner_edges_type),
+    vertex_container_ptr(vertex_container_ptr),
+    adj_sets_array({nullptr,nullptr}) {
+    if ( vertex_container_ptr == nullptr ) {
+        throw std::runtime_error("Impossible to create adj_list"); //TODO: write a better message
+    }
+    if ( vertex_container_graph_owner_edges_type == MAIN_LIBRARY_NAMESPACE::graph<VertexType>::graph_edges_type::mixed ) {
+        auto const multiset_vertex_mixed_graph_vertex_container_ptr =
+            static_cast<
+                typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::template mixed_graph_vertex_container<
+                    VertexContainerPointerType
+                >*
+            >( vertex_container_ptr );
+        adj_sets_array[undirected] = &( multiset_vertex_mixed_graph_vertex_container_ptr->undirected_adj );
+        adj_sets_array[directed] = &( multiset_vertex_mixed_graph_vertex_container_ptr->directed_adj );
+    }
+    else {
+        auto const multiset_vertex_non_mixed_graph_vertex_container_ptr =
+            static_cast<
+                typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::template non_mixed_graph_vertex_container<
+                    VertexContainerPointerType
+                >*
+            >( vertex_container_ptr );
+        adj_sets_array[
+            vertex_container_graph_owner_edges_type == MAIN_LIBRARY_NAMESPACE::graph<VertexType>::graph_edges_type::undirected ?
+            MAIN_LIBRARY_NAMESPACE::edge_type::undirected :
+            MAIN_LIBRARY_NAMESPACE::edge_type::directed
+        ] = &( multiset_vertex_non_mixed_graph_vertex_container_ptr->adj );
+    }
+}
+
+template<typename VertexType>
+MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::ADJ_LIST::ADJ_LIST(
+    const MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>* const vertex_container_graph_owner_ptr,
+    const VertexContainerPointerType vertex_container_ptr,
+    const typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::graph_edges_type vertex_container_graph_owner_edges_type,
+    const MAIN_LIBRARY_NAMESPACE::edge_type edges_type_selected) :
+    vertex_container_graph_owner(vertex_container_graph_owner_ptr),
+    vertex_container_graph_owner_edges_type(vertex_container_graph_owner_edges_type),
+    vertex_container_ptr(vertex_container_ptr),
+    adj_sets_array({nullptr,nullptr}) {
+    if ( vertex_container_ptr == nullptr ) {
+        throw std::runtime_error("Impossible to create adj_list"); //TODO: write a better message
+    }
+    if ( vertex_container_graph_owner_edges_type == MAIN_LIBRARY_NAMESPACE::graph<VertexType>::graph_edges_type::mixed ) {
+        auto const multiset_vertex_mixed_graph_vertex_container_ptr =
+            static_cast<
+                typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::template mixed_graph_vertex_container<
+                    VertexContainerPointerType
+                >*
+            >( vertex_container_ptr );
+        switch( edges_type_selected ) {
+            case MAIN_LIBRARY_NAMESPACE::edge_type::undirected:
+                adj_sets_array[MAIN_LIBRARY_NAMESPACE::edge_type::undirected] = &( multiset_vertex_mixed_graph_vertex_container_ptr->undirected_adj );
+                break;
+            case MAIN_LIBRARY_NAMESPACE::edge_type::directed:
+                adj_sets_array[MAIN_LIBRARY_NAMESPACE::edge_type::directed] = &( multiset_vertex_mixed_graph_vertex_container_ptr->directed_adj );
+                break;
+        }
+    }
+    else {
+        auto const multiset_vertex_non_mixed_graph_vertex_container_ptr =
+            static_cast<
+                typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::template non_mixed_graph_vertex_container<
+                    VertexContainerPointerType
+                >*
+            >( vertex_container_ptr );
+        if ( vertex_container_graph_owner_edges_type == MAIN_LIBRARY_NAMESPACE::graph<VertexType>::graph_edges_type::undirected ) {
+            if ( edges_type_selected == MAIN_LIBRARY_NAMESPACE::edge_type::undirected ) {
+                adj_sets_array[MAIN_LIBRARY_NAMESPACE::edge_type::undirected] = &( multiset_vertex_non_mixed_graph_vertex_container_ptr->adj );
+            }
+        }
+        else {
+            if ( edges_type_selected == MAIN_LIBRARY_NAMESPACE::edge_type::directed ) {
+                adj_sets_array[MAIN_LIBRARY_NAMESPACE::edge_type::directed] = &( multiset_vertex_non_mixed_graph_vertex_container_ptr->adj );
+            }
+        }
+    }
+}
+
+template<typename VertexType>
+MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::EDGE_ITERATOR_NAME::EDGE_ITERATOR_NAME(
+    const typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::EDGE_ITERATOR_NAME& other) :
+    edge_owner( dynamic_cast< MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>* > ( other.edge_owner ) ),
+    graph_owner_edges_type( other.graph_owner_edges_type ),
+    vertex_container_adj_sets_ptr_array( {nullptr,nullptr} ),
+    current_edge_type( other.current_edge_type ) {
+    auto& other_multiset_vertex_graph_edge_info = std::get<
+        MAIN_LIBRARY_NAMESPACE::graph<VertexType>::EDGE_ITERATOR_NAME::multiset_vertex_graph_edge_info
+    >( other.type_dependent_edge_info );
+    auto& other_begin_point = std::get<
+        VertexContainerPointerType
+    >( other_multiset_vertex_graph_edge_info );
+    auto& other_inner_itr = std::get<
+        MAIN_LIBRARY_NAMESPACE::graph<VertexType>::EDGE_ITERATOR_NAME::multiset_vertex_graph_inner_edge_iterator_type
+    >( other_multiset_vertex_graph_edge_info );
+    vertex_container_adj_sets_ptr_array = std::get<
+         MAIN_LIBRARY_NAMESPACE::graph<VertexType>::EDGE_ITERATOR_NAME::multiset_vertex_graph_vertex_container_adj_sets_ptr_array_type
+    >( other_multiset_vertex_graph_edge_info );
 }
 
 template<typename VertexType>
 typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::VERTEX_PTR_NAME
 MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::EDGE_ITERATOR_NAME::operator*() const {
-    if ( adj_sets_array[undirected] != nullptr && adj_sets_array[directed] != nullptr ) {
+    auto& real_inner_itr = std::get< real_multiset_vertex_graph_vertex_container_edge_iterator_type >( inner_edge_iterator );
+    if ( graph_owner_edges_type == MAIN_LIBRARY_NAMESPACE::graph<VertexType>::graph_edges_type::mixed ) {
         return MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::VERTEX_PTR_NAME(
-            edge_graph_owner,
+            edge_owner,
             *(
-                dynamic_cast<
+                static_cast<
                     typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::template mixed_graph_vertex_container<
                         VertexContainerPointerType
-                    >
-                    *
-                >( *inner_itr )
+                    >*
+                >(
+                    (*(*real_inner_itr)).vertex_container_ptr
+                )
             )
         );
     }
     return MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::VERTEX_PTR_NAME(
-        edge_graph_owner,
+        edge_owner,
         *(
-            dynamic_cast<
+            static_cast<
                 typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::template non_mixed_graph_vertex_container<
                     VertexContainerPointerType
                 >
                 *
-            >( *inner_itr )
+            >(
+                (*(*real_inner_itr)).vertex_container_ptr
+            )
         ),
-        ( adj_sets_array[undirected] != nullptr ) ? undirected : directed
+        current_edge_type
     );
 }
 
@@ -1989,21 +2118,7 @@ MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::EDGE_ITERATOR_NAME::o
 template<typename VertexType>
 bool MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::EDGE_ITERATOR_NAME::operator==(
     const typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME& other) const {
-    if ( ( edge_graph_owner != other.edge_graph_owner ) ||
-        ( vertex_container_begin_point != other.edge_vertex_container_owner ) ||
-        std::holds_alternative<
-            MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME::set_vertex_graph_edge_info
-        >( other.type_dependent_edge_info ) ) {
-        throw std::runtime_error("Undefined behavior"); //TODO: write a better message
-    }
-    if ( current_edge_type != other.current_edge_type ) {
-        return false;
-    }
-    const auto& other_type_dependent_edge_info =
-        std::get<
-            MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME::multiset_vertex_graph_edge_info
-        >(other.type_dependent_edge_info);
-    return ( inner_itr == other_type_dependent_edge_info.first );
+    return typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME(*this) == other;
 }
 
 template<typename VertexType>
@@ -2016,59 +2131,39 @@ template<typename VertexType>
 typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::EDGE_ITERATOR_NAME&
 MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::EDGE_ITERATOR_NAME::operator=(
     const typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::EDGE_ITERATOR_NAME& other) {
-    if (
-        std::holds_alternative<
-            MAIN_LIBRARY_NAMESPACE::graph<VertexType>::EDGE_ITERATOR_NAME::set_vertex_graph_edge_info
-        >( other.type_dependent_edge_info )
-    ) {
-        throw std::runtime_error("Impossible to convert"); //TODO: write a better message
-    }
-    edge_graph_owner = other.edge_owner;
+    auto& other_multiset_vertex_graph_edge_info = std::get<
+        MAIN_LIBRARY_NAMESPACE::graph<VertexType>::EDGE_ITERATOR_NAME::multiset_vertex_graph_edge_info
+    >( other.type_dependent_edge_info );
+    edge_owner = dynamic_cast< MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>* > ( other.edge_owner );
+    graph_owner_edges_type = other.graph_owner_edges_type;
     current_edge_type = other.current_edge_type;
-    auto& other_type_dependent_edge_info =
-        std::get<
-            typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::EDGE_ITERATOR_NAME::multiset_vertex_graph_edge_info
-        >( other.type_dependent_edge_info );
-    vertex_container_begin_point = std::get< VertexContainerPointerType >( other_type_dependent_edge_info ) ;
-    adj_sets_array =
-        std::get<
-            std::array<
-                typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::template adj_set<
-                    typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*
-                >
-                *,
-                2
-            >
-        >( other_type_dependent_edge_info );
-    inner_itr =
-        std::get<
-            typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::template adj_set<
-                typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*
-            >::iterator
-        >( other_type_dependent_edge_info );
-    return *this;
+    auto& other_begin_point = std::get<
+        VertexContainerPointerType
+    >( other_multiset_vertex_graph_edge_info );
+    auto& other_inner_itr = std::get<
+        MAIN_LIBRARY_NAMESPACE::graph<VertexType>::EDGE_ITERATOR_NAME::multiset_vertex_graph_inner_edge_iterator_type
+    >( other_multiset_vertex_graph_edge_info );
+    vertex_container_adj_sets_ptr_array = std::get<
+         MAIN_LIBRARY_NAMESPACE::graph<VertexType>::EDGE_ITERATOR_NAME::multiset_vertex_graph_vertex_container_adj_sets_ptr_array_type
+    >( other_multiset_vertex_graph_edge_info );
 }
 
 
 template<typename VertexType>
 typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::EDGE_ITERATOR_NAME&
 MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::EDGE_ITERATOR_NAME::operator++() {
+    auto& real_inner_itr = std::get< real_multiset_vertex_graph_vertex_container_edge_iterator_type >( inner_edge_iterator );
     if ( current_edge_type == undirected ) {
-        if ( adj_sets_array[undirected]->end() ) {
-            throw std::runtime_error("Multiset vertex graph edge iterator overflow"); //TODO: write a better message
+        if ( std::next( real_inner_itr ) == ( vertex_container_adj_sets_ptr_array[undirected]->end() ) ) {
+            if ( vertex_container_adj_sets_ptr_array[directed] != nullptr ) {
+                if ( ! vertex_container_adj_sets_ptr_array[directed]->empty() ) {
+                    real_inner_itr = vertex_container_adj_sets_ptr_array[directed]->begin();
+                    current_edge_type = MAIN_LIBRARY_NAMESPACE::edge_type::directed;
+                }
+            }
         }
-        if ( ( std::next(inner_itr) != ( adj_sets_array[undirected]->end() ) ) || ( adj_sets_array[directed] == nullptr ) ) {
-            ++inner_itr;
-            return *this;
-        }
-        inner_itr = adj_sets_array[directed]->begin();
-        current_edge_type = directed;
-        return *this;
     }
-    if ( adj_sets_array[directed]->end() ) {
-        throw std::runtime_error("Multiset vertex graph edge iterator overflow"); //TODO: write a better message
-    }
-    ++inner_itr;
+    ++real_inner_itr;
     return *this;
 }
 
@@ -2087,18 +2182,68 @@ MAIN_LIBRARY_NAMESPACE::edge_type MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<
 
 template<typename VertexType>
 MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::EDGE_ITERATOR_NAME::EDGE_ITERATOR_NAME(
-    const MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>* const edge_o,
-    const VertexContainerPointerType vertex_c,
-    typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::template adj_set<VertexContainerPointerType>::iterator itr,
+    const MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>* const edge_multiset_vertex_graph_owner_ptr,
+    const VertexContainerPointerType edge_begin_point_ptr,
+    const typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::graph_edges_type edge_multiset_vertex_graph_owner_edges_type,
     const std::array<
         typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::template adj_set<VertexContainerPointerType>*,
         2
-    >& adj_sets_arr,
-    const MAIN_LIBRARY_NAMESPACE::edge_type edge_t ) :
-    edge_graph_owner(edge_o),
-    vertex_container_begin_point(vertex_c),
-    inner_itr(itr),
-    adj_sets_array(adj_sets_arr),
-    current_edge_type(edge_t) {}
+    >& edge_begin_point_adj_sets_array_ptr,
+    const typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::begin_or_end begin_or_end_indicator) :
+    edge_owner(edge_multiset_vertex_graph_owner_ptr),
+    edge_vertex_container_owner(edge_begin_point_ptr),
+    graph_owner_edges_type(edge_multiset_vertex_graph_owner_edges_type),
+    inner_edge_iterator( std::in_place_type<special_begin_end_indicator> ),
+    vertex_container_adj_sets_ptr_array(edge_begin_point_adj_sets_array_ptr) {
+    if ( edge_begin_point_adj_sets_array_ptr[undirected] == nullptr && edge_begin_point_adj_sets_array_ptr[directed] == nullptr ) {
+        current_edge_type = ( edge_multiset_vertex_graph_owner_edges_type == undirected )? MAIN_LIBRARY_NAMESPACE::edge_type::undirected : MAIN_LIBRARY_NAMESPACE::edge_type::directed;
+    }
+    else {
+        switch( begin_or_end_indicator ) {
+            case MAIN_LIBRARY_NAMESPACE::graph<VertexType>::begin_or_end::begin :
+                if ( edge_begin_point_adj_sets_array_ptr[undirected] != nullptr ) {
+                    if ( edge_begin_point_adj_sets_array_ptr[undirected]->empty() && edge_begin_point_adj_sets_array_ptr[directed] != nullptr ) {
+                        if ( edge_begin_point_adj_sets_array_ptr[directed]->empty() ) {
+                            inner_edge_iterator = ( edge_begin_point_adj_sets_array_ptr[undirected]->begin() );
+                            current_edge_type =  MAIN_LIBRARY_NAMESPACE::edge_type::undirected;
+                        }
+                        else {
+                            inner_edge_iterator = ( edge_begin_point_adj_sets_array_ptr[directed]->begin() );
+                            current_edge_type =  MAIN_LIBRARY_NAMESPACE::edge_type::directed;
+                        }
+                    }
+                    else {
+                        // ( edge_begin_point_adj_sets_array_ptr[undirected] != nullptr ) && ( !edge_begin_point_adj_sets_array_ptr[undirected]->empty() || edge_begin_point_adj_sets_array_ptr[directed] == nullptr )
+                        inner_edge_iterator = ( edge_begin_point_adj_sets_array_ptr[undirected]->begin() );
+                        current_edge_type = MAIN_LIBRARY_NAMESPACE::edge_type::undirected;
+                    }
+                }
+                else {
+                    // edge_begin_point_adj_sets_array_ptr[undirected] == nullptr && edge_begin_point_adj_sets_array_ptr[directed] != nullptr
+                    inner_edge_iterator = ( edge_begin_point_adj_sets_array_ptr[directed]->begin() );
+                    current_edge_type = directed;
+                }
+                break;
+            case MAIN_LIBRARY_NAMESPACE::graph<VertexType>::begin_or_end::end :
+                if ( edge_begin_point_adj_sets_array_ptr[directed] != nullptr ) {
+                    if ( edge_begin_point_adj_sets_array_ptr[directed]->empty() && edge_begin_point_adj_sets_array_ptr[undirected] != nullptr ) {
+                        inner_edge_iterator = ( edge_begin_point_adj_sets_array_ptr[undirected]->end() );
+                        current_edge_type = MAIN_LIBRARY_NAMESPACE::edge_type::undirected;
+                    }
+                    else {
+                        // ( edge_begin_point_adj_sets_array_ptr[directed] != nullptr ) && ( !edge_begin_point_adj_sets_array_ptr[directed]->empty() || edge_begin_point_adj_sets_array_ptr[undirected] == nullptr )
+                        inner_edge_iterator = ( edge_begin_point_adj_sets_array_ptr[directed]->end() );
+                        current_edge_type = MAIN_LIBRARY_NAMESPACE::edge_type::directed;
+                    }
+                }
+                else {
+                    // edge_begin_point_adj_sets_array_ptr[undirected] != nullptr && edge_begin_point_adj_sets_array_ptr[directed] == nullptr
+                    inner_edge_iterator = ( edge_begin_point_adj_sets_array_ptr[undirected]->end() );
+                    current_edge_type = MAIN_LIBRARY_NAMESPACE::edge_type::undirected;
+                }
+                break;
+        }
+    }
+}
 
 #endif //HANDLERS_IMPLEMENTATIONS_H
