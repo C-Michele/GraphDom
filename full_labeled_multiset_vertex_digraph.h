@@ -47,7 +47,7 @@ namespace MAIN_LIBRARY_NAMESPACE {
                 void insert_edge(const typename graph<VertexType>::CONSTANT_VERTEX_PTR_NAME&, const typename graph<VertexType>::CONSTANT_VERTEX_PTR_NAME&, EdgeLabelType&&) override;
             private:
                 using VertexContainerPointerType = typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::VertexContainerPointerType;
-                using edge_endpoint = typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::template labeled_undirected_edge_endpoint<VertexLabelType>;
+                using edge_endpoint = typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::template labeled_directed_edge_endpoint<VertexLabelType>;
                 using vertex_container = typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::template non_mixed_graph_labeled_vertex_container<EdgeLabelType>;
 
                 static void safe_edge_endpoint_deallocation(typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::template edge_endpoint<VertexContainerPointerType>*);

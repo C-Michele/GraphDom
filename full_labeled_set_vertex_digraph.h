@@ -52,7 +52,7 @@ namespace MAIN_LIBRARY_NAMESPACE {
             void insert_edge(const typename graph<VertexType>::CONSTANT_VERTEX_PTR_NAME&, const typename graph<VertexType>::CONSTANT_VERTEX_PTR_NAME&, EdgeLabelType&&) override;
         private:
             using VertexContainerPointerType = typename MAIN_LIBRARY_NAMESPACE::set_vertex_graph<VertexType>::VertexContainerPointerType;
-            using edge_endpoint = typename MAIN_LIBRARY_NAMESPACE::set_vertex_graph<VertexType>::template labeled_undirected_edge_endpoint<VertexLabelType>;
+            using edge_endpoint = typename MAIN_LIBRARY_NAMESPACE::set_vertex_graph<VertexType>::template labeled_directed_edge_endpoint<VertexLabelType>;
             using adj_set = typename MAIN_LIBRARY_NAMESPACE::set_vertex_graph<VertexType>::adj_set;
             using vertex_container = typename MAIN_LIBRARY_NAMESPACE::set_vertex_graph<VertexType>::template non_mixed_graph_labeled_vertex_container<EdgeLabelType>;
 
