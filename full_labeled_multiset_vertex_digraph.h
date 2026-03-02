@@ -245,18 +245,48 @@ EdgeLabelType& MAIN_LIBRARY_NAMESPACE::full_labeled_multiset_vertex_digraph<Vert
 
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename T1, typename T2>
 void MAIN_LIBRARY_NAMESPACE::full_labeled_multiset_vertex_digraph<VertexType,VertexLabelType,EdgeLabelType,T1,T2>::insert_edge(
-    const typename graph<VertexType>::CONSTANT_VERTEX_PTR_NAME&,
-    const typename graph<VertexType>::CONSTANT_VERTEX_PTR_NAME&,
-    const EdgeLabelType&) {
-    //TODO: real implementation
+    const typename graph<VertexType>::CONSTANT_VERTEX_PTR_NAME& begin_point_vertex_ptr,
+    const typename graph<VertexType>::CONSTANT_VERTEX_PTR_NAME& end_point_vertex_ptr,
+    const EdgeLabelType& edge_label_to_insert) {
+    if (
+        MAIN_LIBRARY_NAMESPACE::graph<VertexType>::get_owner_graph( begin_point_vertex_ptr ) != this ||
+        MAIN_LIBRARY_NAMESPACE::graph<VertexType>::get_owner_graph( end_point_vertex_ptr ) != this
+    ) {
+        throw std::runtime_error("Error"); //TODO: write a better message
+    }
+    auto const begin_point_vertex_container = static_cast< const vertex_container* >( MAIN_LIBRARY_NAMESPACE::graph<VertexType>::get_vertex_container( begin_point_vertex_ptr ) );
+    auto const end_point_vertex_container = const_cast< typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container* >( MAIN_LIBRARY_NAMESPACE::graph<VertexType>::get_vertex_container( end_point_vertex_ptr ) );
+    if ( begin_point_vertex_container == nullptr || end_point_vertex_container == nullptr ) {
+        throw std::runtime_error("Error"); //TODO: write a better message
+    }
+    std::unique_ptr< edge_endpoint > edge_endpoint_to_insert( new edge_endpoint( end_point_vertex_container , edge_label_to_insert ) );
+    const auto inner_insertion_result = ( ( begin_point_vertex_container->adj ).insert( edge_endpoint_to_insert.get() ) ).second;
+    if ( inner_insertion_result ) {
+        edge_endpoint_to_insert.release();
+    }
 }
 
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename T1, typename T2>
 void MAIN_LIBRARY_NAMESPACE::full_labeled_multiset_vertex_digraph<VertexType,VertexLabelType,EdgeLabelType,T1,T2>::insert_edge(
-    const typename graph<VertexType>::CONSTANT_VERTEX_PTR_NAME&,
-    const typename graph<VertexType>::CONSTANT_VERTEX_PTR_NAME&,
-    EdgeLabelType&&) {
-    //TODO: real implementation
+    const typename graph<VertexType>::CONSTANT_VERTEX_PTR_NAME& begin_point_vertex_ptr,
+    const typename graph<VertexType>::CONSTANT_VERTEX_PTR_NAME& end_point_vertex_ptr,
+    EdgeLabelType&& edge_label_to_insert) {
+        if (
+            MAIN_LIBRARY_NAMESPACE::graph<VertexType>::get_owner_graph( begin_point_vertex_ptr ) != this ||
+            MAIN_LIBRARY_NAMESPACE::graph<VertexType>::get_owner_graph( end_point_vertex_ptr ) != this
+        ) {
+            throw std::runtime_error("Error"); //TODO: write a better message
+        }
+        auto const begin_point_vertex_container = static_cast< const vertex_container* >( MAIN_LIBRARY_NAMESPACE::graph<VertexType>::get_vertex_container( begin_point_vertex_ptr ) );
+        auto const end_point_vertex_container = const_cast< typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container* >( MAIN_LIBRARY_NAMESPACE::graph<VertexType>::get_vertex_container( end_point_vertex_ptr ) );
+        if ( begin_point_vertex_container == nullptr || end_point_vertex_container == nullptr ) {
+            throw std::runtime_error("Error"); //TODO: write a better message
+        }
+        std::unique_ptr< edge_endpoint > edge_endpoint_to_insert( new edge_endpoint( end_point_vertex_container , std::move(edge_label_to_insert) ) );
+        const auto inner_insertion_result = ( ( begin_point_vertex_container->adj ).insert( edge_endpoint_to_insert.get() ) ).second;
+        if ( inner_insertion_result ) {
+            edge_endpoint_to_insert.release();
+        }
 }
 
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename T1, typename T2>

@@ -331,7 +331,13 @@ MAIN_LIBRARY_NAMESPACE::graph<VertexType>::ADJ_LIST::end() const {
     auto& multiset_vertex_graph_vertex_container_info_pair = std::get< multiset_vertex_graph_vertex_container_info_type >( graph_type_dependent_vertex_container_info );
     auto& multiset_vertex_graph_vertex_container = multiset_vertex_graph_vertex_container_info_pair.first;
     auto& multiset_vertex_graph_vertex_container_adj_sets_ptr_array = multiset_vertex_graph_vertex_container_info_pair.second;
-    //TODO: continue here
+    return MAIN_LIBRARY_NAMESPACE::graph<VertexType>::EDGE_ITERATOR_NAME(
+        vertex_container_graph_owner,
+        multiset_vertex_graph_vertex_container,
+        vertex_container_graph_owner_edges_type,
+        multiset_vertex_graph_vertex_container_adj_sets_ptr_array,
+        MAIN_LIBRARY_NAMESPACE::graph<VertexType>::begin_or_end::end
+    );
 }
 
 template<typename VertexType>
