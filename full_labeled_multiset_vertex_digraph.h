@@ -97,10 +97,10 @@ MAIN_LIBRARY_NAMESPACE::full_labeled_multiset_vertex_digraph<VertexType,VertexLa
     while ( ! vertices.empty() ) {
         auto& vertex_to_erase = vertices.front();
         auto& vertex_to_erase_adj = vertex_to_erase.adj;
-        for (auto vertex_to_erase_adj_itr = vertex_to_erase_adj.begin();
-            vertex_to_erase_adj_itr != vertex_to_erase_adj.end();
-            ++vertex_to_erase_adj_itr) {
-            safe_edge_endpoint_deallocation(*vertex_to_erase_adj_itr); // This is to avoid memory leaks
+        for (auto edge_endpoint_to_deallocate = vertex_to_erase_adj.begin();
+            edge_endpoint_to_deallocate != vertex_to_erase_adj.end();
+            ++edge_endpoint_to_deallocate) {
+            safe_edge_endpoint_deallocation(*edge_endpoint_to_deallocate); // This is to avoid memory leaks
         }
         vertices.pop_front();
     }

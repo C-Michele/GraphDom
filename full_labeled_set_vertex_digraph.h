@@ -155,8 +155,8 @@ MAIN_LIBRARY_NAMESPACE::full_labeled_set_vertex_digraph<VertexType,VertexLabelTy
     for (auto digraph_vertices_itr = vertices.begin(); digraph_vertices_itr != vertices.end(); ++digraph_vertices_itr) {
         auto& dv_itr_vertex_container = *digraph_vertices_itr;
         auto& dv_itr_vc_adj = dv_itr_vertex_container.adj;
-        for (auto dv_itr_vc_adj_itr = dv_itr_vc_adj.begin(); dv_itr_vc_adj_itr != dv_itr_vc_adj.end(); ++dv_itr_vc_adj_itr) {
-            safe_edge_endpoint_deallocation(*dv_itr_vc_adj_itr); // This is to avoid memory leaks
+        for (auto edge_endpoint_to_deallocate = dv_itr_vc_adj.begin(); edge_endpoint_to_deallocate != dv_itr_vc_adj.end(); ++edge_endpoint_to_deallocate) {
+            safe_edge_endpoint_deallocation(*edge_endpoint_to_deallocate); // This is to avoid memory leaks
         }
         dv_itr_vc_adj.clear();
     }
