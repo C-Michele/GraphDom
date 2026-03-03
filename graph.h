@@ -339,7 +339,22 @@ namespace MAIN_LIBRARY_NAMESPACE {
 
             static bool inner_iterator_is_real(const typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME&);
 
-            static typename adj_set::const_iterator get_inner_iterator(const typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME&);
+        static typename adj_set::const_iterator get_inner_iterator(const typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME&);
+
+        static typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::EDGE_ITERATOR_NAME edge_iterator_factory(
+            const MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>* edge_multiset_vertex_graph_owner_ptr,
+            non_mixed_graph_vertex_container* edge_begin_point_ptr,
+            MAIN_LIBRARY_NAMESPACE::edge_type edge_multiset_vertex_graph_owner_edges_type,
+            typename adj_set::iterator inner_itr
+        );
+
+        static typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::EDGE_ITERATOR_NAME edge_iterator_factory(
+            const MAIN_LIBRARY_NAMESPACE::set_vertex_graph<VertexType>* edge_multiset_vertex_graph_owner_ptr,
+            mixed_graph_vertex_container* edge_begin_point_ptr,
+            typename adj_set::iterator inner_itr,
+            MAIN_LIBRARY_NAMESPACE::edge_type inner_itr_edge_type,
+            bool inner_itr_is_limited_by_edge_type = false
+        );
     };
 }
 
@@ -520,11 +535,26 @@ typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::adj_set::con
 MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::get_inner_iterator(
 const typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME& const_edge_itr) {
     const auto& multiset_vertex_graph_edge_info_pair =
-        std::get<MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME::multiset_vertex_graph_edge_info>( const_edge_itr.type_dependent_edge_info );
+        std::get<typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME::multiset_vertex_graph_edge_info>( const_edge_itr.type_dependent_edge_info );
     const auto& inner_itr = multiset_vertex_graph_edge_info_pair.first;
     return std::get<
-        MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME::real_multiset_vertex_graph_vertex_container_edge_iterator_type
+        typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME::real_multiset_vertex_graph_vertex_container_edge_iterator_type
     >(
+        inner_itr
+    );
+}
+
+template<typename VertexType>
+typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::EDGE_ITERATOR_NAME
+MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::edge_iterator_factory(
+    const MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>* const edge_multiset_vertex_graph_owner_ptr,
+    non_mixed_graph_vertex_container* const edge_begin_point_ptr,
+    const MAIN_LIBRARY_NAMESPACE::edge_type edge_multiset_vertex_graph_owner_edges_type,
+    const typename adj_set::iterator inner_itr) {
+    return typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::EDGE_ITERATOR_NAME(
+        edge_multiset_vertex_graph_owner_ptr,
+        edge_begin_point_ptr,
+        edge_multiset_vertex_graph_owner_edges_type,
         inner_itr
     );
 }

@@ -1242,9 +1242,9 @@ MAIN_LIBRARY_NAMESPACE::graph<VertexType>::EDGE_ITERATOR_NAME::EDGE_ITERATOR_NAM
     ),
     current_edge_type(edge_multiset_vertex_graph_owner_edges_type) {
     auto& specific_type_dependent_edge_info =
-        std::get< set_vertex_graph_edge_info >( type_dependent_edge_info );
+        std::get< multiset_vertex_graph_edge_info >( type_dependent_edge_info );
     auto& adj_sets_ptr_array =
-        std::get< set_vertex_graph_vertex_container_adj_sets_ptr_array_type >( specific_type_dependent_edge_info );
+        std::get< multiset_vertex_graph_vertex_container_adj_sets_ptr_array_type >( specific_type_dependent_edge_info );
     adj_sets_ptr_array[ edge_multiset_vertex_graph_owner_edges_type ] = &( edge_begin_point_ptr->adj );
 }
 
@@ -2159,12 +2159,15 @@ MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::EDGE_ITERATOR_NAME::o
     auto& other_begin_point = std::get<
         VertexContainerPointerType
     >( other_multiset_vertex_graph_edge_info );
+    edge_vertex_container_owner = other_begin_point;
     auto& other_inner_itr = std::get<
         typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::EDGE_ITERATOR_NAME::multiset_vertex_graph_inner_edge_iterator_type
     >( other_multiset_vertex_graph_edge_info );
+    inner_edge_iterator = other_inner_itr;
     vertex_container_adj_sets_ptr_array = std::get<
          typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::EDGE_ITERATOR_NAME::multiset_vertex_graph_vertex_container_adj_sets_ptr_array_type
     >( other_multiset_vertex_graph_edge_info );
+    return (*this);
 }
 
 

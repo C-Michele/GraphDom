@@ -163,8 +163,20 @@ void MAIN_LIBRARY_NAMESPACE::full_labeled_multiset_vertex_digraph<VertexType,Ver
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename T1, typename T2>
 typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::EDGE_ITERATOR_NAME
 MAIN_LIBRARY_NAMESPACE::full_labeled_multiset_vertex_digraph<VertexType,VertexLabelType, EdgeLabelType, T1, T2>::erase_edge(
-    const typename graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME&) {
-    //TODO: real implementation
+    const typename graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME& edge_itr) {
+    if ( MAIN_LIBRARY_NAMESPACE::graph<VertexType>::get_owner_graph(edge_itr) != this ) {
+        throw std::runtime_error("Error"); //TODO: write a better message
+    }
+    auto const edge_itr_begin_point = const_cast<vertex_container*>( static_cast< const vertex_container* >( MAIN_LIBRARY_NAMESPACE::graph<VertexType>::get_begin_point(edge_itr) ) );
+    auto edge_itr_inner_iterator = MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::get_inner_iterator( edge_itr );
+    auto const edge_itr_endpoint = *edge_itr_inner_iterator;
+    safe_edge_endpoint_deallocation(edge_itr_endpoint);
+    return MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::edge_iterator_factory(
+        this,
+        edge_itr_begin_point,
+        directed,
+        ( edge_itr_begin_point->adj ).erase( edge_itr_inner_iterator )
+    );
 }
 
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename T1, typename T2>
