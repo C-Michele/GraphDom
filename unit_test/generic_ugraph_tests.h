@@ -3,7 +3,6 @@
 
 #include <utility>
 
-#include "generic_graph_tests.h"
 #include "gtest/gtest.h"
 #include "../non_mixed_graph.h"
 #include "../mixed_graph.h"
