@@ -120,6 +120,7 @@ const VertexLabelType& MAIN_LIBRARY_NAMESPACE::full_labeled_multiset_vertex_digr
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename T1, typename T2>
 const EdgeLabelType& MAIN_LIBRARY_NAMESPACE::full_labeled_multiset_vertex_digraph<VertexType,VertexLabelType,EdgeLabelType,T1,T2>::get_edge_label(
     const typename graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME&) const {
+    //TODO: real implementation
 }
 
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename T1, typename T2>
