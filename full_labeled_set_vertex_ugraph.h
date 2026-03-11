@@ -187,7 +187,7 @@ void MAIN_LIBRARY_NAMESPACE::full_labeled_set_vertex_ugraph<VertexType,VertexLab
         const auto* const vertex_container_to_erase_ptr =
             static_cast< const vertex_container* >( MAIN_LIBRARY_NAMESPACE::graph<VertexType>::get_vertex_container(const_vertex_ptr) );
         if ( vertex_container_to_erase_ptr != nullptr ) {
-            const auto vertex_container_to_erase_found_vertices_itr = vertices.find( vertex_container_to_erase_ptr );
+            const auto vertex_container_to_erase_found_vertices_itr = vertices.find( *vertex_container_to_erase_ptr );
             auto& vertex_container_to_erase_adj = ( *vertex_container_to_erase_found_vertices_itr ).adj;
             for (auto vertex_container_to_erase_adj_itr = vertex_container_to_erase_adj.begin();
                 vertex_container_to_erase_adj_itr != vertex_container_to_erase_adj.end();
@@ -204,9 +204,9 @@ void MAIN_LIBRARY_NAMESPACE::full_labeled_set_vertex_ugraph<VertexType,VertexLab
                             ).vertex_container_ptr
                         )
                     );
-                if ( edge_endpoint_vertex_container != vertex_container_to_erase_ptr ) { //The edge could be a loop
-                    const auto& edge_endpoint_vertex_container_adj = edge_endpoint_vertex_container.adj;
-                    const auto& vertex_container_to_erase_founded_in_edge_endpoint_vertex_container_adj =
+                if ( ( &edge_endpoint_vertex_container ) != vertex_container_to_erase_ptr ) { //The edge could be a loop
+                    auto& edge_endpoint_vertex_container_adj = edge_endpoint_vertex_container.adj;
+                    const auto vertex_container_to_erase_founded_in_edge_endpoint_vertex_container_adj =
                         edge_endpoint_vertex_container_adj.find( vertex_container_to_erase_ptr );
                     safe_edge_endpoint_deallocation( *vertex_container_to_erase_founded_in_edge_endpoint_vertex_container_adj );
                     edge_endpoint_vertex_container_adj.erase( vertex_container_to_erase_founded_in_edge_endpoint_vertex_container_adj );
@@ -218,6 +218,192 @@ void MAIN_LIBRARY_NAMESPACE::full_labeled_set_vertex_ugraph<VertexType,VertexLab
         //TODO:: Evaluate a possible exception throw HERE
     }
     //TODO:: Evaluate a possible exception throw HERE
+}
+
+template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename T1, typename T2>
+typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::EDGE_ITERATOR_NAME
+MAIN_LIBRARY_NAMESPACE::full_labeled_set_vertex_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compare,T1,T2>::erase_edge(
+    const typename graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME& edge_itr) {
+    if ( MAIN_LIBRARY_NAMESPACE::graph<VertexType>::get_owner_graph(edge_itr) != this ) {
+        throw std::runtime_error("Error"); //TODO: write a better message
+    }
+    auto const edge_itr_begin_point = static_cast< const vertex_container* >( MAIN_LIBRARY_NAMESPACE::graph<VertexType>::get_begin_point( edge_itr ) );
+    auto inner_iterator_of_begin_point_adj = MAIN_LIBRARY_NAMESPACE::set_vertex_graph<VertexType>::get_inner_iterator( edge_itr );
+    auto const edge_itr_endpoint = static_cast< const vertex_container* >( ( *( *inner_iterator_of_begin_point_adj ) ).vertex_container_ptr );
+    if ( edge_itr_begin_point != edge_itr_endpoint ) { //The edge could be a loop
+        auto inner_iterator_of_end_point_adj = ( (*edge_itr_endpoint).adj ).find( edge_itr_begin_point );
+        safe_edge_endpoint_deallocation(*inner_iterator_of_end_point_adj);
+        ( (*edge_itr_endpoint).adj ).erase( inner_iterator_of_end_point_adj );
+    }
+    safe_edge_endpoint_deallocation(*inner_iterator_of_begin_point_adj);
+    return MAIN_LIBRARY_NAMESPACE::set_vertex_graph<VertexType>::edge_iterator_factory(
+        this,
+        edge_itr_begin_point,
+        undirected,
+        ( (*edge_itr_begin_point).adj ).erase( inner_iterator_of_begin_point_adj )
+    );
+}
+
+template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename T1, typename T2>
+VertexLabelType& MAIN_LIBRARY_NAMESPACE::full_labeled_set_vertex_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compare,T1,T2>::get_vertex_label(
+    const typename graph<VertexType>::CONSTANT_VERTEX_PTR_NAME&) {
+    //TODO: real implementation
+}
+
+template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename T1, typename T2>
+std::pair<typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::VERTEX_PTR_NAME,bool>
+MAIN_LIBRARY_NAMESPACE::full_labeled_set_vertex_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compare,T1,T2>::insert_vertex(
+    const VertexType& vertex_to_insert, const VertexLabelType& vertex_label_to_insert) {
+    auto inner_insertion_result = vertices.emplace(
+        vertex_to_insert,
+        vertex_label_to_insert
+    );
+    return std::pair<typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::VERTEX_PTR_NAME, bool>(
+        MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_ptr_factory(
+            this,
+            *(inner_insertion_result.first),
+            MAIN_LIBRARY_NAMESPACE::edge_type::undirected
+        ),
+        inner_insertion_result.second
+    );
+}
+
+template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename T1, typename T2>
+std::pair<typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::VERTEX_PTR_NAME,bool>
+MAIN_LIBRARY_NAMESPACE::full_labeled_set_vertex_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compare,T1,T2>::insert_vertex(
+    const VertexType& vertex_to_insert, VertexLabelType&& vertex_label_to_insert) {
+    auto inner_insertion_result = vertices.emplace(
+        vertex_to_insert,
+        std::move(vertex_label_to_insert)
+    );
+    return std::pair<typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::VERTEX_PTR_NAME, bool>(
+        MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_ptr_factory(
+            this,
+            *(inner_insertion_result.first),
+            MAIN_LIBRARY_NAMESPACE::edge_type::undirected
+        ),
+        inner_insertion_result.second
+    );
+}
+
+template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename T1, typename T2>
+std::pair<typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::VERTEX_PTR_NAME,bool>
+MAIN_LIBRARY_NAMESPACE::full_labeled_set_vertex_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compare,T1,T2>::insert_vertex(
+    VertexType&& vertex_to_insert, const VertexLabelType& vertex_label_to_insert) {
+    auto inner_insertion_result = vertices.emplace(
+        std::move(vertex_to_insert),
+        vertex_label_to_insert
+    );
+    return std::pair<typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::VERTEX_PTR_NAME, bool>(
+        MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_ptr_factory(
+            this,
+            *(inner_insertion_result.first),
+            MAIN_LIBRARY_NAMESPACE::edge_type::undirected
+        ),
+        inner_insertion_result.second
+    );
+}
+
+template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename T1, typename T2>
+std::pair<typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::VERTEX_PTR_NAME,bool>
+MAIN_LIBRARY_NAMESPACE::full_labeled_set_vertex_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compare,T1,T2>::insert_vertex(
+    VertexType&& vertex_to_insert, VertexLabelType&& vertex_label_to_insert) {
+    auto inner_insertion_result = vertices.emplace(
+        std::move(vertex_to_insert),
+        std::move(vertex_label_to_insert)
+    );
+    return std::pair<typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::VERTEX_PTR_NAME, bool>(
+        MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_ptr_factory(
+            this,
+            *(inner_insertion_result.first),
+            MAIN_LIBRARY_NAMESPACE::edge_type::undirected
+        ),
+        inner_insertion_result.second
+    );
+}
+
+template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename T1, typename T2>
+EdgeLabelType& MAIN_LIBRARY_NAMESPACE::full_labeled_set_vertex_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compare,T1,T2>::get_edge_label(
+    const typename graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME&) {
+    //TODO: real implementation
+}
+
+template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename T1, typename T2>
+void MAIN_LIBRARY_NAMESPACE::full_labeled_set_vertex_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compare,T1,T2>::insert_edge(
+    const typename graph<VertexType>::CONSTANT_VERTEX_PTR_NAME& begin_point_vertex_ptr,
+    const typename graph<VertexType>::CONSTANT_VERTEX_PTR_NAME& end_point_vertex_ptr,
+    const EdgeLabelType& edge_label_to_insert) {
+    if (
+        MAIN_LIBRARY_NAMESPACE::graph<VertexType>::get_owner_graph( begin_point_vertex_ptr ) != this ||
+        MAIN_LIBRARY_NAMESPACE::graph<VertexType>::get_owner_graph( end_point_vertex_ptr ) != this
+    ) {
+        throw std::runtime_error("Error"); //TODO: write a better message
+    }
+    auto const begin_point_vertex_container = static_cast< const vertex_container* >( MAIN_LIBRARY_NAMESPACE::graph<VertexType>::get_vertex_container( begin_point_vertex_ptr ) );
+    auto const end_point_vertex_container = static_cast< const vertex_container* >( MAIN_LIBRARY_NAMESPACE::graph<VertexType>::get_vertex_container( end_point_vertex_ptr ) );
+    if ( begin_point_vertex_container == nullptr || end_point_vertex_container == nullptr ) {
+        throw std::runtime_error("Error"); //TODO: write a better message
+    }
+    std::unique_ptr< edge_endpoint > edge_endpoint_to_insert_in_begin_point_adj( new edge_endpoint( end_point_vertex_container , edge_label_to_insert ) );
+    const auto inner_insertion_result_in_begin_point_adj = ( begin_point_vertex_container->adj ).insert( edge_endpoint_to_insert_in_begin_point_adj.get() );
+    if ( inner_insertion_result_in_begin_point_adj.second ) {
+        edge_endpoint_to_insert_in_begin_point_adj.release();
+        if ( begin_point_vertex_container != end_point_vertex_container ) { //The edge could be a loop
+            std::unique_ptr< edge_endpoint > edge_endpoint_to_insert_in_end_point_adj(
+                new edge_endpoint(
+                    begin_point_vertex_container ,
+                    ( static_cast< edge_endpoint* >( *( inner_insertion_result_in_begin_point_adj.first ) ) )->edge_label_ptr
+                )
+            );
+            const auto inner_insertion_result_in_end_point_adj = ( ( end_point_vertex_container->adj ).insert( edge_endpoint_to_insert_in_end_point_adj.get() ) ).second;
+            if ( inner_insertion_result_in_end_point_adj ) {
+                edge_endpoint_to_insert_in_end_point_adj.release();
+            }
+            else {
+                safe_edge_endpoint_deallocation( *( inner_insertion_result_in_begin_point_adj.first ) );
+                ( begin_point_vertex_container->adj ).erase( inner_insertion_result_in_begin_point_adj.first );
+            }
+        }
+    }
+}
+
+template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename T1, typename T2>
+void MAIN_LIBRARY_NAMESPACE::full_labeled_set_vertex_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compare,T1,T2>::insert_edge(
+    const typename graph<VertexType>::CONSTANT_VERTEX_PTR_NAME& begin_point_vertex_ptr,
+    const typename graph<VertexType>::CONSTANT_VERTEX_PTR_NAME& end_point_vertex_ptr,
+    EdgeLabelType&& edge_label_to_insert) {
+    if (
+        MAIN_LIBRARY_NAMESPACE::graph<VertexType>::get_owner_graph( begin_point_vertex_ptr ) != this ||
+        MAIN_LIBRARY_NAMESPACE::graph<VertexType>::get_owner_graph( end_point_vertex_ptr ) != this
+    ) {
+        throw std::runtime_error("Error"); //TODO: write a better message
+    }
+    auto const begin_point_vertex_container = static_cast< const vertex_container* >( MAIN_LIBRARY_NAMESPACE::graph<VertexType>::get_vertex_container( begin_point_vertex_ptr ) );
+    auto const end_point_vertex_container = static_cast< const vertex_container* >( MAIN_LIBRARY_NAMESPACE::graph<VertexType>::get_vertex_container( end_point_vertex_ptr ) );
+    if ( begin_point_vertex_container == nullptr || end_point_vertex_container == nullptr ) {
+        throw std::runtime_error("Error"); //TODO: write a better message
+    }
+    std::unique_ptr< edge_endpoint > edge_endpoint_to_insert_in_begin_point_adj( new edge_endpoint( end_point_vertex_container , std::move(edge_label_to_insert) ) );
+    const auto inner_insertion_result_in_begin_point_adj = ( begin_point_vertex_container->adj ).insert( edge_endpoint_to_insert_in_begin_point_adj.get() );
+    if ( inner_insertion_result_in_begin_point_adj.second ) {
+        edge_endpoint_to_insert_in_begin_point_adj.release();
+        if ( begin_point_vertex_container != end_point_vertex_container ) { //The edge could be a loop
+            std::unique_ptr< edge_endpoint > edge_endpoint_to_insert_in_end_point_adj(
+                new edge_endpoint(
+                    begin_point_vertex_container ,
+                    ( static_cast< edge_endpoint* >( *( inner_insertion_result_in_begin_point_adj.first ) ) )->edge_label_ptr
+                )
+            );
+            const auto inner_insertion_result_in_end_point_adj = ( ( end_point_vertex_container->adj ).insert( edge_endpoint_to_insert_in_end_point_adj.get() ) ).second;
+            if ( inner_insertion_result_in_end_point_adj ) {
+                edge_endpoint_to_insert_in_end_point_adj.release();
+            }
+            else {
+                safe_edge_endpoint_deallocation( *( inner_insertion_result_in_begin_point_adj.first ) );
+                ( begin_point_vertex_container->adj ).erase( inner_insertion_result_in_begin_point_adj.first );
+            }
+        }
+    }
 }
 
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename T1, typename T2>
