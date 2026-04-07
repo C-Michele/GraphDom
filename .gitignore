@@ -1,4 +1,4 @@
 .idea/
 cmake-build-debug/
 cmake-build-debug-coverage/
-generated_doc/
+generated_docs/

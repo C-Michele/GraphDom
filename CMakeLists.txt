@@ -5,21 +5,12 @@ set(CMAKE_CXX_STANDARD 17)
 
 add_compile_definitions(MAIN_LIBRARY_NAMESPACE=${PROJECT_NAME})
 
-add_library(${PROJECT_NAME} INTERFACE graph.h
-        non_mixed_graph.h
-        mixed_graph.h
-        labeled_edge_non_mixed_graph.h
-        labeled_edge_mixed_graph.h
-        labeled_edge_graph.h
-        labeled_vertex_graph.h
-        labeled_vertex_set_vertex_graph.h
-        labeled_vertex_multiset_vertex_graph.h
-        full_labeled_set_vertex_digraph.h
-        graph.h
-        handlers_declarations.h
-        handlers_implementations.h
-        full_labeled_multiset_vertex_digraph.h
-        full_labeled_set_vertex_ugraph.h
+add_library(${PROJECT_NAME} INTERFACE)
+
+target_include_directories(${PROJECT_NAME}
+        INTERFACE
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+        $<INSTALL_INTERFACE:include>
 )
 
 add_subdirectory(unit_test)

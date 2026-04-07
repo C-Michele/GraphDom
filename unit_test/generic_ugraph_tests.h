@@ -4,8 +4,8 @@
 #include <utility>
 
 #include "gtest/gtest.h"
-#include "../non_mixed_graph.h"
-#include "../mixed_graph.h"
+#include "graphlab/non_mixed_graph.h"
+#include "graphlab/mixed_graph.h"
 
 #define UGRAPH_IS_A_NON_MIXED_GRAPH_TEST(TEST_SUITE_NAME,CONCRETE_CLASS_NAME,VERTEX_TYPENAME)                               \
     TEST(TEST_SUITE_NAME,is_a_non_mixed_graph) {                                                                            \

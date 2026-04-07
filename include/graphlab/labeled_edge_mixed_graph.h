@@ -2,7 +2,7 @@
 #define LABELED_EDGE_MIXED_GRAPH_H
 
 #include "labeled_edge_graph.h"
-#include "mixed_graph.h"
+#include "../mixed_graph.h"
 
 namespace MAIN_LIBRARY_NAMESPACE {
     template <typename VertexType, typename EdgeLabelType, typename T = DefaultEdgeLabellerType<VertexType,EdgeLabelType>> //TODO: find a better name for "T"

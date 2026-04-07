@@ -5,8 +5,8 @@
 #include "generic_digraph_tests.h"
 #include "generic_multiset_vertex_graph_tests.h"
 #include "generic_multiset_vertex_digraph_tests.h"
-#include "../graph.h"
-#include "../full_labeled_multiset_vertex_digraph.h"
+#include "graphlab/graph.h"
+#include "graphlab/full_labeled_multiset_vertex_digraph.h"
 
 using tested_graph = MAIN_LIBRARY_NAMESPACE::full_labeled_multiset_vertex_digraph<std::size_t,std::string,std::string>;
 
