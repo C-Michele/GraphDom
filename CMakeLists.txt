@@ -5,9 +5,7 @@ set(CMAKE_CXX_STANDARD 17)
 
 add_compile_definitions(MAIN_LIBRARY_NAMESPACE=${PROJECT_NAME})
 
-add_library(${PROJECT_NAME} SHARED graph.h
-        utility/address_less.h
-        dummy.cpp
+add_library(${PROJECT_NAME} INTERFACE graph.h
         non_mixed_graph.h
         mixed_graph.h
         labeled_edge_non_mixed_graph.h
