@@ -1,0 +1,19 @@
+/**
+ * @page mathematical_introduction Mathematical introduction
+ *
+ * @anchor mathematical_graph_definition
+ * @par Definition (Graph)
+ *
+ * \f$ G \f$ is a graph if and only if \f$ G \f$ is an ordered 8-tuple that satisfies all of the following conditions:
+ *
+ * - \f$ G = ( V_\text{type} , V , E_\text{di} , E_\text{un} , C_{l_V} , l_V , C_{l_E} , l_E ) \f$ ;
+ * - \f$ V_\text{type} \f$ is a set;
+ * - \f$ V \subseteq V_\text{type} \times \mathbb{N} \f$ ;
+ * - \f$ V \f$ is a finite set;
+ * - \f$ E_\text{di} \subseteq V \times V \f$ ;
+ * - \f$ E_\text{un} \subseteq \{ u \mid u \subseteq V \wedge ( | u | = 1 \vee | u | = 2 ) \} \f$ ;
+ * - \f$ C_{l_V} \f$ is a set;
+ * - \f$ l_V : D_{l_V} \to C_{l_V} \wedge D_{l_V} = \begin{cases} V & \text{if } C_{l_V} \neq \emptyset \\ \emptyset & \text{if } C_{l_V} = \emptyset \end{cases} \f$ ;
+ * - \f$ C_{l_E} \f$ is a set;
+ * - \f$ l_E : D_{l_E} \to C_{l_E} \wedge D_{l_E} = \begin{cases} E_\text{di} \cup E_\text{un} & \text{if } C_{l_E} \neq \emptyset \\ \emptyset & \text{if } C_{l_E} = \emptyset \end{cases} \f$ ;
+ */
