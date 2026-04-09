@@ -1,11 +1,14 @@
 /**
  * @page mathematical_introduction Mathematical introduction
- *
+ * @ingroup user_docs
+ */
+
+/**
+ * @page mathematical_introduction
  * @anchor mathematical_graph_definition
- * @par Definition (Graph)
+ * @par Definition (Graph).
  *
  * \f$ G \f$ is a graph if and only if \f$ G \f$ is an ordered 8-tuple that satisfies all of the following conditions:
- *
  * - \f$ G = ( V_\text{type} , V , E_\text{di} , E_\text{un} , C_{l_V} , l_V , C_{l_E} , l_E ) \f$ ;
  * - \f$ V_\text{type} \f$ is a set;
  * - \f$ V \subseteq V_\text{type} \times \mathbb{N} \f$ ;
@@ -16,4 +19,13 @@
  * - \f$ l_V : D_{l_V} \to C_{l_V} \wedge D_{l_V} = \begin{cases} V & \text{if } C_{l_V} \neq \emptyset \\ \emptyset & \text{if } C_{l_V} = \emptyset \end{cases} \f$ ;
  * - \f$ C_{l_E} \f$ is a set;
  * - \f$ l_E : D_{l_E} \to C_{l_E} \wedge D_{l_E} = \begin{cases} E_\text{di} \cup E_\text{un} & \text{if } C_{l_E} \neq \emptyset \\ \emptyset & \text{if } C_{l_E} = \emptyset \end{cases} \f$ ;
+ */
+
+/**
+ * @page mathematical_introduction
+ * @anchor mathematical_graph_definition
+ * @par Definition (Vertex of a graph).
+ *
+ * Let \f$ G \f$ be a @ref mathematical_graph_definition "graph" with \f$ G = ( V_\text{type} , V , E_\text{di} , E_\text{un} , C_{l_V} , l_V , C_{l_E} , l_E ) \f$.<br>
+ * \f$ v \f$ is a vertex of \f$ G \f$ if and only if \f$ v \in V \f$.
  */
