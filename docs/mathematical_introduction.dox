@@ -23,9 +23,55 @@
 
 /**
  * @page mathematical_introduction
- * @anchor mathematical_graph_definition
+ * @anchor mathematical_vertex_definition
  * @par Definition (Vertex of a graph).
  *
  * Let \f$ G \f$ be a @ref mathematical_graph_definition "graph" with \f$ G = ( V_\text{type} , V , E_\text{di} , E_\text{un} , C_{l_V} , l_V , C_{l_E} , l_E ) \f$.<br>
  * \f$ v \f$ is a vertex of \f$ G \f$ if and only if \f$ v \in V \f$.
+ */
+
+/**
+ * @page mathematical_introduction
+ * @anchor mathematical_vertex_core_definition
+ * @par Definition (Core of a vertex of a graph).
+ *
+ * Let \f$ G \f$ be a @ref mathematical_graph_definition "graph" with \f$ G = ( V_\text{type} , V , E_\text{di} , E_\text{un} , C_{l_V} , l_V , C_{l_E} , l_E ) \f$.<br>
+ * For each @ref mathematical_vertex_definition "vertex" \f$ v \f$ of \f$ G \f$ such that \f$ v = ( x , n ) \f$, \f$ x \f$ is the core of \f$ v \f$.
+ */
+
+/**
+ * @page mathematical_introduction
+ * @anchor mathematical_vertex_mul_definition
+ * @par Definition (Multiplicity of a vertex of a graph).
+ *
+ * Let \f$ G \f$ be a @ref mathematical_graph_definition "graph" with \f$ G = ( V_\text{type} , V , E_\text{di} , E_\text{un} , C_{l_V} , l_V , C_{l_E} , l_E ) \f$.<br>
+ * For each @ref mathematical_vertex_definition "vertex" \f$ v \f$ of \f$ G \f$ such that \f$ v = ( x , n ) \f$,
+ * the multiplicity of \f$ v \f$ with respect to \f$ G \f$ is  \f$ | \{ w | w \in V \wedge \exists m \mid m \in \mathbb{N} \wedge w = ( x , m ) \} | \f$.
+ */
+
+/**
+ * @page mathematical_introduction
+ * @anchor mathematical_edge_definition
+ * @par Definition (Edge of a graph).
+ *
+ * Let \f$ G \f$ be a @ref mathematical_graph_definition "graph" with \f$ G = ( V_\text{type} , V , E_\text{di} , E_\text{un} , C_{l_V} , l_V , C_{l_E} , l_E ) \f$.<br>
+ * \f$ y \f$ is an edge of \f$ G \f$ if and only if \f$ y \in E_\text{di} \cup E_\text{un} \f$.
+ */
+
+/**
+ * @page mathematical_introduction
+ * @anchor mathematical_directed_edge_definition
+ * @par Definition (Directed edge of a graph).
+ *
+ * Let \f$ G \f$ be a @ref mathematical_graph_definition "graph" with \f$ G = ( V_\text{type} , V , E_\text{di} , E_\text{un} , C_{l_V} , l_V , C_{l_E} , l_E ) \f$.<br>
+ * \f$ y \f$ is a directed edge of \f$ G \f$ if and only if \f$ y \in E_\text{di} \f$.
+ */
+
+/**
+ * @page mathematical_introduction
+ * @anchor mathematical_undirected_edge_definition
+ * @par Definition (Undirected edge of a graph).
+ *
+ * Let \f$ G \f$ be a @ref mathematical_graph_definition "graph" with \f$ G = ( V_\text{type} , V , E_\text{di} , E_\text{un} , C_{l_V} , l_V , C_{l_E} , l_E ) \f$.<br>
+ * \f$ y \f$ is an undirected edge of \f$ G \f$ if and only if \f$ y \in E_\text{un} \f$.
  */
