@@ -15,6 +15,8 @@
 #include <set>
 #include <utility>
 
+namespace MAIN_LIBRARY_NAMESPACE{}
+
 namespace MAIN_LIBRARY_NAMESPACE {
     enum edge_type : std::uint8_t {
         undirected = 0,

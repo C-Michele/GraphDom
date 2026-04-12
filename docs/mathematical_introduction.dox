@@ -1,96 +1,96 @@
 /**
- * @page mathematical_introduction Mathematical introduction
- * @ingroup user_docs
- */
+    \page mathematical_introduction Mathematical introduction
 
-/**
- * @page mathematical_introduction
- * @anchor mathematical_graph_definition
- * @par Definition (Graph).
- *
- * \f$ G \f$ is a graph if and only if \f$ G \f$ is an ordered 8-tuple that satisfies all of the following conditions:
- * - \f$ G = ( V_\text{type} , V , E_\text{di} , E_\text{un} , C_{l_V} , l_V , C_{l_E} , l_E ) \f$ ;
- * - \f$ V_\text{type} \f$ is a set;
- * - \f$ V \subseteq V_\text{type} \times \mathbb{N} \f$ ;
- * - \f$ V \f$ is a finite set;
- * - \f$ E_\text{di} \subseteq V \times V \f$ ;
- * - \f$ E_\text{un} \subseteq \{ u \mid u \subseteq V \wedge ( | u | = 1 \vee | u | = 2 ) \} \f$ ;
- * - \f$ C_{l_V} \f$ is a set;
- * - \f$ l_V : D_{l_V} \to C_{l_V} \wedge D_{l_V} = \begin{cases} V & \text{if } C_{l_V} \neq \emptyset \\ \emptyset & \text{if } C_{l_V} = \emptyset \end{cases} \f$ ;
- * - \f$ C_{l_E} \f$ is a set;
- * - \f$ l_E : D_{l_E} \to C_{l_E} \wedge D_{l_E} = \begin{cases} E_\text{di} \cup E_\text{un} & \text{if } C_{l_E} \neq \emptyset \\ \emptyset & \text{if } C_{l_E} = \emptyset \end{cases} \f$ ;
- */
+    We want readers of this page not to misunderstand the reason for its existence: the aim is not to "rewrite" graph theory,
+    but to use a mathematical model with terminology consistent with the nomenclature of the library entities.
 
-/**
- * @page mathematical_introduction
- * @anchor mathematical_vertex_definition
- * @par Definition (Vertex of a graph).
- *
- * Let \f$ G \f$ be a @ref mathematical_graph_definition "graph" with \f$ G = ( V_\text{type} , V , E_\text{di} , E_\text{un} , C_{l_V} , l_V , C_{l_E} , l_E ) \f$.<br>
- * \f$ v \f$ is a vertex of \f$ G \f$ if and only if \f$ v \in V \f$.
- */
+    Therefore, many of the terms you'll find in this library will have slightly different meanings than those you've probably already learned.
 
-/**
- * @page mathematical_introduction
- * @anchor mathematical_vertex_core_definition
- * @par Definition (Core of a vertex of a graph).
- *
- * Let \f$ G \f$ be a @ref mathematical_graph_definition "graph" with \f$ G = ( V_\text{type} , V , E_\text{di} , E_\text{un} , C_{l_V} , l_V , C_{l_E} , l_E ) \f$.<br>
- * For each @ref mathematical_vertex_definition "vertex" \f$ v \f$ of \f$ G \f$ such that \f$ v = ( x , n ) \f$, \f$ x \f$ is the core of \f$ v \f$.
- */
+    \section mathematical_definitions Mathematical definitions
 
-/**
- * @page mathematical_introduction
- * @anchor mathematical_vertex_mul_definition
- * @par Definition (Multiplicity of a vertex of a graph).
- *
- * Let \f$ G \f$ be a @ref mathematical_graph_definition "graph" with \f$ G = ( V_\text{type} , V , E_\text{di} , E_\text{un} , C_{l_V} , l_V , C_{l_E} , l_E ) \f$.<br>
- * For each @ref mathematical_vertex_definition "vertex" \f$ v \f$ of \f$ G \f$ such that \f$ v = ( x , n ) \f$,
- * the multiplicity of \f$ v \f$ with respect to \f$ G \f$ is  \f$ | \{ w | w \in V \wedge \exists m \mid m \in \mathbb{N} \wedge w = ( x , m ) \} | \f$.
- */
+    \subsection mathematical_graph_definition Graph
+    \f$ G \f$ is a graph if and only if \f$ G \f$ is an ordered 8-tuple that satisfies all of the following conditions:
+    -# \f$ G = ( V_\text{type} , V , E_\text{di} , E_\text{un} , C_{l_V} , l_V , C_{l_E} , l_E ) \f$ ;
+    -# \f$ V_\text{type} \f$ is a set;
+    -# \f$ V \subseteq V_\text{type} \times \mathbb{N} \f$ ;
+    -# \f$ V \f$ is a finite set;
+    -# \f$ E_\text{di} \subseteq V \times V \f$ ;
+    -# \f$ E_\text{un} \subseteq \{ u \mid u \subseteq V \wedge ( | u | = 1 \vee | u | = 2 ) \} \f$ ;
+    -# \f$ C_{l_V} \f$ is a set;
+    -# \f$ l_V : D_{l_V} \to C_{l_V} \wedge D_{l_V} = \begin{cases} V & \text{if } C_{l_V} \neq \emptyset \\ \emptyset & \text{if } C_{l_V} = \emptyset \end{cases} \f$ ;
+    -# \f$ C_{l_E} \f$ is a set;
+    -# \f$ l_E : D_{l_E} \to C_{l_E} \wedge D_{l_E} = \begin{cases} E_\text{di} \cup E_\text{un} & \text{if } C_{l_E} \neq \emptyset \\ \emptyset & \text{if } C_{l_E} = \emptyset \end{cases} \f$ ;
 
-/**
- * @page mathematical_introduction
- * @anchor mathematical_edge_definition
- * @par Definition (Edge of a graph).
- *
- * Let \f$ G \f$ be a @ref mathematical_graph_definition "graph" with \f$ G = ( V_\text{type} , V , E_\text{di} , E_\text{un} , C_{l_V} , l_V , C_{l_E} , l_E ) \f$.<br>
- * \f$ y \f$ is an edge of \f$ G \f$ if and only if \f$ y \in E_\text{di} \cup E_\text{un} \f$.
- */
+    \note
+    Let \f$ G \f$ be a @ref mathematical_graph_definition "graph" with \f$ G = ( V_\text{type} , V , E_\text{di} , E_\text{un} , C_{l_V} , l_V , C_{l_E} , l_E ) \f$.<br>
+    In mathematics, sets and functions should be considered static entities, so \f$ G \f$ does not "change over time".<br>
+    Obviously, in programming, the definition of a graph must be modified to make graphs dynamic over time.<br>
+    Therefore, in programming, sets \f$ V \f$, \f$ E_\text{di} \f$ and \f$ E_\text{un} \f$ and functions \f$ l_V \f$ and \f$ l_E \f$ are considered "dynamic over time", while retaining the properties listed above.
 
-/**
- * @page mathematical_introduction
- * @anchor mathematical_directed_edge_definition
- * @par Definition (Directed edge of a graph).
- *
- * Let \f$ G \f$ be a @ref mathematical_graph_definition "graph" with \f$ G = ( V_\text{type} , V , E_\text{di} , E_\text{un} , C_{l_V} , l_V , C_{l_E} , l_E ) \f$.<br>
- * \f$ d \f$ is a directed edge of \f$ G \f$ if and only if \f$ d \in E_\text{di} \f$.
- */
+    \subsubsection mathematical_graph_definition_example Example
+    Let \f$ A \f$ be the set of all lowercase English letters.<br>
+    Let \f$ V \f$ such that \f$ V = \{ (a,0) , (b,0) , (c,0) , (d,0) , (e,0) , (f,0) , (g,0) \} \f$.<br>
+    Let \f$ E_\text{di} = \{ ( (a,0) , (b,0) ) , ( (c,0) , (a,0) ) , ( (a,0) , (d,0) ) , ( (d,0) , (a,0) ) , ( (d,0) , (d,0) ) , ( (e,0) , (e,0) ), ( (a,0) , (f,0) ) \} \f$.<br>
+    Let \f$ E_\text{un} = \{ \{ (c,0) \}, \{ (a,0) , (e,0) \} , \{ (e,0) \} , \{ (a,0) , (f,0) \} \} \f$.<br>
+    Let \f$ f \f$ such that \f$ f : \emptyset \to \emptyset \f$.<br>
+    Let \f$ G \f$ such that \f$ G = ( A , V , E_\text{di} , E_\text{un} , \emptyset , f , \emptyset , f ) \f$.<br>
+    \f$ G \f$ is a @ref mathematical_graph_definition "graph".<br>
+    The following is a graphical visualization of \f$ G \f$.<br>
+    \dot
+        digraph mathematical_graph_definition_example {
+            node [shape=circle, fontname="STIX Two Text, STIX, Times New Roman, Times" fontsize=10];
+            a_0 [ label="(a,0)" ];
+            b_0 [ label="(b,0)" ];
+            c_0 [ label="(c,0)" ];
+            d_0 [ label="(d,0)" ];
+            e_0 [ label="(e,0)" ];
+            f_0 [ label="(f,0)" ];
+            g_0 [ label="(g,0)" ];
+            a_0 -> b_0 [ dir=forward ];
+            c_0 -> a_0 [ dir=forward ];
+            a_0 -> d_0 [ dir=forward ];
+            d_0 -> a_0 [ dir=forward ];
+            d_0 -> d_0 [ dir=forward ];
+            e_0 -> e_0 [ dir=forward ];
+            a_0 -> f_0 [ dir=forward ];
+            c_0 -> c_0 [ dir=none ];
+            a_0 -> e_0 [ dir=none ];
+            e_0 -> e_0 [ dir=none ];
+            a_0 -> f_0 [ dir=none ];
+        }
+    \enddot
 
-/**
- * @page mathematical_introduction
- * @anchor mathematical_undirected_edge_definition
- * @par Definition (Undirected edge of a graph).
- *
- * Let \f$ G \f$ be a @ref mathematical_graph_definition "graph" with \f$ G = ( V_\text{type} , V , E_\text{di} , E_\text{un} , C_{l_V} , l_V , C_{l_E} , l_E ) \f$.<br>
- * \f$ u \f$ is an undirected edge of \f$ G \f$ if and only if \f$ u \in E_\text{un} \f$.
- */
+    \subsection mathematical_vertex_definition Vertex of a graph
+    Let \f$ G \f$ be a @ref mathematical_graph_definition "graph" with \f$ G = ( V_\text{type} , V , E_\text{di} , E_\text{un} , C_{l_V} , l_V , C_{l_E} , l_E ) \f$.<br>
+    \f$ v \f$ is a vertex of \f$ G \f$ if and only if \f$ v \in V \f$.
 
-/**
- * @page mathematical_introduction
- * @anchor mathematical_set_vertex_graph_definition
- * @par Definition (Set-vertex graph).
- *
- * \f$ G \f$ is a set-vertex graph if and only if \f$ G \f$ is a @ref mathematical_graph_definition "graph" and
- * the @ref mathematical_vertex_mul_definition "multiplicity" of any @ref mathematical_vertex_definition "vertex" of \f$ G \f$ (with respect to \f$ G \f$) is equal to \f$ 1 \f$.
- */
+    \subsection mathematical_vertex_core_definition Core of a vertex of a graph
+    Let \f$ G \f$ be a @ref mathematical_graph_definition "graph" with \f$ G = ( V_\text{type} , V , E_\text{di} , E_\text{un} , C_{l_V} , l_V , C_{l_E} , l_E ) \f$.<br>
+    For each @ref mathematical_vertex_definition "vertex" \f$ v \f$ of \f$ G \f$ such that \f$ v = ( x , n ) \f$, \f$ x \f$ is the core of \f$ v \f$.
 
-/**
- * @page mathematical_introduction
- * @anchor mathematical_multiset_vertex_graph_definition
- * @par Definition (Multiset-vertex graph).
- *
- * \f$ G \f$ is a multiset-vertex graph if and only if \f$ G \f$ is a @ref mathematical_graph_definition "graph" 
- * and exists (at least one) \f$ v \f$ such that \f$ v \f$ is a @ref mathematical_vertex_definition "vertex" of G and
- * the @ref mathematical_vertex_mul_definition "multiplicity" of \f$ v \f$ (with respect to \f$ G \f$) is strictly greater than \f$ 1 \f$ .
- */
+    \subsection mathematical_vertex_mul_definition Multiplicity of a vertex of a graph
+    Let \f$ G \f$ be a @ref mathematical_graph_definition "graph" with \f$ G = ( V_\text{type} , V , E_\text{di} , E_\text{un} , C_{l_V} , l_V , C_{l_E} , l_E ) \f$.<br>
+    For each @ref mathematical_vertex_definition "vertex" \f$ v \f$ of \f$ G \f$ such that \f$ v = ( x , n ) \f$,
+    the multiplicity of \f$ v \f$ with respect to \f$ G \f$ is  \f$ | \{ w | w \in V \wedge \exists m \mid m \in \mathbb{N} \wedge w = ( x , m ) \} | \f$.
+
+    \subsection mathematical_edge_definition Edge of a graph
+    Let \f$ G \f$ be a @ref mathematical_graph_definition "graph" with \f$ G = ( V_\text{type} , V , E_\text{di} , E_\text{un} , C_{l_V} , l_V , C_{l_E} , l_E ) \f$.<br>
+    \f$ y \f$ is an edge of \f$ G \f$ if and only if \f$ y \in E_\text{di} \cup E_\text{un} \f$.
+
+    \subsection mathematical_directed_edge_definition Directed edge of a graph
+    Let \f$ G \f$ be a @ref mathematical_graph_definition "graph" with \f$ G = ( V_\text{type} , V , E_\text{di} , E_\text{un} , C_{l_V} , l_V , C_{l_E} , l_E ) \f$.<br>
+    \f$ d \f$ is a directed edge of \f$ G \f$ if and only if \f$ d \in E_\text{di} \f$.
+
+    \subsection mathematical_undirected_edge_definition Undirected edge of a graph
+    Let \f$ G \f$ be a @ref mathematical_graph_definition "graph" with \f$ G = ( V_\text{type} , V , E_\text{di} , E_\text{un} , C_{l_V} , l_V , C_{l_E} , l_E ) \f$.<br>
+    \f$ u \f$ is an undirected edge of \f$ G \f$ if and only if \f$ u \in E_\text{un} \f$.
+
+    \subsection mathematical_set_vertex_graph_definition Set-vertex graph
+    \f$ G \f$ is a set-vertex graph if and only if \f$ G \f$ is a @ref mathematical_graph_definition "graph" and
+    the @ref mathematical_vertex_mul_definition "multiplicity" of any @ref mathematical_vertex_definition "vertex" of \f$ G \f$ (with respect to \f$ G \f$) is equal to \f$ 1 \f$.
+
+    \subsection mathematical_multiset_vertex_graph_definition Multiset-vertex graph
+    \f$ G \f$ is a multiset-vertex graph if and only if \f$ G \f$ is a @ref mathematical_graph_definition "graph"
+    and exists (at least one) \f$ v \f$ such that \f$ v \f$ is a @ref mathematical_vertex_definition "vertex" of G and
+    the @ref mathematical_vertex_mul_definition "multiplicity" of \f$ v \f$ (with respect to \f$ G \f$) is strictly greater than \f$ 1 \f$ .
+*/
