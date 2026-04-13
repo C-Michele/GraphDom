@@ -8,6 +8,11 @@
 
     \section mathematical_definitions Mathematical definitions
 
+    The following definitions may at first glance seem overly complex compared to those you've probably already encountered in graph theory (especially that of a graph vertex), but we assure you that everything will become clear once you read the code documentation.
+
+    \warning
+    So, no need to worry: you don't need to fully understand the following definitions IMMEDIATELY, as they will be referenced later in the code documentation.
+
     \subsection mathematical_graph_definition Graph
     \f$ G \f$ is a graph if and only if \f$ G \f$ is an ordered 8-tuple that satisfies all of the following conditions:
     -# \f$ G = ( V_\text{type} , V , E_\text{di} , E_\text{un} , C_{l_V} , l_V , C_{l_E} , l_E ) \f$ ;
@@ -71,7 +76,7 @@
     \subsection mathematical_vertex_mul_definition Multiplicity of a vertex of a graph
     Let \f$ G \f$ be a @ref mathematical_graph_definition "graph" with \f$ G = ( V_\text{type} , V , E_\text{di} , E_\text{un} , C_{l_V} , l_V , C_{l_E} , l_E ) \f$.<br>
     For each @ref mathematical_vertex_definition "vertex" \f$ v \f$ of \f$ G \f$ such that \f$ v = ( x , n ) \f$,
-    the multiplicity of \f$ v \f$ with respect to \f$ G \f$ is  \f$ | \{ w | w \in V \wedge \exists m \mid m \in \mathbb{N} \wedge w = ( x , m ) \} | \f$.
+    the multiplicity of \f$ v \f$ with respect to \f$ G \f$ is  \f$ | \{ w | w \in V \wedge w = ( x , m ) \} | \f$.
 
     \subsection mathematical_edge_definition Edge of a graph
     Let \f$ G \f$ be a @ref mathematical_graph_definition "graph" with \f$ G = ( V_\text{type} , V , E_\text{di} , E_\text{un} , C_{l_V} , l_V , C_{l_E} , l_E ) \f$.<br>
