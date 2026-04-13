@@ -20,7 +20,7 @@
     -# \f$ V \subseteq V_\text{type} \times \mathbb{N} \f$ ; ( \f$ \mathbb{N} \f$ is the set containing \f$ 0 \f$ and and all positive integers. See also the [Cartesian product definition](https://en.wikipedia.org/wiki/Cartesian_product))
     -# \f$ V \f$ is a finite set;
     -# \f$ E_\text{di} \subseteq V \times V \f$ ;
-    -# \f$ E_\text{un} \subseteq \{ u \mid u \subseteq V \wedge ( | u | = 1 \vee | u | = 2 ) \} \f$ ;
+    -# \f$ E_\text{un} \subseteq \{ u \mid u \subseteq V \wedge ( | u | = 1 \vee | u | = 2 ) \} \f$ ; (See the definition of [Cardinality of a finite set](https://en.wikipedia.org/wiki/Cardinality#Finite_sets))
     -# \f$ C_{l_V} \f$ is a set;
     -# \f$ l_V : D_{l_V} \to C_{l_V} \wedge D_{l_V} = \begin{cases} V & \text{if } C_{l_V} \neq \emptyset \\ \emptyset & \text{if } C_{l_V} = \emptyset \end{cases} \f$ ;
     -# \f$ C_{l_E} \f$ is a set;
