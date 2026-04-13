@@ -17,7 +17,7 @@
     \f$ G \f$ is a graph if and only if \f$ G \f$ is an ordered 8-tuple that satisfies all of the following conditions:
     -# \f$ G = ( V_\text{type} , V , E_\text{di} , E_\text{un} , C_{l_V} , l_V , C_{l_E} , l_E ) \f$ ;
     -# \f$ V_\text{type} \f$ is a set;
-    -# \f$ V \subseteq V_\text{type} \times \mathbb{N} \f$ ;
+    -# \f$ V \subseteq V_\text{type} \times \mathbb{N} \f$ ; ( \f$ \mathbb{N} \f$ is the set containing \f$ 0 \f$ and and all positive integers. See also the [Cartesian product definition](https://en.wikipedia.org/wiki/Cartesian_product))
     -# \f$ V \f$ is a finite set;
     -# \f$ E_\text{di} \subseteq V \times V \f$ ;
     -# \f$ E_\text{un} \subseteq \{ u \mid u \subseteq V \wedge ( | u | = 1 \vee | u | = 2 ) \} \f$ ;
