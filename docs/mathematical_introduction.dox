@@ -104,4 +104,25 @@
     -# \f$ G \f$ is a @ref mathematical_graph_definition "graph";
     -# exists (at least) a @ref mathematical_directed_edge_definition "directed edge" of \f$ G \f$;
     -# exists (at least) an @ref mathematical_undirected_edge_definition "undirected edge" of \f$ G \f$;
+
+    \subsection mathematical_non_mixed_graph_definition Non-mixed graph
+    \f$ G \f$ is a non-mixed graph if and only if \f$ G \f$ satisfies all of the following conditions:
+    -# \f$ G \f$ is a @ref mathematical_graph_definition "graph";
+    -# \f$ G \f$ is not a @ref mathematical_mixed_graph_definition "mixed graph";
+
+    \subsection mathematical_digraph_definition Digraph
+    \f$ G \f$ is a digraph if and only if \f$ G \f$ is a @ref mathematical_graph_definition "graph" and there is no @ref mathematical_undirected_edge_definition "undirected edge" of \f$ G \f$.
+
+    \subsection mathematical_ugraph_definition Ugraph
+    \f$ G \f$ is a ugraph if and only if \f$ G \f$ is a @ref mathematical_graph_definition "graph" and there is no @ref mathematical_directed_edge_definition "directed edge" of \f$ G \f$.
+
+    \subsection mathematical_labeled_edge_graph_definition Labeled-edge graph
+    \f$ G \f$ is a labeled-edge graph if and only if \f$ G \f$ satisfies all of the following conditions:
+    -# \f$ G \f$ is a @ref mathematical_graph_definition "graph" with \f$ G = ( V_\text{type} , V , E_\text{di} , E_\text{un} , C_{l_V} , l_V , C_{l_E} , l_E ) \f$;
+    -# \f$ C_{l_E} \neq \emptyset \f$;
+
+    \subsection mathematical_labeled_vertex_graph_definition Labeled-vertex graph
+    \f$ G \f$ is a labeled-vertex graph if and only if \f$ G \f$ satisfies all of the following conditions:
+    -# \f$ G \f$ is a @ref mathematical_graph_definition "graph" with \f$ G = ( V_\text{type} , V , E_\text{di} , E_\text{un} , C_{l_V} , l_V , C_{l_E} , l_E ) \f$;
+    -# \f$ C_{l_V} \neq \emptyset \f$;
 */
