@@ -27,7 +27,7 @@ namespace MAIN_LIBRARY_NAMESPACE {
 }
 
 namespace MAIN_LIBRARY_NAMESPACE {
-    /// All [graph](@ref mathematical_graph_definition) types defined in this library are concrete classes derived, directly or indirectly, from this polymorphic abstract class.
+    /// All [graph](@ref mathematical_graph_definition) types defined in this library are classes derived, directly or indirectly, from this polymorphic abstract class.
     template <typename VertexType>
     class graph {
         public:
