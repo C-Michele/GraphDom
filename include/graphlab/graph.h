@@ -15,14 +15,19 @@
 #include <set>
 #include <utility>
 
+/** All entities defined in this library are defined directly or indirectly in this namespace */
 namespace MAIN_LIBRARY_NAMESPACE{}
 
 namespace MAIN_LIBRARY_NAMESPACE {
+    /** The enumerated type whose values represent the two types of [edges](@ref mathematical_edge_definition) of a [graph](@ref mathematical_graph_definition) */
     enum edge_type : std::uint8_t {
-        undirected = 0,
-        directed = 1
+        undirected = 0, ///< This enum value means [undirected edge](@ref mathematical_undirected_edge_definition)
+        directed = 1 ///< This enum value means [directed edge](@ref mathematical_undirected_edge_definition)
     };
+}
 
+namespace MAIN_LIBRARY_NAMESPACE {
+    /// All [graph](@ref mathematical_graph_definition) types defined in this library are concrete classes derived, directly or indirectly, from this polymorphic abstract class.
     template <typename VertexType>
     class graph {
         public:
@@ -42,6 +47,7 @@ namespace MAIN_LIBRARY_NAMESPACE {
             //  [[nodiscard]] VERTEX_PTR_NAME emplace_vertex( Args&&... args );
             virtual void erase_vertex(const CONSTANT_VERTEX_PTR_NAME&) = 0;
             [[nodiscard]] virtual EDGE_ITERATOR_NAME erase_edge(const CONSTANT_EDGE_ITERATOR_NAME&) = 0;
+        /// \cond DEV_DOC
         protected:
             class vertex_container {
                 public:
@@ -237,6 +243,7 @@ namespace MAIN_LIBRARY_NAMESPACE {
             static const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container* get_begin_point(const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME&);
 
             static bool is_limited_by_edge_type(const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME&);
+        /// \endcond DEV_DOC
     };
 }
 
