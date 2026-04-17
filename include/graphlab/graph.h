@@ -19,7 +19,7 @@
 namespace MAIN_LIBRARY_NAMESPACE{}
 
 namespace MAIN_LIBRARY_NAMESPACE {
-    /** The enumerated type whose values represent the two types of [edges](@ref mathematical_edge_definition) of a [graph](@ref mathematical_graph_definition) */
+    /// The enumerated type whose values represent the two types of [edges](@ref mathematical_edge_definition) of a [graph](@ref mathematical_graph_definition).
     enum edge_type : std::uint8_t {
         undirected = 0, ///< This enum value means [undirected edge](@ref mathematical_undirected_edge_definition)
         directed = 1 ///< This enum value means [directed edge](@ref mathematical_undirected_edge_definition)
@@ -27,7 +27,7 @@ namespace MAIN_LIBRARY_NAMESPACE {
 }
 
 namespace MAIN_LIBRARY_NAMESPACE {
-    /// All [graph](@ref mathematical_graph_definition) types defined in this library are classes derived, directly or indirectly, from this polymorphic abstract class.
+    /// Every [graph](@ref mathematical_graph_definition) that can be created using this library is an instance of a concrete class derived, directly or indirectly, from this abstract polymorphic template class.
     template <typename VertexType>
     class graph {
         public:
@@ -38,14 +38,20 @@ namespace MAIN_LIBRARY_NAMESPACE {
             class EDGE_ITERATOR_NAME;
             class CONSTANT_EDGE_ITERATOR_NAME;
 
+            /// To be polymorphic, this class has a virtual destructor.
             virtual ~graph() = default;
 
+            /// This method returns the order of the graph, i.e. the number of vertices inside it.
+            /**
+             * @return The order of the graph.
+             */
             [[nodiscard]] virtual std::size_t order() const = 0;
-            // [[nodiscard]] virtual std::size_t size() const = 0;
 
-            //  template <typename... Args >
-            //  [[nodiscard]] VERTEX_PTR_NAME emplace_vertex( Args&&... args );
-            virtual void erase_vertex(const CONSTANT_VERTEX_PTR_NAME&) = 0;
+            /// This method removes the vertex associated with @p vertex object.
+            /**
+             * @param vertex The object associated with the vertex to be erased.
+             */
+            virtual void erase_vertex(const CONSTANT_VERTEX_PTR_NAME& vertex) = 0;
             [[nodiscard]] virtual EDGE_ITERATOR_NAME erase_edge(const CONSTANT_EDGE_ITERATOR_NAME&) = 0;
         /// \cond DEV_DOC
         protected:
