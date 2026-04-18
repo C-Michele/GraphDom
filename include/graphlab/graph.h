@@ -2,7 +2,6 @@
 #define GRAPH_H
 
 /* TODO: once you have chosen the appropriate names, remove the following macros */
-#define VERTEX_PTR_NAME vertex_handle
 #define CONSTANT_VERTEX_PTR_NAME vertex_const_handle
 #define ADJ_LIST adj_list
 #define CONSTANT_ADJ_LIST const_adj_list
@@ -31,7 +30,7 @@ namespace MAIN_LIBRARY_NAMESPACE {
     template <typename VertexType>
     class graph {
         public:
-            class VERTEX_PTR_NAME;
+            class vertex_handle;
             class CONSTANT_VERTEX_PTR_NAME;
             class ADJ_LIST;
             class CONSTANT_ADJ_LIST;
@@ -218,13 +217,13 @@ namespace MAIN_LIBRARY_NAMESPACE {
                     mutable VertexLabelType vertex_label;
             };
 
-            static VERTEX_PTR_NAME vertex_ptr_factory(
+            static vertex_handle vertex_ptr_factory(
                 const MAIN_LIBRARY_NAMESPACE::graph<VertexType>*,
                 const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::non_mixed_graph_vertex_container<const vertex_container*>&,
                 MAIN_LIBRARY_NAMESPACE::edge_type non_mixed_graph_type
             );
 
-            static VERTEX_PTR_NAME vertex_ptr_factory(
+            static vertex_handle vertex_ptr_factory(
                 const MAIN_LIBRARY_NAMESPACE::graph<VertexType>*,
                 const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::mixed_graph_vertex_container<const vertex_container*>&
             );
@@ -259,8 +258,8 @@ namespace MAIN_LIBRARY_NAMESPACE {
         public:
             ~set_vertex_graph() override = default;
 
-            [[nodiscard]] virtual std::pair<typename graph<VertexType>::VERTEX_PTR_NAME,bool> insert_vertex(const VertexType&) = 0;
-            [[nodiscard]] virtual std::pair<typename graph<VertexType>::VERTEX_PTR_NAME,bool> insert_vertex(VertexType&&) = 0;
+            [[nodiscard]] virtual std::pair<typename graph<VertexType>::vertex_handle,bool> insert_vertex(const VertexType&) = 0;
+            [[nodiscard]] virtual std::pair<typename graph<VertexType>::vertex_handle,bool> insert_vertex(VertexType&&) = 0;
         protected:
             using VertexContainerPointerType = const typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*;
             using edge_endpoint = typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::template edge_endpoint< VertexContainerPointerType >;
@@ -302,14 +301,14 @@ namespace MAIN_LIBRARY_NAMESPACE {
     template <typename VertexType>
     class multiset_vertex_graph : virtual public graph<VertexType>  {
         public:
-            class VERTEX_PTR_NAME;
+            class vertex_handle;
             class ADJ_LIST;
             class EDGE_ITERATOR_NAME;
 
             ~multiset_vertex_graph() override = default;
 
-            [[nodiscard]] virtual multiset_vertex_graph::VERTEX_PTR_NAME insert_vertex(const VertexType&) = 0;
-            [[nodiscard]] virtual multiset_vertex_graph::VERTEX_PTR_NAME insert_vertex(VertexType&&) = 0;
+            [[nodiscard]] virtual multiset_vertex_graph::vertex_handle insert_vertex(const VertexType&) = 0;
+            [[nodiscard]] virtual multiset_vertex_graph::vertex_handle insert_vertex(VertexType&&) = 0;
             // [[nodiscard]] virtual typename graph<VertexType>::VERTEX_PTR_NAME replace_vertex(typename graph<VertexType>::VERTEX_PTR_NAME&, const VertexType&) = 0; //TODO: check the signature correctness
             // [[nodiscard]] virtual typename graph<VertexType>::VERTEX_PTR_NAME replace_vertex(typename graph<VertexType>::VERTEX_PTR_NAME&, VertexType&&) = 0; //TODO: check the signature correctness
         protected:
@@ -328,13 +327,13 @@ namespace MAIN_LIBRARY_NAMESPACE {
             template <typename EdgeLabelType>
             using mixed_graph_labeled_vertex_container = typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::template mixed_graph_labeled_vertex_container<VertexContainerPointerType,EdgeLabelType>;
 
-            static VERTEX_PTR_NAME vertex_ptr_factory(
+            static vertex_handle vertex_ptr_factory(
                 const MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>*,
                 typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::template non_mixed_graph_vertex_container<VertexContainerPointerType>&,
                 MAIN_LIBRARY_NAMESPACE::edge_type non_mixed_graph_type
             );
 
-            static VERTEX_PTR_NAME vertex_ptr_factory(
+            static vertex_handle vertex_ptr_factory(
                 const MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>*,
                 typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::template mixed_graph_vertex_container<VertexContainerPointerType>&
             );
@@ -350,7 +349,7 @@ namespace MAIN_LIBRARY_NAMESPACE {
                 const typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::template mixed_graph_vertex_container<VertexContainerPointerType>&
             );
 
-            static VertexContainerPointerType get_vertex_container(const MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::VERTEX_PTR_NAME&);
+            static VertexContainerPointerType get_vertex_container(const MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::vertex_handle&);
 
             static bool inner_iterator_is_real(const typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME&);
 
@@ -377,18 +376,18 @@ namespace MAIN_LIBRARY_NAMESPACE {
 #include "handlers_implementations.h"
 
 template<typename VertexType>
-typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::VERTEX_PTR_NAME MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_ptr_factory(
+typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_handle MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_ptr_factory(
     const MAIN_LIBRARY_NAMESPACE::graph<VertexType>* const graph_ptr,
     const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::non_mixed_graph_vertex_container<const vertex_container*>& vertex_container_reference,
     const MAIN_LIBRARY_NAMESPACE::edge_type non_mixed_graph_type) {
-    return MAIN_LIBRARY_NAMESPACE::graph<VertexType>::VERTEX_PTR_NAME(graph_ptr,vertex_container_reference,non_mixed_graph_type);
+    return MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_handle(graph_ptr,vertex_container_reference,non_mixed_graph_type);
 }
 
 template<typename VertexType>
-typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::VERTEX_PTR_NAME MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_ptr_factory(
+typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_handle MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_ptr_factory(
     const MAIN_LIBRARY_NAMESPACE::graph<VertexType>* const graph_ptr,
     const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::mixed_graph_vertex_container<const vertex_container*>& vertex_container_reference) {
-    return MAIN_LIBRARY_NAMESPACE::graph<VertexType>::VERTEX_PTR_NAME(graph_ptr,vertex_container_reference);
+    return MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_handle(graph_ptr,vertex_container_reference);
 }
 
 template<typename VertexType>
@@ -496,18 +495,18 @@ MAIN_LIBRARY_NAMESPACE::set_vertex_graph<VertexType>::edge_iterator_factory(
 }
 
 template<typename VertexType>
-typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::VERTEX_PTR_NAME MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::vertex_ptr_factory(
+typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::vertex_handle MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::vertex_ptr_factory(
     const MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>* const graph_ptr,
     typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::template non_mixed_graph_vertex_container<VertexContainerPointerType>& vertex_container_reference,
     const MAIN_LIBRARY_NAMESPACE::edge_type non_mixed_graph_type) {
-    return MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::VERTEX_PTR_NAME(graph_ptr,vertex_container_reference,non_mixed_graph_type);
+    return MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::vertex_handle(graph_ptr,vertex_container_reference,non_mixed_graph_type);
 }
 
 template<typename VertexType>
-typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::VERTEX_PTR_NAME MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::vertex_ptr_factory(
+typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::vertex_handle MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::vertex_ptr_factory(
     const MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>* const graph_ptr,
     typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::template mixed_graph_vertex_container<VertexContainerPointerType>& vertex_container_reference) {
-    return MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::VERTEX_PTR_NAME(graph_ptr,vertex_container_reference);
+    return MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::vertex_handle(graph_ptr,vertex_container_reference);
 }
 
 template<typename VertexType>
@@ -528,7 +527,7 @@ typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME MAI
 template<typename VertexType>
 typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::VertexContainerPointerType
 MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::get_vertex_container(
-    const MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::VERTEX_PTR_NAME& ptr) {
+    const MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::vertex_handle& ptr) {
     return ptr.multiset_graph_vertex_container;
 }
 

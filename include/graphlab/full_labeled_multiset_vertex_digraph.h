@@ -37,10 +37,10 @@ namespace MAIN_LIBRARY_NAMESPACE {
                 [[nodiscard]] typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::EDGE_ITERATOR_NAME erase_edge(const typename graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME&) override; //TODO: look out to memory leaks in ADJ
                 [[nodiscard]] VertexLabelType& get_vertex_label(const typename graph<VertexType>::CONSTANT_VERTEX_PTR_NAME&) override;
                 using MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::insert_vertex;
-                [[nodiscard]] typename multiset_vertex_graph<VertexType>::VERTEX_PTR_NAME insert_vertex(const VertexType&, const VertexLabelType&) override;
-                [[nodiscard]] typename multiset_vertex_graph<VertexType>::VERTEX_PTR_NAME insert_vertex(const VertexType&, VertexLabelType&&) override;
-                [[nodiscard]] typename multiset_vertex_graph<VertexType>::VERTEX_PTR_NAME insert_vertex(VertexType&&, const VertexLabelType&) override;
-                [[nodiscard]] typename multiset_vertex_graph<VertexType>::VERTEX_PTR_NAME insert_vertex(VertexType&&, VertexLabelType&&) override;
+                [[nodiscard]] typename multiset_vertex_graph<VertexType>::vertex_handle insert_vertex(const VertexType&, const VertexLabelType&) override;
+                [[nodiscard]] typename multiset_vertex_graph<VertexType>::vertex_handle insert_vertex(const VertexType&, VertexLabelType&&) override;
+                [[nodiscard]] typename multiset_vertex_graph<VertexType>::vertex_handle insert_vertex(VertexType&&, const VertexLabelType&) override;
+                [[nodiscard]] typename multiset_vertex_graph<VertexType>::vertex_handle insert_vertex(VertexType&&, VertexLabelType&&) override;
                 [[nodiscard]] EdgeLabelType& get_edge_label(const typename graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME&) override;
                 using MAIN_LIBRARY_NAMESPACE::labeled_edge_non_mixed_graph<VertexType,EdgeLabelType,T2>::insert_edge;
                 void insert_edge(const typename graph<VertexType>::CONSTANT_VERTEX_PTR_NAME&, const typename graph<VertexType>::CONSTANT_VERTEX_PTR_NAME&, const EdgeLabelType&) override;
@@ -187,7 +187,7 @@ VertexLabelType& MAIN_LIBRARY_NAMESPACE::full_labeled_multiset_vertex_digraph<Ve
 }
 
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename T1, typename T2> //TODO:: find a better name for T1 and T2
-typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::VERTEX_PTR_NAME
+typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::vertex_handle
 MAIN_LIBRARY_NAMESPACE::full_labeled_multiset_vertex_digraph<VertexType,VertexLabelType,EdgeLabelType,T1,T2>::insert_vertex(
     const VertexType& vertex_to_insert, const VertexLabelType& vertex_label_to_insert) {
     vertices.emplace_front(
@@ -203,7 +203,7 @@ MAIN_LIBRARY_NAMESPACE::full_labeled_multiset_vertex_digraph<VertexType,VertexLa
 }
 
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename T1, typename T2> //TODO:: find a better name for T1 and T2
-typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::VERTEX_PTR_NAME
+typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::vertex_handle
 MAIN_LIBRARY_NAMESPACE::full_labeled_multiset_vertex_digraph<VertexType,VertexLabelType,EdgeLabelType,T1,T2>::insert_vertex(
 const VertexType& vertex_to_insert, VertexLabelType&& vertex_label_to_insert) {
     vertices.emplace_front(
@@ -219,7 +219,7 @@ const VertexType& vertex_to_insert, VertexLabelType&& vertex_label_to_insert) {
 }
 
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename T1, typename T2> //TODO:: find a better name for T1 and T2
-typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::VERTEX_PTR_NAME
+typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::vertex_handle
 MAIN_LIBRARY_NAMESPACE::full_labeled_multiset_vertex_digraph<VertexType,VertexLabelType,EdgeLabelType,T1,T2>::insert_vertex(
 VertexType&& vertex_to_insert, const VertexLabelType& vertex_label_to_insert) {
     vertices.emplace_front(
@@ -235,7 +235,7 @@ VertexType&& vertex_to_insert, const VertexLabelType& vertex_label_to_insert) {
 }
 
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename T1, typename T2> //TODO:: find a better name for T1 and T2
-typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::VERTEX_PTR_NAME
+typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::vertex_handle
 MAIN_LIBRARY_NAMESPACE::full_labeled_multiset_vertex_digraph<VertexType,VertexLabelType,EdgeLabelType,T1,T2>::insert_vertex(
 VertexType&& vertex_to_insert, VertexLabelType&& vertex_label_to_insert) {
     vertices.emplace_front(

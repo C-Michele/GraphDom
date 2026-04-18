@@ -13,7 +13,7 @@
     TEST(TEST_SUITE_NAME,correct_edges_insertion__not_constant_vertex_ptr__not_constant_adj_list__not_c_methods) {                                      \
         CONCRETE_CLASS_NAME graph;                                                                                                                      \
         const std::size_t number_of_different_vertex_values = 30;                                                                                       \
-        typename std::vector< typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::VERTEX_PTR_NAME > inserted_vertices;                                 \
+        typename std::vector< typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::vertex_handle > inserted_vertices;                                 \
         inserted_vertices.reserve(number_of_different_vertex_values);                                                                                   \
         for(std::size_t i = 0; i < number_of_different_vertex_values; ++i) {                                                                            \
             inserted_vertices.emplace_back( ( graph.insert_vertex( i ) ).first );                                                                       \
@@ -79,7 +79,7 @@
     TEST(TEST_SUITE_NAME,correct_edges_insertion__not_constant_vertex_ptr__not_constant_adj_list__c_methods) {                                          \
         CONCRETE_CLASS_NAME graph;                                                                                                                      \
         const std::size_t number_of_different_vertex_values = 30;                                                                                       \
-        typename std::vector< typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::VERTEX_PTR_NAME > inserted_vertices;                                 \
+        typename std::vector< typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::vertex_handle > inserted_vertices;                                 \
         inserted_vertices.reserve(number_of_different_vertex_values);                                                                                   \
         for(std::size_t i = 0; i < number_of_different_vertex_values; ++i) {                                                                            \
             inserted_vertices.emplace_back( ( graph.insert_vertex( i ) ).first );                                                                       \
@@ -145,7 +145,7 @@
     TEST(TEST_SUITE_NAME,correct_edges_insertion__not_constant_vertex_ptr__constant_adj_list__not_c_methods) {                                          \
         CONCRETE_CLASS_NAME graph;                                                                                                                      \
         const std::size_t number_of_different_vertex_values = 30;                                                                                       \
-        typename std::vector< typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::VERTEX_PTR_NAME > inserted_vertices;                                 \
+        typename std::vector< typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::vertex_handle > inserted_vertices;                                 \
         inserted_vertices.reserve(number_of_different_vertex_values);                                                                                   \
         for(std::size_t i = 0; i < number_of_different_vertex_values; ++i) {                                                                            \
             inserted_vertices.emplace_back( ( graph.insert_vertex( i ) ).first );                                                                       \
@@ -211,7 +211,7 @@
     TEST(TEST_SUITE_NAME,correct_edges_insertion__not_constant_vertex_ptr__constant_adj_list__c_methods) {                                              \
         CONCRETE_CLASS_NAME graph;                                                                                                                      \
         const std::size_t number_of_different_vertex_values = 30;                                                                                       \
-        typename std::vector< typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::VERTEX_PTR_NAME > inserted_vertices;                                 \
+        typename std::vector< typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::vertex_handle > inserted_vertices;                                 \
         inserted_vertices.reserve(number_of_different_vertex_values);                                                                                   \
         for(std::size_t i = 0; i < number_of_different_vertex_values; ++i) {                                                                            \
             inserted_vertices.emplace_back( ( graph.insert_vertex( i ) ).first );                                                                       \
@@ -544,16 +544,16 @@
         std::map<                                                                                                                                                                           \
             const std::size_t*,                                                                                                                                                             \
             std::pair<                                                                                                                                                                      \
-                typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::VERTEX_PTR_NAME,                                                                                                       \
+                typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::vertex_handle,                                                                                                       \
                 std::set< const std::size_t* >                                                                                                                                              \
             >                                                                                                                                                                               \
         > inserted_vertices_and_incidence_matrix;                                                                                                                                           \
         for(std::size_t i = 0; i < number_of_different_vertex_values; ++i) {                                                                                                                \
             typename std::pair<                                                                                                                                                             \
-                typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::VERTEX_PTR_NAME,                                                                                                       \
+                typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::vertex_handle,                                                                                                       \
                 typename std::set< const std::size_t* >                                                                                                                                     \
             > pair_to_insert{ ( graph.insert_vertex( i ) ).first , std::set< const std::size_t* >() };                                                                                      \
-            inserted_vertices_and_incidence_matrix.emplace( &( *( pair_to_insert.first ) ) , std::move( pair_to_insert ) );                                                            \
+            inserted_vertices_and_incidence_matrix.emplace( &( *( pair_to_insert.first ) ) , std::move( pair_to_insert ) );                                                                 \
         }                                                                                                                                                                                   \
         for( auto first_itr = inserted_vertices_and_incidence_matrix.begin(); first_itr != inserted_vertices_and_incidence_matrix.end(); ++first_itr ){                                     \
             for( auto second_itr = first_itr; second_itr != inserted_vertices_and_incidence_matrix.end(); ++second_itr ){                                                                   \
@@ -573,8 +573,8 @@
                                                                                                                                                                                             \
                 k_adj_list_edge_itr = graph.erase_edge( k_adj_list_edge_itr );                                                                                                              \
                 EXPECT_EQ( k_adj_list_edge_itr , k_adj_list_next_edge_itr );                                                                                                                \
-                ( ( inserted_vertices_and_incidence_matrix.at( itr_k_vertex_raw_pointer ) ).second ).erase( k_adj_list_edge_itr_vertex_endpoint_raw_pointer );                                 \
-                ( ( inserted_vertices_and_incidence_matrix.at( k_adj_list_edge_itr_vertex_endpoint_raw_pointer ) ).second ).erase( itr_k_vertex_raw_pointer );                                 \
+                ( ( inserted_vertices_and_incidence_matrix.at( itr_k_vertex_raw_pointer ) ).second ).erase( k_adj_list_edge_itr_vertex_endpoint_raw_pointer );                              \
+                ( ( inserted_vertices_and_incidence_matrix.at( k_adj_list_edge_itr_vertex_endpoint_raw_pointer ) ).second ).erase( itr_k_vertex_raw_pointer );                              \
                                                                                                                                                                                             \
                 for( auto itr_j = inserted_vertices_and_incidence_matrix.begin(); itr_j != inserted_vertices_and_incidence_matrix.end(); ++itr_j ){                                         \
                     auto j_adj_list_directed = ( ( ( *itr_j ).second ).first ).adj_list( MAIN_LIBRARY_NAMESPACE::edge_type::directed );                                                     \
@@ -593,7 +593,7 @@
                     }                                                                                                                                                                       \
                     ASSERT_EQ( vertices_raw_pointers_encountered_in_j_adj_list.size() , expected_vertices_raw_pointers_in_j_adj_lists.size() );                                             \
                                                                                                                                                                                             \
-                    auto j_adj_list_undirected = ( ( ( *itr_j ).second ).first ).adj_list( MAIN_LIBRARY_NAMESPACE::edge_type::undirected );                                                   \
+                    auto j_adj_list_undirected = ( ( ( *itr_j ).second ).first ).adj_list( MAIN_LIBRARY_NAMESPACE::edge_type::undirected );                                                 \
                     std::set<const std::size_t*> vertices_raw_pointers_encountered_in_j_adj_list_undirected;                                                                                \
                     for(auto edge_itr = j_adj_list.begin(); edge_itr != j_adj_list.end(); ++edge_itr ) {                                                                                    \
                         ASSERT_EQ( edge_itr.edge_type() , MAIN_LIBRARY_NAMESPACE::edge_type::undirected );                                                                                  \
@@ -615,16 +615,16 @@
         std::map<                                                                                                                                                                           \
             const std::size_t*,                                                                                                                                                             \
             std::pair<                                                                                                                                                                      \
-                typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::VERTEX_PTR_NAME,                                                                                                       \
+                typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::vertex_handle,                                                                                                       \
                 std::set< const std::size_t* >                                                                                                                                              \
             >                                                                                                                                                                               \
         > inserted_vertices_and_incidence_matrix;                                                                                                                                           \
         for(std::size_t i = 0; i < number_of_different_vertex_values; ++i) {                                                                                                                \
             typename std::pair<                                                                                                                                                             \
-                typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::VERTEX_PTR_NAME,                                                                                                       \
+                typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::vertex_handle,                                                                                                       \
                 typename std::set< const std::size_t* >                                                                                                                                     \
             > pair_to_insert{ ( graph.insert_vertex( i ) ).first , std::set< const std::size_t* >() };                                                                                      \
-            inserted_vertices_and_incidence_matrix.emplace( &( *( pair_to_insert.first ) ) , std::move( pair_to_insert ) );                                                            \
+            inserted_vertices_and_incidence_matrix.emplace( &( *( pair_to_insert.first ) ) , std::move( pair_to_insert ) );                                                                 \
         }                                                                                                                                                                                   \
         for( auto first_itr = inserted_vertices_and_incidence_matrix.begin(); first_itr != inserted_vertices_and_incidence_matrix.end(); ++first_itr ){                                     \
             for( auto second_itr = first_itr; second_itr != inserted_vertices_and_incidence_matrix.end(); ++second_itr ){                                                                   \
@@ -644,8 +644,8 @@
                                                                                                                                                                                             \
                 k_adj_list_edge_itr = graph.erase_edge( k_adj_list_edge_itr );                                                                                                              \
                 EXPECT_EQ( k_adj_list_edge_itr , k_adj_list_next_edge_itr );                                                                                                                \
-                ( ( inserted_vertices_and_incidence_matrix.at( itr_k_vertex_raw_pointer ) ).second ).erase( k_adj_list_edge_itr_vertex_endpoint_raw_pointer );                                 \
-                ( ( inserted_vertices_and_incidence_matrix.at( k_adj_list_edge_itr_vertex_endpoint_raw_pointer ) ).second ).erase( itr_k_vertex_raw_pointer );                                 \
+                ( ( inserted_vertices_and_incidence_matrix.at( itr_k_vertex_raw_pointer ) ).second ).erase( k_adj_list_edge_itr_vertex_endpoint_raw_pointer );                              \
+                ( ( inserted_vertices_and_incidence_matrix.at( k_adj_list_edge_itr_vertex_endpoint_raw_pointer ) ).second ).erase( itr_k_vertex_raw_pointer );                              \
                                                                                                                                                                                             \
                 for( auto itr_j = inserted_vertices_and_incidence_matrix.begin(); itr_j != inserted_vertices_and_incidence_matrix.end(); ++itr_j ){                                         \
                     auto j_adj_list_directed = ( ( ( *itr_j ).second ).first ).adj_list( MAIN_LIBRARY_NAMESPACE::edge_type::directed );                                                     \
@@ -664,7 +664,7 @@
                     }                                                                                                                                                                       \
                     ASSERT_EQ( vertices_raw_pointers_encountered_in_j_adj_list.size() , expected_vertices_raw_pointers_in_j_adj_lists.size() );                                             \
                                                                                                                                                                                             \
-                    auto j_adj_list_undirected = ( ( ( *itr_j ).second ).first ).adj_list( MAIN_LIBRARY_NAMESPACE::edge_type::undirected );                                                   \
+                    auto j_adj_list_undirected = ( ( ( *itr_j ).second ).first ).adj_list( MAIN_LIBRARY_NAMESPACE::edge_type::undirected );                                                 \
                     std::set<const std::size_t*> vertices_raw_pointers_encountered_in_j_adj_list_undirected;                                                                                \
                     for(auto edge_itr = j_adj_list.cbegin(); edge_itr != j_adj_list.cend(); ++edge_itr ) {                                                                                  \
                         ASSERT_EQ( edge_itr.edge_type() , MAIN_LIBRARY_NAMESPACE::edge_type::undirected );                                                                                  \
@@ -686,16 +686,16 @@
         std::map<                                                                                                                                                                           \
             const std::size_t*,                                                                                                                                                             \
             std::pair<                                                                                                                                                                      \
-                typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::VERTEX_PTR_NAME,                                                                                                       \
+                typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::vertex_handle,                                                                                                       \
                 std::set< const std::size_t* >                                                                                                                                              \
             >                                                                                                                                                                               \
         > inserted_vertices_and_incidence_matrix;                                                                                                                                           \
         for(std::size_t i = 0; i < number_of_different_vertex_values; ++i) {                                                                                                                \
             typename std::pair<                                                                                                                                                             \
-                typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::VERTEX_PTR_NAME,                                                                                                       \
+                typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::vertex_handle,                                                                                                       \
                 typename std::set< const std::size_t* >                                                                                                                                     \
             > pair_to_insert{ ( graph.insert_vertex( i ) ).first , std::set< const std::size_t* >() };                                                                                      \
-            inserted_vertices_and_incidence_matrix.emplace( &( *( pair_to_insert.first ) ) , std::move( pair_to_insert ) );                                                            \
+            inserted_vertices_and_incidence_matrix.emplace( &( *( pair_to_insert.first ) ) , std::move( pair_to_insert ) );                                                                 \
         }                                                                                                                                                                                   \
         for( auto first_itr = inserted_vertices_and_incidence_matrix.begin(); first_itr != inserted_vertices_and_incidence_matrix.end(); ++first_itr ){                                     \
             for( auto second_itr = first_itr; second_itr != inserted_vertices_and_incidence_matrix.end(); ++second_itr ){                                                                   \
@@ -715,8 +715,8 @@
                                                                                                                                                                                             \
                 k_adj_list_edge_itr = graph.erase_edge( k_adj_list_edge_itr );                                                                                                              \
                 EXPECT_EQ( k_adj_list_edge_itr , k_adj_list_next_edge_itr );                                                                                                                \
-                ( ( inserted_vertices_and_incidence_matrix.at( itr_k_vertex_raw_pointer ) ).second ).erase( k_adj_list_edge_itr_vertex_endpoint_raw_pointer );                                 \
-                ( ( inserted_vertices_and_incidence_matrix.at( k_adj_list_edge_itr_vertex_endpoint_raw_pointer ) ).second ).erase( itr_k_vertex_raw_pointer );                                 \
+                ( ( inserted_vertices_and_incidence_matrix.at( itr_k_vertex_raw_pointer ) ).second ).erase( k_adj_list_edge_itr_vertex_endpoint_raw_pointer );                              \
+                ( ( inserted_vertices_and_incidence_matrix.at( k_adj_list_edge_itr_vertex_endpoint_raw_pointer ) ).second ).erase( itr_k_vertex_raw_pointer );                              \
                                                                                                                                                                                             \
                 for( auto itr_j = inserted_vertices_and_incidence_matrix.begin(); itr_j != inserted_vertices_and_incidence_matrix.end(); ++itr_j ){                                         \
                     auto j_adj_list_directed = ( ( ( *itr_j ).second ).first ).const_adj_list( MAIN_LIBRARY_NAMESPACE::edge_type::directed );                                               \
@@ -735,7 +735,7 @@
                     }                                                                                                                                                                       \
                     ASSERT_EQ( vertices_raw_pointers_encountered_in_j_adj_list.size() , expected_vertices_raw_pointers_in_j_adj_lists.size() );                                             \
                                                                                                                                                                                             \
-                    auto j_adj_list_undirected = ( ( ( *itr_j ).second ).first ).const_adj_list( MAIN_LIBRARY_NAMESPACE::edge_type::undirected );                                             \
+                    auto j_adj_list_undirected = ( ( ( *itr_j ).second ).first ).const_adj_list( MAIN_LIBRARY_NAMESPACE::edge_type::undirected );                                           \
                     std::set<const std::size_t*> vertices_raw_pointers_encountered_in_j_adj_list_undirected;                                                                                \
                     for(auto edge_itr = j_adj_list.begin(); edge_itr != j_adj_list.end(); ++edge_itr ) {                                                                                    \
                         ASSERT_EQ( edge_itr.edge_type() , MAIN_LIBRARY_NAMESPACE::edge_type::undirected );                                                                                  \
@@ -757,16 +757,16 @@
         std::map<                                                                                                                                                                           \
             const std::size_t*,                                                                                                                                                             \
             std::pair<                                                                                                                                                                      \
-                typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::VERTEX_PTR_NAME,                                                                                                       \
+                typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::vertex_handle,                                                                                                       \
                 std::set< const std::size_t* >                                                                                                                                              \
             >                                                                                                                                                                               \
         > inserted_vertices_and_incidence_matrix;                                                                                                                                           \
         for(std::size_t i = 0; i < number_of_different_vertex_values; ++i) {                                                                                                                \
             typename std::pair<                                                                                                                                                             \
-                typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::VERTEX_PTR_NAME,                                                                                                       \
+                typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::vertex_handle,                                                                                                       \
                 typename std::set< const std::size_t* >                                                                                                                                     \
             > pair_to_insert{ ( graph.insert_vertex( i ) ).first , std::set< const std::size_t* >() };                                                                                      \
-            inserted_vertices_and_incidence_matrix.emplace( &( *( pair_to_insert.first ) ) , std::move( pair_to_insert ) );                                                            \
+            inserted_vertices_and_incidence_matrix.emplace( &( *( pair_to_insert.first ) ) , std::move( pair_to_insert ) );                                                                 \
         }                                                                                                                                                                                   \
         for( auto first_itr = inserted_vertices_and_incidence_matrix.begin(); first_itr != inserted_vertices_and_incidence_matrix.end(); ++first_itr ){                                     \
             for( auto second_itr = first_itr; second_itr != inserted_vertices_and_incidence_matrix.end(); ++second_itr ){                                                                   \
@@ -786,8 +786,8 @@
                                                                                                                                                                                             \
                 k_adj_list_edge_itr = graph.erase_edge( k_adj_list_edge_itr );                                                                                                              \
                 EXPECT_EQ( k_adj_list_edge_itr , k_adj_list_next_edge_itr );                                                                                                                \
-                ( ( inserted_vertices_and_incidence_matrix.at( itr_k_vertex_raw_pointer ) ).second ).erase( k_adj_list_edge_itr_vertex_endpoint_raw_pointer );                                 \
-                ( ( inserted_vertices_and_incidence_matrix.at( k_adj_list_edge_itr_vertex_endpoint_raw_pointer ) ).second ).erase( itr_k_vertex_raw_pointer );                                 \
+                ( ( inserted_vertices_and_incidence_matrix.at( itr_k_vertex_raw_pointer ) ).second ).erase( k_adj_list_edge_itr_vertex_endpoint_raw_pointer );                              \
+                ( ( inserted_vertices_and_incidence_matrix.at( k_adj_list_edge_itr_vertex_endpoint_raw_pointer ) ).second ).erase( itr_k_vertex_raw_pointer );                              \
                                                                                                                                                                                             \
                 for( auto itr_j = inserted_vertices_and_incidence_matrix.begin(); itr_j != inserted_vertices_and_incidence_matrix.end(); ++itr_j ){                                         \
                     auto j_adj_list_directed = ( ( ( *itr_j ).second ).first ).const_adj_list( MAIN_LIBRARY_NAMESPACE::edge_type::directed );                                               \
@@ -806,7 +806,7 @@
                     }                                                                                                                                                                       \
                     ASSERT_EQ( vertices_raw_pointers_encountered_in_j_adj_list.size() , expected_vertices_raw_pointers_in_j_adj_lists.size() );                                             \
                                                                                                                                                                                             \
-                    auto j_adj_list_undirected = ( ( ( *itr_j ).second ).first ).const_adj_list( MAIN_LIBRARY_NAMESPACE::edge_type::undirected );                                             \
+                    auto j_adj_list_undirected = ( ( ( *itr_j ).second ).first ).const_adj_list( MAIN_LIBRARY_NAMESPACE::edge_type::undirected );                                           \
                     std::set<const std::size_t*> vertices_raw_pointers_encountered_in_j_adj_list_undirected;                                                                                \
                     for(auto edge_itr = j_adj_list.cbegin(); edge_itr != j_adj_list.cend(); ++edge_itr ) {                                                                                  \
                         ASSERT_EQ( edge_itr.edge_type() , MAIN_LIBRARY_NAMESPACE::edge_type::undirected );                                                                                  \
@@ -837,7 +837,7 @@
                 typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::CONSTANT_VERTEX_PTR_NAME,                                                                                              \
                 typename std::set< const std::size_t* >                                                                                                                                     \
             > pair_to_insert{ ( graph.insert_vertex( i ) ).first , std::set< const std::size_t* >() };                                                                                      \
-            inserted_vertices_and_incidence_matrix.emplace( &( *( pair_to_insert.first ) ) , std::move( pair_to_insert ) );                                                            \
+            inserted_vertices_and_incidence_matrix.emplace( &( *( pair_to_insert.first ) ) , std::move( pair_to_insert ) );                                                                 \
         }                                                                                                                                                                                   \
         for( auto first_itr = inserted_vertices_and_incidence_matrix.begin(); first_itr != inserted_vertices_and_incidence_matrix.end(); ++first_itr ){                                     \
             for( auto second_itr = first_itr; second_itr != inserted_vertices_and_incidence_matrix.end(); ++second_itr ){                                                                   \
@@ -857,8 +857,8 @@
                                                                                                                                                                                             \
                 k_adj_list_edge_itr = graph.erase_edge( k_adj_list_edge_itr );                                                                                                              \
                 EXPECT_EQ( k_adj_list_edge_itr , k_adj_list_next_edge_itr );                                                                                                                \
-                ( ( inserted_vertices_and_incidence_matrix.at( itr_k_vertex_raw_pointer ) ).second ).erase( k_adj_list_edge_itr_vertex_endpoint_raw_pointer );                                 \
-                ( ( inserted_vertices_and_incidence_matrix.at( k_adj_list_edge_itr_vertex_endpoint_raw_pointer ) ).second ).erase( itr_k_vertex_raw_pointer );                                 \
+                ( ( inserted_vertices_and_incidence_matrix.at( itr_k_vertex_raw_pointer ) ).second ).erase( k_adj_list_edge_itr_vertex_endpoint_raw_pointer );                              \
+                ( ( inserted_vertices_and_incidence_matrix.at( k_adj_list_edge_itr_vertex_endpoint_raw_pointer ) ).second ).erase( itr_k_vertex_raw_pointer );                              \
                                                                                                                                                                                             \
                 for( auto itr_j = inserted_vertices_and_incidence_matrix.begin(); itr_j != inserted_vertices_and_incidence_matrix.end(); ++itr_j ){                                         \
                     auto j_adj_list_directed = ( ( ( *itr_j ).second ).first ).adj_list( MAIN_LIBRARY_NAMESPACE::edge_type::directed );                                                     \
@@ -877,7 +877,7 @@
                     }                                                                                                                                                                       \
                     ASSERT_EQ( vertices_raw_pointers_encountered_in_j_adj_list.size() , expected_vertices_raw_pointers_in_j_adj_lists.size() );                                             \
                                                                                                                                                                                             \
-                    auto j_adj_list_undirected = ( ( ( *itr_j ).second ).first ).adj_list( MAIN_LIBRARY_NAMESPACE::edge_type::undirected );                                                   \
+                    auto j_adj_list_undirected = ( ( ( *itr_j ).second ).first ).adj_list( MAIN_LIBRARY_NAMESPACE::edge_type::undirected );                                                 \
                     std::set<const std::size_t*> vertices_raw_pointers_encountered_in_j_adj_list_undirected;                                                                                \
                     for(auto edge_itr = j_adj_list.begin(); edge_itr != j_adj_list.end(); ++edge_itr ) {                                                                                    \
                         ASSERT_EQ( edge_itr.edge_type() , MAIN_LIBRARY_NAMESPACE::edge_type::undirected );                                                                                  \
@@ -908,7 +908,7 @@
                 typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::CONSTANT_VERTEX_PTR_NAME,                                                                                              \
                 typename std::set< const std::size_t* >                                                                                                                                     \
             > pair_to_insert{ ( graph.insert_vertex( i ) ).first , std::set< const std::size_t* >() };                                                                                      \
-            inserted_vertices_and_incidence_matrix.emplace( &( *( pair_to_insert.first ) ) , std::move( pair_to_insert ) );                                                            \
+            inserted_vertices_and_incidence_matrix.emplace( &( *( pair_to_insert.first ) ) , std::move( pair_to_insert ) );                                                                 \
         }                                                                                                                                                                                   \
         for( auto first_itr = inserted_vertices_and_incidence_matrix.begin(); first_itr != inserted_vertices_and_incidence_matrix.end(); ++first_itr ){                                     \
             for( auto second_itr = first_itr; second_itr != inserted_vertices_and_incidence_matrix.end(); ++second_itr ){                                                                   \
@@ -928,8 +928,8 @@
                                                                                                                                                                                             \
                 k_adj_list_edge_itr = graph.erase_edge( k_adj_list_edge_itr );                                                                                                              \
                 EXPECT_EQ( k_adj_list_edge_itr , k_adj_list_next_edge_itr );                                                                                                                \
-                ( ( inserted_vertices_and_incidence_matrix.at( itr_k_vertex_raw_pointer ) ).second ).erase( k_adj_list_edge_itr_vertex_endpoint_raw_pointer );                                 \
-                ( ( inserted_vertices_and_incidence_matrix.at( k_adj_list_edge_itr_vertex_endpoint_raw_pointer ) ).second ).erase( itr_k_vertex_raw_pointer );                                 \
+                ( ( inserted_vertices_and_incidence_matrix.at( itr_k_vertex_raw_pointer ) ).second ).erase( k_adj_list_edge_itr_vertex_endpoint_raw_pointer );                              \
+                ( ( inserted_vertices_and_incidence_matrix.at( k_adj_list_edge_itr_vertex_endpoint_raw_pointer ) ).second ).erase( itr_k_vertex_raw_pointer );                              \
                                                                                                                                                                                             \
                 for( auto itr_j = inserted_vertices_and_incidence_matrix.begin(); itr_j != inserted_vertices_and_incidence_matrix.end(); ++itr_j ){                                         \
                     auto j_adj_list_directed = ( ( ( *itr_j ).second ).first ).adj_list( MAIN_LIBRARY_NAMESPACE::edge_type::directed );                                                     \
@@ -948,7 +948,7 @@
                     }                                                                                                                                                                       \
                     ASSERT_EQ( vertices_raw_pointers_encountered_in_j_adj_list.size() , expected_vertices_raw_pointers_in_j_adj_lists.size() );                                             \
                                                                                                                                                                                             \
-                    auto j_adj_list_undirected = ( ( ( *itr_j ).second ).first ).adj_list( MAIN_LIBRARY_NAMESPACE::edge_type::undirected );                                                   \
+                    auto j_adj_list_undirected = ( ( ( *itr_j ).second ).first ).adj_list( MAIN_LIBRARY_NAMESPACE::edge_type::undirected );                                                 \
                     std::set<const std::size_t*> vertices_raw_pointers_encountered_in_j_adj_list_undirected;                                                                                \
                     for(auto edge_itr = j_adj_list.cbegin(); edge_itr != j_adj_list.cend(); ++edge_itr ) {                                                                                  \
                         ASSERT_EQ( edge_itr.edge_type() , MAIN_LIBRARY_NAMESPACE::edge_type::undirected );                                                                                  \
@@ -979,7 +979,7 @@
                 typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::CONSTANT_VERTEX_PTR_NAME,                                                                                              \
                 typename std::set< const std::size_t* >                                                                                                                                     \
             > pair_to_insert{ ( graph.insert_vertex( i ) ).first , std::set< const std::size_t* >() };                                                                                      \
-            inserted_vertices_and_incidence_matrix.emplace( &( *( pair_to_insert.first ) ) , std::move( pair_to_insert ) );                                                            \
+            inserted_vertices_and_incidence_matrix.emplace( &( *( pair_to_insert.first ) ) , std::move( pair_to_insert ) );                                                                 \
         }                                                                                                                                                                                   \
         for( auto first_itr = inserted_vertices_and_incidence_matrix.begin(); first_itr != inserted_vertices_and_incidence_matrix.end(); ++first_itr ){                                     \
             for( auto second_itr = first_itr; second_itr != inserted_vertices_and_incidence_matrix.end(); ++second_itr ){                                                                   \
@@ -999,8 +999,8 @@
                                                                                                                                                                                             \
                 k_adj_list_edge_itr = graph.erase_edge( k_adj_list_edge_itr );                                                                                                              \
                 EXPECT_EQ( k_adj_list_edge_itr , k_adj_list_next_edge_itr );                                                                                                                \
-                ( ( inserted_vertices_and_incidence_matrix.at( itr_k_vertex_raw_pointer ) ).second ).erase( k_adj_list_edge_itr_vertex_endpoint_raw_pointer );                                 \
-                ( ( inserted_vertices_and_incidence_matrix.at( k_adj_list_edge_itr_vertex_endpoint_raw_pointer ) ).second ).erase( itr_k_vertex_raw_pointer );                                 \
+                ( ( inserted_vertices_and_incidence_matrix.at( itr_k_vertex_raw_pointer ) ).second ).erase( k_adj_list_edge_itr_vertex_endpoint_raw_pointer );                              \
+                ( ( inserted_vertices_and_incidence_matrix.at( k_adj_list_edge_itr_vertex_endpoint_raw_pointer ) ).second ).erase( itr_k_vertex_raw_pointer );                              \
                                                                                                                                                                                             \
                 for( auto itr_j = inserted_vertices_and_incidence_matrix.begin(); itr_j != inserted_vertices_and_incidence_matrix.end(); ++itr_j ){                                         \
                     auto j_adj_list_directed = ( ( ( *itr_j ).second ).first ).const_adj_list( MAIN_LIBRARY_NAMESPACE::edge_type::directed );                                               \
@@ -1019,7 +1019,7 @@
                     }                                                                                                                                                                       \
                     ASSERT_EQ( vertices_raw_pointers_encountered_in_j_adj_list.size() , expected_vertices_raw_pointers_in_j_adj_lists.size() );                                             \
                                                                                                                                                                                             \
-                    auto j_adj_list_undirected = ( ( ( *itr_j ).second ).first ).const_adj_list( MAIN_LIBRARY_NAMESPACE::edge_type::undirected );                                             \
+                    auto j_adj_list_undirected = ( ( ( *itr_j ).second ).first ).const_adj_list( MAIN_LIBRARY_NAMESPACE::edge_type::undirected );                                           \
                     std::set<const std::size_t*> vertices_raw_pointers_encountered_in_j_adj_list_undirected;                                                                                \
                     for(auto edge_itr = j_adj_list.begin(); edge_itr != j_adj_list.end(); ++edge_itr ) {                                                                                    \
                         ASSERT_EQ( edge_itr.edge_type() , MAIN_LIBRARY_NAMESPACE::edge_type::undirected );                                                                                  \
@@ -1050,7 +1050,7 @@
                 typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::CONSTANT_VERTEX_PTR_NAME,                                                                                              \
                 typename std::set< const std::size_t* >                                                                                                                                     \
             > pair_to_insert{ ( graph.insert_vertex( i ) ).first , std::set< const std::size_t* >() };                                                                                      \
-            inserted_vertices_and_incidence_matrix.emplace( &( *( pair_to_insert.first ) ) , std::move( pair_to_insert ) );                                                            \
+            inserted_vertices_and_incidence_matrix.emplace( &( *( pair_to_insert.first ) ) , std::move( pair_to_insert ) );                                                                 \
         }                                                                                                                                                                                   \
         for( auto first_itr = inserted_vertices_and_incidence_matrix.begin(); first_itr != inserted_vertices_and_incidence_matrix.end(); ++first_itr ){                                     \
             for( auto second_itr = first_itr; second_itr != inserted_vertices_and_incidence_matrix.end(); ++second_itr ){                                                                   \
@@ -1070,8 +1070,8 @@
                                                                                                                                                                                             \
                 k_adj_list_edge_itr = graph.erase_edge( k_adj_list_edge_itr );                                                                                                              \
                 EXPECT_EQ( k_adj_list_edge_itr , k_adj_list_next_edge_itr );                                                                                                                \
-                ( ( inserted_vertices_and_incidence_matrix.at( itr_k_vertex_raw_pointer ) ).second ).erase( k_adj_list_edge_itr_vertex_endpoint_raw_pointer );                                 \
-                ( ( inserted_vertices_and_incidence_matrix.at( k_adj_list_edge_itr_vertex_endpoint_raw_pointer ) ).second ).erase( itr_k_vertex_raw_pointer );                                 \
+                ( ( inserted_vertices_and_incidence_matrix.at( itr_k_vertex_raw_pointer ) ).second ).erase( k_adj_list_edge_itr_vertex_endpoint_raw_pointer );                              \
+                ( ( inserted_vertices_and_incidence_matrix.at( k_adj_list_edge_itr_vertex_endpoint_raw_pointer ) ).second ).erase( itr_k_vertex_raw_pointer );                              \
                                                                                                                                                                                             \
                 for( auto itr_j = inserted_vertices_and_incidence_matrix.begin(); itr_j != inserted_vertices_and_incidence_matrix.end(); ++itr_j ){                                         \
                     auto j_adj_list_directed = ( ( ( *itr_j ).second ).first ).const_adj_list( MAIN_LIBRARY_NAMESPACE::edge_type::directed );                                               \
@@ -1090,7 +1090,7 @@
                     }                                                                                                                                                                       \
                     ASSERT_EQ( vertices_raw_pointers_encountered_in_j_adj_list.size() , expected_vertices_raw_pointers_in_j_adj_lists.size() );                                             \
                                                                                                                                                                                             \
-                    auto j_adj_list_undirected = ( ( ( *itr_j ).second ).first ).const_adj_list( MAIN_LIBRARY_NAMESPACE::edge_type::undirected );                                             \
+                    auto j_adj_list_undirected = ( ( ( *itr_j ).second ).first ).const_adj_list( MAIN_LIBRARY_NAMESPACE::edge_type::undirected );                                           \
                     std::set<const std::size_t*> vertices_raw_pointers_encountered_in_j_adj_list_undirected;                                                                                \
                     for(auto edge_itr = j_adj_list.cbegin(); edge_itr != j_adj_list.cend(); ++edge_itr ) {                                                                                  \
                         ASSERT_EQ( edge_itr.edge_type() , MAIN_LIBRARY_NAMESPACE::edge_type::undirected );                                                                                  \

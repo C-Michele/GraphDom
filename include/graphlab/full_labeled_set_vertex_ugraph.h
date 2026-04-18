@@ -42,10 +42,10 @@ namespace MAIN_LIBRARY_NAMESPACE {
             [[nodiscard]] typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::EDGE_ITERATOR_NAME erase_edge(const typename graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME&) override; //TODO: look out to memory leaks in ADJ
             [[nodiscard]] VertexLabelType& get_vertex_label(const typename graph<VertexType>::CONSTANT_VERTEX_PTR_NAME&) override;
             using MAIN_LIBRARY_NAMESPACE::labeled_vertex_set_vertex_graph<VertexType,VertexLabelType,T1>::insert_vertex;
-            [[nodiscard]] std::pair<typename graph<VertexType>::VERTEX_PTR_NAME,bool> insert_vertex(const VertexType&, const VertexLabelType&) override;
-            [[nodiscard]] std::pair<typename graph<VertexType>::VERTEX_PTR_NAME,bool> insert_vertex(const VertexType&, VertexLabelType&&) override;
-            [[nodiscard]] std::pair<typename graph<VertexType>::VERTEX_PTR_NAME,bool> insert_vertex(VertexType&&, const VertexLabelType&) override;
-            [[nodiscard]] std::pair<typename graph<VertexType>::VERTEX_PTR_NAME,bool> insert_vertex(VertexType&&, VertexLabelType&&) override;
+            [[nodiscard]] std::pair<typename graph<VertexType>::vertex_handle,bool> insert_vertex(const VertexType&, const VertexLabelType&) override;
+            [[nodiscard]] std::pair<typename graph<VertexType>::vertex_handle,bool> insert_vertex(const VertexType&, VertexLabelType&&) override;
+            [[nodiscard]] std::pair<typename graph<VertexType>::vertex_handle,bool> insert_vertex(VertexType&&, const VertexLabelType&) override;
+            [[nodiscard]] std::pair<typename graph<VertexType>::vertex_handle,bool> insert_vertex(VertexType&&, VertexLabelType&&) override;
             [[nodiscard]] EdgeLabelType& get_edge_label(const typename graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME&) override;
             using MAIN_LIBRARY_NAMESPACE::labeled_edge_non_mixed_graph<VertexType,EdgeLabelType,T2>::insert_edge;
             void insert_edge(const typename graph<VertexType>::CONSTANT_VERTEX_PTR_NAME&, const typename graph<VertexType>::CONSTANT_VERTEX_PTR_NAME&, const EdgeLabelType&) override;
@@ -251,14 +251,14 @@ VertexLabelType& MAIN_LIBRARY_NAMESPACE::full_labeled_set_vertex_ugraph<VertexTy
 }
 
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename T1, typename T2>
-std::pair<typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::VERTEX_PTR_NAME,bool>
+std::pair<typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_handle,bool>
 MAIN_LIBRARY_NAMESPACE::full_labeled_set_vertex_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compare,T1,T2>::insert_vertex(
     const VertexType& vertex_to_insert, const VertexLabelType& vertex_label_to_insert) {
     auto inner_insertion_result = vertices.emplace(
         vertex_to_insert,
         vertex_label_to_insert
     );
-    return std::pair<typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::VERTEX_PTR_NAME, bool>(
+    return std::pair<typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_handle, bool>(
         MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_ptr_factory(
             this,
             *(inner_insertion_result.first),
@@ -269,14 +269,14 @@ MAIN_LIBRARY_NAMESPACE::full_labeled_set_vertex_ugraph<VertexType,VertexLabelTyp
 }
 
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename T1, typename T2>
-std::pair<typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::VERTEX_PTR_NAME,bool>
+std::pair<typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_handle,bool>
 MAIN_LIBRARY_NAMESPACE::full_labeled_set_vertex_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compare,T1,T2>::insert_vertex(
     const VertexType& vertex_to_insert, VertexLabelType&& vertex_label_to_insert) {
     auto inner_insertion_result = vertices.emplace(
         vertex_to_insert,
         std::move(vertex_label_to_insert)
     );
-    return std::pair<typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::VERTEX_PTR_NAME, bool>(
+    return std::pair<typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_handle, bool>(
         MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_ptr_factory(
             this,
             *(inner_insertion_result.first),
@@ -287,14 +287,14 @@ MAIN_LIBRARY_NAMESPACE::full_labeled_set_vertex_ugraph<VertexType,VertexLabelTyp
 }
 
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename T1, typename T2>
-std::pair<typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::VERTEX_PTR_NAME,bool>
+std::pair<typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_handle,bool>
 MAIN_LIBRARY_NAMESPACE::full_labeled_set_vertex_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compare,T1,T2>::insert_vertex(
     VertexType&& vertex_to_insert, const VertexLabelType& vertex_label_to_insert) {
     auto inner_insertion_result = vertices.emplace(
         std::move(vertex_to_insert),
         vertex_label_to_insert
     );
-    return std::pair<typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::VERTEX_PTR_NAME, bool>(
+    return std::pair<typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_handle, bool>(
         MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_ptr_factory(
             this,
             *(inner_insertion_result.first),
@@ -305,14 +305,14 @@ MAIN_LIBRARY_NAMESPACE::full_labeled_set_vertex_ugraph<VertexType,VertexLabelTyp
 }
 
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename T1, typename T2>
-std::pair<typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::VERTEX_PTR_NAME,bool>
+std::pair<typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_handle,bool>
 MAIN_LIBRARY_NAMESPACE::full_labeled_set_vertex_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compare,T1,T2>::insert_vertex(
     VertexType&& vertex_to_insert, VertexLabelType&& vertex_label_to_insert) {
     auto inner_insertion_result = vertices.emplace(
         std::move(vertex_to_insert),
         std::move(vertex_label_to_insert)
     );
-    return std::pair<typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::VERTEX_PTR_NAME, bool>(
+    return std::pair<typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_handle, bool>(
         MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_ptr_factory(
             this,
             *(inner_insertion_result.first),
