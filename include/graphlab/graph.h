@@ -2,12 +2,12 @@
 #define GRAPH_H
 
 /* TODO: once you have chosen the appropriate names, remove the following macros */
-#define VERTEX_PTR_NAME vertex_ptr
-#define CONSTANT_VERTEX_PTR_NAME const_vertex_ptr
+#define VERTEX_PTR_NAME vertex_handle
+#define CONSTANT_VERTEX_PTR_NAME vertex_const_handle
 #define ADJ_LIST adj_list
 #define CONSTANT_ADJ_LIST const_adj_list
 #define EDGE_ITERATOR_NAME edge_iterator
-#define CONSTANT_EDGE_ITERATOR_NAME const_edge_iterator
+#define CONSTANT_EDGE_ITERATOR_NAME edge_const_iterator
 
 #include <cstdint>
 #include <cstddef>
