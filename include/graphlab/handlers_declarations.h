@@ -3,6 +3,15 @@
 
 #include "graph.h"
 
+/// Every valid instance of this class can be used to identify a specific [vertex](@ref mathematical_vertex_definition) of a [graph](@ref MAIN_LIBRARY_NAMESPACE::graph) and to access its [core](@ref mathematical_vertex_core_definition) by reference or pointer.
+/**
+ * An instance `hndl` of this class is invalidated as soon as one of the following scenarios occurs:
+ * -# `hndl` is constructed using an invalid instance of this class.
+ * -# `hndl` is constructed using an invalid instance of [MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph](@ref MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph).
+ * -# `hndl = other_hndl;` is executed where `other_hndl` is an invalid instance of this class.
+ *
+ * A valid instance `hndl` of this class is also invalidated as soon as the vertex it is associated with is erased.
+ */
 template <typename VertexType>
 class MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_handle final {
     public:
@@ -11,6 +20,7 @@ class MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_handle final {
         vertex_handle(const typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::vertex_handle&);
 
         explicit operator typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::vertex_handle() const;
+        /// This operator returns the core of
         [[nodiscard]] const VertexType& operator*() const;
         [[nodiscard]] const VertexType* operator->() const;
         [[nodiscard]] bool operator==(const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME&) const;

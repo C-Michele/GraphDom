@@ -26,7 +26,7 @@ namespace MAIN_LIBRARY_NAMESPACE {
 }
 
 namespace MAIN_LIBRARY_NAMESPACE {
-    /// Every [graph](@ref mathematical_graph_definition) that can be created using this library is an instance of a concrete class derived, directly or indirectly, from this abstract polymorphic template class.
+    /// Every [graph](@ref mathematical_graph_definition) created using this library is an instance of a concrete class publicly derived, directly or indirectly, from this polymorphic template class.
     template <typename VertexType>
     class graph {
         public:
