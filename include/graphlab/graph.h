@@ -40,15 +40,18 @@ namespace MAIN_LIBRARY_NAMESPACE {
             /// To be polymorphic, this class has a virtual destructor.
             virtual ~graph() = default;
 
-            /// This method returns the order of the graph, i.e. the number of vertices inside it.
+            /// Returns the order of `*this`, i.e. the number of vertices inside the graph.
             /**
-             * @return The order of the graph.
+             * @return The number of vertices inside `*this`.
              */
             [[nodiscard]] virtual std::size_t order() const = 0;
 
-            /// This method removes the vertex associated with @p vertex object.
+            /// Removes the vertex identified by @p vertex.
             /**
-             * @param vertex The object associated with the vertex to be erased.
+             * After erasion, @p vertex and all its equivalents are invalidated.
+             *
+             * @param vertex An object that identifies the vertex to be erased.<br>
+             * @p vertex must be valid and must identify a vertex belonging to `*this`, otherwise the erasion will cause undefined behavior.
              */
             virtual void erase_vertex(const CONSTANT_VERTEX_PTR_NAME& vertex) = 0;
             [[nodiscard]] virtual EDGE_ITERATOR_NAME erase_edge(const CONSTANT_EDGE_ITERATOR_NAME&) = 0;

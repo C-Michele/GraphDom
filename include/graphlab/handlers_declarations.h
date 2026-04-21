@@ -20,11 +20,11 @@ class MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_handle final {
         vertex_handle(const typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::vertex_handle&);
 
         explicit operator typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::vertex_handle() const;
-        /// This operator returns the core of
         [[nodiscard]] const VertexType& operator*() const;
         [[nodiscard]] const VertexType* operator->() const;
-        [[nodiscard]] bool operator==(const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME&) const;
-        [[nodiscard]] bool operator!=(const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME&) const;
+        /// If @p other is valid and identifies the same vertex identified by `*this`, then `*this == other` returns true
+        [[nodiscard]] bool operator==(const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME& other) const;
+        [[nodiscard]] bool operator!=(const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME& other) const;
 
         vertex_handle& operator=(const vertex_handle&) = default;
 
@@ -65,6 +65,17 @@ class MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_handle final {
         MAIN_LIBRARY_NAMESPACE::graph<VertexType>::graph_edges_type edges_type;
 };
 
+/// Every valid instance of this class can be used to identify a specific [vertex](@ref mathematical_vertex_definition) of a [graph](@ref MAIN_LIBRARY_NAMESPACE::graph) and to access its [core](@ref mathematical_vertex_core_definition) by reference or pointer.
+/**
+ * An instance `hndl` of this class is invalidated as soon as one of the following scenarios occurs:
+ * -# `hndl` is constructed using an invalid instance of this class.
+ * -# `hndl` is constructed using an invalid instance of [MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph](@ref MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph).
+ * -# `hndl = other_hndl;` is executed where `other_hndl` is an invalid instance of this class.
+ *
+ * A valid instance `hndl` of this class is also invalidated as soon as the vertex it is associated with is erased.
+ *
+ * A valid instance `hndl` of this class cannot create objects that allow modification of the graph to which the vertex identified by `hndl` belongs without a non-const reference to that graph.
+ */
 template <typename VertexType>
 class MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME final {
     public:
