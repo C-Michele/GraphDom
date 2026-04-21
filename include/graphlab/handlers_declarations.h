@@ -22,7 +22,7 @@ class MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_handle final {
         explicit operator typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::vertex_handle() const;
         [[nodiscard]] const VertexType& operator*() const;
         [[nodiscard]] const VertexType* operator->() const;
-        /// If @p other is valid and identifies the same vertex identified by `*this`, then `*this == other` returns true
+        /// If @p other is valid and identifies the same vertex identified by `*this`, then `*this == other` returns `true`.
         [[nodiscard]] bool operator==(const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME& other) const;
         [[nodiscard]] bool operator!=(const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME& other) const;
 
