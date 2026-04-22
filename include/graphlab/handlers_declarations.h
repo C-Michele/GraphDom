@@ -10,7 +10,11 @@
  * -# `hndl` is constructed using an invalid instance of [MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph](@ref MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph).
  * -# `hndl = other_hndl;` is executed where `other_hndl` is an invalid instance of this class.
  *
- * A valid instance `hndl` of this class is also invalidated as soon as the vertex it is associated with is erased.
+ * A valid instance `hndl` of this class is invalidated as soon as the vertex it is associated with is erased.
+ *
+ * An invalid instance `hndl` of this class is validated as soon as `hndl = other_hndl;` is executed where `other_hndl` is a valid instance of this class.
+ *
+ * If `*this` is invalid then any operation other than `*this = other;` and the destruction of `*this` will cause undefined behavior.
  */
 template <typename VertexType>
 class MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_handle final {
@@ -22,8 +26,26 @@ class MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_handle final {
         explicit operator typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::vertex_handle() const;
         [[nodiscard]] const VertexType& operator*() const;
         [[nodiscard]] const VertexType* operator->() const;
-        /// If @p other is valid and identifies the same vertex identified by `*this`, then `*this == other` returns `true`.
+        /**
+         * Returns `true` if `*this` and @p other are valid and identify the same vertex.<br>
+         * Returns `false` if `*this` and @p other are valid, identify different vertices, and the vertices identified by `*this` and @p other belong to the same graph.<br>
+         * In other cases, `*this == other` will cause undefined behavior.
+         *
+         * @param other The object to compare with `*this`
+         * @return The comparison result.
+         * @par Complexity
+         * Constant.
+         */
         [[nodiscard]] bool operator==(const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME& other) const;
+
+        /**
+         * `*this != other` has the same behavior of `!( *this == other)`.
+         *
+         * @param other The object to compare with `*this`
+         * @return The same result of `!( *this == other)`.
+         * @par Complexity
+         * Constant.
+         */
         [[nodiscard]] bool operator!=(const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME& other) const;
 
         vertex_handle& operator=(const vertex_handle&) = default;
@@ -72,7 +94,11 @@ class MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_handle final {
  * -# `hndl` is constructed using an invalid instance of [MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph](@ref MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph).
  * -# `hndl = other_hndl;` is executed where `other_hndl` is an invalid instance of this class.
  *
- * A valid instance `hndl` of this class is also invalidated as soon as the vertex it is associated with is erased.
+ * A valid instance `hndl` of this class is invalidated as soon as the vertex it is associated with is erased.
+ *
+ * An invalid instance `hndl` of this class is validated as soon as `hndl = other_hndl;` is executed where `other_hndl` is a valid instance of this class.
+ *
+ * If `*this` is invalid then any operation other than `*this = other;` and the destruction of `*this` will cause undefined behavior.
  *
  * A valid instance `hndl` of this class cannot create objects that allow modification of the graph to which the vertex identified by `hndl` belongs without a non-const reference to that graph.
  */
@@ -86,8 +112,27 @@ class MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME final 
 
         [[nodiscard]] const VertexType& operator*() const;
         [[nodiscard]] const VertexType* operator->() const;
-        [[nodiscard]] bool operator==(const CONSTANT_VERTEX_PTR_NAME&) const;
-        [[nodiscard]] bool operator!=(const CONSTANT_VERTEX_PTR_NAME&) const;
+        /**
+         * Returns `true` if `*this` and @p other are valid and identify the same vertex.<br>
+         * Returns `false` if `*this` and @p other are valid, identify different vertices, and the vertices identified by `*this` and @p other belong to the same graph.<br>
+         * In other cases, `*this == other` will cause undefined behavior.
+         *
+         * @param other The object to compare with `*this`
+         * @return The comparison result.
+         * @par Complexity
+         * Constant.
+         */
+        [[nodiscard]] bool operator==(const CONSTANT_VERTEX_PTR_NAME& other) const;
+
+        /**
+         * `*this != other` has the same behavior of `!( *this == other)`.
+         *
+         * @param other The object to compare with `*this`
+         * @return The same result of `!( *this == other)`.
+         * @par Complexity
+         * Constant.
+         */
+        [[nodiscard]] bool operator!=(const CONSTANT_VERTEX_PTR_NAME& other) const;
 
         CONSTANT_VERTEX_PTR_NAME& operator=(const CONSTANT_VERTEX_PTR_NAME&) = default;
 
