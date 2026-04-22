@@ -24,8 +24,27 @@ class MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_handle final {
         vertex_handle(const typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::vertex_handle&);
 
         explicit operator typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::vertex_handle() const;
+
+        /**
+         * If `*this` is valid then `*(*this)` returns a const reference to the vertex identified by `*this`.<br>
+         * If `*this` is invalid then `*(*this)` will cause undefined behavior.
+         *
+         * @return A const reference to the vertex identified by `*this`
+         * @par Complexity
+         * Constant.
+         */
         [[nodiscard]] const VertexType& operator*() const;
+
+        /**
+         * If `*this` is valid then the expression `(*this)->...` is equal to `( &( *(*this) ) )->...`.<br>
+         * If `*this` is invalid then the expression `(*this)->...` will cause undefined behavior.
+         *
+         * @return `&( *(*this) )`
+         * @par Complexity
+         * Constant.
+         */
         [[nodiscard]] const VertexType* operator->() const;
+
         /**
          * Returns `true` if `*this` and @p other are valid and identify the same vertex.<br>
          * Returns `false` if `*this` and @p other are valid, identify different vertices, and the vertices identified by `*this` and @p other belong to the same graph.<br>
@@ -110,8 +129,26 @@ class MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME final 
         CONSTANT_VERTEX_PTR_NAME(const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_handle&);
         CONSTANT_VERTEX_PTR_NAME(const typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::vertex_handle&);
 
+        /**
+         * If `*this` is valid then `*(*this)` returns a const reference to the vertex identified by `*this`.<br>
+         * If `*this` is invalid then `*(*this)` will cause undefined behavior.
+         *
+         * @return A const reference to the vertex identified by `*this`
+         * @par Complexity
+         * Constant.
+         */
         [[nodiscard]] const VertexType& operator*() const;
+
+        /**
+         * If `*this` is valid then the expression `(*this)->...` is equal to `( &( *(*this) ) )->...`.<br>
+         * If `*this` is invalid then the expression `(*this)->...` will cause undefined behavior.
+         *
+         * @return `&( *(*this) )`
+         * @par Complexity
+         * Constant.
+         */
         [[nodiscard]] const VertexType* operator->() const;
+
         /**
          * Returns `true` if `*this` and @p other are valid and identify the same vertex.<br>
          * Returns `false` if `*this` and @p other are valid, identify different vertices, and the vertices identified by `*this` and @p other belong to the same graph.<br>
