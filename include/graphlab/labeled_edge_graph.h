@@ -7,10 +7,10 @@ namespace MAIN_LIBRARY_NAMESPACE {
     template <typename VertexType, typename EdgeLabelType>
     class DefaultEdgeLabellerType {
         public:
-            EdgeLabelType operator()(const typename graph<VertexType>::CONSTANT_VERTEX_PTR_NAME&, const typename graph<VertexType>::CONSTANT_VERTEX_PTR_NAME&) const {
+            EdgeLabelType operator()(const typename graph<VertexType>::vertex_const_handle&, const typename graph<VertexType>::vertex_const_handle&) const {
                 return EdgeLabelType();
             }
-            EdgeLabelType operator()(const typename graph<VertexType>::CONSTANT_VERTEX_PTR_NAME&, const typename graph<VertexType>::CONSTANT_VERTEX_PTR_NAME&, edge_type) const {
+            EdgeLabelType operator()(const typename graph<VertexType>::vertex_const_handle&, const typename graph<VertexType>::vertex_const_handle&, edge_type) const {
                 return EdgeLabelType();
             }
     };

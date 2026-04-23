@@ -15,9 +15,9 @@ namespace MAIN_LIBRARY_NAMESPACE {
             ~labeled_edge_non_mixed_graph() override = default;
 
             using non_mixed_graph<VertexType>::insert_edge;
-            void insert_edge(const typename graph<VertexType>::CONSTANT_VERTEX_PTR_NAME& first, const typename graph<VertexType>::CONSTANT_VERTEX_PTR_NAME& second) final;
-            virtual void insert_edge(const typename graph<VertexType>::CONSTANT_VERTEX_PTR_NAME&, const typename graph<VertexType>::CONSTANT_VERTEX_PTR_NAME&, const EdgeLabelType&) = 0;
-            virtual void insert_edge(const typename graph<VertexType>::CONSTANT_VERTEX_PTR_NAME&, const typename graph<VertexType>::CONSTANT_VERTEX_PTR_NAME&, EdgeLabelType&&) = 0;
+            void insert_edge(const typename graph<VertexType>::vertex_const_handle& first, const typename graph<VertexType>::vertex_const_handle& second) final;
+            virtual void insert_edge(const typename graph<VertexType>::vertex_const_handle&, const typename graph<VertexType>::vertex_const_handle&, const EdgeLabelType&) = 0;
+            virtual void insert_edge(const typename graph<VertexType>::vertex_const_handle&, const typename graph<VertexType>::vertex_const_handle&, EdgeLabelType&&) = 0;
         protected:
             T edges_labeller;
     };
@@ -30,8 +30,8 @@ namespace MAIN_LIBRARY_NAMESPACE {
 
     template<typename VertexType, typename EdgeLabelType, typename T> //TODO: find a better name for "T"
     void labeled_edge_non_mixed_graph<VertexType,EdgeLabelType,T>::insert_edge(
-        const typename graph<VertexType>::CONSTANT_VERTEX_PTR_NAME& first,
-        const typename graph<VertexType>::CONSTANT_VERTEX_PTR_NAME& second) {
+        const typename graph<VertexType>::vertex_const_handle& first,
+        const typename graph<VertexType>::vertex_const_handle& second) {
         insert_edge(first,second,edges_labeller(first,second));
     }
 }

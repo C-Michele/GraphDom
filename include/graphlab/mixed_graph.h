@@ -9,7 +9,7 @@ namespace MAIN_LIBRARY_NAMESPACE {
         public:
             ~mixed_graph() override = default;
 
-            virtual void insert_edge(const typename graph<VertexType>::CONSTANT_VERTEX_PTR_NAME&, const typename graph<VertexType>::CONSTANT_VERTEX_PTR_NAME&, edge_type) = 0;
+            virtual void insert_edge(const typename graph<VertexType>::vertex_const_handle&, const typename graph<VertexType>::vertex_const_handle&, edge_type) = 0;
     };
 }
 

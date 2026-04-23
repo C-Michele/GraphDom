@@ -103,7 +103,7 @@
             }                                                                                                                                           \
         }                                                                                                                                               \
         for(std::size_t k = 0; k < inserted_vertices.size(); ++k ) {                                                                                    \
-            const typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::CONSTANT_VERTEX_PTR_NAME const_vertex_ptr_k = ( inserted_vertices[k] ).first;    \
+            const typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::vertex_const_handle const_vertex_ptr_k = ( inserted_vertices[k] ).first;         \
             ASSERT_EQ( *const_vertex_ptr_k , k/number_of_repetitions );                                                                                 \
             for(std::size_t j = 0; j < inserted_vertices.size(); ++j ) {                                                                                \
                 if(j==k) {                                                                                                                              \
@@ -285,12 +285,12 @@
         CONCRETE_CLASS_NAME graph;                                                                                                                              \
         const std::size_t number_of_different_vertex_values = 100;                                                                                              \
         const std::size_t number_of_repetitions = 10;                                                                                                           \
-        typename std::vector< typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::CONSTANT_VERTEX_PTR_NAME> inserted_vertices;                                 \
+        typename std::vector< typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::vertex_const_handle> inserted_vertices;                                      \
         inserted_vertices.reserve( number_of_different_vertex_values * number_of_repetitions );                                                                 \
         for(std::size_t i = 0; i < number_of_different_vertex_values; ++i ) {                                                                                   \
             for(std::size_t j = 0; j < number_of_repetitions; ++j ) {                                                                                           \
                 inserted_vertices.emplace_back( graph.insert_vertex(i) );                                                                                       \
-                const typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::CONSTANT_VERTEX_PTR_NAME last_inserted_vertex = inserted_vertices.back();            \
+                const typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::vertex_const_handle last_inserted_vertex = inserted_vertices.back();                 \
                 for(std::size_t k = 0; k < inserted_vertices.size(); ++k ){                                                                                     \
                     if( k == inserted_vertices.size()-1 ){                                                                                                      \
                         ASSERT_TRUE(inserted_vertices[k] == last_inserted_vertex);                                                                              \
@@ -310,12 +310,12 @@
         CONCRETE_CLASS_NAME graph;                                                                                                                              \
         const std::size_t number_of_different_vertex_values = 100;                                                                                              \
         const std::size_t number_of_repetitions = 10;                                                                                                           \
-        typename std::vector< typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::CONSTANT_VERTEX_PTR_NAME> inserted_vertices;                                 \
+        typename std::vector< typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::vertex_const_handle> inserted_vertices;                                      \
         inserted_vertices.reserve( number_of_different_vertex_values * number_of_repetitions );                                                                 \
         for(std::size_t i = 0; i < number_of_different_vertex_values; ++i ) {                                                                                   \
             for(std::size_t j = 0; j < number_of_repetitions; ++j ) {                                                                                           \
                 inserted_vertices.emplace_back( graph.insert_vertex(i) );                                                                                       \
-                const typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::CONSTANT_VERTEX_PTR_NAME last_inserted_vertex = inserted_vertices.back();            \
+                const typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::vertex_const_handle last_inserted_vertex = inserted_vertices.back();                 \
                 for(std::size_t k = 0; k < inserted_vertices.size(); ++k ){                                                                                     \
                     if( k == inserted_vertices.size()-1 ){                                                                                                      \
                         ASSERT_FALSE(inserted_vertices[k] != last_inserted_vertex);                                                                             \
@@ -427,13 +427,13 @@
         CONCRETE_CLASS_NAME graph;                                                                                                              \
         const std::size_t number_of_different_vertex_values = 100;                                                                              \
         const std::size_t number_of_repetitions = 10;                                                                                           \
-        typename std::vector< typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::CONSTANT_VERTEX_PTR_NAME > inserted_vertices_pointers;       \
+        typename std::vector< typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::vertex_const_handle > inserted_vertices_pointers;            \
         inserted_vertices_pointers.reserve( number_of_different_vertex_values * number_of_repetitions );                                        \
         for(std::size_t i = 0; i < number_of_different_vertex_values; ++i) {                                                                    \
             for(std::size_t j = 0; j < number_of_repetitions; ++j) {                                                                            \
                 inserted_vertices_pointers.emplace_back( graph.insert_vertex(i) );                                                              \
-                typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::CONSTANT_VERTEX_PTR_NAME vertex_ptr = inserted_vertices_pointers.back();   \
-                const typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::CONSTANT_VERTEX_PTR_NAME* const vertex_ptr_address = &vertex_ptr;    \
+                typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::vertex_const_handle vertex_ptr = inserted_vertices_pointers.back();        \
+                const typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::vertex_const_handle* const vertex_ptr_address = &vertex_ptr;         \
                 for(std::size_t k = 0; k < inserted_vertices_pointers.size(); ++k )  {                                                          \
                     ASSERT_EQ( &( vertex_ptr = inserted_vertices_pointers[k] ), vertex_ptr_address );                                           \
                 }                                                                                                                               \
@@ -448,7 +448,7 @@
         const std::size_t number_of_repetitions = 10;                                                                                           \
         typename std::vector<                                                                                                                   \
             std::pair<                                                                                                                          \
-                typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::CONSTANT_VERTEX_PTR_NAME,                                                  \
+                typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::vertex_const_handle,                                                       \
                 const std::size_t*                                                                                                              \
             >                                                                                                                                   \
         > inserted_vertices;                                                                                                                    \
@@ -457,7 +457,7 @@
             for(std::size_t j = 0; j < number_of_repetitions; ++j) {                                                                            \
                 inserted_vertices.emplace_back( graph.insert_vertex(i) , nullptr );                                                             \
                 ( inserted_vertices.back() ).second = &( *( ( inserted_vertices.back() ).first ) );                                             \
-                typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::CONSTANT_VERTEX_PTR_NAME vertex_ptr = ( inserted_vertices.back() ).first;  \
+                typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::vertex_const_handle vertex_ptr = ( inserted_vertices.back() ).first;       \
                 for(std::size_t k = 0; k < inserted_vertices.size(); ++k )  {                                                                   \
                     vertex_ptr = ( inserted_vertices[k] ).first;                                                                                \
                     ASSERT_EQ( vertex_ptr , ( inserted_vertices[k] ).first );                                                                   \

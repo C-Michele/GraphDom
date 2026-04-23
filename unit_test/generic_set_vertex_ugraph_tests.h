@@ -13,7 +13,7 @@
     TEST(TEST_SUITE_NAME,correct_edges_insertion__not_constant_vertex_ptr__not_constant_adj_list__not_c_methods) {                                      \
         CONCRETE_CLASS_NAME graph;                                                                                                                      \
         const std::size_t number_of_different_vertex_values = 30;                                                                                       \
-        typename std::vector< typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::vertex_handle > inserted_vertices;                                 \
+        typename std::vector< typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::vertex_handle > inserted_vertices;                                   \
         inserted_vertices.reserve(number_of_different_vertex_values);                                                                                   \
         for(std::size_t i = 0; i < number_of_different_vertex_values; ++i) {                                                                            \
             inserted_vertices.emplace_back( ( graph.insert_vertex( i ) ).first );                                                                       \
@@ -277,7 +277,7 @@
     TEST(TEST_SUITE_NAME,correct_edges_insertion__constant_vertex_ptr__not_constant_adj_list__not_c_methods) {                                          \
         CONCRETE_CLASS_NAME graph;                                                                                                                      \
         const std::size_t number_of_different_vertex_values = 30;                                                                                       \
-        typename std::vector< typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::CONSTANT_VERTEX_PTR_NAME > inserted_vertices;                        \
+        typename std::vector< typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::vertex_const_handle > inserted_vertices;                             \
         inserted_vertices.reserve(number_of_different_vertex_values);                                                                                   \
         for(std::size_t i = 0; i < number_of_different_vertex_values; ++i) {                                                                            \
             inserted_vertices.emplace_back( ( graph.insert_vertex( i ) ).first );                                                                       \
@@ -343,7 +343,7 @@
     TEST(TEST_SUITE_NAME,correct_edges_insertion__constant_vertex_ptr__not_constant_adj_list__c_methods) {                                              \
         CONCRETE_CLASS_NAME graph;                                                                                                                      \
         const std::size_t number_of_different_vertex_values = 30;                                                                                       \
-        typename std::vector< typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::CONSTANT_VERTEX_PTR_NAME > inserted_vertices;                        \
+        typename std::vector< typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::vertex_const_handle > inserted_vertices;                             \
         inserted_vertices.reserve(number_of_different_vertex_values);                                                                                   \
         for(std::size_t i = 0; i < number_of_different_vertex_values; ++i) {                                                                            \
             inserted_vertices.emplace_back( ( graph.insert_vertex( i ) ).first );                                                                       \
@@ -409,7 +409,7 @@
     TEST(TEST_SUITE_NAME,correct_edges_insertion__constant_vertex_ptr__constant_adj_list__not_c_methods) {                                              \
         CONCRETE_CLASS_NAME graph;                                                                                                                      \
         const std::size_t number_of_different_vertex_values = 30;                                                                                       \
-        typename std::vector< typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::CONSTANT_VERTEX_PTR_NAME > inserted_vertices;                        \
+        typename std::vector< typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::vertex_const_handle > inserted_vertices;                             \
         inserted_vertices.reserve(number_of_different_vertex_values);                                                                                   \
         for(std::size_t i = 0; i < number_of_different_vertex_values; ++i) {                                                                            \
             inserted_vertices.emplace_back( ( graph.insert_vertex( i ) ).first );                                                                       \
@@ -475,7 +475,7 @@
     TEST(TEST_SUITE_NAME,correct_edges_insertion__constant_vertex_ptr__constant_adj_list__c_methods) {                                                  \
         CONCRETE_CLASS_NAME graph;                                                                                                                      \
         const std::size_t number_of_different_vertex_values = 30;                                                                                       \
-        typename std::vector< typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::CONSTANT_VERTEX_PTR_NAME > inserted_vertices;                        \
+        typename std::vector< typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::vertex_const_handle > inserted_vertices;                             \
         inserted_vertices.reserve(number_of_different_vertex_values);                                                                                   \
         for(std::size_t i = 0; i < number_of_different_vertex_values; ++i) {                                                                            \
             inserted_vertices.emplace_back( ( graph.insert_vertex( i ) ).first );                                                                       \
@@ -828,13 +828,13 @@
         std::map<                                                                                                                                                                           \
             const std::size_t*,                                                                                                                                                             \
             std::pair<                                                                                                                                                                      \
-                typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::CONSTANT_VERTEX_PTR_NAME,                                                                                              \
+                typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::vertex_const_handle,                                                                                                   \
                 std::set< const std::size_t* >                                                                                                                                              \
             >                                                                                                                                                                               \
         > inserted_vertices_and_incidence_matrix;                                                                                                                                           \
         for(std::size_t i = 0; i < number_of_different_vertex_values; ++i) {                                                                                                                \
             typename std::pair<                                                                                                                                                             \
-                typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::CONSTANT_VERTEX_PTR_NAME,                                                                                              \
+                typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::vertex_const_handle,                                                                                                   \
                 typename std::set< const std::size_t* >                                                                                                                                     \
             > pair_to_insert{ ( graph.insert_vertex( i ) ).first , std::set< const std::size_t* >() };                                                                                      \
             inserted_vertices_and_incidence_matrix.emplace( &( *( pair_to_insert.first ) ) , std::move( pair_to_insert ) );                                                                 \
@@ -899,13 +899,13 @@
         std::map<                                                                                                                                                                           \
             const std::size_t*,                                                                                                                                                             \
             std::pair<                                                                                                                                                                      \
-                typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::CONSTANT_VERTEX_PTR_NAME,                                                                                              \
+                typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::vertex_const_handle,                                                                                                   \
                 std::set< const std::size_t* >                                                                                                                                              \
             >                                                                                                                                                                               \
         > inserted_vertices_and_incidence_matrix;                                                                                                                                           \
         for(std::size_t i = 0; i < number_of_different_vertex_values; ++i) {                                                                                                                \
             typename std::pair<                                                                                                                                                             \
-                typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::CONSTANT_VERTEX_PTR_NAME,                                                                                              \
+                typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::vertex_const_handle,                                                                                                   \
                 typename std::set< const std::size_t* >                                                                                                                                     \
             > pair_to_insert{ ( graph.insert_vertex( i ) ).first , std::set< const std::size_t* >() };                                                                                      \
             inserted_vertices_and_incidence_matrix.emplace( &( *( pair_to_insert.first ) ) , std::move( pair_to_insert ) );                                                                 \
@@ -970,13 +970,13 @@
         std::map<                                                                                                                                                                           \
             const std::size_t*,                                                                                                                                                             \
             std::pair<                                                                                                                                                                      \
-                typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::CONSTANT_VERTEX_PTR_NAME,                                                                                              \
+                typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::vertex_const_handle,                                                                                                   \
                 std::set< const std::size_t* >                                                                                                                                              \
             >                                                                                                                                                                               \
         > inserted_vertices_and_incidence_matrix;                                                                                                                                           \
         for(std::size_t i = 0; i < number_of_different_vertex_values; ++i) {                                                                                                                \
             typename std::pair<                                                                                                                                                             \
-                typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::CONSTANT_VERTEX_PTR_NAME,                                                                                              \
+                typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::vertex_const_handle,                                                                                                   \
                 typename std::set< const std::size_t* >                                                                                                                                     \
             > pair_to_insert{ ( graph.insert_vertex( i ) ).first , std::set< const std::size_t* >() };                                                                                      \
             inserted_vertices_and_incidence_matrix.emplace( &( *( pair_to_insert.first ) ) , std::move( pair_to_insert ) );                                                                 \
@@ -1041,13 +1041,13 @@
         std::map<                                                                                                                                                                           \
             const std::size_t*,                                                                                                                                                             \
             std::pair<                                                                                                                                                                      \
-                typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::CONSTANT_VERTEX_PTR_NAME,                                                                                              \
+                typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::vertex_const_handle,                                                                                                   \
                 std::set< const std::size_t* >                                                                                                                                              \
             >                                                                                                                                                                               \
         > inserted_vertices_and_incidence_matrix;                                                                                                                                           \
         for(std::size_t i = 0; i < number_of_different_vertex_values; ++i) {                                                                                                                \
             typename std::pair<                                                                                                                                                             \
-                typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::CONSTANT_VERTEX_PTR_NAME,                                                                                              \
+                typename MAIN_LIBRARY_NAMESPACE::graph<std::size_t>::vertex_const_handle,                                                                                                   \
                 typename std::set< const std::size_t* >                                                                                                                                     \
             > pair_to_insert{ ( graph.insert_vertex( i ) ).first , std::set< const std::size_t* >() };                                                                                      \
             inserted_vertices_and_incidence_matrix.emplace( &( *( pair_to_insert.first ) ) , std::move( pair_to_insert ) );                                                                 \

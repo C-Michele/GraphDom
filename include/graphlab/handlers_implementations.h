@@ -42,7 +42,7 @@ const VertexType* MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_handle::oper
 
 template<typename VertexType>
 bool MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_handle::operator==(
-    const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME& other) const {
+    const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_const_handle& other) const {
     if ( std::holds_alternative<const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*>( vertex_container_ptr ) ) {
         return
             ( vertex_owner == other.vertex_owner ) &&
@@ -58,7 +58,7 @@ bool MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_handle::operator==(
 
 template<typename VertexType>
 bool MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_handle::operator!=(
-    const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME& other) const {
+    const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_const_handle& other) const {
     return ! ( (*this) == other );
 }
 
@@ -151,7 +151,7 @@ MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_handle::vertex_handle(
     edges_type(MAIN_LIBRARY_NAMESPACE::graph<VertexType>::graph_edges_type::mixed) {}
 
 template<typename VertexType>
-MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME::CONSTANT_VERTEX_PTR_NAME(
+MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_const_handle::vertex_const_handle(
     const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_handle& other) :
     vertex_owner(other.vertex_owner),
     graph_vertex_container(nullptr),
@@ -165,14 +165,14 @@ MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME::CONSTANT_VE
 }
 
 template<typename VertexType>
-MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME::CONSTANT_VERTEX_PTR_NAME(
+MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_const_handle::vertex_const_handle(
     const typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::vertex_handle& other) :
     vertex_owner(other.vertex_owner),
     graph_vertex_container(other.multiset_graph_vertex_container),
     edges_type(other.edges_type){}
 
 template<typename VertexType>
-const VertexType& MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME::operator*() const {
+const VertexType& MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_const_handle::operator*() const {
     if (graph_vertex_container!=nullptr) {
         return graph_vertex_container->vertex;
     }
@@ -180,7 +180,7 @@ const VertexType& MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR
 }
 
 template<typename VertexType>
-const VertexType* MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME::operator->() const {
+const VertexType* MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_const_handle::operator->() const {
     if (graph_vertex_container!=nullptr) {
         return &(graph_vertex_container->vertex);
     }
@@ -188,30 +188,30 @@ const VertexType* MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR
 }
 
 template<typename VertexType>
-bool MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME::operator==(const CONSTANT_VERTEX_PTR_NAME& other) const {
+bool MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_const_handle::operator==(const vertex_const_handle& other) const {
     return (vertex_owner == other.vertex_owner) && (graph_vertex_container == other.graph_vertex_container);
 }
 
 template<typename VertexType>
-bool MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME::operator!=(const CONSTANT_VERTEX_PTR_NAME& other) const {
+bool MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_const_handle::operator!=(const vertex_const_handle& other) const {
     return !( (*this)== other );
 }
 
 template<typename VertexType>
 typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST
-MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME::adj_list() const {
+MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_const_handle::adj_list() const {
     return const_adj_list();
 }
 
 template<typename VertexType>
 typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST
-MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME::adj_list(const MAIN_LIBRARY_NAMESPACE::edge_type et) const {
+MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_const_handle::adj_list(const MAIN_LIBRARY_NAMESPACE::edge_type et) const {
     return const_adj_list(et);
 }
 
 template<typename VertexType>
 typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST
-MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME::const_adj_list() const {
+MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_const_handle::const_adj_list() const {
     if (vertex_owner!=nullptr) {
         if (graph_vertex_container!=nullptr) {
             return MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST(
@@ -226,7 +226,7 @@ MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME::const_adj_l
 
 template<typename VertexType>
 typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST
-MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME::const_adj_list(const MAIN_LIBRARY_NAMESPACE::edge_type et) const {
+MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_const_handle::const_adj_list(const MAIN_LIBRARY_NAMESPACE::edge_type et) const {
     if (vertex_owner!=nullptr) {
         if (graph_vertex_container!=nullptr) {
             return MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST(
@@ -241,7 +241,7 @@ MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME::const_adj_l
 }
 
 template<typename VertexType>
-MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME::CONSTANT_VERTEX_PTR_NAME(
+MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_const_handle::vertex_const_handle(
     const MAIN_LIBRARY_NAMESPACE::graph<VertexType>* const vo,
     const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::non_mixed_graph_vertex_container<const vertex_container*>& vc_ref,
     MAIN_LIBRARY_NAMESPACE::edge_type const non_mixed_graph_type) :
@@ -256,7 +256,7 @@ MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME::CONSTANT_VE
 }
 
 template<typename VertexType>
-MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME::CONSTANT_VERTEX_PTR_NAME(
+MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_const_handle::vertex_const_handle(
     const MAIN_LIBRARY_NAMESPACE::graph<VertexType>* const vo,
     const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::mixed_graph_vertex_container<const vertex_container*>& vc_ref) :
     vertex_owner(vo),
@@ -264,7 +264,7 @@ MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME::CONSTANT_VE
     edges_type(MAIN_LIBRARY_NAMESPACE::graph<VertexType>::graph_edges_type::mixed) {}
 
 template<typename VertexType>
-MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME::CONSTANT_VERTEX_PTR_NAME(
+MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_const_handle::vertex_const_handle(
     const MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>* const vo ,
     const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::non_mixed_graph_vertex_container<vertex_container*>& vc_ref,
     MAIN_LIBRARY_NAMESPACE::edge_type const non_mixed_graph_type) :
@@ -279,7 +279,7 @@ MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME::CONSTANT_VE
 }
 
 template<typename VertexType>
-MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME::CONSTANT_VERTEX_PTR_NAME(
+MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_const_handle::vertex_const_handle(
     const multiset_vertex_graph<VertexType>* const vo,
     const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::mixed_graph_vertex_container<vertex_container*>& vc_ref) :
     vertex_owner(vo),
@@ -1419,7 +1419,7 @@ MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME::CONSTANT
 }
 
 template<typename VertexType>
-typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME
+typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_const_handle
 MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME::operator*() const {
     if ( std::holds_alternative< set_vertex_graph_edge_info >( type_dependent_edge_info ) ) {
         auto& specific_type_dependent_edge_info = std::get< set_vertex_graph_edge_info >( type_dependent_edge_info );
@@ -1431,7 +1431,7 @@ MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME::operator
         */
         auto& real_inner_itr = std::get< real_set_vertex_graph_vertex_container_edge_iterator_type >( inner_itr);
         if ( graph_owner_edges_type == mixed ) {
-            return MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME(
+            return MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_const_handle(
                 edge_graph_owner,
                 *(
                     static_cast<
@@ -1445,7 +1445,7 @@ MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME::operator
                 )
             );
         }
-        return MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME(
+        return MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_const_handle(
             edge_graph_owner,
             *(
                 static_cast<
@@ -1469,7 +1469,7 @@ MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME::operator
     */
     auto& real_inner_itr = std::get< real_multiset_vertex_graph_vertex_container_edge_iterator_type >( inner_itr);
     if ( graph_owner_edges_type == mixed ) {
-        return MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME(
+        return MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_const_handle(
             dynamic_cast< const MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>* >( edge_graph_owner ),
             *(
                 static_cast<
@@ -1483,7 +1483,7 @@ MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME::operator
             )
         );
     }
-    return MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME(
+    return MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_const_handle(
         dynamic_cast< const MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>* >( edge_graph_owner ),
         *(
             static_cast<
@@ -1500,7 +1500,7 @@ MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME::operator
 }
 
 template<typename VertexType>
-typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME
+typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_const_handle
 MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME::operator->() const {
     return *(*this);
 }
@@ -1831,7 +1831,7 @@ VertexType* MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::vertex_ha
 
 template<typename VertexType>
 bool MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::vertex_handle::operator==(
-    const typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME& other) const {
+    const typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_const_handle& other) const {
     if(vertex_owner!=other.vertex_owner) {
         return false;
     }
@@ -1840,7 +1840,7 @@ bool MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::vertex_handle::o
 
 template<typename VertexType>
 bool MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::vertex_handle::operator!=(
-    const typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME& other) const {
+    const typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_const_handle& other) const {
     return !( (*this) == other );
 }
 

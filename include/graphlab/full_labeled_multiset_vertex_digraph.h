@@ -30,12 +30,12 @@ namespace MAIN_LIBRARY_NAMESPACE {
                 ~full_labeled_multiset_vertex_digraph() override;
 
                 [[nodiscard]] std::size_t order() const override;
-                [[nodiscard]] const VertexLabelType& get_vertex_label(const typename graph<VertexType>::CONSTANT_VERTEX_PTR_NAME&) const override;
+                [[nodiscard]] const VertexLabelType& get_vertex_label(const typename graph<VertexType>::vertex_const_handle&) const override;
                 [[nodiscard]] const EdgeLabelType& get_edge_label(const typename graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME&) const override;
 
-                void erase_vertex(const typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME&) override; //TODO: look out to memory leaks in ADJ
+                void erase_vertex(const typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_const_handle&) override; //TODO: look out to memory leaks in ADJ
                 [[nodiscard]] typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::EDGE_ITERATOR_NAME erase_edge(const typename graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME&) override; //TODO: look out to memory leaks in ADJ
-                [[nodiscard]] VertexLabelType& get_vertex_label(const typename graph<VertexType>::CONSTANT_VERTEX_PTR_NAME&) override;
+                [[nodiscard]] VertexLabelType& get_vertex_label(const typename graph<VertexType>::vertex_const_handle&) override;
                 using MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::insert_vertex;
                 [[nodiscard]] typename multiset_vertex_graph<VertexType>::vertex_handle insert_vertex(const VertexType&, const VertexLabelType&) override;
                 [[nodiscard]] typename multiset_vertex_graph<VertexType>::vertex_handle insert_vertex(const VertexType&, VertexLabelType&&) override;
@@ -43,8 +43,8 @@ namespace MAIN_LIBRARY_NAMESPACE {
                 [[nodiscard]] typename multiset_vertex_graph<VertexType>::vertex_handle insert_vertex(VertexType&&, VertexLabelType&&) override;
                 [[nodiscard]] EdgeLabelType& get_edge_label(const typename graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME&) override;
                 using MAIN_LIBRARY_NAMESPACE::labeled_edge_non_mixed_graph<VertexType,EdgeLabelType,T2>::insert_edge;
-                void insert_edge(const typename graph<VertexType>::CONSTANT_VERTEX_PTR_NAME&, const typename graph<VertexType>::CONSTANT_VERTEX_PTR_NAME&, const EdgeLabelType&) override;
-                void insert_edge(const typename graph<VertexType>::CONSTANT_VERTEX_PTR_NAME&, const typename graph<VertexType>::CONSTANT_VERTEX_PTR_NAME&, EdgeLabelType&&) override;
+                void insert_edge(const typename graph<VertexType>::vertex_const_handle&, const typename graph<VertexType>::vertex_const_handle&, const EdgeLabelType&) override;
+                void insert_edge(const typename graph<VertexType>::vertex_const_handle&, const typename graph<VertexType>::vertex_const_handle&, EdgeLabelType&&) override;
             private:
                 using VertexContainerPointerType = typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::VertexContainerPointerType;
                 using edge_endpoint = typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::template labeled_directed_edge_endpoint<VertexLabelType>;
@@ -113,7 +113,7 @@ std::size_t MAIN_LIBRARY_NAMESPACE::full_labeled_multiset_vertex_digraph<VertexT
 
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename T1, typename T2>
 const VertexLabelType& MAIN_LIBRARY_NAMESPACE::full_labeled_multiset_vertex_digraph<VertexType,VertexLabelType,EdgeLabelType,T1,T2>::get_vertex_label(
-    const typename graph<VertexType>::CONSTANT_VERTEX_PTR_NAME&) const {
+    const typename graph<VertexType>::vertex_const_handle&) const {
     //TODO: real implementation
 }
 
@@ -125,7 +125,7 @@ const EdgeLabelType& MAIN_LIBRARY_NAMESPACE::full_labeled_multiset_vertex_digrap
 
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename T1, typename T2>
 void MAIN_LIBRARY_NAMESPACE::full_labeled_multiset_vertex_digraph<VertexType,VertexLabelType,EdgeLabelType,T1,T2>::erase_vertex(
-    const typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_VERTEX_PTR_NAME& const_vertex_ptr_to_erase_reference) {
+    const typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_const_handle& const_vertex_ptr_to_erase_reference) {
     if( MAIN_LIBRARY_NAMESPACE::graph<VertexType>::get_owner_graph(const_vertex_ptr_to_erase_reference) == this ) {
         const auto vertex_container_to_erase_ptr = MAIN_LIBRARY_NAMESPACE::graph<VertexType>::get_vertex_container(const_vertex_ptr_to_erase_reference);
         if ( vertex_container_to_erase_ptr != nullptr ) {
@@ -182,7 +182,7 @@ MAIN_LIBRARY_NAMESPACE::full_labeled_multiset_vertex_digraph<VertexType,VertexLa
 
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename T1, typename T2>
 VertexLabelType& MAIN_LIBRARY_NAMESPACE::full_labeled_multiset_vertex_digraph<VertexType,VertexLabelType,EdgeLabelType,T1,T2>::get_vertex_label(
-    const typename graph<VertexType>::CONSTANT_VERTEX_PTR_NAME&) {
+    const typename graph<VertexType>::vertex_const_handle&) {
     //TODO: real implementation
 }
 
@@ -258,8 +258,8 @@ EdgeLabelType& MAIN_LIBRARY_NAMESPACE::full_labeled_multiset_vertex_digraph<Vert
 
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename T1, typename T2>
 void MAIN_LIBRARY_NAMESPACE::full_labeled_multiset_vertex_digraph<VertexType,VertexLabelType,EdgeLabelType,T1,T2>::insert_edge(
-    const typename graph<VertexType>::CONSTANT_VERTEX_PTR_NAME& begin_point_vertex_ptr,
-    const typename graph<VertexType>::CONSTANT_VERTEX_PTR_NAME& end_point_vertex_ptr,
+    const typename graph<VertexType>::vertex_const_handle& begin_point_vertex_ptr,
+    const typename graph<VertexType>::vertex_const_handle& end_point_vertex_ptr,
     const EdgeLabelType& edge_label_to_insert) {
     if (
         MAIN_LIBRARY_NAMESPACE::graph<VertexType>::get_owner_graph( begin_point_vertex_ptr ) != this ||
@@ -281,8 +281,8 @@ void MAIN_LIBRARY_NAMESPACE::full_labeled_multiset_vertex_digraph<VertexType,Ver
 
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename T1, typename T2>
 void MAIN_LIBRARY_NAMESPACE::full_labeled_multiset_vertex_digraph<VertexType,VertexLabelType,EdgeLabelType,T1,T2>::insert_edge(
-    const typename graph<VertexType>::CONSTANT_VERTEX_PTR_NAME& begin_point_vertex_ptr,
-    const typename graph<VertexType>::CONSTANT_VERTEX_PTR_NAME& end_point_vertex_ptr,
+    const typename graph<VertexType>::vertex_const_handle& begin_point_vertex_ptr,
+    const typename graph<VertexType>::vertex_const_handle& end_point_vertex_ptr,
     EdgeLabelType&& edge_label_to_insert) {
         if (
             MAIN_LIBRARY_NAMESPACE::graph<VertexType>::get_owner_graph( begin_point_vertex_ptr ) != this ||
