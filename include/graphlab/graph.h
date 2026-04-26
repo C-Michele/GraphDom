@@ -34,8 +34,8 @@ namespace MAIN_LIBRARY_NAMESPACE {
      * - If `c` is a reference to the core of a vertex \f$ v \f$ in `g`, then \f$ v = ( \f$ `c` \f$ , \f$ `&c` \f$ ) \f$;
      * - `g` stores only the cores of its vertices; (this is a direct consequence of the previous point)
      * - The sets \f$ E_\text{di} \f$ and \f$ E_\text{un} \f$ must be considered dynamic to allow, obviously, the insertion and erasion of edges from `g`;
-     * - If \f$ v \f$ is a vertex in `g`, then \f$ l_V(v) \f$ must be considered dynamic to allow, obviously, the label of \f$ v \f$ to be changed;
-     * - If \f$ y \f$ is an edge in `g`, then \f$ l_E(y) \f$ must be considered dynamic to allow, obviously, the label of \f$ y \f$ to be changed;
+     * - If `g` is a [labeled-vertex graph](@ref mathematical_labeled_vertex_graph_definition) and \f$ v \f$ is a vertex in `g`, then \f$ l_V(v) \f$ must be considered dynamic to allow, obviously, the label of \f$ v \f$ to be changed;
+     * - If `g` is a [labeled-edge graph](@ref mathematical_labeled_edge_graph_definition) and \f$ y \f$ is an edge in `g`, then \f$ l_E(y) \f$ must be considered dynamic to allow, obviously, the label of \f$ y \f$ to be changed;
      */
     template <typename VertexType>
     class graph {
@@ -266,6 +266,7 @@ namespace MAIN_LIBRARY_NAMESPACE {
 }
 
 namespace MAIN_LIBRARY_NAMESPACE {
+    /// Every [set-vertex graph](@ref mathematical_set_vertex_graph_definition) created using this library is an instance of a concrete class publicly derived, directly or indirectly, from this polymorphic template class.
     template <typename VertexType>
     class set_vertex_graph : virtual public graph<VertexType>  {
         public:
@@ -273,6 +274,7 @@ namespace MAIN_LIBRARY_NAMESPACE {
 
             [[nodiscard]] virtual std::pair<typename graph<VertexType>::vertex_handle,bool> insert_vertex(const VertexType&) = 0;
             [[nodiscard]] virtual std::pair<typename graph<VertexType>::vertex_handle,bool> insert_vertex(VertexType&&) = 0;
+        /// \cond DEV_DOC
         protected:
             using VertexContainerPointerType = const typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*;
             using edge_endpoint = typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::template edge_endpoint< VertexContainerPointerType >;
@@ -307,10 +309,12 @@ namespace MAIN_LIBRARY_NAMESPACE {
                 MAIN_LIBRARY_NAMESPACE::edge_type inner_itr_edge_type,
                 bool inner_itr_is_limited_by_edge_type = false
             );
+        /// \endcond DEV_DOC
     };
 }
 
 namespace MAIN_LIBRARY_NAMESPACE {
+    /// Every [multiset-vertex graph](@ref mathematical_multiset_vertex_graph_definition) created using this library is an instance of a concrete class publicly derived, directly or indirectly, from this polymorphic template class.
     template <typename VertexType>
     class multiset_vertex_graph : virtual public graph<VertexType>  {
         public:
@@ -320,10 +324,9 @@ namespace MAIN_LIBRARY_NAMESPACE {
 
             ~multiset_vertex_graph() override = default;
 
-            [[nodiscard]] virtual multiset_vertex_graph::vertex_handle insert_vertex(const VertexType&) = 0;
-            [[nodiscard]] virtual multiset_vertex_graph::vertex_handle insert_vertex(VertexType&&) = 0;
-            // [[nodiscard]] virtual typename graph<VertexType>::VERTEX_PTR_NAME replace_vertex(typename graph<VertexType>::VERTEX_PTR_NAME&, const VertexType&) = 0; //TODO: check the signature correctness
-            // [[nodiscard]] virtual typename graph<VertexType>::VERTEX_PTR_NAME replace_vertex(typename graph<VertexType>::VERTEX_PTR_NAME&, VertexType&&) = 0; //TODO: check the signature correctness
+            [[nodiscard]] virtual vertex_handle insert_vertex(const VertexType&) = 0;
+            [[nodiscard]] virtual vertex_handle insert_vertex(VertexType&&) = 0;
+        /// \cond DEV_DOC
         protected:
             using VertexContainerPointerType = typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*;
             using edge_endpoint = typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::template edge_endpoint< VertexContainerPointerType >;
@@ -366,22 +369,23 @@ namespace MAIN_LIBRARY_NAMESPACE {
 
             static bool inner_iterator_is_real(const typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME&);
 
-        static typename adj_set::const_iterator get_inner_iterator(const typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME&);
+            static typename adj_set::const_iterator get_inner_iterator(const typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME&);
 
-        static typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::EDGE_ITERATOR_NAME edge_iterator_factory(
-            const MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>* edge_multiset_vertex_graph_owner_ptr,
-            non_mixed_graph_vertex_container* edge_begin_point_ptr,
-            MAIN_LIBRARY_NAMESPACE::edge_type edge_multiset_vertex_graph_owner_edges_type,
-            typename adj_set::iterator inner_itr
-        );
+            static typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::EDGE_ITERATOR_NAME edge_iterator_factory(
+                const MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>* edge_multiset_vertex_graph_owner_ptr,
+                non_mixed_graph_vertex_container* edge_begin_point_ptr,
+                MAIN_LIBRARY_NAMESPACE::edge_type edge_multiset_vertex_graph_owner_edges_type,
+                typename adj_set::iterator inner_itr
+            );
 
-        static typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::EDGE_ITERATOR_NAME edge_iterator_factory(
-            const MAIN_LIBRARY_NAMESPACE::set_vertex_graph<VertexType>* edge_multiset_vertex_graph_owner_ptr,
-            mixed_graph_vertex_container* edge_begin_point_ptr,
-            typename adj_set::iterator inner_itr,
-            MAIN_LIBRARY_NAMESPACE::edge_type inner_itr_edge_type,
-            bool inner_itr_is_limited_by_edge_type = false
-        );
+            static typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::EDGE_ITERATOR_NAME edge_iterator_factory(
+                const MAIN_LIBRARY_NAMESPACE::set_vertex_graph<VertexType>* edge_multiset_vertex_graph_owner_ptr,
+                mixed_graph_vertex_container* edge_begin_point_ptr,
+                typename adj_set::iterator inner_itr,
+                MAIN_LIBRARY_NAMESPACE::edge_type inner_itr_edge_type,
+                bool inner_itr_is_limited_by_edge_type = false
+            );
+        /// \endcond DEV_DOC
     };
 }
 
