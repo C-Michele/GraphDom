@@ -27,12 +27,14 @@ namespace MAIN_LIBRARY_NAMESPACE {
 namespace MAIN_LIBRARY_NAMESPACE {
     /// Every [graph](@ref mathematical_graph_definition) created using this library is an instance of a concrete class publicly derived, directly or indirectly, from this polymorphic template class.
     /**
-     * Any graph created with this library can be considered equivalent, with the necessary precautions listed below, to a graph consistent with the [definition found on the "Mathematical Introduction" page](@ref mathematical_graph_definition).<br>
+     * Creating an object of a user-defined class derived from this one will cause undefined behavior.
+     *
+     * Every graph created with this library can be considered equivalent, with the necessary precautions listed below, to a graph consistent with the [definition found on the "Mathematical Introduction" page](@ref mathematical_graph_definition).<br>
      * Referring to the symbols used in [that definition](@ref mathematical_graph_definition) and considering a non-const reference `g` to this class, the "precautions" are as follows:
      * - \f$ V_\text{type} \f$ is the set of all possible instances of @p VertexType ;
      * - The set \f$ V \f$  must be considered dynamic, to allow, obviously, the insertion and erasion of vertices from `g`;
-     * - If `c` is a reference to the core of a vertex \f$ v \f$ in `g`, then \f$ v = ( \f$ `c` \f$ , \f$ `&c` \f$ ) \f$;
-     * - `g` stores only the cores of its vertices; (this is a direct consequence of the previous point)
+     * - If `c` is a reference to the [core of a vertex](@ref mathematical_vertex_core_definition) \f$ v \f$ in `g`, then \f$ v = ( \f$ `c` \f$ , \f$ `&c` \f$ ) \f$;
+     * - `g` stores only the [cores of its vertices](@ref mathematical_vertex_core_definition); (this is a direct consequence of the previous point)
      * - The sets \f$ E_\text{di} \f$ and \f$ E_\text{un} \f$ must be considered dynamic to allow, obviously, the insertion and erasion of edges from `g`;
      * - If `g` is a [labeled-vertex graph](@ref mathematical_labeled_vertex_graph_definition) and \f$ v \f$ is a vertex in `g`, then \f$ l_V(v) \f$ must be considered dynamic to allow, obviously, the label of \f$ v \f$ to be changed;
      * - If `g` is a [labeled-edge graph](@ref mathematical_labeled_edge_graph_definition) and \f$ y \f$ is an edge in `g`, then \f$ l_E(y) \f$ must be considered dynamic to allow, obviously, the label of \f$ y \f$ to be changed;

@@ -164,7 +164,7 @@ class MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_const_handle final {
         [[nodiscard]] bool operator==(const vertex_const_handle& other) const;
 
         /**
-         * `*this != other` has the same behavior of `!( *this == other)`.
+         * `*this != other` has the same behavior of `!( *this == other )`.
          *
          * @param other The object to compare with `*this`
          * @return The same result of `!( *this == other)`.
