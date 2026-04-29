@@ -27,7 +27,7 @@ namespace MAIN_LIBRARY_NAMESPACE {
 namespace MAIN_LIBRARY_NAMESPACE {
     /// Every [graph](@ref mathematical_graph_definition) created using this library is an instance of a concrete class publicly derived, directly or indirectly, from this polymorphic template class.
     /**
-     * Creating an object of a user-defined class derived from this one will cause undefined behavior.
+     * Creating an object of a user-defined class derived, directly or indirectly, from this one will cause undefined behavior.
      *
      * Every graph created with this library can be considered equivalent, with the necessary precautions listed below, to a graph consistent with the [definition found on the "Mathematical Introduction" page](@ref mathematical_graph_definition).<br>
      * Referring to the symbols used in [that definition](@ref mathematical_graph_definition) and considering a non-const reference `g` to this class, the "precautions" are as follows:
@@ -269,6 +269,9 @@ namespace MAIN_LIBRARY_NAMESPACE {
 
 namespace MAIN_LIBRARY_NAMESPACE {
     /// Every [set-vertex graph](@ref mathematical_set_vertex_graph_definition) created using this library is an instance of a concrete class publicly derived, directly or indirectly, from this polymorphic template class.
+    /**
+     * Creating an object of a user-defined class derived, directly or indirectly, from this one will cause undefined behavior.
+     */
     template <typename VertexType>
     class set_vertex_graph : virtual public graph<VertexType>  {
         public:
@@ -317,6 +320,9 @@ namespace MAIN_LIBRARY_NAMESPACE {
 
 namespace MAIN_LIBRARY_NAMESPACE {
     /// Every [multiset-vertex graph](@ref mathematical_multiset_vertex_graph_definition) created using this library is an instance of a concrete class publicly derived, directly or indirectly, from this polymorphic template class.
+    /**
+     * Creating an object of a user-defined class derived, directly or indirectly, from this one will cause undefined behavior.
+     */
     template <typename VertexType>
     class multiset_vertex_graph : virtual public graph<VertexType>  {
         public:

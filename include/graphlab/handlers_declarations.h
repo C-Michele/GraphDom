@@ -7,7 +7,7 @@
 /**
  * An instance `hndl` of this class is invalidated as soon as one of the following scenarios occurs:
  * -# `hndl` is constructed using an invalid instance of this class.
- * -# `hndl` is constructed using an invalid instance of [MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph](@ref MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph).
+ * -# `hndl` is constructed using an invalid instance of [MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph< VertexType >::vertex_handle](@ref MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph::vertex_handle).
  * -# `hndl = other_hndl;` is executed where `other_hndl` is an invalid instance of this class.
  *
  * A valid instance `hndl` of this class is invalidated as soon as the vertex it is associated with is erased.
@@ -21,15 +21,31 @@ class MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_handle final {
     public:
         vertex_handle() = delete;
         vertex_handle(const vertex_handle&) = default;
-        vertex_handle(const typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::vertex_handle&);
 
+        /**
+         * If @p other is valid then immediately after the construction of `*this` we will have `*this == other`.<br>
+         * If @p other is invalid then `*this` will be invalid immediately after its construction.
+         *
+         * @param other The reference to the object from which to construct `*this`.
+         * @par Complexity
+         * Constant.
+         */
+        vertex_handle(const typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::vertex_handle& other);
+
+        /**
+         * If `*this` is invalid, invoking this conversion operator via `*this` will cause undefined behavior.<br>
+         * If `*this` is valid and identifies a vertex belonging to a set-vertex graph, invoking this conversion operator via `*this` will throw an instance of a class publicly derived, directly or indirectly, from `std::exception`.
+         *
+         * @par Complexity
+         * Constant.
+         */
         explicit operator typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::vertex_handle() const;
 
         /**
          * If `*this` is valid then `*(*this)` returns a const reference to the core of the vertex identified by `*this`.<br>
          * If `*this` is invalid then `*(*this)` will cause undefined behavior.
          *
-         * @return A const reference to the vertex identified by `*this`
+         * @return A const reference to the core of the vertex identified by `*this`.
          * @par Complexity
          * Constant.
          */
@@ -46,11 +62,11 @@ class MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_handle final {
         [[nodiscard]] const VertexType* operator->() const;
 
         /**
-         * Returns `true` if `*this` and @p other are valid and identify the same vertex.<br>
+         * Returns `true` if `*this` and @p other are valid and identify the same vertex of the same graph.<br>
          * Returns `false` if `*this` and @p other are valid, identify different vertices, and the vertices identified by `*this` and @p other belong to the same graph.<br>
          * In other cases, `*this == other` will cause undefined behavior.
          *
-         * @param other The object to compare with `*this`
+         * @param other The object to compare with `*this`.
          * @return The comparison result.
          * @par Complexity
          * Constant.
@@ -60,7 +76,7 @@ class MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_handle final {
         /**
          * `*this != other` has the same behavior of `!( *this == other)`.
          *
-         * @param other The object to compare with `*this`
+         * @param other The object to compare with `*this`.
          * @return The same result of `!( *this == other)`.
          * @par Complexity
          * Constant.
@@ -69,18 +85,10 @@ class MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_handle final {
 
         vertex_handle& operator=(const vertex_handle&) = default;
 
-        [[nodiscard]] MAIN_LIBRARY_NAMESPACE::graph<VertexType>::ADJ_LIST adj_list() const; //TODO: implementation
-        //template <typename Compare>
-        // [[nodiscard]] MAIN_LIBRARY_NAMESPACE::graph<VertexType>::ADJ_LIST adj_list(Compare comp) const; //TODO: implementation
-        [[nodiscard]] MAIN_LIBRARY_NAMESPACE::graph<VertexType>::ADJ_LIST adj_list(MAIN_LIBRARY_NAMESPACE::edge_type) const; //TODO: implementation
-        //template <typename Compare>
-        //[[nodiscard]] MAIN_LIBRARY_NAMESPACE::graph<VertexType>::ADJ_LIST adj_list(MAIN_LIBRARY_NAMESPACE::edge_type, Compare comp) const; //TODO: implementation
-        [[nodiscard]] MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST const_adj_list() const; //TODO: implementation
-        //template <typename Compare>
-        //[[nodiscard]] MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST const_adj_list(Compare comp) const; //TODO: implementation
-        [[nodiscard]] MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST const_adj_list(MAIN_LIBRARY_NAMESPACE::edge_type) const; //TODO: implementation
-        //template <typename Compare>
-        //[[nodiscard]] MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST const_adj_list(MAIN_LIBRARY_NAMESPACE::edge_type, Compare comp) const; //TODO: implementation
+        [[nodiscard]] MAIN_LIBRARY_NAMESPACE::graph<VertexType>::ADJ_LIST adj_list() const;
+        [[nodiscard]] MAIN_LIBRARY_NAMESPACE::graph<VertexType>::ADJ_LIST adj_list(MAIN_LIBRARY_NAMESPACE::edge_type) const;
+        [[nodiscard]] MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST const_adj_list() const;
+        [[nodiscard]] MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST const_adj_list(MAIN_LIBRARY_NAMESPACE::edge_type) const;
 
         /// \cond DEV_DOC
         friend class MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_const_handle;
@@ -108,11 +116,14 @@ class MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_handle final {
         MAIN_LIBRARY_NAMESPACE::graph<VertexType>::graph_edges_type edges_type;
 };
 
-/// Every valid instance of this class can be used to identify a specific [vertex](@ref mathematical_vertex_definition) of a [graph](@ref MAIN_LIBRARY_NAMESPACE::graph) and to access its [core](@ref mathematical_vertex_core_definition) by reference or pointer.
 /**
+ * @brief Every valid instance of this class can be used to identify a specific [vertex](@ref mathematical_vertex_definition) of a [graph](@ref MAIN_LIBRARY_NAMESPACE::graph) and to access its [core](@ref mathematical_vertex_core_definition) by reference or pointer.<br>
+ * A valid instance `hndl` of this class cannot create objects that allow modification of the graph to which the vertex identified by `hndl` belongs without a non-const reference to that graph.
+ *
  * An instance `hndl` of this class is invalidated as soon as one of the following scenarios occurs:
  * -# `hndl` is constructed using an invalid instance of this class.
- * -# `hndl` is constructed using an invalid instance of [MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph](@ref MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph).
+ * -# `hndl` is constructed using an invalid instance of [MAIN_LIBRARY_NAMESPACE::graph< VertexType >::vertex_handle](@ref MAIN_LIBRARY_NAMESPACE::graph::vertex_handle).
+ * -# `hndl` is constructed using an invalid instance of [MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph< VertexType >::vertex_handle](@ref MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph::vertex_handle).
  * -# `hndl = other_hndl;` is executed where `other_hndl` is an invalid instance of this class.
  *
  * A valid instance `hndl` of this class is invalidated as soon as the vertex it is associated with is erased.
@@ -120,22 +131,38 @@ class MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_handle final {
  * An invalid instance `hndl` of this class is validated as soon as `hndl = other_hndl;` is executed where `other_hndl` is a valid instance of this class.
  *
  * If `*this` is invalid then any operation other than `*this = other;` and the destruction of `*this` will cause undefined behavior.
- *
- * A valid instance `hndl` of this class cannot create objects that allow modification of the graph to which the vertex identified by `hndl` belongs without a non-const reference to that graph.
  */
 template <typename VertexType>
 class MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_const_handle final {
     public:
         vertex_const_handle() = delete;
         vertex_const_handle(const vertex_const_handle&) = default;
-        vertex_const_handle(const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_handle&);
-        vertex_const_handle(const typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::vertex_handle&);
+
+        /**
+         * If @p other is valid then immediately after the construction of `*this` we will have `*this == other`.<br>
+         * If @p other is invalid then `*this` will be invalid immediately after its construction.
+         *
+         * @param other The reference to the object from which to construct `*this`.
+         * @par Complexity
+         * Constant.
+         */
+        vertex_const_handle(const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_handle& other);
+
+        /**
+         * If @p other is valid then immediately after the construction of `*this` we will have `*this == other`.<br>
+         * If @p other is invalid then `*this` will be invalid immediately after its construction.
+         *
+         * @param other The reference to the object from which to construct `*this`.
+         * @par Complexity
+         * Constant.
+         */
+        vertex_const_handle(const typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::vertex_handle& other);
 
         /**
          * If `*this` is valid then `*(*this)` returns a const reference to the core of the vertex identified by `*this`.<br>
          * If `*this` is invalid then `*(*this)` will cause undefined behavior.
          *
-         * @return A const reference to the vertex identified by `*this`
+         * @return A const reference to the core of the vertex identified by `*this`.
          * @par Complexity
          * Constant.
          */
@@ -152,11 +179,11 @@ class MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_const_handle final {
         [[nodiscard]] const VertexType* operator->() const;
 
         /**
-         * Returns `true` if `*this` and @p other are valid and identify the same vertex.<br>
+         * Returns `true` if `*this` and @p other are valid and identify the same vertex of the same graph.<br>
          * Returns `false` if `*this` and @p other are valid, identify different vertices, and the vertices identified by `*this` and @p other belong to the same graph.<br>
          * In other cases, `*this == other` will cause undefined behavior.
          *
-         * @param other The object to compare with `*this`
+         * @param other The object to compare with `*this`.
          * @return The comparison result.
          * @par Complexity
          * Constant.
@@ -166,7 +193,7 @@ class MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_const_handle final {
         /**
          * `*this != other` has the same behavior of `!( *this == other )`.
          *
-         * @param other The object to compare with `*this`
+         * @param other The object to compare with `*this`.
          * @return The same result of `!( *this == other)`.
          * @par Complexity
          * Constant.
@@ -176,17 +203,9 @@ class MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_const_handle final {
         vertex_const_handle& operator=(const vertex_const_handle&) = default;
 
         [[nodiscard]] MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST adj_list() const;
-        //template <typename Compare>
-        //[[nodiscard]] MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST adj_list(Compare comp) const; //TODO: implementation
         [[nodiscard]] MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST adj_list(MAIN_LIBRARY_NAMESPACE::edge_type) const;
-        //template <typename Compare>
-        //[[nodiscard]] MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST adj_list(MAIN_LIBRARY_NAMESPACE::edge_type, Compare comp) const; //TODO: implementation
-        [[nodiscard]] MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST const_adj_list() const; //TODO: implementation
-        //template <typename Compare>
-        //[[nodiscard]] MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST const_adj_list(Compare comp) const; //TODO: implementation
-        [[nodiscard]] MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST const_adj_list(MAIN_LIBRARY_NAMESPACE::edge_type) const; //TODO: implementation
-        //template <typename Compare>
-        //[[nodiscard]] MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST const_adj_list(MAIN_LIBRARY_NAMESPACE::edge_type, Compare comp) const; //TODO: implementation
+        [[nodiscard]] MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST const_adj_list() const;
+        [[nodiscard]] MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST const_adj_list(MAIN_LIBRARY_NAMESPACE::edge_type) const;
 
         /// \cond DEV_DOC
         friend bool MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_handle::operator==(const vertex_const_handle&) const;
@@ -222,7 +241,7 @@ class MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_const_handle final {
 };
 
 template <typename VertexType>
-class MAIN_LIBRARY_NAMESPACE::graph<VertexType>::ADJ_LIST { //TODO: class implementation
+class MAIN_LIBRARY_NAMESPACE::graph<VertexType>::ADJ_LIST {
     public:
         ADJ_LIST() = delete;
         ADJ_LIST(const ADJ_LIST&) = default;
@@ -289,7 +308,7 @@ class MAIN_LIBRARY_NAMESPACE::graph<VertexType>::ADJ_LIST { //TODO: class implem
 };
 
 template <typename VertexType>
-class MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST { //TODO: class implementation
+class MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST {
     public:
         CONSTANT_ADJ_LIST() = delete;
         CONSTANT_ADJ_LIST(const CONSTANT_ADJ_LIST&) = default;
@@ -341,7 +360,7 @@ class MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST { //TODO: cla
 };
 
 template <typename VertexType>
-class MAIN_LIBRARY_NAMESPACE::graph<VertexType>::EDGE_ITERATOR_NAME final { //TODO: class implementation
+class MAIN_LIBRARY_NAMESPACE::graph<VertexType>::EDGE_ITERATOR_NAME final {
     public:
         EDGE_ITERATOR_NAME() = delete;
         EDGE_ITERATOR_NAME(const EDGE_ITERATOR_NAME&) = default;
@@ -477,7 +496,7 @@ class MAIN_LIBRARY_NAMESPACE::graph<VertexType>::EDGE_ITERATOR_NAME final { //TO
 };
 
 template <typename VertexType>
-class MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME final { //TODO: class implementation
+class MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME final {
     public:
         CONSTANT_EDGE_ITERATOR_NAME() = delete;
         CONSTANT_EDGE_ITERATOR_NAME(const CONSTANT_EDGE_ITERATOR_NAME&) = default;
@@ -526,29 +545,6 @@ class MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME fin
             >& edge_begin_point_adj_sets_array_ptr,
             MAIN_LIBRARY_NAMESPACE::graph<VertexType>::begin_or_end begin_or_end_indicator
         );
-
-        /*
-        CONSTANT_EDGE_ITERATOR_NAME(
-            const MAIN_LIBRARY_NAMESPACE::graph<VertexType>*,
-            const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*,
-            typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::adj_set<const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*>::const_iterator,
-            const std::array<
-                MAIN_LIBRARY_NAMESPACE::graph<VertexType>::adj_set<const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*>*,
-                2
-            >&,
-            MAIN_LIBRARY_NAMESPACE::edge_type
-        );
-        CONSTANT_EDGE_ITERATOR_NAME(
-            const MAIN_LIBRARY_NAMESPACE::graph<VertexType>*,
-            const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*,
-            typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::adj_set<MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*>::const_iterator,
-            const std::array<
-                MAIN_LIBRARY_NAMESPACE::graph<VertexType>::adj_set<MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*>*,
-                2
-            >&,
-            MAIN_LIBRARY_NAMESPACE::edge_type
-        );
-        */
 
         bool is_limited_by_edge_type() const;
 
@@ -606,32 +602,84 @@ class MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME fin
         MAIN_LIBRARY_NAMESPACE::edge_type current_edge_type;
 };
 
+/// Every valid instance of this class can be used to identify a specific [vertex](@ref mathematical_vertex_definition) of a [multiset-vertex graph](@ref MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph) and to access its [core](@ref mathematical_vertex_core_definition) by reference or pointer.
+/**
+ * An instance `hndl` of this class is invalidated as soon as one of the following scenarios occurs:
+ * -# `hndl` is constructed using an invalid instance of this class.
+ * -# `hndl` is constructed using an invalid instance of [MAIN_LIBRARY_NAMESPACE::graph< VertexType >::vertex_handle](@ref MAIN_LIBRARY_NAMESPACE::graph::vertex_handle).
+ * -# `hndl = other_hndl;` is executed where `other_hndl` is an invalid instance of this class.
+ *
+ * A valid instance `hndl` of this class is invalidated as soon as the vertex it is associated with is erased.
+ *
+ * An invalid instance `hndl` of this class is validated as soon as `hndl = other_hndl;` is executed where `other_hndl` is a valid instance of this class.
+ *
+ * If `*this` is invalid then any operation other than `*this = other;` and the destruction of `*this` will cause undefined behavior.
+ */
 template <typename VertexType>
 class MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::vertex_handle final {
     public:
         vertex_handle() = delete;
         vertex_handle(const vertex_handle&) = default;
-        explicit vertex_handle(const typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_handle&);
 
+        /**
+         * If @p other is valid and identifies a vertex of a multiset-vertex graph, then immediately after the construction of `*this` we will have `*this == other`.<br>
+         * If @p other is valid but identifies a vertex of a set-vertex graph, then this constructor will throw an instance of a class publicly derived, directly or indirectly, from `std::exception`.<br>
+         * If @p other is invalid then `*this` will be invalid immediately after its construction.
+         *
+         * @param other The object to compare with `*this`.
+         * @par Complexity
+         * Constant.
+         */
+        explicit vertex_handle(const typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_handle& other);
+
+        /**
+         * If `*this` is valid then `*(*this)` returns a non-const reference to the core of the vertex identified by `*this`.<br>
+         * If `*this` is invalid then `*(*this)` will cause undefined behavior.
+         *
+         * @return A const reference to the core of the vertex identified by `*this`.
+         * @par Complexity
+         * Constant.
+         */
         [[nodiscard]] VertexType& operator*() const;
+
+        /**
+         * If `*this` is valid then the expression `(*this)->...` is equal to `( &( *(*this) ) )->...`.<br>
+         * If `*this` is invalid then the expression `(*this)->...` will cause undefined behavior.
+         *
+         * @return `&( *(*this) )`
+         * @par Complexity
+         * Constant.
+         */
         [[nodiscard]] VertexType* operator->() const;
-        [[nodiscard]] bool operator==(const typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_const_handle&) const;
-        [[nodiscard]] bool operator!=(const typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_const_handle&) const;
+
+        /**
+         * Returns `true` if `*this` and @p other are valid and identify the same vertex of the same multiset-vertex graph.<br>
+         * Returns `false` if `*this` and @p other are valid, identify different vertices, and the vertices identified by `*this` and @p other belong to the same multiset-vertex graph.<br>
+         * In other cases, `*this == other` will cause undefined behavior.
+         *
+         * @param other The object to compare with `*this`.
+         * @return The comparison result.
+         * @par Complexity
+         * Constant.
+         */
+        [[nodiscard]] bool operator==(const typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_const_handle& other) const;
+
+        /**
+         * `*this != other` has the same behavior of `!( *this == other )`.
+         *
+         * @param other The object to compare with `*this`
+         * @return The same result of `!( *this == other)`.
+         * @par Complexity
+         * Constant.
+         */
+        [[nodiscard]] bool operator!=(const typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_const_handle& other) const;
 
         vertex_handle& operator=(const vertex_handle&) = default;
 
-        [[nodiscard]] MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::ADJ_LIST adj_list() const; //TODO: implementation
-        //template <typename Compare>
-        //[[nodiscard]] MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::ADJ_LIST adj_list(Compare comp) const; //TODO: implementation
-        [[nodiscard]] MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::ADJ_LIST adj_list(MAIN_LIBRARY_NAMESPACE::edge_type) const; //TODO: implementation
-        //template <typename Compare>
-        //[[nodiscard]] MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::ADJ_LIST adj_list(MAIN_LIBRARY_NAMESPACE::edge_type, Compare comp) const; //TODO: implementation
-        [[nodiscard]] typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST const_adj_list() const; //TODO: implementation
-        //template <typename Compare>
-        //[[nodiscard]] typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST const_adj_list(Compare comp) const; //TODO: implementation
-        [[nodiscard]] typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST const_adj_list(MAIN_LIBRARY_NAMESPACE::edge_type) const; //TODO: implementation
-        //template <typename Compare>
-        //[[nodiscard]] typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST const_adj_list(MAIN_LIBRARY_NAMESPACE::edge_type, Compare comp) const; //TODO: implementation
+        [[nodiscard]] MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::ADJ_LIST adj_list() const;
+        [[nodiscard]] MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::ADJ_LIST adj_list(MAIN_LIBRARY_NAMESPACE::edge_type) const;
+        [[nodiscard]] typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST const_adj_list() const;
+        [[nodiscard]] typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST const_adj_list(MAIN_LIBRARY_NAMESPACE::edge_type) const;
 
         /// \cond DEV_DOC
         friend class MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_const_handle;
