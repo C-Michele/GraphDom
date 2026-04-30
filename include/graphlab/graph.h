@@ -67,6 +67,7 @@ namespace MAIN_LIBRARY_NAMESPACE {
              */
             virtual void erase_vertex(const vertex_const_handle& vertex) = 0;
             [[nodiscard]] virtual EDGE_ITERATOR_NAME erase_edge(const CONSTANT_EDGE_ITERATOR_NAME&) = 0;
+
         /// \cond DEV_DOC
         protected:
             class vertex_container {
@@ -277,8 +278,22 @@ namespace MAIN_LIBRARY_NAMESPACE {
         public:
             ~set_vertex_graph() override = default;
 
-            [[nodiscard]] virtual std::pair<typename graph<VertexType>::vertex_handle,bool> insert_vertex(const VertexType&) = 0;
-            [[nodiscard]] virtual std::pair<typename graph<VertexType>::vertex_handle,bool> insert_vertex(VertexType&&) = 0;
+            /**
+             * Inserts in `*this` a vertex having @p v_core as core, if `*this` doesn't already contain a vertex with an equivalent core.
+             *
+             * @param v_core
+             * @return A pair consisting of a valid handle of the inserted vertex (or the vertex that prevented the insertion) and a bool value set to true if and only if the insertion took place.
+             */
+            [[nodiscard]] virtual std::pair<typename graph<VertexType>::vertex_handle,bool> insert_vertex(const VertexType& v_core) = 0;
+
+            /**
+             * Inserts in `*this` a vertex having @p v_core as core, if `*this` doesn't already contain a vertex with an equivalent core.
+             *
+             * @param v_core
+             * @return A pair consisting of a valid handle of the inserted vertex (or the vertex that prevented the insertion) and a bool value set to true if and only if the insertion took place.
+             */
+            [[nodiscard]] virtual std::pair<typename graph<VertexType>::vertex_handle,bool> insert_vertex(VertexType&& v_core) = 0;
+
         /// \cond DEV_DOC
         protected:
             using VertexContainerPointerType = const typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*;
@@ -332,8 +347,22 @@ namespace MAIN_LIBRARY_NAMESPACE {
 
             ~multiset_vertex_graph() override = default;
 
-            [[nodiscard]] virtual vertex_handle insert_vertex(const VertexType&) = 0;
-            [[nodiscard]] virtual vertex_handle insert_vertex(VertexType&&) = 0;
+            /**
+             * Inserts in `*this` a vertex having @p v_core as core.
+             *
+             * @param v_core
+             * @return A valid handle of the inserted vertex.
+             */
+            [[nodiscard]] virtual vertex_handle insert_vertex(const VertexType& v_core) = 0;
+
+            /**
+             * Inserts in `*this` a vertex having @p v_core as core.
+             *
+             * @param v_core
+             * @return A valid handle of the inserted vertex.
+             */
+            [[nodiscard]] virtual vertex_handle insert_vertex(VertexType&& v_core) = 0;
+
         /// \cond DEV_DOC
         protected:
             using VertexContainerPointerType = typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*;
