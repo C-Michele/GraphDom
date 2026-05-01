@@ -90,6 +90,24 @@
     Let \f$ G \f$ be a @ref mathematical_graph_definition "graph" with \f$ G = ( V_\text{type} , V , E_\text{di} , E_\text{un} , C_{l_V} , l_V , C_{l_E} , l_E ) \f$.<br>
     \f$ u \f$ is an undirected edge of \f$ G \f$ if and only if \f$ u \in E_\text{un} \f$.
 
+    \subsection mathematical_directed_edge_tail_definition Tail of a directed edge of a graph
+    Let \f$ G \f$ be a @ref mathematical_graph_definition "graph".<br>
+    Let \f$ d \f$ be a @ref mathematical_directed_edge_definition "directed edge" of \f$ G \f$.<br>
+    \f$ t \f$ is the tail of \f$ d \f$ if and only if \f$ d = ( t , h )\f$.
+
+    \subsection mathematical_directed_edge_head_definition Head of a directed edge of a graph
+    Let \f$ G \f$ be a @ref mathematical_graph_definition "graph".<br>
+    Let \f$ d \f$ be a @ref mathematical_directed_edge_definition "directed edge" of \f$ G \f$.<br>
+    \f$ h \f$ is the head of \f$ d \f$ if and only if \f$ d = ( t , h )\f$.
+
+    \subsection mathematical_edge_endpoint_definition Endpoint of an edge of a graph
+    Let \f$ G \f$ be a @ref mathematical_graph_definition "graph".<br>
+    Let \f$ y \f$ be an @ref mathematical_edge_definition "edge" of \f$ G \f$.<br>
+    \f$ a \f$ is an endpoint of \f$ y \f$ if and only if \f$ y \f$ satisfies one of the following conditions:
+    -# \f$ y \f$ is a @ref mathematical_directed_edge_definition "directed edge" (of \f$ G \f$ ) with \f$ y = ( a , b ) \f$;
+    -# \f$ y \f$ is a @ref mathematical_directed_edge_definition "directed edge" (of \f$ G \f$ ) with \f$ y = ( b , a ) \f$;
+    -# \f$ y \f$ is an @ref mathematical_undirected_edge_definition "undirected edge" (of \f$ G \f$ ) and \f$ a \in y \f$;
+
     \subsection mathematical_set_vertex_graph_definition Set-vertex graph
     \f$ G \f$ is a set-vertex graph if and only if \f$ G \f$ is a @ref mathematical_graph_definition "graph" and
     the @ref mathematical_vertex_mul_definition "multiplicity" of any @ref mathematical_vertex_definition "vertex" of \f$ G \f$ (with respect to \f$ G \f$) is equal to \f$ 1 \f$.
