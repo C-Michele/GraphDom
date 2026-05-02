@@ -1,5 +1,5 @@
-#ifndef GENERIC_SET_VERTEX_GRAPH_TESTS_H
-#define GENERIC_SET_VERTEX_GRAPH_TESTS_H
+#ifndef GENERIC_SET_GRAPH_TESTS_H
+#define GENERIC_SET_GRAPH_TESTS_H
 
 #include <utility>
 #include <forward_list>
@@ -13,13 +13,13 @@
 #define SET_VERTEX_GRAPH_IS_A_SET_VERTEX_GRAPH_TEST(TEST_SUITE_NAME,CONCRETE_CLASS_NAME,VERTEX_TYPENAME)                    \
     TEST(TEST_SUITE_NAME,is_a_set_vertex_graph) {                                                                           \
         CONCRETE_CLASS_NAME graph;                                                                                          \
-        EXPECT_NE(dynamic_cast< typename MAIN_LIBRARY_NAMESPACE::set_vertex_graph<VERTEX_TYPENAME>* >( &graph ),nullptr);   \
+        EXPECT_NE(dynamic_cast< typename MAIN_LIBRARY_NAMESPACE::set_graph<VERTEX_TYPENAME>* >( &graph ),nullptr);   \
     }                                                                                                                       \
 
 #define SET_VERTEX_GRAPH_IS_NOT_A_MULTISET_VERTEX_GRAPH_TEST(TEST_SUITE_NAME,CONCRETE_CLASS_NAME,VERTEX_TYPENAME)               \
     TEST(TEST_SUITE_NAME,is_not_a_multiset_vertex_graph) {                                                                      \
         CONCRETE_CLASS_NAME graph;                                                                                              \
-        EXPECT_EQ(dynamic_cast< typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VERTEX_TYPENAME>* >( &graph ),nullptr);  \
+        EXPECT_EQ(dynamic_cast< typename MAIN_LIBRARY_NAMESPACE::multiset_graph<VERTEX_TYPENAME>* >( &graph ),nullptr);  \
     }                                                                                                                           \
 
 #define SET_VERTEX_GRAPH_ORDER_METHOD_TEST(TEST_SUITE_NAME,CONCRETE_CLASS_NAME)                                             \
@@ -325,8 +325,8 @@
             ( inserted_vertices.back() ).second = &( *( ( inserted_vertices.back() ).first ) );                                                                                                                                                                                         \
         }                                                                                                                                                                                                                                                                               \
         for(std::size_t i = 0; i < number_of_vertices; ++i) {                                                                                                                                                                                                                           \
-            ASSERT_THROW(const typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<std::size_t>::vertex_handle multiset_vertex_ptr_i = static_cast<MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<std::size_t>::vertex_handle>(( inserted_vertices[i] ).first), std::exception);      \
+            ASSERT_THROW(const typename MAIN_LIBRARY_NAMESPACE::multiset_graph<std::size_t>::vertex_handle multiset_vertex_ptr_i = static_cast<MAIN_LIBRARY_NAMESPACE::multiset_graph<std::size_t>::vertex_handle>(( inserted_vertices[i] ).first), std::exception);      \
         }                                                                                                                                                                                                                                                                               \
     }                                                                                                                                                                                                                                                                                   \
 
-#endif //GENERIC_SET_VERTEX_GRAPH_TESTS_H
+#endif //GENERIC_SET_GRAPH_TESTS_H

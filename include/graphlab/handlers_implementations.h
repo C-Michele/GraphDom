@@ -8,14 +8,14 @@
 
 template<typename VertexType>
 MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_handle::vertex_handle(
-    const typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::vertex_handle& other) :
+    const typename MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>::vertex_handle& other) :
     vertex_owner(other.vertex_owner),
     vertex_container_ptr(other.multiset_graph_vertex_container),
     edges_type(other.edges_type){}
 
 template<typename VertexType>
-MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_handle::operator typename multiset_vertex_graph<VertexType>::vertex_handle() const {
-    return typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::vertex_handle(*this);
+MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_handle::operator typename multiset_graph<VertexType>::vertex_handle() const {
+    return typename MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>::vertex_handle(*this);
 }
 
 template<typename VertexType>
@@ -166,7 +166,7 @@ MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_const_handle::vertex_const_han
 
 template<typename VertexType>
 MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_const_handle::vertex_const_handle(
-    const typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::vertex_handle& other) :
+    const typename MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>::vertex_handle& other) :
     vertex_owner(other.vertex_owner),
     graph_vertex_container(other.multiset_graph_vertex_container),
     edges_type(other.edges_type){}
@@ -265,7 +265,7 @@ MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_const_handle::vertex_const_han
 
 template<typename VertexType>
 MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_const_handle::vertex_const_handle(
-    const MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>* const vo ,
+    const MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>* const vo ,
     const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::non_mixed_graph_vertex_container<vertex_container*>& vc_ref,
     MAIN_LIBRARY_NAMESPACE::edge_type const non_mixed_graph_type) :
     vertex_owner(vo),
@@ -280,7 +280,7 @@ MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_const_handle::vertex_const_han
 
 template<typename VertexType>
 MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_const_handle::vertex_const_handle(
-    const multiset_vertex_graph<VertexType>* const vo,
+    const multiset_graph<VertexType>* const vo,
     const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::mixed_graph_vertex_container<vertex_container*>& vc_ref) :
     vertex_owner(vo),
     graph_vertex_container(static_cast<const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*>(&vc_ref)),
@@ -660,7 +660,7 @@ MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST::CONSTANT_ADJ_LIST(
     if ( vertex_container_graph_owner_ptr == nullptr ) {
         throw std::runtime_error("Impossible to create adj_list"); //TODO: write a better message
     }
-    if ( dynamic_cast< const MAIN_LIBRARY_NAMESPACE::set_vertex_graph<VertexType>* >( vertex_container_graph_owner_ptr ) != nullptr ) {
+    if ( dynamic_cast< const MAIN_LIBRARY_NAMESPACE::set_graph<VertexType>* >( vertex_container_graph_owner_ptr ) != nullptr ) {
         vertex_container_adj_sets_ptr_array.template emplace< set_vertex_graph_vertex_container_adj_sets_ptr_array_type >(
             set_vertex_graph_vertex_container_adj_sets_ptr_array_type{nullptr,nullptr}
         );
@@ -724,7 +724,7 @@ MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST::CONSTANT_ADJ_LIST(
     if ( vertex_container_graph_owner_ptr == nullptr ) {
         throw std::runtime_error("Impossible to create adj_list"); //TODO: write a better message
     }
-    if ( dynamic_cast< const MAIN_LIBRARY_NAMESPACE::set_vertex_graph<VertexType>* >( vertex_container_graph_owner_ptr ) != nullptr ) {
+    if ( dynamic_cast< const MAIN_LIBRARY_NAMESPACE::set_graph<VertexType>* >( vertex_container_graph_owner_ptr ) != nullptr ) {
         vertex_container_adj_sets_ptr_array.template emplace< set_vertex_graph_vertex_container_adj_sets_ptr_array_type >(
             set_vertex_graph_vertex_container_adj_sets_ptr_array_type{nullptr,nullptr}
         );
@@ -808,7 +808,7 @@ MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST::CONSTANT_ADJ_LIST(
 
 template<typename VertexType>
 MAIN_LIBRARY_NAMESPACE::graph<VertexType>::EDGE_ITERATOR_NAME::EDGE_ITERATOR_NAME(
-    const typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::EDGE_ITERATOR_NAME& other) :
+    const typename MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>::EDGE_ITERATOR_NAME& other) :
     edge_owner( other.edge_graph_owner ),
     type_dependent_edge_info(
         std::in_place_type< multiset_vertex_graph_edge_info >,
@@ -866,8 +866,8 @@ typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_handle MAIN_LIBRARY_N
     */
     auto& real_inner_itr = std::get< real_multiset_vertex_graph_vertex_container_edge_iterator_type >(inner_itr);
     if ( graph_owner_edges_type == mixed ) {
-        return typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::vertex_handle(
-            dynamic_cast< const MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>* >( edge_owner ),
+        return typename MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>::vertex_handle(
+            dynamic_cast< const MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>* >( edge_owner ),
             *(
                 static_cast<
                     MAIN_LIBRARY_NAMESPACE::graph<VertexType>::mixed_graph_vertex_container<
@@ -879,8 +879,8 @@ typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_handle MAIN_LIBRARY_N
             )
         );
     }
-    return typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::vertex_handle(
-        dynamic_cast< const MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>* >( edge_owner ),
+    return typename MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>::vertex_handle(
+        dynamic_cast< const MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>* >( edge_owner ),
         *(
             static_cast<
                 MAIN_LIBRARY_NAMESPACE::graph<VertexType>::non_mixed_graph_vertex_container<
@@ -1158,7 +1158,7 @@ MAIN_LIBRARY_NAMESPACE::graph<VertexType>::EDGE_ITERATOR_NAME::EDGE_ITERATOR_NAM
 
 template<typename VertexType>
 MAIN_LIBRARY_NAMESPACE::graph<VertexType>::EDGE_ITERATOR_NAME::EDGE_ITERATOR_NAME(
-    const set_vertex_graph<VertexType>* const edge_set_vertex_graph_owner_ptr,
+    const set_graph<VertexType>* const edge_set_vertex_graph_owner_ptr,
     const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::non_mixed_graph_vertex_container<
         const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*
     >* const edge_begin_point_ptr,
@@ -1186,7 +1186,7 @@ MAIN_LIBRARY_NAMESPACE::graph<VertexType>::EDGE_ITERATOR_NAME::EDGE_ITERATOR_NAM
 
 template<typename VertexType>
 MAIN_LIBRARY_NAMESPACE::graph<VertexType>::EDGE_ITERATOR_NAME::EDGE_ITERATOR_NAME(
-    const set_vertex_graph<VertexType>* const edge_set_vertex_graph_owner_ptr,
+    const set_graph<VertexType>* const edge_set_vertex_graph_owner_ptr,
     const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::mixed_graph_vertex_container<
         const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*
     >* const edge_begin_point_ptr,
@@ -1222,7 +1222,7 @@ MAIN_LIBRARY_NAMESPACE::graph<VertexType>::EDGE_ITERATOR_NAME::EDGE_ITERATOR_NAM
 
 template<typename VertexType>
 MAIN_LIBRARY_NAMESPACE::graph<VertexType>::EDGE_ITERATOR_NAME::EDGE_ITERATOR_NAME(
-    const multiset_vertex_graph<VertexType>* edge_multiset_vertex_graph_owner_ptr,
+    const multiset_graph<VertexType>* edge_multiset_vertex_graph_owner_ptr,
     MAIN_LIBRARY_NAMESPACE::graph<VertexType>::non_mixed_graph_vertex_container<
         MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*
     >* const edge_begin_point_ptr,
@@ -1250,7 +1250,7 @@ MAIN_LIBRARY_NAMESPACE::graph<VertexType>::EDGE_ITERATOR_NAME::EDGE_ITERATOR_NAM
 
 template<typename VertexType>
 MAIN_LIBRARY_NAMESPACE::graph<VertexType>::EDGE_ITERATOR_NAME::EDGE_ITERATOR_NAME(
-    const multiset_vertex_graph<VertexType>* edge_multiset_vertex_graph_owner_ptr,
+    const multiset_graph<VertexType>* edge_multiset_vertex_graph_owner_ptr,
     MAIN_LIBRARY_NAMESPACE::graph<VertexType>::mixed_graph_vertex_container<
         MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container*
     >* const edge_begin_point_ptr,
@@ -1404,7 +1404,7 @@ current_edge_type(other.current_edge_type) {
 
 template<typename VertexType>
 MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME::CONSTANT_EDGE_ITERATOR_NAME(
-    const typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::EDGE_ITERATOR_NAME& other) :
+    const typename MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>::EDGE_ITERATOR_NAME& other) :
     edge_graph_owner(other.edge_owner),
     edge_vertex_container_owner(other.edge_vertex_container_owner),
     graph_owner_edges_type(other.graph_owner_edges_type),
@@ -1470,7 +1470,7 @@ MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME::operator
     auto& real_inner_itr = std::get< real_multiset_vertex_graph_vertex_container_edge_iterator_type >( inner_itr);
     if ( graph_owner_edges_type == mixed ) {
         return MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_const_handle(
-            dynamic_cast< const MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>* >( edge_graph_owner ),
+            dynamic_cast< const MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>* >( edge_graph_owner ),
             *(
                 static_cast<
                     const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::mixed_graph_vertex_container<
@@ -1484,7 +1484,7 @@ MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME::operator
         );
     }
     return MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_const_handle(
-        dynamic_cast< const MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>* >( edge_graph_owner ),
+        dynamic_cast< const MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>* >( edge_graph_owner ),
         *(
             static_cast<
                 const MAIN_LIBRARY_NAMESPACE::graph<VertexType>::non_mixed_graph_vertex_container<
@@ -1798,9 +1798,9 @@ bool MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME::is_
 }
 
 template<typename VertexType>
-MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::vertex_handle::vertex_handle(
+MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>::vertex_handle::vertex_handle(
     const typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_handle& other) :
-    vertex_owner( dynamic_cast< const MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>* >( other.vertex_owner ) ),
+    vertex_owner( dynamic_cast< const MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>* >( other.vertex_owner ) ),
     edges_type( other.edges_type ) {
     if ( std::holds_alternative< typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container* >( other.vertex_container_ptr ) ) {
         multiset_graph_vertex_container = std::get< typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_container* >( other.vertex_container_ptr );
@@ -1814,7 +1814,7 @@ MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::vertex_handle::vertex
 }
 
 template<typename VertexType>
-VertexType& MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::vertex_handle::operator*() const {
+VertexType& MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>::vertex_handle::operator*() const {
     if (multiset_graph_vertex_container!=nullptr) {
         return multiset_graph_vertex_container->vertex;
     }
@@ -1822,7 +1822,7 @@ VertexType& MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::vertex_ha
 }
 
 template<typename VertexType>
-VertexType* MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::vertex_handle::operator->() const {
+VertexType* MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>::vertex_handle::operator->() const {
     if (multiset_graph_vertex_container!=nullptr) {
         return &(multiset_graph_vertex_container->vertex);
     }
@@ -1830,7 +1830,7 @@ VertexType* MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::vertex_ha
 }
 
 template<typename VertexType>
-bool MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::vertex_handle::operator==(
+bool MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>::vertex_handle::operator==(
     const typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_const_handle& other) const {
     if(vertex_owner!=other.vertex_owner) {
         return false;
@@ -1839,17 +1839,17 @@ bool MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::vertex_handle::o
 }
 
 template<typename VertexType>
-bool MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::vertex_handle::operator!=(
+bool MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>::vertex_handle::operator!=(
     const typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_const_handle& other) const {
     return !( (*this) == other );
 }
 
 template<typename VertexType>
-typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::ADJ_LIST
-MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::vertex_handle::adj_list() const {
+typename MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>::ADJ_LIST
+MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>::vertex_handle::adj_list() const {
     if (vertex_owner!=nullptr) {
         if (multiset_graph_vertex_container!=nullptr){
-            return MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::ADJ_LIST(
+            return MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>::ADJ_LIST(
                 vertex_owner,
                 multiset_graph_vertex_container,
                 edges_type
@@ -1860,11 +1860,11 @@ MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::vertex_handle::adj_li
 }
 
 template<typename VertexType>
-typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::ADJ_LIST
-MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::vertex_handle::adj_list(const MAIN_LIBRARY_NAMESPACE::edge_type et) const {
+typename MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>::ADJ_LIST
+MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>::vertex_handle::adj_list(const MAIN_LIBRARY_NAMESPACE::edge_type et) const {
     if (vertex_owner!=nullptr) {
         if (multiset_graph_vertex_container!=nullptr){
-            return MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::ADJ_LIST(
+            return MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>::ADJ_LIST(
                 vertex_owner,
                 multiset_graph_vertex_container,
                 edges_type,
@@ -1877,7 +1877,7 @@ MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::vertex_handle::adj_li
 
 template<typename VertexType>
 typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST
-MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::vertex_handle::const_adj_list() const {
+MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>::vertex_handle::const_adj_list() const {
     if (vertex_owner!=nullptr) {
         return typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST(
             vertex_owner,
@@ -1890,7 +1890,7 @@ MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::vertex_handle::const_
 
 template<typename VertexType>
 typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST
-MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::vertex_handle::const_adj_list(MAIN_LIBRARY_NAMESPACE::edge_type et) const {
+MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>::vertex_handle::const_adj_list(MAIN_LIBRARY_NAMESPACE::edge_type et) const {
     if (vertex_owner!=nullptr) {
         return typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_ADJ_LIST(
             vertex_owner,
@@ -1903,8 +1903,8 @@ MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::vertex_handle::const_
 }
 
 template<typename VertexType>
-MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::vertex_handle::vertex_handle(
-    const MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>* vo,
+MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>::vertex_handle::vertex_handle(
+    const MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>* vo,
     typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::template non_mixed_graph_vertex_container<VertexContainerPointerType>& vc_ref,
     MAIN_LIBRARY_NAMESPACE::edge_type const non_mixed_graph_type) :
     vertex_owner(vo),
@@ -1918,18 +1918,18 @@ MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::vertex_handle::vertex
 }
 
 template<typename VertexType>
-MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::vertex_handle::vertex_handle(
-    const MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>* vo,
+MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>::vertex_handle::vertex_handle(
+    const MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>* vo,
     typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::template mixed_graph_vertex_container<VertexContainerPointerType>& vc_ref) :
     vertex_owner(vo),
     multiset_graph_vertex_container(static_cast<VertexContainerPointerType>(&vc_ref)),
     edges_type(MAIN_LIBRARY_NAMESPACE::graph<VertexType>::graph_edges_type::mixed) {}
 
 template<typename VertexType>
-MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::ADJ_LIST::ADJ_LIST(
+MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>::ADJ_LIST::ADJ_LIST(
     const typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::ADJ_LIST& other_adj_list) :
     vertex_container_graph_owner(
-        dynamic_cast< const MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>* >( other_adj_list.vertex_container_graph_owner )
+        dynamic_cast< const MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>* >( other_adj_list.vertex_container_graph_owner )
     ),
     vertex_container_graph_owner_edges_type( other_adj_list.vertex_container_graph_owner_edges_type ),
     vertex_container_ptr( nullptr ),
@@ -1952,9 +1952,9 @@ MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::ADJ_LIST::ADJ_LIST(
 }
 
 template<typename VertexType>
-typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::EDGE_ITERATOR_NAME
-MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::ADJ_LIST::begin() const {
-    return MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::EDGE_ITERATOR_NAME(
+typename MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>::EDGE_ITERATOR_NAME
+MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>::ADJ_LIST::begin() const {
+    return MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>::EDGE_ITERATOR_NAME(
         vertex_container_graph_owner,
         vertex_container_ptr,
         vertex_container_graph_owner_edges_type,
@@ -1964,9 +1964,9 @@ MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::ADJ_LIST::begin() con
 }
 
 template<typename VertexType>
-typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::EDGE_ITERATOR_NAME
-MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::ADJ_LIST::end() const {
-    return MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::EDGE_ITERATOR_NAME(
+typename MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>::EDGE_ITERATOR_NAME
+MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>::ADJ_LIST::end() const {
+    return MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>::EDGE_ITERATOR_NAME(
         vertex_container_graph_owner,
         vertex_container_ptr,
         vertex_container_graph_owner_edges_type,
@@ -1977,19 +1977,19 @@ MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::ADJ_LIST::end() const
 
 template<typename VertexType>
 typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME
-MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::ADJ_LIST::cbegin() const {
+MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>::ADJ_LIST::cbegin() const {
     return typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME((*this).begin());
 }
 
 template<typename VertexType>
 typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME
-MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::ADJ_LIST::cend() const {
+MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>::ADJ_LIST::cend() const {
     return typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME((*this).end());
 }
 
 template<typename VertexType>
-MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::ADJ_LIST::ADJ_LIST(
-    const MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>* const vertex_container_graph_owner_ptr,
+MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>::ADJ_LIST::ADJ_LIST(
+    const MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>* const vertex_container_graph_owner_ptr,
     const VertexContainerPointerType vertex_container_ptr,
     const typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::graph_edges_type vertex_container_graph_owner_edges_type) :
     vertex_container_graph_owner(vertex_container_graph_owner_ptr),
@@ -2025,8 +2025,8 @@ MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::ADJ_LIST::ADJ_LIST(
 }
 
 template<typename VertexType>
-MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::ADJ_LIST::ADJ_LIST(
-    const MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>* const vertex_container_graph_owner_ptr,
+MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>::ADJ_LIST::ADJ_LIST(
+    const MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>* const vertex_container_graph_owner_ptr,
     const VertexContainerPointerType vertex_container_ptr,
     const typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::graph_edges_type vertex_container_graph_owner_edges_type,
     const MAIN_LIBRARY_NAMESPACE::edge_type edges_type_selected) :
@@ -2074,9 +2074,9 @@ MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::ADJ_LIST::ADJ_LIST(
 }
 
 template<typename VertexType>
-MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::EDGE_ITERATOR_NAME::EDGE_ITERATOR_NAME(
+MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>::EDGE_ITERATOR_NAME::EDGE_ITERATOR_NAME(
     const typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::EDGE_ITERATOR_NAME& other) :
-    edge_owner( dynamic_cast< MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>* > ( other.edge_owner ) ),
+    edge_owner( dynamic_cast< MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>* > ( other.edge_owner ) ),
     graph_owner_edges_type( other.graph_owner_edges_type ),
     vertex_container_adj_sets_ptr_array( {nullptr,nullptr} ),
     current_edge_type( other.current_edge_type ) {
@@ -2095,11 +2095,11 @@ MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::EDGE_ITERATOR_NAME::E
 }
 
 template<typename VertexType>
-typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::vertex_handle
-MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::EDGE_ITERATOR_NAME::operator*() const {
+typename MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>::vertex_handle
+MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>::EDGE_ITERATOR_NAME::operator*() const {
     auto& real_inner_itr = std::get< real_multiset_vertex_graph_vertex_container_edge_iterator_type >( inner_edge_iterator );
     if ( graph_owner_edges_type == MAIN_LIBRARY_NAMESPACE::graph<VertexType>::graph_edges_type::mixed ) {
-        return MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::vertex_handle(
+        return MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>::vertex_handle(
             edge_owner,
             *(
                 static_cast<
@@ -2112,7 +2112,7 @@ MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::EDGE_ITERATOR_NAME::o
             )
         );
     }
-    return MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::vertex_handle(
+    return MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>::vertex_handle(
         edge_owner,
         *(
             static_cast<
@@ -2129,31 +2129,31 @@ MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::EDGE_ITERATOR_NAME::o
 }
 
 template<typename VertexType>
-typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::vertex_handle
-MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::EDGE_ITERATOR_NAME::operator->() const {
+typename MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>::vertex_handle
+MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>::EDGE_ITERATOR_NAME::operator->() const {
     return *(*this);
 }
 
 template<typename VertexType>
-bool MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::EDGE_ITERATOR_NAME::operator==(
+bool MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>::EDGE_ITERATOR_NAME::operator==(
     const typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME& other) const {
     return typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME(*this) == other;
 }
 
 template<typename VertexType>
-bool MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::EDGE_ITERATOR_NAME::operator!=(
+bool MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>::EDGE_ITERATOR_NAME::operator!=(
     const typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME& other) const {
     return ! ( (*this) == other );
 }
 
 template<typename VertexType>
-typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::EDGE_ITERATOR_NAME&
-MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::EDGE_ITERATOR_NAME::operator=(
+typename MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>::EDGE_ITERATOR_NAME&
+MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>::EDGE_ITERATOR_NAME::operator=(
     const typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::EDGE_ITERATOR_NAME& other) {
     auto& other_multiset_vertex_graph_edge_info = std::get<
         typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::EDGE_ITERATOR_NAME::multiset_vertex_graph_edge_info
     >( other.type_dependent_edge_info );
-    edge_owner = dynamic_cast< const MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>* > ( other.edge_owner );
+    edge_owner = dynamic_cast< const MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>* > ( other.edge_owner );
     graph_owner_edges_type = other.graph_owner_edges_type;
     current_edge_type = other.current_edge_type;
     auto& other_begin_point = std::get<
@@ -2172,8 +2172,8 @@ MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::EDGE_ITERATOR_NAME::o
 
 
 template<typename VertexType>
-typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::EDGE_ITERATOR_NAME&
-MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::EDGE_ITERATOR_NAME::operator++() {
+typename MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>::EDGE_ITERATOR_NAME&
+MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>::EDGE_ITERATOR_NAME::operator++() {
     auto& real_inner_itr = std::get< real_multiset_vertex_graph_vertex_container_edge_iterator_type >( inner_edge_iterator );
     if ( current_edge_type == undirected ) {
         if ( std::next( real_inner_itr ) == ( vertex_container_adj_sets_ptr_array[undirected]->end() ) ) {
@@ -2190,21 +2190,21 @@ MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::EDGE_ITERATOR_NAME::o
 }
 
 template<typename VertexType>
-typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::EDGE_ITERATOR_NAME
-MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::EDGE_ITERATOR_NAME::operator++(int) {
+typename MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>::EDGE_ITERATOR_NAME
+MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>::EDGE_ITERATOR_NAME::operator++(int) {
     auto this_before_increment = *(this);
     ++(*this);
     return this_before_increment;
 }
 
 template<typename VertexType>
-MAIN_LIBRARY_NAMESPACE::edge_type MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::EDGE_ITERATOR_NAME::edge_type() const {
+MAIN_LIBRARY_NAMESPACE::edge_type MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>::EDGE_ITERATOR_NAME::edge_type() const {
     return current_edge_type;
 }
 
 template<typename VertexType>
-MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::EDGE_ITERATOR_NAME::EDGE_ITERATOR_NAME(
-    const MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>* const edge_multiset_vertex_graph_owner_ptr,
+MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>::EDGE_ITERATOR_NAME::EDGE_ITERATOR_NAME(
+    const MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>* const edge_multiset_vertex_graph_owner_ptr,
     const VertexContainerPointerType edge_begin_point_ptr,
     const typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::graph_edges_type edge_multiset_vertex_graph_owner_edges_type,
     const std::array<

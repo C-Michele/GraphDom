@@ -1,11 +1,11 @@
-#ifndef FULL_LABELED_MULTISET_VERTEX_DIGRAPH_H
-#define FULL_LABELED_MULTISET_VERTEX_DIGRAPH_H
+#ifndef FULL_LABELED_MULTISET_DIGRAPH_H
+#define FULL_LABELED_MULTISET_DIGRAPH_H
 
 #include <forward_list>
 
 #include "graph.h"
 #include "labeled_vertex_graph.h"
-#include "labeled_vertex_multiset_vertex_graph.h"
+#include "labeled_vertex_multiset_graph.h"
 #include "labeled_edge_graph.h"
 #include "labeled_edge_non_mixed_graph.h"
 
@@ -17,17 +17,17 @@ namespace MAIN_LIBRARY_NAMESPACE {
         typename T1 = DefaultVertexLabellerType<VertexType,VertexLabelType>, //TODO:: find a better name for T1
         typename T2 = DefaultEdgeLabellerType<VertexType,EdgeLabelType> // TODO: find a better name for T2
     >
-    class full_labeled_multiset_vertex_digraph final :
-        virtual public labeled_vertex_multiset_vertex_graph<VertexType,VertexLabelType,T1>,
+    class full_labeled_multiset_digraph final :
+        virtual public labeled_vertex_multiset_graph<VertexType,VertexLabelType,T1>,
         virtual public labeled_edge_non_mixed_graph<VertexType,EdgeLabelType,T2> {
             public:
-                full_labeled_multiset_vertex_digraph();
-                full_labeled_multiset_vertex_digraph(const T1& v_lab, const T2& e_lab);
-                explicit full_labeled_multiset_vertex_digraph(const T1& v_lab, T2&& e_lab = T2());
-                full_labeled_multiset_vertex_digraph(T1&& v_lab, const T2& e_lab);
-                explicit full_labeled_multiset_vertex_digraph(T1&& v_lab, T2&& e_lab = T2());
+                full_labeled_multiset_digraph();
+                full_labeled_multiset_digraph(const T1& v_lab, const T2& e_lab);
+                explicit full_labeled_multiset_digraph(const T1& v_lab, T2&& e_lab = T2());
+                full_labeled_multiset_digraph(T1&& v_lab, const T2& e_lab);
+                explicit full_labeled_multiset_digraph(T1&& v_lab, T2&& e_lab = T2());
 
-                ~full_labeled_multiset_vertex_digraph() override;
+                ~full_labeled_multiset_digraph() override;
 
                 [[nodiscard]] std::size_t order() const override;
                 [[nodiscard]] const VertexLabelType& get_vertex_label(const typename graph<VertexType>::vertex_const_handle&) const override;
@@ -36,19 +36,19 @@ namespace MAIN_LIBRARY_NAMESPACE {
                 void erase_vertex(const typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_const_handle&) override; //TODO: look out to memory leaks in ADJ
                 [[nodiscard]] typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::EDGE_ITERATOR_NAME erase_edge(const typename graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME&) override; //TODO: look out to memory leaks in ADJ
                 [[nodiscard]] VertexLabelType& get_vertex_label(const typename graph<VertexType>::vertex_const_handle&) override;
-                using MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::insert_vertex;
-                [[nodiscard]] typename multiset_vertex_graph<VertexType>::vertex_handle insert_vertex(const VertexType&, const VertexLabelType&) override;
-                [[nodiscard]] typename multiset_vertex_graph<VertexType>::vertex_handle insert_vertex(const VertexType&, VertexLabelType&&) override;
-                [[nodiscard]] typename multiset_vertex_graph<VertexType>::vertex_handle insert_vertex(VertexType&&, const VertexLabelType&) override;
-                [[nodiscard]] typename multiset_vertex_graph<VertexType>::vertex_handle insert_vertex(VertexType&&, VertexLabelType&&) override;
+                using MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>::insert_vertex;
+                [[nodiscard]] typename multiset_graph<VertexType>::vertex_handle insert_vertex(const VertexType&, const VertexLabelType&) override;
+                [[nodiscard]] typename multiset_graph<VertexType>::vertex_handle insert_vertex(const VertexType&, VertexLabelType&&) override;
+                [[nodiscard]] typename multiset_graph<VertexType>::vertex_handle insert_vertex(VertexType&&, const VertexLabelType&) override;
+                [[nodiscard]] typename multiset_graph<VertexType>::vertex_handle insert_vertex(VertexType&&, VertexLabelType&&) override;
                 [[nodiscard]] EdgeLabelType& get_edge_label(const typename graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME&) override;
                 using MAIN_LIBRARY_NAMESPACE::labeled_edge_non_mixed_graph<VertexType,EdgeLabelType,T2>::insert_edge;
                 void insert_edge(const typename graph<VertexType>::vertex_const_handle&, const typename graph<VertexType>::vertex_const_handle&, const EdgeLabelType&) override;
                 void insert_edge(const typename graph<VertexType>::vertex_const_handle&, const typename graph<VertexType>::vertex_const_handle&, EdgeLabelType&&) override;
             private:
-                using VertexContainerPointerType = typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::VertexContainerPointerType;
-                using edge_endpoint = typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::template labeled_directed_edge_endpoint<VertexLabelType>;
-                using vertex_container = typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::template non_mixed_graph_labeled_vertex_container<EdgeLabelType>;
+                using VertexContainerPointerType = typename MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>::VertexContainerPointerType;
+                using edge_endpoint = typename MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>::template labeled_directed_edge_endpoint<VertexLabelType>;
+                using vertex_container = typename MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>::template non_mixed_graph_labeled_vertex_container<EdgeLabelType>;
 
                 static void safe_edge_endpoint_deallocation(typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::template edge_endpoint<VertexContainerPointerType>*);
 
@@ -58,42 +58,42 @@ namespace MAIN_LIBRARY_NAMESPACE {
 }
 
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename T1, typename T2>//TODO:: find a better name for T1 and T2
-MAIN_LIBRARY_NAMESPACE::full_labeled_multiset_vertex_digraph<VertexType,VertexLabelType,EdgeLabelType,T1,T2>::
-full_labeled_multiset_vertex_digraph() :
-labeled_vertex_multiset_vertex_graph<VertexType,VertexLabelType,T1>(),
+MAIN_LIBRARY_NAMESPACE::full_labeled_multiset_digraph<VertexType,VertexLabelType,EdgeLabelType,T1,T2>::
+full_labeled_multiset_digraph() :
+labeled_vertex_multiset_graph<VertexType,VertexLabelType,T1>(),
 labeled_edge_non_mixed_graph<VertexType,EdgeLabelType,T2>(),
 number_of_vertices_inserted(0) {}
 
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename T1, typename T2>//TODO:: find a better name for T1 and T2
-MAIN_LIBRARY_NAMESPACE::full_labeled_multiset_vertex_digraph<VertexType,VertexLabelType,EdgeLabelType,T1,T2>::
-full_labeled_multiset_vertex_digraph(const T1& v_lab, const T2& e_lab) :
-labeled_vertex_multiset_vertex_graph<VertexType,VertexLabelType,T1>(v_lab),
+MAIN_LIBRARY_NAMESPACE::full_labeled_multiset_digraph<VertexType,VertexLabelType,EdgeLabelType,T1,T2>::
+full_labeled_multiset_digraph(const T1& v_lab, const T2& e_lab) :
+labeled_vertex_multiset_graph<VertexType,VertexLabelType,T1>(v_lab),
 labeled_edge_non_mixed_graph<VertexType,EdgeLabelType,T2>(e_lab),
 number_of_vertices_inserted(0) {}
 
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename T1, typename T2> //TODO:: find a better name for T1 and T2
-MAIN_LIBRARY_NAMESPACE::full_labeled_multiset_vertex_digraph<VertexType,VertexLabelType,EdgeLabelType,T1,T2>::
-full_labeled_multiset_vertex_digraph(const T1& v_lab, T2&& e_lab) :
-labeled_vertex_multiset_vertex_graph<VertexType,VertexLabelType,T1>(v_lab),
+MAIN_LIBRARY_NAMESPACE::full_labeled_multiset_digraph<VertexType,VertexLabelType,EdgeLabelType,T1,T2>::
+full_labeled_multiset_digraph(const T1& v_lab, T2&& e_lab) :
+labeled_vertex_multiset_graph<VertexType,VertexLabelType,T1>(v_lab),
 labeled_edge_non_mixed_graph<VertexType,EdgeLabelType,T2>(std::move(e_lab)),
 number_of_vertices_inserted(0) {}
 
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename T1, typename T2> //TODO:: find a better name for T1 and T2
-MAIN_LIBRARY_NAMESPACE::full_labeled_multiset_vertex_digraph<VertexType,VertexLabelType,EdgeLabelType,T1,T2>::
-full_labeled_multiset_vertex_digraph(T1&& v_lab, const T2& e_lab) :
-labeled_vertex_multiset_vertex_graph<VertexType,VertexLabelType,T1>(std::move(v_lab)),
+MAIN_LIBRARY_NAMESPACE::full_labeled_multiset_digraph<VertexType,VertexLabelType,EdgeLabelType,T1,T2>::
+full_labeled_multiset_digraph(T1&& v_lab, const T2& e_lab) :
+labeled_vertex_multiset_graph<VertexType,VertexLabelType,T1>(std::move(v_lab)),
 labeled_edge_non_mixed_graph<VertexType,EdgeLabelType,T2>(e_lab),
 number_of_vertices_inserted(0) {}
 
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename T1, typename T2> //TODO:: find a better name for T1 and T2
-MAIN_LIBRARY_NAMESPACE::full_labeled_multiset_vertex_digraph<VertexType,VertexLabelType,EdgeLabelType,T1,T2>::
-full_labeled_multiset_vertex_digraph(T1&& v_lab, T2&& e_lab) :
-labeled_vertex_multiset_vertex_graph<VertexType,VertexLabelType,T1>(std::move(v_lab)),
+MAIN_LIBRARY_NAMESPACE::full_labeled_multiset_digraph<VertexType,VertexLabelType,EdgeLabelType,T1,T2>::
+full_labeled_multiset_digraph(T1&& v_lab, T2&& e_lab) :
+labeled_vertex_multiset_graph<VertexType,VertexLabelType,T1>(std::move(v_lab)),
 labeled_edge_non_mixed_graph<VertexType,EdgeLabelType,T2>(std::move(e_lab)),
 number_of_vertices_inserted(0) {}
 
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename T1, typename T2> //TODO:: find a better name for T1 and T2
-MAIN_LIBRARY_NAMESPACE::full_labeled_multiset_vertex_digraph<VertexType,VertexLabelType,EdgeLabelType,T1,T2>::~full_labeled_multiset_vertex_digraph() {
+MAIN_LIBRARY_NAMESPACE::full_labeled_multiset_digraph<VertexType,VertexLabelType,EdgeLabelType,T1,T2>::~full_labeled_multiset_digraph() {
     while ( ! vertices.empty() ) {
         auto& vertex_to_erase = vertices.front();
         auto& vertex_to_erase_adj = vertex_to_erase.adj;
@@ -107,24 +107,24 @@ MAIN_LIBRARY_NAMESPACE::full_labeled_multiset_vertex_digraph<VertexType,VertexLa
 }
 
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename T1, typename T2> //TODO:: find a better name for T1 and T2
-std::size_t MAIN_LIBRARY_NAMESPACE::full_labeled_multiset_vertex_digraph<VertexType,VertexLabelType,EdgeLabelType,T1,T2>::order() const {
+std::size_t MAIN_LIBRARY_NAMESPACE::full_labeled_multiset_digraph<VertexType,VertexLabelType,EdgeLabelType,T1,T2>::order() const {
     return number_of_vertices_inserted;
 }
 
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename T1, typename T2>
-const VertexLabelType& MAIN_LIBRARY_NAMESPACE::full_labeled_multiset_vertex_digraph<VertexType,VertexLabelType,EdgeLabelType,T1,T2>::get_vertex_label(
+const VertexLabelType& MAIN_LIBRARY_NAMESPACE::full_labeled_multiset_digraph<VertexType,VertexLabelType,EdgeLabelType,T1,T2>::get_vertex_label(
     const typename graph<VertexType>::vertex_const_handle&) const {
     //TODO: real implementation
 }
 
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename T1, typename T2>
-const EdgeLabelType& MAIN_LIBRARY_NAMESPACE::full_labeled_multiset_vertex_digraph<VertexType,VertexLabelType,EdgeLabelType,T1,T2>::get_edge_label(
+const EdgeLabelType& MAIN_LIBRARY_NAMESPACE::full_labeled_multiset_digraph<VertexType,VertexLabelType,EdgeLabelType,T1,T2>::get_edge_label(
     const typename graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME&) const {
     //TODO: real implementation
 }
 
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename T1, typename T2>
-void MAIN_LIBRARY_NAMESPACE::full_labeled_multiset_vertex_digraph<VertexType,VertexLabelType,EdgeLabelType,T1,T2>::erase_vertex(
+void MAIN_LIBRARY_NAMESPACE::full_labeled_multiset_digraph<VertexType,VertexLabelType,EdgeLabelType,T1,T2>::erase_vertex(
     const typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_const_handle& const_vertex_ptr_to_erase_reference) {
     if( MAIN_LIBRARY_NAMESPACE::graph<VertexType>::get_owner_graph(const_vertex_ptr_to_erase_reference) == this ) {
         const auto vertex_container_to_erase_ptr = MAIN_LIBRARY_NAMESPACE::graph<VertexType>::get_vertex_container(const_vertex_ptr_to_erase_reference);
@@ -163,16 +163,16 @@ void MAIN_LIBRARY_NAMESPACE::full_labeled_multiset_vertex_digraph<VertexType,Ver
 
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename T1, typename T2>
 typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::EDGE_ITERATOR_NAME
-MAIN_LIBRARY_NAMESPACE::full_labeled_multiset_vertex_digraph<VertexType,VertexLabelType, EdgeLabelType, T1, T2>::erase_edge(
+MAIN_LIBRARY_NAMESPACE::full_labeled_multiset_digraph<VertexType,VertexLabelType, EdgeLabelType, T1, T2>::erase_edge(
     const typename graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME& edge_itr) {
     if ( MAIN_LIBRARY_NAMESPACE::graph<VertexType>::get_owner_graph(edge_itr) != this ) {
         throw std::runtime_error("Error"); //TODO: write a better message
     }
     auto const edge_itr_begin_point = const_cast<vertex_container*>( static_cast< const vertex_container* >( MAIN_LIBRARY_NAMESPACE::graph<VertexType>::get_begin_point(edge_itr) ) );
-    auto edge_itr_inner_iterator = MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::get_inner_iterator( edge_itr );
+    auto edge_itr_inner_iterator = MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>::get_inner_iterator( edge_itr );
     auto const edge_itr_endpoint = *edge_itr_inner_iterator;
     safe_edge_endpoint_deallocation(edge_itr_endpoint);
-    return MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::edge_iterator_factory(
+    return MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>::edge_iterator_factory(
         this,
         edge_itr_begin_point,
         directed,
@@ -181,21 +181,21 @@ MAIN_LIBRARY_NAMESPACE::full_labeled_multiset_vertex_digraph<VertexType,VertexLa
 }
 
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename T1, typename T2>
-VertexLabelType& MAIN_LIBRARY_NAMESPACE::full_labeled_multiset_vertex_digraph<VertexType,VertexLabelType,EdgeLabelType,T1,T2>::get_vertex_label(
+VertexLabelType& MAIN_LIBRARY_NAMESPACE::full_labeled_multiset_digraph<VertexType,VertexLabelType,EdgeLabelType,T1,T2>::get_vertex_label(
     const typename graph<VertexType>::vertex_const_handle&) {
     //TODO: real implementation
 }
 
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename T1, typename T2> //TODO:: find a better name for T1 and T2
-typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::vertex_handle
-MAIN_LIBRARY_NAMESPACE::full_labeled_multiset_vertex_digraph<VertexType,VertexLabelType,EdgeLabelType,T1,T2>::insert_vertex(
+typename MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>::vertex_handle
+MAIN_LIBRARY_NAMESPACE::full_labeled_multiset_digraph<VertexType,VertexLabelType,EdgeLabelType,T1,T2>::insert_vertex(
     const VertexType& vertex_to_insert, const VertexLabelType& vertex_label_to_insert) {
     vertices.emplace_front(
         vertex_to_insert,
         vertex_label_to_insert
     );
     ++number_of_vertices_inserted;
-    return MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::vertex_ptr_factory(
+    return MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>::vertex_ptr_factory(
         this,
         vertices.front(),
         MAIN_LIBRARY_NAMESPACE::edge_type::directed
@@ -203,15 +203,15 @@ MAIN_LIBRARY_NAMESPACE::full_labeled_multiset_vertex_digraph<VertexType,VertexLa
 }
 
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename T1, typename T2> //TODO:: find a better name for T1 and T2
-typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::vertex_handle
-MAIN_LIBRARY_NAMESPACE::full_labeled_multiset_vertex_digraph<VertexType,VertexLabelType,EdgeLabelType,T1,T2>::insert_vertex(
+typename MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>::vertex_handle
+MAIN_LIBRARY_NAMESPACE::full_labeled_multiset_digraph<VertexType,VertexLabelType,EdgeLabelType,T1,T2>::insert_vertex(
 const VertexType& vertex_to_insert, VertexLabelType&& vertex_label_to_insert) {
     vertices.emplace_front(
         vertex_to_insert,
         std::move(vertex_label_to_insert)
     );
     ++number_of_vertices_inserted;
-    return MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::vertex_ptr_factory(
+    return MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>::vertex_ptr_factory(
         this,
         vertices.front(),
         MAIN_LIBRARY_NAMESPACE::edge_type::directed
@@ -219,15 +219,15 @@ const VertexType& vertex_to_insert, VertexLabelType&& vertex_label_to_insert) {
 }
 
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename T1, typename T2> //TODO:: find a better name for T1 and T2
-typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::vertex_handle
-MAIN_LIBRARY_NAMESPACE::full_labeled_multiset_vertex_digraph<VertexType,VertexLabelType,EdgeLabelType,T1,T2>::insert_vertex(
+typename MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>::vertex_handle
+MAIN_LIBRARY_NAMESPACE::full_labeled_multiset_digraph<VertexType,VertexLabelType,EdgeLabelType,T1,T2>::insert_vertex(
 VertexType&& vertex_to_insert, const VertexLabelType& vertex_label_to_insert) {
     vertices.emplace_front(
         std::move(vertex_to_insert),
         vertex_label_to_insert
     );
     ++number_of_vertices_inserted;
-    return MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::vertex_ptr_factory(
+    return MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>::vertex_ptr_factory(
         this,
         vertices.front(),
         MAIN_LIBRARY_NAMESPACE::edge_type::directed
@@ -235,15 +235,15 @@ VertexType&& vertex_to_insert, const VertexLabelType& vertex_label_to_insert) {
 }
 
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename T1, typename T2> //TODO:: find a better name for T1 and T2
-typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::vertex_handle
-MAIN_LIBRARY_NAMESPACE::full_labeled_multiset_vertex_digraph<VertexType,VertexLabelType,EdgeLabelType,T1,T2>::insert_vertex(
+typename MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>::vertex_handle
+MAIN_LIBRARY_NAMESPACE::full_labeled_multiset_digraph<VertexType,VertexLabelType,EdgeLabelType,T1,T2>::insert_vertex(
 VertexType&& vertex_to_insert, VertexLabelType&& vertex_label_to_insert) {
     vertices.emplace_front(
         std::move(vertex_to_insert),
         std::move(vertex_label_to_insert)
     );
     ++number_of_vertices_inserted;
-    return MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::vertex_ptr_factory(
+    return MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>::vertex_ptr_factory(
         this,
         vertices.front(),
         MAIN_LIBRARY_NAMESPACE::edge_type::directed
@@ -251,13 +251,13 @@ VertexType&& vertex_to_insert, VertexLabelType&& vertex_label_to_insert) {
 }
 
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename T1, typename T2>
-EdgeLabelType& MAIN_LIBRARY_NAMESPACE::full_labeled_multiset_vertex_digraph<VertexType,VertexLabelType,EdgeLabelType,T1,T2>::get_edge_label(
+EdgeLabelType& MAIN_LIBRARY_NAMESPACE::full_labeled_multiset_digraph<VertexType,VertexLabelType,EdgeLabelType,T1,T2>::get_edge_label(
     const typename graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME&) {
     //TODO: real implementation
 }
 
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename T1, typename T2>
-void MAIN_LIBRARY_NAMESPACE::full_labeled_multiset_vertex_digraph<VertexType,VertexLabelType,EdgeLabelType,T1,T2>::insert_edge(
+void MAIN_LIBRARY_NAMESPACE::full_labeled_multiset_digraph<VertexType,VertexLabelType,EdgeLabelType,T1,T2>::insert_edge(
     const typename graph<VertexType>::vertex_const_handle& begin_point_vertex_ptr,
     const typename graph<VertexType>::vertex_const_handle& end_point_vertex_ptr,
     const EdgeLabelType& edge_label_to_insert) {
@@ -280,7 +280,7 @@ void MAIN_LIBRARY_NAMESPACE::full_labeled_multiset_vertex_digraph<VertexType,Ver
 }
 
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename T1, typename T2>
-void MAIN_LIBRARY_NAMESPACE::full_labeled_multiset_vertex_digraph<VertexType,VertexLabelType,EdgeLabelType,T1,T2>::insert_edge(
+void MAIN_LIBRARY_NAMESPACE::full_labeled_multiset_digraph<VertexType,VertexLabelType,EdgeLabelType,T1,T2>::insert_edge(
     const typename graph<VertexType>::vertex_const_handle& begin_point_vertex_ptr,
     const typename graph<VertexType>::vertex_const_handle& end_point_vertex_ptr,
     EdgeLabelType&& edge_label_to_insert) {
@@ -303,10 +303,10 @@ void MAIN_LIBRARY_NAMESPACE::full_labeled_multiset_vertex_digraph<VertexType,Ver
 }
 
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename T1, typename T2>
-void MAIN_LIBRARY_NAMESPACE::full_labeled_multiset_vertex_digraph<VertexType,VertexLabelType,EdgeLabelType,T1,T2>::
+void MAIN_LIBRARY_NAMESPACE::full_labeled_multiset_digraph<VertexType,VertexLabelType,EdgeLabelType,T1,T2>::
 safe_edge_endpoint_deallocation(
     typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::template edge_endpoint<VertexContainerPointerType>* ee_ptr) {
     delete static_cast< edge_endpoint* >( ee_ptr );
 }
 
-#endif //FULL_LABELED_MULTISET_VERTEX_DIGRAPH_H
+#endif //FULL_LABELED_MULTISET_DIGRAPH_H

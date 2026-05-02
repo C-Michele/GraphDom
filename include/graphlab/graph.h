@@ -269,15 +269,15 @@ namespace MAIN_LIBRARY_NAMESPACE {
 }
 
 namespace MAIN_LIBRARY_NAMESPACE {
-    /// Every [set-vertex graph](@ref mathematical_set_vertex_graph_definition) created using this library is an instance of a concrete class publicly derived, directly or indirectly, from this polymorphic template class.
+    /// Every [set graph](@ref mathematical_set_graph_definition) created using this library is an instance of a concrete class publicly derived, directly or indirectly, from this polymorphic template class.
     /**
      * Creating an object of a user-defined class derived, directly or indirectly, from this one will cause undefined behavior.
      */
     template <typename VertexType>
-    class set_vertex_graph : virtual public graph<VertexType>  {
+    class set_graph : virtual public graph<VertexType>  {
         public:
             /// To be polymorphic, this class has a virtual destructor.
-            ~set_vertex_graph() override = default;
+            ~set_graph() override = default;
 
             /**
              * Inserts in `*this` a vertex having @p v_core as core, if `*this` doesn't already contain a vertex with an equivalent core.
@@ -317,14 +317,14 @@ namespace MAIN_LIBRARY_NAMESPACE {
             static typename adj_set::const_iterator get_inner_iterator(const typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME&);
 
             static typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::EDGE_ITERATOR_NAME edge_iterator_factory(
-                const MAIN_LIBRARY_NAMESPACE::set_vertex_graph<VertexType>* edge_set_vertex_graph_owner_ptr,
+                const MAIN_LIBRARY_NAMESPACE::set_graph<VertexType>* edge_set_vertex_graph_owner_ptr,
                 const non_mixed_graph_vertex_container* edge_begin_point_ptr,
                 MAIN_LIBRARY_NAMESPACE::edge_type edge_set_vertex_graph_owner_edges_type,
                 typename adj_set::iterator inner_itr
             );
 
             static typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::EDGE_ITERATOR_NAME edge_iterator_factory(
-                const MAIN_LIBRARY_NAMESPACE::set_vertex_graph<VertexType>* edge_set_vertex_graph_owner_ptr,
+                const MAIN_LIBRARY_NAMESPACE::set_graph<VertexType>* edge_set_vertex_graph_owner_ptr,
                 const mixed_graph_vertex_container* edge_begin_point_ptr,
                 typename adj_set::iterator inner_itr,
                 MAIN_LIBRARY_NAMESPACE::edge_type inner_itr_edge_type,
@@ -335,19 +335,19 @@ namespace MAIN_LIBRARY_NAMESPACE {
 }
 
 namespace MAIN_LIBRARY_NAMESPACE {
-    /// Every [mathematical_non_mixed_graph_definition](@ref mathematical_non_mixed_graph_definition) created using this library is an instance of a concrete class publicly derived, directly or indirectly, from this polymorphic template class.
+    /// Every [multiset graph](@ref mathematical_multiset_graph_definition) created using this library is an instance of a concrete class publicly derived, directly or indirectly, from this polymorphic template class.
     /**
      * Creating an object of a user-defined class derived, directly or indirectly, from this one will cause undefined behavior.
      */
     template <typename VertexType>
-    class multiset_vertex_graph : virtual public graph<VertexType>  {
+    class multiset_graph : virtual public graph<VertexType>  {
         public:
             class vertex_handle;
             class ADJ_LIST;
             class EDGE_ITERATOR_NAME;
 
             /// To be polymorphic, this class has a virtual destructor.
-            ~multiset_vertex_graph() override = default;
+            ~multiset_graph() override = default;
 
             /**
              * Inserts in `*this` a vertex having @p v_core as core.
@@ -383,42 +383,42 @@ namespace MAIN_LIBRARY_NAMESPACE {
             using mixed_graph_labeled_vertex_container = typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::template mixed_graph_labeled_vertex_container<VertexContainerPointerType,EdgeLabelType>;
 
             static vertex_handle vertex_ptr_factory(
-                const MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>*,
+                const MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>*,
                 typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::template non_mixed_graph_vertex_container<VertexContainerPointerType>&,
                 MAIN_LIBRARY_NAMESPACE::edge_type non_mixed_graph_type
             );
 
             static vertex_handle vertex_ptr_factory(
-                const MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>*,
+                const MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>*,
                 typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::template mixed_graph_vertex_container<VertexContainerPointerType>&
             );
 
             static typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_const_handle const_vertex_ptr_factory(
-                const MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>*,
+                const MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>*,
                 const typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::template non_mixed_graph_vertex_container<VertexContainerPointerType>&,
                 MAIN_LIBRARY_NAMESPACE::edge_type non_mixed_graph_type
             );
 
             static typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_const_handle const_vertex_ptr_factory(
-                const MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>*,
+                const MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>*,
                 const typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::template mixed_graph_vertex_container<VertexContainerPointerType>&
             );
 
-            static VertexContainerPointerType get_vertex_container(const MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::vertex_handle&);
+            static VertexContainerPointerType get_vertex_container(const MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>::vertex_handle&);
 
             static bool inner_iterator_is_real(const typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME&);
 
             static typename adj_set::const_iterator get_inner_iterator(const typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME&);
 
             static typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::EDGE_ITERATOR_NAME edge_iterator_factory(
-                const MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>* edge_multiset_vertex_graph_owner_ptr,
+                const MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>* edge_multiset_vertex_graph_owner_ptr,
                 non_mixed_graph_vertex_container* edge_begin_point_ptr,
                 MAIN_LIBRARY_NAMESPACE::edge_type edge_multiset_vertex_graph_owner_edges_type,
                 typename adj_set::iterator inner_itr
             );
 
             static typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::EDGE_ITERATOR_NAME edge_iterator_factory(
-                const MAIN_LIBRARY_NAMESPACE::set_vertex_graph<VertexType>* edge_multiset_vertex_graph_owner_ptr,
+                const MAIN_LIBRARY_NAMESPACE::set_graph<VertexType>* edge_multiset_vertex_graph_owner_ptr,
                 mixed_graph_vertex_container* edge_begin_point_ptr,
                 typename adj_set::iterator inner_itr,
                 MAIN_LIBRARY_NAMESPACE::edge_type inner_itr_edge_type,
@@ -492,7 +492,7 @@ bool MAIN_LIBRARY_NAMESPACE::graph<VertexType>::is_limited_by_edge_type(
 }
 
 template<typename VertexType>
-bool MAIN_LIBRARY_NAMESPACE::set_vertex_graph<VertexType>::inner_iterator_is_real(
+bool MAIN_LIBRARY_NAMESPACE::set_graph<VertexType>::inner_iterator_is_real(
     const typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME& const_edge_itr) {
     const auto& set_vertex_graph_edge_info_pair =
         std::get<MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME::set_vertex_graph_edge_info>( const_edge_itr.type_dependent_edge_info );
@@ -505,8 +505,8 @@ bool MAIN_LIBRARY_NAMESPACE::set_vertex_graph<VertexType>::inner_iterator_is_rea
 }
 
 template<typename VertexType>
-typename MAIN_LIBRARY_NAMESPACE::set_vertex_graph<VertexType>::adj_set::const_iterator
-MAIN_LIBRARY_NAMESPACE::set_vertex_graph<VertexType>::get_inner_iterator(
+typename MAIN_LIBRARY_NAMESPACE::set_graph<VertexType>::adj_set::const_iterator
+MAIN_LIBRARY_NAMESPACE::set_graph<VertexType>::get_inner_iterator(
 const typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME& const_edge_itr) {
     const auto& set_vertex_graph_edge_info_pair =
         std::get<typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME::set_vertex_graph_edge_info>( const_edge_itr.type_dependent_edge_info );
@@ -520,8 +520,8 @@ const typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR
 
 template<typename VertexType>
 typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::EDGE_ITERATOR_NAME
-MAIN_LIBRARY_NAMESPACE::set_vertex_graph<VertexType>::edge_iterator_factory(
-    const MAIN_LIBRARY_NAMESPACE::set_vertex_graph<VertexType>* const edge_set_vertex_graph_owner_ptr,
+MAIN_LIBRARY_NAMESPACE::set_graph<VertexType>::edge_iterator_factory(
+    const MAIN_LIBRARY_NAMESPACE::set_graph<VertexType>* const edge_set_vertex_graph_owner_ptr,
     const non_mixed_graph_vertex_container* const edge_begin_point_ptr,
     const MAIN_LIBRARY_NAMESPACE::edge_type edge_set_vertex_graph_owner_edges_type,
     const typename adj_set::iterator inner_itr) {
@@ -535,8 +535,8 @@ MAIN_LIBRARY_NAMESPACE::set_vertex_graph<VertexType>::edge_iterator_factory(
 
 template<typename VertexType>
 typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::EDGE_ITERATOR_NAME
-MAIN_LIBRARY_NAMESPACE::set_vertex_graph<VertexType>::edge_iterator_factory(
-    const MAIN_LIBRARY_NAMESPACE::set_vertex_graph<VertexType>* const edge_set_vertex_graph_owner_ptr,
+MAIN_LIBRARY_NAMESPACE::set_graph<VertexType>::edge_iterator_factory(
+    const MAIN_LIBRARY_NAMESPACE::set_graph<VertexType>* const edge_set_vertex_graph_owner_ptr,
     const mixed_graph_vertex_container* const edge_begin_point_ptr,
     const typename adj_set::iterator inner_itr,
     const MAIN_LIBRARY_NAMESPACE::edge_type inner_itr_edge_type,
@@ -551,44 +551,44 @@ MAIN_LIBRARY_NAMESPACE::set_vertex_graph<VertexType>::edge_iterator_factory(
 }
 
 template<typename VertexType>
-typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::vertex_handle MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::vertex_ptr_factory(
-    const MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>* const graph_ptr,
+typename MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>::vertex_handle MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>::vertex_ptr_factory(
+    const MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>* const graph_ptr,
     typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::template non_mixed_graph_vertex_container<VertexContainerPointerType>& vertex_container_reference,
     const MAIN_LIBRARY_NAMESPACE::edge_type non_mixed_graph_type) {
-    return MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::vertex_handle(graph_ptr,vertex_container_reference,non_mixed_graph_type);
+    return MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>::vertex_handle(graph_ptr,vertex_container_reference,non_mixed_graph_type);
 }
 
 template<typename VertexType>
-typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::vertex_handle MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::vertex_ptr_factory(
-    const MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>* const graph_ptr,
+typename MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>::vertex_handle MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>::vertex_ptr_factory(
+    const MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>* const graph_ptr,
     typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::template mixed_graph_vertex_container<VertexContainerPointerType>& vertex_container_reference) {
-    return MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::vertex_handle(graph_ptr,vertex_container_reference);
+    return MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>::vertex_handle(graph_ptr,vertex_container_reference);
 }
 
 template<typename VertexType>
-typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_const_handle MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::const_vertex_ptr_factory(
-    const MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>* const graph_ptr,
+typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_const_handle MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>::const_vertex_ptr_factory(
+    const MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>* const graph_ptr,
     const typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::template non_mixed_graph_vertex_container<VertexContainerPointerType>& vertex_container_reference,
     const MAIN_LIBRARY_NAMESPACE::edge_type non_mixed_graph_type) {
     return MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_const_handle(graph_ptr,vertex_container_reference,non_mixed_graph_type);
 }
 
 template<typename VertexType>
-typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_const_handle MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::const_vertex_ptr_factory(
-    const MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>* const graph_ptr,
+typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::vertex_const_handle MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>::const_vertex_ptr_factory(
+    const MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>* const graph_ptr,
     const typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::template mixed_graph_vertex_container<VertexContainerPointerType>& vertex_container_reference) {
-    return MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::vertex_const_handle(graph_ptr,vertex_container_reference);
+    return MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>::vertex_const_handle(graph_ptr,vertex_container_reference);
 }
 
 template<typename VertexType>
-typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::VertexContainerPointerType
-MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::get_vertex_container(
-    const MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::vertex_handle& ptr) {
+typename MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>::VertexContainerPointerType
+MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>::get_vertex_container(
+    const MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>::vertex_handle& ptr) {
     return ptr.multiset_graph_vertex_container;
 }
 
 template<typename VertexType>
-bool MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::inner_iterator_is_real(
+bool MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>::inner_iterator_is_real(
 const typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME& const_edge_itr) {
     const auto& multiset_vertex_graph_edge_info_pair =
         std::get<MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME::multiset_vertex_graph_edge_info>( const_edge_itr.type_dependent_edge_info );
@@ -601,8 +601,8 @@ const typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR
 }
 
 template<typename VertexType>
-typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::adj_set::const_iterator
-MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::get_inner_iterator(
+typename MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>::adj_set::const_iterator
+MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>::get_inner_iterator(
 const typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME& const_edge_itr) {
     const auto& multiset_vertex_graph_edge_info_pair =
         std::get<typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME::multiset_vertex_graph_edge_info>( const_edge_itr.type_dependent_edge_info );
@@ -616,8 +616,8 @@ const typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::CONSTANT_EDGE_ITERATOR
 
 template<typename VertexType>
 typename MAIN_LIBRARY_NAMESPACE::graph<VertexType>::EDGE_ITERATOR_NAME
-MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>::edge_iterator_factory(
-    const MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<VertexType>* const edge_multiset_vertex_graph_owner_ptr,
+MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>::edge_iterator_factory(
+    const MAIN_LIBRARY_NAMESPACE::multiset_graph<VertexType>* const edge_multiset_vertex_graph_owner_ptr,
     non_mixed_graph_vertex_container* const edge_begin_point_ptr,
     const MAIN_LIBRARY_NAMESPACE::edge_type edge_multiset_vertex_graph_owner_edges_type,
     const typename adj_set::iterator inner_itr) {

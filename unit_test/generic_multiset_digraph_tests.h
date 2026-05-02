@@ -1,5 +1,5 @@
-#ifndef GENERIC_MULTISET_VERTEX_DIGRAPH_TESTS_H
-#define GENERIC_MULTISET_VERTEX_DIGRAPH_TESTS_H
+#ifndef GENERIC_MULTISET_DIGRAPH_TESTS_H
+#define GENERIC_MULTISET_DIGRAPH_TESTS_H
 
 #include <vector>
 #include <cstddef>
@@ -12,7 +12,7 @@
         CONCRETE_CLASS_NAME graph;                                                                                                                                      \
         const std::size_t number_of_different_vertex_values = 10;                                                                                                       \
         const std::size_t number_of_repetitions = 3;                                                                                                                    \
-        typename std::vector< typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<std::size_t>::vertex_handle > inserted_vertices;                                   \
+        typename std::vector< typename MAIN_LIBRARY_NAMESPACE::multiset_graph<std::size_t>::vertex_handle > inserted_vertices;                                   \
         inserted_vertices.reserve( number_of_different_vertex_values * number_of_repetitions );                                                                         \
         for(std::size_t i = 0; i < number_of_different_vertex_values; ++i) {                                                                                            \
             for(std::size_t j = 0; j < number_of_repetitions; ++j) {                                                                                                    \
@@ -69,7 +69,7 @@
         CONCRETE_CLASS_NAME graph;                                                                                                                                  \
         const std::size_t number_of_different_vertex_values = 10;                                                                                                   \
         const std::size_t number_of_repetitions = 3;                                                                                                                \
-        typename std::vector< typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<std::size_t>::vertex_handle > inserted_vertices;                               \
+        typename std::vector< typename MAIN_LIBRARY_NAMESPACE::multiset_graph<std::size_t>::vertex_handle > inserted_vertices;                               \
         inserted_vertices.reserve( number_of_different_vertex_values * number_of_repetitions );                                                                     \
         for(std::size_t i = 0; i < number_of_different_vertex_values; ++i) {                                                                                        \
             for(std::size_t j = 0; j < number_of_repetitions; ++j) {                                                                                                \
@@ -126,7 +126,7 @@
         CONCRETE_CLASS_NAME graph;                                                                                                                                      \
         const std::size_t number_of_different_vertex_values = 10;                                                                                                       \
         const std::size_t number_of_repetitions = 3;                                                                                                                    \
-        typename std::vector< typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<std::size_t>::vertex_handle > inserted_vertices;                                   \
+        typename std::vector< typename MAIN_LIBRARY_NAMESPACE::multiset_graph<std::size_t>::vertex_handle > inserted_vertices;                                   \
         inserted_vertices.reserve( number_of_different_vertex_values * number_of_repetitions );                                                                         \
         for(std::size_t i = 0; i < number_of_different_vertex_values; ++i) {                                                                                            \
             for(std::size_t j = 0; j < number_of_repetitions; ++j) {                                                                                                    \
@@ -183,7 +183,7 @@
         CONCRETE_CLASS_NAME graph;                                                                                                                                      \
         const std::size_t number_of_different_vertex_values = 10;                                                                                                       \
         const std::size_t number_of_repetitions = 3;                                                                                                                    \
-        typename std::vector< typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<std::size_t>::vertex_handle > inserted_vertices;                                   \
+        typename std::vector< typename MAIN_LIBRARY_NAMESPACE::multiset_graph<std::size_t>::vertex_handle > inserted_vertices;                                   \
         inserted_vertices.reserve( number_of_different_vertex_values * number_of_repetitions );                                                                         \
         for(std::size_t i = 0; i < number_of_different_vertex_values; ++i) {                                                                                            \
             for(std::size_t j = 0; j < number_of_repetitions; ++j) {                                                                                                    \
@@ -698,7 +698,7 @@
         const std::size_t number_of_repetitions = 3;                                                                                                                                        \
         typename std::vector<                                                                                                                                                               \
             typename std::pair<                                                                                                                                                             \
-                typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<std::size_t>::vertex_handle,                                                                                         \
+                typename MAIN_LIBRARY_NAMESPACE::multiset_graph<std::size_t>::vertex_handle,                                                                                         \
                 typename std::set< std::size_t* >                                                                                                                                           \
             >                                                                                                                                                                               \
         > inserted_vertices_and_incidence_matrix;                                                                                                                                           \
@@ -765,7 +765,7 @@
         const std::size_t number_of_repetitions = 3;                                                                                                                                        \
         typename std::vector<                                                                                                                                                               \
             typename std::pair<                                                                                                                                                             \
-                typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<std::size_t>::vertex_handle,                                                                                         \
+                typename MAIN_LIBRARY_NAMESPACE::multiset_graph<std::size_t>::vertex_handle,                                                                                         \
                 typename std::set< std::size_t* , std::less<> >                                                                                                                             \
             >                                                                                                                                                                               \
         > inserted_vertices_and_incidence_matrix;                                                                                                                                           \
@@ -832,7 +832,7 @@
         const std::size_t number_of_repetitions = 3;                                                                                                                                        \
         typename std::vector<                                                                                                                                                               \
             typename std::pair<                                                                                                                                                             \
-                typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<std::size_t>::vertex_handle,                                                                                         \
+                typename MAIN_LIBRARY_NAMESPACE::multiset_graph<std::size_t>::vertex_handle,                                                                                         \
                 typename std::set< std::size_t* , std::less<> >                                                                                                                             \
             >                                                                                                                                                                               \
         > inserted_vertices_and_incidence_matrix;                                                                                                                                           \
@@ -899,7 +899,7 @@
         const std::size_t number_of_repetitions = 3;                                                                                                                                        \
         typename std::vector<                                                                                                                                                               \
             typename std::pair<                                                                                                                                                             \
-                typename MAIN_LIBRARY_NAMESPACE::multiset_vertex_graph<std::size_t>::vertex_handle,                                                                                         \
+                typename MAIN_LIBRARY_NAMESPACE::multiset_graph<std::size_t>::vertex_handle,                                                                                         \
                 typename std::set< std::size_t* , std::less<> >                                                                                                                             \
             >                                                                                                                                                                               \
         > inserted_vertices_and_incidence_matrix;                                                                                                                                           \
@@ -1495,4 +1495,4 @@
         }                                                                                                                                                                                   \
     }                                                                                                                                                                                       \
 
-#endif //GENERIC_MULTISET_VERTEX_DIGRAPH_TESTS_H
+#endif //GENERIC_MULTISET_DIGRAPH_TESTS_H

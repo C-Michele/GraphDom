@@ -1,5 +1,5 @@
-#ifndef LABELED_VERTEX_SET_VERTEX_GRAPH_H
-#define LABELED_VERTEX_SET_VERTEX_GRAPH_H
+#ifndef LABELED_VERTEX_SET_GRAPH_H
+#define LABELED_VERTEX_SET_GRAPH_H
 
 #include <utility>
 
@@ -7,15 +7,15 @@
 
 namespace MAIN_LIBRARY_NAMESPACE {
     template <typename VertexType, typename VertexLabelType, typename T = DefaultVertexLabellerType<VertexType,VertexLabelType>>  //TODO: find a better name for "T"
-    class labeled_vertex_set_vertex_graph : virtual public labeled_vertex_graph<VertexType,VertexLabelType>, virtual public set_vertex_graph<VertexType> {
+    class labeled_vertex_set_graph : virtual public labeled_vertex_graph<VertexType,VertexLabelType>, virtual public set_graph<VertexType> {
         public:
-            labeled_vertex_set_vertex_graph() = default;
-            explicit labeled_vertex_set_vertex_graph(const T&);
-            explicit labeled_vertex_set_vertex_graph(T&&);
+            labeled_vertex_set_graph() = default;
+            explicit labeled_vertex_set_graph(const T&);
+            explicit labeled_vertex_set_graph(T&&);
 
-            ~labeled_vertex_set_vertex_graph() override = default;
+            ~labeled_vertex_set_graph() override = default;
 
-            using set_vertex_graph<VertexType>::insert_vertex;
+            using set_graph<VertexType>::insert_vertex;
             [[nodiscard]] std::pair<typename graph<VertexType>::vertex_handle,bool> insert_vertex(const VertexType&) final;
             [[nodiscard]] std::pair<typename graph<VertexType>::vertex_handle,bool> insert_vertex(VertexType&&) final;
             [[nodiscard]] virtual std::pair<typename graph<VertexType>::vertex_handle,bool> insert_vertex(const VertexType&, const VertexLabelType&) = 0;
@@ -27,20 +27,20 @@ namespace MAIN_LIBRARY_NAMESPACE {
     };
 
     template<typename VertexType, typename VertexLabelType, typename T>
-    labeled_vertex_set_vertex_graph<VertexType,VertexLabelType,T>::labeled_vertex_set_vertex_graph(const T& vl) : vertices_labeller(vl) {}
+    labeled_vertex_set_graph<VertexType,VertexLabelType,T>::labeled_vertex_set_graph(const T& vl) : vertices_labeller(vl) {}
 
     template<typename VertexType, typename VertexLabelType, typename T>
-    labeled_vertex_set_vertex_graph<VertexType,VertexLabelType,T>::labeled_vertex_set_vertex_graph(T&& vl) : vertices_labeller(std::move(vl)) {}
+    labeled_vertex_set_graph<VertexType,VertexLabelType,T>::labeled_vertex_set_graph(T&& vl) : vertices_labeller(std::move(vl)) {}
 
     template <typename VertexType, typename VertexLabelType, typename T>  //TODO: find a better name for "T"
-    std::pair<typename graph<VertexType>::vertex_handle,bool> labeled_vertex_set_vertex_graph<VertexType,VertexLabelType,T>::insert_vertex(const VertexType& vertex_to_insert) {
+    std::pair<typename graph<VertexType>::vertex_handle,bool> labeled_vertex_set_graph<VertexType,VertexLabelType,T>::insert_vertex(const VertexType& vertex_to_insert) {
         return insert_vertex(vertex_to_insert,vertices_labeller(vertex_to_insert));
     }
 
     template <typename VertexType, typename VertexLabelType, typename T>  //TODO: find a better name for "T"
-    std::pair<typename graph<VertexType>::vertex_handle,bool> labeled_vertex_set_vertex_graph<VertexType,VertexLabelType,T>::insert_vertex(VertexType&& vertex_to_insert) {
+    std::pair<typename graph<VertexType>::vertex_handle,bool> labeled_vertex_set_graph<VertexType,VertexLabelType,T>::insert_vertex(VertexType&& vertex_to_insert) {
         return insert_vertex(std::move(vertex_to_insert),vertices_labeller(vertex_to_insert));
     }
 }
 
-#endif //LABELED_VERTEX_SET_VERTEX_GRAPH_H
+#endif //LABELED_VERTEX_SET_GRAPH_H

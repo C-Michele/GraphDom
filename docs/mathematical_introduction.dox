@@ -108,12 +108,12 @@
     -# \f$ y \f$ is a @ref mathematical_directed_edge_definition "directed edge" (of \f$ G \f$ ) with \f$ y = ( b , a ) \f$;
     -# \f$ y \f$ is an @ref mathematical_undirected_edge_definition "undirected edge" (of \f$ G \f$ ) and \f$ a \in y \f$;
 
-    \subsection mathematical_set_vertex_graph_definition Set-vertex graph
-    \f$ G \f$ is a set-vertex graph if and only if \f$ G \f$ is a @ref mathematical_graph_definition "graph" and
+    \subsection mathematical_set_graph_definition Set graph
+    \f$ G \f$ is a set graph if and only if \f$ G \f$ is a @ref mathematical_graph_definition "graph" and
     the @ref mathematical_vertex_mul_definition "multiplicity" of any @ref mathematical_vertex_definition "vertex" of \f$ G \f$ (with respect to \f$ G \f$) is equal to \f$ 1 \f$.
 
-    \subsection mathematical_multiset_vertex_graph_definition Multiset-vertex graph
-    \f$ G \f$ is a multiset-vertex graph if and only if \f$ G \f$ is a @ref mathematical_graph_definition "graph"
+    \subsection mathematical_multiset_graph_definition Multiset graph
+    \f$ G \f$ is a multiset graph if and only if \f$ G \f$ is a @ref mathematical_graph_definition "graph"
     and exists (at least one) \f$ v \f$ such that \f$ v \f$ is a @ref mathematical_vertex_definition "vertex" of G and
     the @ref mathematical_vertex_mul_definition "multiplicity" of \f$ v \f$ (with respect to \f$ G \f$) is strictly greater than \f$ 1 \f$ .
 
