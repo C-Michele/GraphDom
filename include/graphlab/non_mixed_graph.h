@@ -15,8 +15,8 @@ namespace MAIN_LIBRARY_NAMESPACE {
             ~non_mixed_graph() override = default;
 
             /**
-             * If `*this` is an [ugraph](@ref mathematical_ugraph_definition) then inserts in `*this` an edge having @p first_endpoint and @p second_endpoint as [endpoints](@ref mathematical_edge_endpoint_definition), if `*this` doesn't already contain the same edge.<br>
-             * If `*this` is a [digraph](@ref mathematical_digraph_definition) then inserts in `*this` an edge having @p first_endpoint as [tail](@ref mathematical_directed_edge_tail_definition) and @p second_endpoint as [head](@ref mathematical_directed_edge_head_definition), if `*this` doesn't already contain the same edge.<br>
+             * If `*this` is an [ugraph](@ref mathematical_ugraph_definition) then inserts in `*this` an [undirected edge](@ref mathematical_undirected_edge_definition) having @p first_endpoint and @p second_endpoint as [endpoints](@ref mathematical_edge_endpoint_definition), if `*this` doesn't already contain the same edge.<br>
+             * If `*this` is a [digraph](@ref mathematical_digraph_definition) then inserts in `*this` a [directed edge](@ref mathematical_directed_edge_definition) having @p first_endpoint as [tail](@ref mathematical_directed_edge_tail_definition) and @p second_endpoint as [head](@ref mathematical_directed_edge_head_definition), if `*this` doesn't already contain the same edge.<br>
              *
              * @param first_endpoint This handle must be valid and must identify a vertex belonging to `*this`, otherwise the insertion will cause undefined behavior.
              * @param second_endpoint This handle must be valid and must identify a vertex belonging to `*this`, otherwise the insertion will cause undefined behavior.

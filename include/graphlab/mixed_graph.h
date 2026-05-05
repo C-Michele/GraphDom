@@ -14,7 +14,15 @@ namespace MAIN_LIBRARY_NAMESPACE {
             /// To be polymorphic, this class has a virtual destructor.
             ~mixed_graph() override = default;
 
-            virtual void insert_edge(const typename graph<VertexType>::vertex_const_handle&, const typename graph<VertexType>::vertex_const_handle&, edge_type) = 0;
+            /**
+             * If @p et is equal to `undirected` then inserts in `*this` an [undirected edge](@ref mathematical_undirected_edge_definition) having @p first_endpoint and @p second_endpoint as [endpoints](@ref mathematical_edge_endpoint_definition), if `*this` doesn't already contain the same edge.<br>
+             * If @p et is equal to `directed` then inserts in `*this` a [directed edge](@ref mathematical_directed_edge_definition) having @p first_endpoint as [tail](@ref mathematical_directed_edge_tail_definition) and @p second_endpoint as [head](@ref mathematical_directed_edge_head_definition), if `*this` doesn't already contain the same edge.<br>
+             *
+             * @param first_endpoint This handle must be valid and must identify a vertex belonging to `*this`, otherwise the insertion will cause undefined behavior.
+             * @param second_endpoint This handle must be valid and must identify a vertex belonging to `*this`, otherwise the insertion will cause undefined behavior.
+             * @param et The type of edge to insert
+             */
+            virtual void insert_edge(const typename graph<VertexType>::vertex_const_handle& first_endpoint, const typename graph<VertexType>::vertex_const_handle& second_endpoint, edge_type et) = 0;
     };
 }
 

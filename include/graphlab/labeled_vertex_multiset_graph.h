@@ -6,14 +6,16 @@
 #include "labeled_vertex_graph.h"
 
 namespace MAIN_LIBRARY_NAMESPACE {
-    template <typename VertexType, typename VertexLabelType, typename T = DefaultVertexLabellerType<VertexType,VertexLabelType>>  //TODO: find a better name for "T"
+    template <typename VertexType, typename VertexLabelType, typename VertexLabellerType = default_vertex_labeller<VertexType,VertexLabelType>>
     class labeled_vertex_multiset_graph : virtual public labeled_vertex_graph<VertexType,VertexLabelType>, virtual public multiset_graph<VertexType> {
         public:
-            labeled_vertex_multiset_graph() = default;
-            explicit labeled_vertex_multiset_graph(const T&);
-            explicit labeled_vertex_multiset_graph(T&&);
+            labeled_vertex_multiset_graph();
+            explicit labeled_vertex_multiset_graph(const VertexLabellerType&);
+            explicit labeled_vertex_multiset_graph(VertexLabellerType&&);
 
             ~labeled_vertex_multiset_graph() override = default;
+
+            [[nodiscard]] constexpr const VertexLabellerType& get_vertices_labeller() const;
 
             using multiset_graph<VertexType>::insert_vertex;
             [[nodiscard]] typename multiset_graph<VertexType>::vertex_handle insert_vertex(const VertexType&) final;
@@ -22,23 +24,31 @@ namespace MAIN_LIBRARY_NAMESPACE {
             [[nodiscard]] virtual typename multiset_graph<VertexType>::vertex_handle insert_vertex(const VertexType&, VertexLabelType&&) = 0;
             [[nodiscard]] virtual typename multiset_graph<VertexType>::vertex_handle insert_vertex(VertexType&&, const VertexLabelType&) = 0;
             [[nodiscard]] virtual typename multiset_graph<VertexType>::vertex_handle insert_vertex(VertexType&&, VertexLabelType&&) = 0;
-        protected:
-            T vertices_labeller;
+        private:
+            VertexLabellerType vertices_labeller;
     };
 
-    template<typename VertexType, typename VertexLabelType, typename T>  //TODO: find a better name for "T"
-    labeled_vertex_multiset_graph<VertexType,VertexLabelType,T>::labeled_vertex_multiset_graph(const T& vl) : vertices_labeller(vl) {}
+    template<typename VertexType, typename VertexLabelType, typename VertexLabellerType>
+    constexpr const VertexLabellerType& labeled_vertex_multiset_graph<VertexType,VertexLabelType,VertexLabellerType>::get_vertices_labeller() const {
+        return vertices_labeller;
+    }
 
-    template<typename VertexType, typename VertexLabelType, typename T>  //TODO: find a better name for "T"
-    labeled_vertex_multiset_graph<VertexType,VertexLabelType,T>::labeled_vertex_multiset_graph(T&& vl) : vertices_labeller(std::move(vl)) {}
+    template<typename VertexType, typename VertexLabelType, typename VertexLabellerType>
+    labeled_vertex_multiset_graph<VertexType,VertexLabelType,VertexLabellerType>::labeled_vertex_multiset_graph() : vertices_labeller() {}
 
-    template <typename VertexType, typename VertexLabelType, typename T>  //TODO: find a better name for "T"
-    typename multiset_graph<VertexType>::vertex_handle labeled_vertex_multiset_graph<VertexType,VertexLabelType,T>::insert_vertex(const VertexType& vertex_to_insert) {
+    template<typename VertexType, typename VertexLabelType, typename VertexLabellerType>
+    labeled_vertex_multiset_graph<VertexType,VertexLabelType,VertexLabellerType>::labeled_vertex_multiset_graph(const VertexLabellerType& vl) : vertices_labeller(vl) {}
+
+    template<typename VertexType, typename VertexLabelType, typename VertexLabellerType>
+    labeled_vertex_multiset_graph<VertexType,VertexLabelType,VertexLabellerType>::labeled_vertex_multiset_graph(VertexLabellerType&& vl) : vertices_labeller(std::move(vl)) {}
+
+    template <typename VertexType, typename VertexLabelType, typename VertexLabellerType>
+    typename multiset_graph<VertexType>::vertex_handle labeled_vertex_multiset_graph<VertexType,VertexLabelType,VertexLabellerType>::insert_vertex(const VertexType& vertex_to_insert) {
         return  insert_vertex(vertex_to_insert,vertices_labeller(vertex_to_insert));
     }
 
-    template <typename VertexType, typename VertexLabelType, typename T>  //TODO: find a better name for "T"
-    typename multiset_graph<VertexType>::vertex_handle labeled_vertex_multiset_graph<VertexType,VertexLabelType,T>::insert_vertex(VertexType&& vertex_to_insert) {
+    template <typename VertexType, typename VertexLabelType, typename VertexLabellerType>
+    typename multiset_graph<VertexType>::vertex_handle labeled_vertex_multiset_graph<VertexType,VertexLabelType,VertexLabellerType>::insert_vertex(VertexType&& vertex_to_insert) {
         return insert_vertex(std::move(vertex_to_insert),vertices_labeller(vertex_to_insert));
     }
 }

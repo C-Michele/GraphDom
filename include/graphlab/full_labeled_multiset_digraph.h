@@ -14,8 +14,8 @@ namespace MAIN_LIBRARY_NAMESPACE {
         typename VertexType,
         typename VertexLabelType,
         typename EdgeLabelType,
-        typename T1 = DefaultVertexLabellerType<VertexType,VertexLabelType>, //TODO:: find a better name for T1
-        typename T2 = DefaultEdgeLabellerType<VertexType,EdgeLabelType> // TODO: find a better name for T2
+        typename T1 = default_vertex_labeller<VertexType,VertexLabelType>, //TODO:: find a better name for T1
+        typename T2 = default_edge_labeller<VertexType,EdgeLabelType> // TODO: find a better name for T2
     >
     class full_labeled_multiset_digraph final :
         virtual public labeled_vertex_multiset_graph<VertexType,VertexLabelType,T1>,

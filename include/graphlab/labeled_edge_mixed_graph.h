@@ -5,35 +5,45 @@
 #include "mixed_graph.h"
 
 namespace MAIN_LIBRARY_NAMESPACE {
-    template <typename VertexType, typename EdgeLabelType, typename T = DefaultEdgeLabellerType<VertexType,EdgeLabelType>> //TODO: find a better name for "T"
+    template <typename VertexType, typename EdgeLabelType, typename EdgeLabellerType = default_edge_labeller<VertexType,EdgeLabelType>>
     class labeled_edge_mixed_graph : virtual public labeled_edge_graph<VertexType,EdgeLabelType>, virtual public mixed_graph<VertexType> {
         public:
-            labeled_edge_mixed_graph() = default;
-            explicit labeled_edge_mixed_graph(const T& el);
-            explicit labeled_edge_mixed_graph(T&& el);
+            labeled_edge_mixed_graph();
+            explicit labeled_edge_mixed_graph(const EdgeLabellerType& el);
+            explicit labeled_edge_mixed_graph(EdgeLabellerType&& el);
 
             ~labeled_edge_mixed_graph() override = default;
 
+            [[nodiscard]] constexpr const EdgeLabellerType& get_edges_labeller() const;
+
             using mixed_graph<VertexType>::insert_edge;
-            void insert_edge(const typename graph<VertexType>::CONSTANT_VERTEX_PTR_NAME& first, const typename graph<VertexType>::CONSTANT_VERTEX_PTR_NAME& second, edge_type) final;
-            virtual void insert_edge(const typename graph<VertexType>::CONSTANT_VERTEX_PTR_NAME&, const typename graph<VertexType>::CONSTANT_VERTEX_PTR_NAME&, edge_type, const EdgeLabelType&) = 0;
-            virtual void insert_edge(const typename graph<VertexType>::CONSTANT_VERTEX_PTR_NAME&, const typename graph<VertexType>::CONSTANT_VERTEX_PTR_NAME&, edge_type, EdgeLabelType&&) = 0;
-        protected:
-            T edges_labeller;
+            void insert_edge(const typename graph<VertexType>::vertex_const_handle& first_endpoint, const typename graph<VertexType>::vertex_const_handle& second_endpoint, edge_type et) final;
+            virtual void insert_edge(const typename graph<VertexType>::vertex_const_handle&, const typename graph<VertexType>::vertex_const_handle&, edge_type, const EdgeLabelType&) = 0;
+            virtual void insert_edge(const typename graph<VertexType>::vertex_const_handle&, const typename graph<VertexType>::vertex_const_handle&, edge_type, EdgeLabelType&&) = 0;
+        private:
+            const EdgeLabellerType edges_labeller;
     };
 
-    template<typename VertexType, typename EdgeLabelType, typename T>
-    labeled_edge_mixed_graph<VertexType,EdgeLabelType,T>::labeled_edge_mixed_graph(const T& el) : edges_labeller(el) {}
+    template<typename VertexType, typename EdgeLabelType, typename EdgeLabellerType>
+    labeled_edge_mixed_graph<VertexType,EdgeLabelType,EdgeLabellerType>::labeled_edge_mixed_graph() : edges_labeller() {}
 
-    template<typename VertexType, typename EdgeLabelType, typename T>
-    labeled_edge_mixed_graph<VertexType,EdgeLabelType,T>::labeled_edge_mixed_graph(T&& el) : edges_labeller(std::move(el)) {}
+    template<typename VertexType, typename EdgeLabelType, typename EdgeLabellerType>
+    labeled_edge_mixed_graph<VertexType,EdgeLabelType,EdgeLabellerType>::labeled_edge_mixed_graph(const EdgeLabellerType& el) : edges_labeller(el) {}
 
-    template<typename VertexType, typename EdgeLabelType, typename T> //TODO: find a better name for "T"
-    void labeled_edge_mixed_graph<VertexType,EdgeLabelType,T>::insert_edge(
-        const typename graph<VertexType>::CONSTANT_VERTEX_PTR_NAME& first,
-        const typename graph<VertexType>::CONSTANT_VERTEX_PTR_NAME& second,
+    template<typename VertexType, typename EdgeLabelType, typename EdgeLabellerType>
+    labeled_edge_mixed_graph<VertexType,EdgeLabelType,EdgeLabellerType>::labeled_edge_mixed_graph(EdgeLabellerType&& el) : edges_labeller(std::move(el)) {}
+
+    template<typename VertexType, typename EdgeLabelType, typename EdgeLabellerType>
+    constexpr const EdgeLabellerType& labeled_edge_mixed_graph<VertexType,EdgeLabelType,EdgeLabellerType>::get_edges_labeller() const {
+        return edges_labeller;
+    }
+
+    template<typename VertexType, typename EdgeLabelType, typename EdgeLabellerType>
+    void labeled_edge_mixed_graph<VertexType,EdgeLabelType,EdgeLabellerType>::insert_edge(
+        const typename graph<VertexType>::vertex_const_handle& first_endpoint,
+        const typename graph<VertexType>::vertex_const_handle& second_endpoint,
         edge_type et) {
-        insert_edge(first,second,et,edges_labeller(first,second,et));
+        insert_edge(first_endpoint,second_endpoint,et,edges_labeller(first_endpoint,second_endpoint,et));
     }
 }
 
