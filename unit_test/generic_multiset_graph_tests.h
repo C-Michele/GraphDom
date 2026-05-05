@@ -7,7 +7,7 @@
 #include <cstddef>
 
 #include "gtest/gtest.h"
-#include "graphlab/graph.h"
+#include "graphdom/graph.h"
 
 #define MULTISET_VERTEX_GRAPH_IS_A_MULTISET_VERTEX_GRAPH_TEST(TEST_SUITE_NAME,CONCRETE_CLASS_NAME,VERTEX_TYPENAME)              \
     TEST(TEST_SUITE_NAME,is_a_multiset_vertex_graph) {                                                                          \

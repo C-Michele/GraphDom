@@ -5,8 +5,8 @@
 #include "generic_ugraph_tests.h"
 #include "generic_set_graph_tests.h"
 #include "generic_set_ugraph_tests.h"
-#include "graphlab/graph.h"
-#include "graphlab/full_labeled_set_ugraph.h"
+#include "graphdom/graph.h"
+#include "graphdom/full_labeled_set_ugraph.h"
 
 using tested_graph = MAIN_LIBRARY_NAMESPACE::full_labeled_set_ugraph<std::size_t,std::string,std::string>;
 

@@ -4,8 +4,8 @@
 #include <utility>
 
 #include "gtest/gtest.h"
-#include "graphlab/non_mixed_graph.h"
-#include "graphlab/mixed_graph.h"
+#include "graphdom/non_mixed_graph.h"
+#include "graphdom/mixed_graph.h"
 
 #define DIGRAPH_IS_A_NON_MIXED_GRAPH_TEST(TEST_SUITE_NAME,CONCRETE_CLASS_NAME,VERTEX_TYPENAME)                              \
     TEST(TEST_SUITE_NAME,is_a_non_mixed_graph) {                                                                            \

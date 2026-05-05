@@ -5,7 +5,7 @@
 #include <cstddef>
 
 #include "gtest/gtest.h"
-#include "graphlab/graph.h"
+#include "graphdom/graph.h"
 
 #define MULTISET_VERTEX_DIGRAPH_CORRECT_EDGES_INSERTION_NOT_CONSTANT_SPECIFIC_VERTEX_POINTER_NOT_CONSTANT_ADJ_LIST_NOT_C_METHODS(TEST_SUITE_NAME,CONCRETE_CLASS_NAME)   \
     TEST(TEST_SUITE_NAME,correct_edges_insertion__not_constant_specific_vertex_ptr__not_constant_adj_list__not_c_methods) {                                             \
