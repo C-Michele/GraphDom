@@ -20,7 +20,7 @@ namespace graphdom {
     /// The enumerated type whose values represent the two types of [edges](@ref mathematical_edge_definition) of a [graph](@ref mathematical_graph_definition).
     enum edge_type : std::uint8_t {
         undirected = 0, ///< This enum value means [undirected edge](@ref mathematical_undirected_edge_definition)
-        directed = 1 ///< This enum value means [directed edge](@ref mathematical_undirected_edge_definition)
+        directed = 1 ///< This enum value means [directed edge](@ref mathematical_directed_edge_definition)
     };
 }
 
