@@ -8,7 +8,7 @@
 #include "graphdom/graph.h"
 #include "graphdom/full_labeled_set_ugraph.h"
 
-using tested_graph = MAIN_LIBRARY_NAMESPACE::full_labeled_set_ugraph<std::size_t,std::string,std::string>;
+using tested_graph = graphdom::full_labeled_set_ugraph<std::size_t,std::string,std::string>;
 
 IS_A_GRAPH_TEST(full_labeled_set_ugraph,tested_graph,std::size_t);
 

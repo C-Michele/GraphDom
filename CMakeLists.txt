@@ -3,8 +3,6 @@ project(graphdom)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_compile_definitions(MAIN_LIBRARY_NAMESPACE=${PROJECT_NAME})
-
 add_library(${PROJECT_NAME} INTERFACE)
 
 target_include_directories(${PROJECT_NAME}

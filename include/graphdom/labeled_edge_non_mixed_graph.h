@@ -4,7 +4,7 @@
 #include "labeled_edge_graph.h"
 #include "non_mixed_graph.h"
 
-namespace MAIN_LIBRARY_NAMESPACE {
+namespace graphdom {
     template <typename VertexType, typename EdgeLabelType, typename EdgeLabellerType = default_edge_labeller<VertexType,EdgeLabelType>>
     class labeled_edge_non_mixed_graph : virtual public labeled_edge_graph<VertexType,EdgeLabelType>, virtual public non_mixed_graph<VertexType> {
         public:

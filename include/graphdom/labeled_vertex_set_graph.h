@@ -5,7 +5,7 @@
 
 #include "labeled_vertex_graph.h"
 
-namespace MAIN_LIBRARY_NAMESPACE {
+namespace graphdom {
     template <typename VertexType, typename VertexLabelType, typename VertexLabellerType = default_vertex_labeller<VertexType,VertexLabelType>>
     class labeled_vertex_set_graph : virtual public labeled_vertex_graph<VertexType,VertexLabelType>, virtual public set_graph<VertexType> {
         public:

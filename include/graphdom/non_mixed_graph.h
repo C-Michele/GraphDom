@@ -3,7 +3,7 @@
 
 #include "graph.h"
 
-namespace MAIN_LIBRARY_NAMESPACE {
+namespace graphdom {
     /// Every [non-mixed graph](@ref mathematical_non_mixed_graph_definition) created using this library is an instance of a concrete class publicly derived, directly or indirectly, from this polymorphic template class.
     /**
      * Creating an object of a user-defined class derived, directly or indirectly, from this one will cause undefined behavior.

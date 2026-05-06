@@ -6,6 +6,8 @@
 #include "gtest/gtest.h"
 #include "graphdom/graph.h"
 
+#define MAIN_LIBRARY_NAMESPACE graphdom
+
 #define IS_A_GRAPH_TEST(TEST_SUITE_NAME,CONCRETE_CLASS_NAME,VERTEX_TYPENAME)                                    \
     TEST(TEST_SUITE_NAME,is_a_graph) {                                                                          \
         CONCRETE_CLASS_NAME graph;                                                                              \

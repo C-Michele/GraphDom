@@ -3,7 +3,7 @@
 
 #include "graph.h"
 
-namespace MAIN_LIBRARY_NAMESPACE {
+namespace graphdom {
     template <typename VertexType, typename VertexLabelType>
     class labeled_vertex_graph : virtual public graph<VertexType> {
         public:
@@ -15,7 +15,7 @@ namespace MAIN_LIBRARY_NAMESPACE {
     };
 }
 
-namespace MAIN_LIBRARY_NAMESPACE {
+namespace graphdom {
     template <typename VertexType, typename VertexLabelType>
     class default_vertex_labeller final {
     public:
