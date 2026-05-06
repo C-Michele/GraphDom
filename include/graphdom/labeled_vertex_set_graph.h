@@ -29,11 +29,6 @@ namespace MAIN_LIBRARY_NAMESPACE {
     };
 
     template<typename VertexType, typename VertexLabelType, typename VertexLabellerType>
-    constexpr const VertexLabellerType& labeled_vertex_set_graph<VertexType, VertexLabelType, VertexLabellerType>::get_vertices_labeller() const {
-        return vertices_labeller;
-    }
-
-    template<typename VertexType, typename VertexLabelType, typename VertexLabellerType>
     labeled_vertex_set_graph<VertexType,VertexLabelType,VertexLabellerType>::labeled_vertex_set_graph() : vertices_labeller() {}
 
     template<typename VertexType, typename VertexLabelType, typename VertexLabellerType>
@@ -41,6 +36,11 @@ namespace MAIN_LIBRARY_NAMESPACE {
 
     template<typename VertexType, typename VertexLabelType, typename VertexLabellerType>
     labeled_vertex_set_graph<VertexType,VertexLabelType,VertexLabellerType>::labeled_vertex_set_graph(VertexLabellerType&& vl) : vertices_labeller(std::move(vl)) {}
+
+    template<typename VertexType, typename VertexLabelType, typename VertexLabellerType>
+    constexpr const VertexLabellerType& labeled_vertex_set_graph<VertexType, VertexLabelType, VertexLabellerType>::get_vertices_labeller() const {
+        return vertices_labeller;
+    }
 
     template <typename VertexType, typename VertexLabelType, typename VertexLabellerType>
     std::pair<typename graph<VertexType>::vertex_handle,bool> labeled_vertex_set_graph<VertexType,VertexLabelType,VertexLabellerType>::insert_vertex(const VertexType& vertex_to_insert) {
