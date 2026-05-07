@@ -18,20 +18,20 @@ namespace graphdom {
             ~labeled_vertex_graph() override = default;
 
             /**
-             * If @p vertex is valid then returns a const reference to the label of the vertex identified by @p vertex (with respect to `*this`).
+             * If @p vertex is valid then returns a const reference to the [label of the vertex](@ref mathematical_vertex_label_definition) identified by @p vertex (with respect to `*this`).
              *
              * @param vertex This handle must be valid and must identify a vertex belonging to `*this`, otherwise this method will cause undefined behavior.
-             * @return A const reference to label of the vertex identified by @p vertex (with respect to `*this`).
+             * @return A const reference to [label of the vertex](@ref mathematical_vertex_label_definition) identified by @p vertex (with respect to `*this`).
              * @par Complexity
              * Constant.
              */
             [[nodiscard]] virtual const VertexLabelType& get_vertex_label(const typename graph<VertexType>::vertex_const_handle& vertex) const = 0;
 
             /**
-             * If @p vertex is valid then returns a reference to the label of the vertex identified by @p vertex (with respect to `*this`).
+             * If @p vertex is valid then returns a reference to the [label of the vertex](@ref mathematical_vertex_label_definition) identified by @p vertex (with respect to `*this`).
              *
              * @param vertex This handle must be valid and must identify a vertex belonging to `*this`, otherwise this method will cause undefined behavior.
-             * @return A reference to label of the vertex identified by @p vertex (with respect to `*this`).
+             * @return A reference to [label of the vertex](@ref mathematical_vertex_label_definition) identified by @p vertex (with respect to `*this`).
              * @par Complexity
              * Constant.
              */
