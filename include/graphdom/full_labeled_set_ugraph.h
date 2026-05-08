@@ -58,38 +58,38 @@ namespace graphdom {
 
             static void safe_edge_endpoint_deallocation(typename graphdom::graph<VertexType>::template edge_endpoint<VertexContainerPointerType>*);
 
-            class custom_set_less {
+            class custom_vertices_set_compare {
                 public:
-                    custom_set_less() = default;
-                    explicit custom_set_less(const Compare& comp) : external_vertex_less_functor(comp){}
-                    explicit custom_set_less(Compare&& comp) : external_vertex_less_functor(std::move(comp)){}
+                    custom_vertices_set_compare() = default;
+                    explicit custom_vertices_set_compare(const Compare& comp) : external_compare_functor(comp){}
+                    explicit custom_vertices_set_compare(Compare&& comp) : external_compare_functor(std::move(comp)){}
 
-                    bool operator()(
+                    bool constexpr operator()(
                         const vertex_container& left,
                         const vertex_container& right ) const {
-                        return external_vertex_less_functor(left.vertex,right.vertex);
+                        return external_compare_functor(left.vertex,right.vertex);
                     }
 
                     using is_transparent = void;
 
-                    bool operator()(
+                    bool constexpr operator()(
                         const vertex_container& left,
                         const VertexType& right ) const {
-                        return external_vertex_less_functor(left.vertex,right);
+                        return external_compare_functor(left.vertex,right);
                     }
 
-                    bool operator()(
+                    bool constexpr operator()(
                         const VertexType& left,
                         const vertex_container& right ) const {
-                        return external_vertex_less_functor(left,right);
+                        return external_compare_functor(left,right.vertex);
                     }
                 private:
-                    Compare external_vertex_less_functor;
+                    Compare external_compare_functor;
             };
 
             std::set<
                 vertex_container,
-                custom_set_less
+                custom_vertices_set_compare
             > vertices;
     };
 }
@@ -99,56 +99,56 @@ graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compa
 full_labeled_set_ugraph(const Compare& v_comp, const T1& v_lab, const T2& e_lab) :
 labeled_vertex_set_graph<VertexType,VertexLabelType,T1>(v_lab),
 labeled_edge_non_mixed_graph<VertexType,EdgeLabelType,T2>(e_lab),
-vertices( custom_set_less(v_comp) ) {}
+vertices( custom_vertices_set_compare(v_comp) ) {}
 
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename T1, typename T2>
 graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compare,T1,T2>::
 full_labeled_set_ugraph(const Compare& v_comp, const T1& v_lab, T2&& e_lab) :
 labeled_vertex_set_graph<VertexType,VertexLabelType,T1>(v_lab),
 labeled_edge_non_mixed_graph<VertexType,EdgeLabelType,T2>(std::move(e_lab)),
-vertices( custom_set_less(v_comp) ) {}
+vertices( custom_vertices_set_compare(v_comp) ) {}
 
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename T1, typename T2>
 graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compare,T1,T2>::
 full_labeled_set_ugraph(const Compare& v_comp, T1&& v_lab, const T2& e_lab) :
 labeled_vertex_set_graph<VertexType,VertexLabelType,T1>(std::move(v_lab)),
 labeled_edge_non_mixed_graph<VertexType,EdgeLabelType,T2>(e_lab),
-vertices( custom_set_less(v_comp) ) {}
+vertices( custom_vertices_set_compare(v_comp) ) {}
 
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename T1, typename T2>
 graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compare,T1,T2>::
 full_labeled_set_ugraph(const Compare& v_comp, T1&& v_lab, T2&& e_lab) :
 labeled_vertex_set_graph<VertexType,VertexLabelType,T1>(std::move(v_lab)),
 labeled_edge_non_mixed_graph<VertexType,EdgeLabelType,T2>(std::move(e_lab)),
-vertices( custom_set_less(v_comp) ) {}
+vertices( custom_vertices_set_compare(v_comp) ) {}
 
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename T1, typename T2>
 graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compare,T1,T2>::
 full_labeled_set_ugraph(Compare&& v_comp, const T1& v_lab, const T2& e_lab) :
 labeled_vertex_set_graph<VertexType,VertexLabelType,T1>(v_lab),
 labeled_edge_non_mixed_graph<VertexType,EdgeLabelType,T2>(e_lab),
-vertices( custom_set_less(std::move(v_comp)) ) {}
+vertices( custom_vertices_set_compare(std::move(v_comp)) ) {}
 
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename T1, typename T2>
 graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compare,T1,T2>::
 full_labeled_set_ugraph(Compare&& v_comp, const T1& v_lab, T2&& e_lab) :
 labeled_vertex_set_graph<VertexType,VertexLabelType,T1>(v_lab),
 labeled_edge_non_mixed_graph<VertexType,EdgeLabelType,T2>(std::move(e_lab)),
-vertices( custom_set_less(std::move(v_comp)) ) {}
+vertices( custom_vertices_set_compare(std::move(v_comp)) ) {}
 
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename T1, typename T2>
 graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compare,T1,T2>::
 full_labeled_set_ugraph(Compare&& v_comp, T1&& v_lab, const T2& e_lab) :
 labeled_vertex_set_graph<VertexType,VertexLabelType,T1>(std::move(v_lab)),
 labeled_edge_non_mixed_graph<VertexType,EdgeLabelType,T2>(e_lab),
-vertices( custom_set_less(std::move(v_comp)) ) {}
+vertices( custom_vertices_set_compare(std::move(v_comp)) ) {}
 
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename T1, typename T2>
 graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compare,T1,T2>::
 full_labeled_set_ugraph(Compare&& v_comp, T1&& v_lab, T2&& e_lab) :
 labeled_vertex_set_graph<VertexType,VertexLabelType,T1>(std::move(v_lab)),
 labeled_edge_non_mixed_graph<VertexType,EdgeLabelType,T2>(std::move(e_lab)),
-vertices( custom_set_less(std::move(v_comp)) ) {}
+vertices( custom_vertices_set_compare(std::move(v_comp)) ) {}
 
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename T1, typename T2>
 graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compare,T1,T2>::
