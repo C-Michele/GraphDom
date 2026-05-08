@@ -134,19 +134,21 @@ namespace graphdom {
             template<typename VertexContainerPointerType>
             class custom_edge_endpoint_less {
                 public:
-                    bool operator()(const edge_endpoint<VertexContainerPointerType>* const left, const edge_endpoint<VertexContainerPointerType>* const right) const {
-                        return std::less<VertexContainerPointerType>()( left->vertex_container_ptr , right->vertex_container_ptr );
+                    bool constexpr operator()(const edge_endpoint<VertexContainerPointerType>* const left, const edge_endpoint<VertexContainerPointerType>* const right) const {
+                        return less_functor( left->vertex_container_ptr , right->vertex_container_ptr );
                     }
 
                     using is_transparent = void;
 
-                    bool operator()(const edge_endpoint<VertexContainerPointerType>* const left, const vertex_container* const right) const {
-                        return std::less<const vertex_container*>()( left->vertex_container_ptr , right );
+                    bool constexpr operator()(const edge_endpoint<VertexContainerPointerType>* const left, const vertex_container* const right) const {
+                        return less_functor( left->vertex_container_ptr , right );
                     }
 
-                    bool operator()(const vertex_container* const left, const edge_endpoint<VertexContainerPointerType>* const right) const {
-                        return std::less<const vertex_container*>()( left , right->vertex_container_ptr );
+                    bool constexpr operator()(const vertex_container* const left, const edge_endpoint<VertexContainerPointerType>* const right) const {
+                        return less_functor( left , right->vertex_container_ptr );
                     }
+
+                    static constexpr std::less<const vertex_container*> less_functor = std::less<const vertex_container*>();
             };
             template<typename VertexContainerPointerType>
             using adj_set = std::set< edge_endpoint<VertexContainerPointerType>* , custom_edge_endpoint_less<VertexContainerPointerType> >;
