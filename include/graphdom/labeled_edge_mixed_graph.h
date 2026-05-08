@@ -62,7 +62,7 @@ namespace graphdom {
              */
             virtual void insert_edge(const typename graph<VertexType>::vertex_const_handle& first_endpoint, const typename graph<VertexType>::vertex_const_handle& second_endpoint, edge_type et, EdgeLabelType&& edge_label) = 0;
         private:
-            const EdgeLabellerType edges_labeller;
+            EdgeLabellerType edges_labeller;
     };
 
     template<typename VertexType, typename EdgeLabelType, typename EdgeLabellerType>

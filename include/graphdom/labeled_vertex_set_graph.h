@@ -86,7 +86,7 @@ namespace graphdom {
              */
             [[nodiscard]] virtual std::pair<typename graph<VertexType>::vertex_handle,bool> insert_vertex(VertexType&& v_core, VertexLabelType&& vertex_label) = 0;
         private:
-            const VertexLabellerType vertices_labeller;
+            VertexLabellerType vertices_labeller;
     };
 
     template<typename VertexType, typename VertexLabelType, typename VertexLabellerType>

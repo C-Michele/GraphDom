@@ -80,7 +80,7 @@ namespace graphdom {
              */
             [[nodiscard]] virtual typename multiset_graph<VertexType>::vertex_handle insert_vertex(VertexType&& v_core, VertexLabelType&& vertex_label) = 0;
         private:
-            const VertexLabellerType vertices_labeller;
+            VertexLabellerType vertices_labeller;
     };
 
     template<typename VertexType, typename VertexLabelType, typename VertexLabellerType>
