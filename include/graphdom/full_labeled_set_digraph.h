@@ -262,17 +262,34 @@ template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, 
 std::pair<typename graphdom::graph<VertexType>::vertex_handle, bool>
 graphdom::full_labeled_set_digraph<VertexType,VertexLabelType,EdgeLabelType,Compare,T1,T2>::insert_vertex(
 const VertexType& vertex_to_insert, VertexLabelType&& vertex_label_to_insert) {
-    auto inner_insertion_result = vertices.emplace(
-        vertex_to_insert,
-        std::move(vertex_label_to_insert)
-    );
+    const auto lower_bound = vertices.lower_bound(vertex_to_insert);
+    if ( lower_bound == vertices.cend()  ) {
+        return std::pair<typename graphdom::graph<VertexType>::vertex_handle, bool>(
+            graphdom::graph<VertexType>::vertex_ptr_factory(
+                this,
+                *( vertices.emplace_hint(lower_bound, vertex_to_insert, std::move(vertex_label_to_insert)) ),
+                graphdom::edge_type::directed
+            ),
+            true
+        );
+    }
+    if ( ( vertices.key_comp() )( vertex_to_insert, *lower_bound ) ) {
+        return std::pair<typename graphdom::graph<VertexType>::vertex_handle, bool>(
+            graphdom::graph<VertexType>::vertex_ptr_factory(
+                this,
+                *( vertices.emplace_hint(lower_bound, vertex_to_insert, std::move(vertex_label_to_insert)) ),
+                graphdom::edge_type::directed
+            ),
+            true
+        );
+    }
     return std::pair<typename graphdom::graph<VertexType>::vertex_handle, bool>(
         graphdom::graph<VertexType>::vertex_ptr_factory(
             this,
-            *(inner_insertion_result.first),
+            *( lower_bound ),
             graphdom::edge_type::directed
         ),
-        inner_insertion_result.second
+        false
     );
 }
 
@@ -280,17 +297,34 @@ template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, 
 std::pair<typename graphdom::graph<VertexType>::vertex_handle,bool>
 graphdom::full_labeled_set_digraph<VertexType,VertexLabelType,EdgeLabelType,Compare,T1,T2>::insert_vertex(
 VertexType&& vertex_to_insert, const VertexLabelType& vertex_label_to_insert) {
-    auto inner_insertion_result = vertices.emplace(
-        std::move(vertex_to_insert),
-        vertex_label_to_insert
-    );
+    const auto lower_bound = vertices.lower_bound(vertex_to_insert);
+    if ( lower_bound == vertices.cend()  ) {
+        return std::pair<typename graphdom::graph<VertexType>::vertex_handle, bool>(
+            graphdom::graph<VertexType>::vertex_ptr_factory(
+                this,
+                *( vertices.emplace_hint(lower_bound, std::move(vertex_to_insert), vertex_label_to_insert) ),
+                graphdom::edge_type::directed
+            ),
+            true
+        );
+    }
+    if ( ( vertices.key_comp() )( vertex_to_insert, *lower_bound ) ) {
+        return std::pair<typename graphdom::graph<VertexType>::vertex_handle, bool>(
+            graphdom::graph<VertexType>::vertex_ptr_factory(
+                this,
+                *( vertices.emplace_hint(lower_bound, std::move(vertex_to_insert), vertex_label_to_insert) ),
+                graphdom::edge_type::directed
+            ),
+            true
+        );
+    }
     return std::pair<typename graphdom::graph<VertexType>::vertex_handle, bool>(
         graphdom::graph<VertexType>::vertex_ptr_factory(
             this,
-            *(inner_insertion_result.first),
+            *( lower_bound ),
             graphdom::edge_type::directed
         ),
-        inner_insertion_result.second
+        false
     );
 }
 
@@ -298,17 +332,34 @@ template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, 
 std::pair<typename graphdom::graph<VertexType>::vertex_handle, bool>
 graphdom::full_labeled_set_digraph<VertexType,VertexLabelType,EdgeLabelType,Compare,T1,T2>::insert_vertex(
 VertexType&& vertex_to_insert, VertexLabelType&& vertex_label_to_insert) {
-    auto inner_insertion_result = vertices.emplace(
-        std::move(vertex_to_insert),
-        std::move(vertex_label_to_insert)
-    );
+    const auto lower_bound = vertices.lower_bound(vertex_to_insert);
+    if ( lower_bound == vertices.cend()  ) {
+        return std::pair<typename graphdom::graph<VertexType>::vertex_handle, bool>(
+            graphdom::graph<VertexType>::vertex_ptr_factory(
+                this,
+                *( vertices.emplace_hint(lower_bound, std::move(vertex_to_insert), std::move(vertex_label_to_insert)) ),
+                graphdom::edge_type::directed
+            ),
+            true
+        );
+    }
+    if ( ( vertices.key_comp() )( vertex_to_insert, *lower_bound ) ) {
+        return std::pair<typename graphdom::graph<VertexType>::vertex_handle, bool>(
+            graphdom::graph<VertexType>::vertex_ptr_factory(
+                this,
+                *( vertices.emplace_hint(lower_bound, std::move(vertex_to_insert), std::move(vertex_label_to_insert)) ),
+                graphdom::edge_type::directed
+            ),
+            true
+        );
+    }
     return std::pair<typename graphdom::graph<VertexType>::vertex_handle, bool>(
         graphdom::graph<VertexType>::vertex_ptr_factory(
             this,
-            *(inner_insertion_result.first),
+            *( lower_bound ),
             graphdom::edge_type::directed
         ),
-        inner_insertion_result.second
+        false
     );
 }
 
