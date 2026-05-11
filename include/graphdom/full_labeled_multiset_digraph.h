@@ -295,11 +295,22 @@ void graphdom::full_labeled_multiset_digraph<VertexType,VertexLabelType,EdgeLabe
         if ( begin_point_vertex_container == nullptr || end_point_vertex_container == nullptr ) {
             throw std::runtime_error("Error"); //TODO: write a better message
         }
+        const auto lower_bound = ( begin_point_vertex_container->adj ).lower_bound( end_point_vertex_container );
+        if ( lower_bound == ( begin_point_vertex_container->adj ).cend()  ) {
+            ( begin_point_vertex_container->adj ).emplace_hint( lower_bound, new edge_endpoint( end_point_vertex_container , std::move(edge_label_to_insert) ) );
+        }
+        else {
+            if ( ( ( begin_point_vertex_container->adj ).key_comp() )( end_point_vertex_container, *lower_bound ) ) {
+                ( begin_point_vertex_container->adj ).emplace_hint( lower_bound, new edge_endpoint( end_point_vertex_container , std::move(edge_label_to_insert) ) );
+            }
+        }
+        /*
         std::unique_ptr< edge_endpoint > edge_endpoint_to_insert( new edge_endpoint( end_point_vertex_container , std::move(edge_label_to_insert) ) );
         const auto inner_insertion_result = ( ( begin_point_vertex_container->adj ).insert( edge_endpoint_to_insert.get() ) ).second;
         if ( inner_insertion_result ) {
             edge_endpoint_to_insert.release();
         }
+        */
 }
 
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename T1, typename T2>

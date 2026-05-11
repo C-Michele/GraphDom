@@ -434,6 +434,22 @@ void graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,EdgeLabelType,
     if ( begin_point_vertex_container == nullptr || end_point_vertex_container == nullptr ) {
         throw std::runtime_error("Error"); //TODO: write a better message
     }
+    const auto lower_bound = ( begin_point_vertex_container->adj ).lower_bound( end_point_vertex_container );
+    if ( lower_bound == ( begin_point_vertex_container->adj ).cend()  ) {
+        const auto first_insertion_itr = ( begin_point_vertex_container->adj ).emplace_hint( lower_bound, new edge_endpoint( end_point_vertex_container , std::move(edge_label_to_insert) ) );
+        if ( begin_point_vertex_container != end_point_vertex_container ) { //The edge could be a loop
+            ( end_point_vertex_container->adj ).emplace( new edge_endpoint( begin_point_vertex_container, static_cast< const edge_endpoint* >( *first_insertion_itr )->edge_label_ptr ) );
+        }
+    }
+    else {
+        if ( ( ( begin_point_vertex_container->adj ).key_comp() )( end_point_vertex_container, *lower_bound ) ) {
+            const auto first_insertion_itr = ( begin_point_vertex_container->adj ).emplace_hint( lower_bound, new edge_endpoint( end_point_vertex_container , std::move(edge_label_to_insert) ) );
+            if ( begin_point_vertex_container != end_point_vertex_container ) { //The edge could be a loop
+                ( end_point_vertex_container->adj ).emplace( new edge_endpoint( begin_point_vertex_container, static_cast< const edge_endpoint* >( *first_insertion_itr )->edge_label_ptr ) );
+            }
+        }
+    }
+    /*
     std::unique_ptr< edge_endpoint > edge_endpoint_to_insert_in_begin_point_adj( new edge_endpoint( end_point_vertex_container , std::move(edge_label_to_insert) ) );
     const auto inner_insertion_result_in_begin_point_adj = ( begin_point_vertex_container->adj ).insert( edge_endpoint_to_insert_in_begin_point_adj.get() );
     if ( inner_insertion_result_in_begin_point_adj.second ) {
@@ -455,6 +471,7 @@ void graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,EdgeLabelType,
             }
         }
     }
+    */
 }
 
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename T1, typename T2>
