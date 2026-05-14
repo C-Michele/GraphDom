@@ -41,6 +41,28 @@
         }                                                                                                       \
     }                                                                                                           \
 
+#define MULTISET_GRAPH_ORDER_METHOD_WITH_MOVE_INSERTION_WITHOUT_LABEL_TEST(TEST_SUITE_NAME,CONCRETE_CLASS_NAME)                             \
+    TEST(TEST_SUITE_NAME, order_method_with_move_insertion_without_label) {                                                                 \
+        static_assert( std::is_base_of< graphdom::multiset_graph< graphdom_tests::heap_value< std::size_t > > , CONCRETE_CLASS_NAME >() );  \
+        CONCRETE_CLASS_NAME graph;                                                                                                          \
+        ASSERT_EQ(graph.order(),0);                                                                                                         \
+        const std::size_t number_of_different_vertex_values = 100;                                                                          \
+        const std::size_t number_of_repetitions = 10;                                                                                       \
+        std::list<typename graphdom::multiset_graph< graphdom_tests::heap_value< std::size_t > >::vertex_handle> inserted_vertices_handlers;\
+        for(std::size_t i = 0; i < number_of_different_vertex_values; ++i) {                                                                \
+            for(std::size_t j = 0; j < number_of_repetitions; ++j) {                                                                        \
+                graphdom_tests::heap_value< std::size_t > heap_j( j );                                                                      \
+                inserted_vertices_handlers.emplace_front( graph.insert_vertex( std::move( j ) ) );                                          \
+                ASSERT_EQ(graph.order(),inserted_vertices_handlers.size());                                                                 \
+            }                                                                                                                               \
+        }                                                                                                                                   \
+        for(std::size_t i = 0; i < number_of_different_vertex_values * number_of_repetitions; ++i) {                                        \
+            graph.erase_vertex( inserted_vertices_handlers.front() );                                                                       \
+            ASSERT_EQ(graph.order(),(number_of_different_vertex_values*number_of_repetitions)-(i+1));                                       \
+            inserted_vertices_handlers.pop_front();                                                                                         \
+        }                                                                                                                                   \
+    }                                                                                                                                       \
+
 #define MULTISET_GRAPH_CORRECT_VERTEX_SPECIFIC_HANDLE_DEREFERENCING_TEST(TEST_SUITE_NAME,CONCRETE_CLASS_NAME)               \
     TEST(TEST_SUITE_NAME, correct_vertex_specific_handle_dereferencing) {                                                   \
         CONCRETE_CLASS_NAME graph;                                                                                          \

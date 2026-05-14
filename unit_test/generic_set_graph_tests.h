@@ -45,6 +45,30 @@
         }                                                                                                   \
     }                                                                                                       \
 
+#define SET_GRAPH_ORDER_METHOD_WITH_MOVE_INSERTION_WITHOUT_LABEL_TEST(TEST_SUITE_NAME,CONCRETE_CLASS_NAME)                                  \
+    TEST(TEST_SUITE_NAME, order_method_with_move_insertion_without_label) {                                                                 \
+        static_assert( std::is_base_of< graphdom::set_graph< graphdom_tests::heap_value< std::size_t > > , CONCRETE_CLASS_NAME >() );       \
+        CONCRETE_CLASS_NAME graph;                                                                                                          \
+        ASSERT_EQ(graph.order(),0);                                                                                                         \
+        const std::size_t number_of_vertices = 100;                                                                                         \
+        std::forward_list<typename graphdom::graph< graphdom_tests::heap_value< std::size_t > >::vertex_handle> inserted_vertices_handles;  \
+        for(std::size_t i = 0; i < number_of_vertices; ++i) {                                                                               \
+            graphdom_tests::heap_value< std::size_t > heap_i(i);                                                                            \
+            inserted_vertices_handles.emplace_front( ( graph.insert_vertex( std::move( heap_i ) ) ).first );                                \
+            ASSERT_EQ(graph.order(),i+1);                                                                                                   \
+            for(std::size_t j = 0; j <= i; ++j) {                                                                                           \
+                graphdom_tests::heap_value< std::size_t > heap_j(j);                                                                        \
+                const auto insertion_result = graph.insert_vertex( std::move(heap_j) );                                                     \
+                ASSERT_EQ(graph.order(),i+1);                                                                                               \
+            }                                                                                                                               \
+        }                                                                                                                                   \
+        for(std::size_t i = 0; i < number_of_vertices; ++i) {                                                                               \
+            graph.erase_vertex( inserted_vertices_handles.front() );                                                                        \
+            ASSERT_EQ(graph.order(),number_of_vertices-(i+1));                                                                              \
+            inserted_vertices_handles.pop_front();                                                                                          \
+        }                                                                                                                                   \
+    }                                                                                                                                       \
+
 #define SET_GRAPH_CORRECT_RETURNED_BOOLEAN_AFTER_VERTEX_INSERTION_TEST(TEST_SUITE_NAME,CONCRETE_CLASS_NAME) \
     TEST(TEST_SUITE_NAME, correct_returned_boolean_after_vertex_insertion) {                                \
         CONCRETE_CLASS_NAME graph;                                                                          \

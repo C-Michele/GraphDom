@@ -1,6 +1,7 @@
 #include <string>
 
 #include "gtest/gtest.h"
+#include "graphdom_tests_utility.h"
 #include "generic_graph_tests.h"
 #include "generic_digraph_tests.h"
 #include "generic_multiset_graph_tests.h"
@@ -9,6 +10,7 @@
 #include "graphdom/full_labeled_multiset_digraph.h"
 
 using tested_graph = graphdom::full_labeled_multiset_digraph<std::size_t,std::string,std::string>;
+using tested_graph_2 = graphdom::full_labeled_multiset_digraph<graphdom_tests::heap_value<std::size_t>,std::string,std::string>;
 
 IS_A_GRAPH_TEST(full_labeled_multiset_digraph,tested_graph,std::size_t);
 
@@ -23,6 +25,8 @@ MULTISET_GRAPH_IS_A_MULTISET_GRAPH_TEST(full_labeled_multiset_digraph,tested_gra
 MULTISET_GRAPH_IS_NOT_A_SET_GRAPH_TEST(full_labeled_multiset_digraph,tested_graph,std::size_t);
 
 MULTISET_GRAPH_ORDER_METHOD_TEST(full_labeled_multiset_digraph,tested_graph);
+
+MULTISET_GRAPH_ORDER_METHOD_WITH_MOVE_INSERTION_WITHOUT_LABEL_TEST(full_labeled_multiset_digraph,tested_graph_2);
 
 MULTISET_GRAPH_CORRECT_VERTEX_SPECIFIC_HANDLE_DEREFERENCING_TEST(full_labeled_multiset_digraph,tested_graph);
 
