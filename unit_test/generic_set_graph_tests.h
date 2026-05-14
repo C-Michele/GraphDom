@@ -4,10 +4,12 @@
 #include <utility>
 #include <forward_list>
 #include <vector>
+#include <type_traits>
 #include <cstddef>
 #include <exception>
 
 #include "gtest/gtest.h"
+#include "graphdom_tests_utility.h"
 #include "graphdom/graph.h"
 
 #define SET_GRAPH_IS_A_SET_GRAPH_TEST(TEST_SUITE_NAME,CONCRETE_CLASS_NAME,VERTEX_TYPENAME)              \
@@ -54,6 +56,58 @@
             }                                                                                               \
         }                                                                                                   \
     }                                                                                                       \
+
+#define SET_GRAPH_CORRECT_RETURNED_BOOLEAN_AFTER_VERTEX_MOVE_INSERTION_WITHOUT_LABEL_TEST(TEST_SUITE_NAME,CONCRETE_CLASS_NAME)          \
+    TEST(TEST_SUITE_NAME, correct_returned_boolean_after_vertex_move_insertion_without_label) {                                         \
+        static_assert( std::is_base_of< graphdom::set_graph< graphdom_tests::heap_value< std::size_t > > , CONCRETE_CLASS_NAME >() );   \
+        CONCRETE_CLASS_NAME graph;                                                                                                      \
+        const std::size_t number_of_vertices = 100;                                                                                     \
+        for(std::size_t i = 0; i < number_of_vertices; ++i) {                                                                           \
+            graphdom_tests::heap_value< std::size_t > heap_i(i);                                                                        \
+            ASSERT_TRUE( ( graph.insert_vertex( std::move( heap_i ) ) ).second );                                                       \
+            for(std::size_t j = 0; j <= i; ++j) {                                                                                       \
+                graphdom_tests::heap_value< std::size_t > heap_j(j);                                                                    \
+                ASSERT_FALSE( ( graph.insert_vertex( std::move( heap_j ) ) ).second );                                                  \
+            }                                                                                                                           \
+        }                                                                                                                               \
+    }                                                                                                                                   \
+
+#define SET_GRAPH_INVALIDATED_SOURCE_AFTER_SUCCESSFUL_VERTEX_MOVE_INSERTION_WITHOUT_LABEL_TEST(TEST_SUITE_NAME,CONCRETE_CLASS_NAME)     \
+    TEST(TEST_SUITE_NAME, invalidated_source_after_successful_vertex_move_insertion_without_label) {                                    \
+        static_assert( std::is_base_of< graphdom::set_graph< graphdom_tests::heap_value< std::size_t > > , CONCRETE_CLASS_NAME >() );   \
+        CONCRETE_CLASS_NAME graph;                                                                                                      \
+        const std::size_t number_of_vertices = 100;                                                                                     \
+        for(std::size_t i = 0; i < number_of_vertices; ++i) {                                                                           \
+            graphdom_tests::heap_value< std::size_t > heap_i(i);                                                                        \
+            const auto* const before_ptr = heap_i.get_as_pointer();                                                                     \
+            EXPECT_NE( before_ptr , nullptr );                                                                                          \
+            EXPECT_EQ( heap_i.get_as_reference() , i );                                                                                 \
+            const auto insertion_i_result = graph.insert_vertex( std::move( heap_i ) );                                                 \
+            ASSERT_EQ( heap_i.get_as_pointer() , nullptr );                                                                             \
+            ASSERT_EQ( ( *( insertion_i_result.first ) ).get_as_pointer() , before_ptr );                                               \
+            ASSERT_EQ( ( *( insertion_i_result.first ) ).get_as_reference() , i );                                                      \
+        }                                                                                                                               \
+    }                                                                                                                                   \
+
+#define SET_GRAPH_NOT_INVALIDATED_SOURCE_AFTER_UNSUCCESSFUL_VERTEX_MOVE_INSERTION_WITHOUT_LABEL_TEST(TEST_SUITE_NAME,CONCRETE_CLASS_NAME)   \
+    TEST(TEST_SUITE_NAME, not_invalidated_source_after_unsuccessful_vertex_move_insertion_without_label) {                                  \
+        static_assert( std::is_base_of< graphdom::set_graph< graphdom_tests::heap_value< std::size_t > > , CONCRETE_CLASS_NAME >() );       \
+        CONCRETE_CLASS_NAME graph;                                                                                                          \
+        const std::size_t number_of_vertices = 100;                                                                                         \
+        for(std::size_t i = 0; i < number_of_vertices; ++i) {                                                                               \
+            graphdom_tests::heap_value< std::size_t > heap_i(i);                                                                            \
+            graph.insert_vertex( std::move( heap_i ) );                                                                                     \
+            for(std::size_t j = 0; j <= i; ++j) {                                                                                           \
+                graphdom_tests::heap_value< std::size_t > heap_j(j);                                                                        \
+                const auto* const before_ptr = heap_j.get_as_pointer();                                                                     \
+                EXPECT_NE( before_ptr , nullptr );                                                                                          \
+                EXPECT_EQ( heap_j.get_as_reference() , j );                                                                                 \
+                const auto insertion_j_result = graph.insert_vertex( std::move( heap_j ) );                                                 \
+                ASSERT_EQ( heap_j.get_as_pointer() , before_ptr );                                                                          \
+                ASSERT_EQ( heap_j.get_as_reference() , j );                                                                                 \
+            }                                                                                                                               \
+        }                                                                                                                                   \
+    }                                                                                                                                       \
 
 #define SET_GRAPH_CORRECT_VERTEX_HANDLE_DEREFERENCING_TEST(TEST_SUITE_NAME,CONCRETE_CLASS_NAME)                         \
     TEST(TEST_SUITE_NAME, correct_vertex_handle_dereferencing) {                                                        \

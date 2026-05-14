@@ -21,6 +21,7 @@ set(SOURCE_TEST_FILES run_all_tests.cpp
         generic_digraph_tests.h
         generic_set_ugraph_tests.h
         full_labeled_set_ugraph_tests.cpp
-        generic_ugraph_tests.h)
+        generic_ugraph_tests.h
+        graphdom_tests_utility.h)
 add_executable(run_all_tests ${SOURCE_TEST_FILES})
 target_link_libraries(run_all_tests gtest_main graphdom)

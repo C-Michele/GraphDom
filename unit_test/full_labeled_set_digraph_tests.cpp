@@ -1,6 +1,7 @@
 #include <string>
 
 #include "gtest/gtest.h"
+#include "graphdom_tests_utility.h"
 #include "generic_graph_tests.h"
 #include "generic_digraph_tests.h"
 #include "generic_set_graph_tests.h"
@@ -9,6 +10,7 @@
 #include "graphdom/full_labeled_set_digraph.h"
 
 using tested_graph = graphdom::full_labeled_set_digraph<std::size_t,std::string,std::string>;
+using tested_graph_2 = graphdom::full_labeled_set_digraph<graphdom_tests::heap_value<std::size_t>,std::string,std::string>;
 
 IS_A_GRAPH_TEST(full_labeled_set_digraph,tested_graph,std::size_t);
 
@@ -25,6 +27,12 @@ SET_GRAPH_IS_NOT_A_MULTISET_GRAPH_TEST(full_labeled_set_digraph,tested_graph,std
 SET_GRAPH_ORDER_METHOD_TEST(full_labeled_set_digraph,tested_graph);
 
 SET_GRAPH_CORRECT_RETURNED_BOOLEAN_AFTER_VERTEX_INSERTION_TEST(full_labeled_set_digraph,tested_graph);
+
+SET_GRAPH_CORRECT_RETURNED_BOOLEAN_AFTER_VERTEX_MOVE_INSERTION_WITHOUT_LABEL_TEST(full_labeled_set_digraph,tested_graph_2);
+
+SET_GRAPH_INVALIDATED_SOURCE_AFTER_SUCCESSFUL_VERTEX_MOVE_INSERTION_WITHOUT_LABEL_TEST(full_labeled_set_digraph,tested_graph_2);
+
+SET_GRAPH_NOT_INVALIDATED_SOURCE_AFTER_UNSUCCESSFUL_VERTEX_MOVE_INSERTION_WITHOUT_LABEL_TEST(full_labeled_set_digraph,tested_graph_2);
 
 SET_GRAPH_CORRECT_VERTEX_HANDLE_DEREFERENCING_TEST(full_labeled_set_digraph,tested_graph);
 
