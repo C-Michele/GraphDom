@@ -4,8 +4,8 @@
 /* TODO: once you have chosen the appropriate names, remove the following macros */
 #define ADJ_LIST adj_list
 #define CONSTANT_ADJ_LIST const_adj_list
-#define EDGE_ITERATOR_NAME adj_iterator
-#define CONSTANT_EDGE_ITERATOR_NAME adj_const_iterator
+#define EDGE_ITERATOR_NAME adj_list_iterator
+#define CONSTANT_EDGE_ITERATOR_NAME adj_list_const_iterator
 
 #include <cstdint>
 #include <cstddef>
