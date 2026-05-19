@@ -9,7 +9,7 @@
 #include "gtest/gtest.h"
 #include "graphdom/graph.h"
 
-#define SET_VERTEX_UGRAPH_CORRECT_EDGES_INSERTION_WITHOUT_LABEL_VERTEX_HANDLE_ADJ_LIST_NOT_C_METHODS(TEST_SUITE_NAME,CONCRETE_CLASS_NAME)      \
+#define SET_UGRAPH_CORRECT_EDGES_INSERTION_WITHOUT_LABEL_VERTEX_HANDLE_ADJ_LIST_NOT_C_METHODS(TEST_SUITE_NAME,CONCRETE_CLASS_NAME)      \
     TEST(TEST_SUITE_NAME,correct_edges_insertion__without_label__vertex_const_handle__adj_list__not_c_methods) {                                      \
         CONCRETE_CLASS_NAME graph;                                                                                                                      \
         const std::size_t number_of_different_vertex_values = 30;                                                                                       \
@@ -75,7 +75,7 @@
         }                                                                                                                                               \
     }                                                                                                                                                   \
 
-#define SET_VERTEX_UGRAPH_CORRECT_EDGES_INSERTION_WITHOUT_LABEL_VERTEX_HANDLE_ADJ_LIST_C_METHODS(TEST_SUITE_NAME,CONCRETE_CLASS_NAME)          \
+#define SET_UGRAPH_CORRECT_EDGES_INSERTION_WITHOUT_LABEL_VERTEX_HANDLE_ADJ_LIST_C_METHODS(TEST_SUITE_NAME,CONCRETE_CLASS_NAME)          \
     TEST(TEST_SUITE_NAME,correct_edges_insertion__without_label__vertex_handle__adj_list__c_methods) {                                          \
         CONCRETE_CLASS_NAME graph;                                                                                                                      \
         const std::size_t number_of_different_vertex_values = 30;                                                                                       \
@@ -141,7 +141,7 @@
         }                                                                                                                                               \
     }                                                                                                                                                   \
 
-#define SET_VERTEX_UGRAPH_CORRECT_EDGES_INSERTION_WITHOUT_LABEL_VERTEX_HANDLE_CONST_ADJ_LIST_NOT_C_METHODS(TEST_SUITE_NAME,CONCRETE_CLASS_NAME)          \
+#define SET_UGRAPH_CORRECT_EDGES_INSERTION_WITHOUT_LABEL_VERTEX_HANDLE_CONST_ADJ_LIST_NOT_C_METHODS(TEST_SUITE_NAME,CONCRETE_CLASS_NAME)          \
     TEST(TEST_SUITE_NAME,correct_edges_insertion__without_label__vertex_handle__const_adj_list__not_c_methods) {                                          \
         CONCRETE_CLASS_NAME graph;                                                                                                                      \
         const std::size_t number_of_different_vertex_values = 30;                                                                                       \
@@ -207,7 +207,7 @@
         }                                                                                                                                               \
     }                                                                                                                                                   \
 
-#define SET_VERTEX_UGRAPH_CORRECT_EDGES_INSERTION_WITHOUT_LABEL_VERTEX_HANDLE_CONST_ADJ_LIST_C_METHODS(TEST_SUITE_NAME,CONCRETE_CLASS_NAME)              \
+#define SET_UGRAPH_CORRECT_EDGES_INSERTION_WITHOUT_LABEL_VERTEX_HANDLE_CONST_ADJ_LIST_C_METHODS(TEST_SUITE_NAME,CONCRETE_CLASS_NAME)              \
     TEST(TEST_SUITE_NAME,correct_edges_insertion__without_label__vertex_handle__const_adj_list__c_methods) {                                              \
         CONCRETE_CLASS_NAME graph;                                                                                                                      \
         const std::size_t number_of_different_vertex_values = 30;                                                                                       \
@@ -273,7 +273,7 @@
         }                                                                                                                                               \
     }                                                                                                                                                   \
 
-#define SET_VERTEX_UGRAPH_CORRECT_EDGES_INSERTION_WITHOUT_LABEL_VERTEX_CONST_HANDLE_ADJ_LIST_NOT_C_METHODS(TEST_SUITE_NAME,CONCRETE_CLASS_NAME)          \
+#define SET_UGRAPH_CORRECT_EDGES_INSERTION_WITHOUT_LABEL_VERTEX_CONST_HANDLE_ADJ_LIST_NOT_C_METHODS(TEST_SUITE_NAME,CONCRETE_CLASS_NAME)          \
     TEST(TEST_SUITE_NAME,correct_edges_insertion__vertex_const_handle__adj_list__not_c_methods) {                                          \
         CONCRETE_CLASS_NAME graph;                                                                                                                      \
         const std::size_t number_of_different_vertex_values = 30;                                                                                       \
@@ -339,7 +339,7 @@
         }                                                                                                                                               \
     }                                                                                                                                                   \
 
-#define SET_VERTEX_UGRAPH_CORRECT_EDGES_INSERTION_WITHOUT_LABEL_VERTEX_CONST_HANDLE_ADJ_LIST_C_METHODS(TEST_SUITE_NAME,CONCRETE_CLASS_NAME)              \
+#define SET_UGRAPH_CORRECT_EDGES_INSERTION_WITHOUT_LABEL_VERTEX_CONST_HANDLE_ADJ_LIST_C_METHODS(TEST_SUITE_NAME,CONCRETE_CLASS_NAME)              \
     TEST(TEST_SUITE_NAME,correct_edges_insertion__without_label__vertex_const_handle__adj_list__c_methods) {                                              \
         CONCRETE_CLASS_NAME graph;                                                                                                                      \
         const std::size_t number_of_different_vertex_values = 30;                                                                                       \
@@ -405,7 +405,7 @@
         }                                                                                                                                               \
     }                                                                                                                                                   \
 
-#define SET_VERTEX_UGRAPH_CORRECT_EDGES_INSERTION_WITHOUT_LABEL_VERTEX_CONST_HANDLE_CONST_ADJ_LIST_NOT_C_METHODS(TEST_SUITE_NAME,CONCRETE_CLASS_NAME)              \
+#define SET_UGRAPH_CORRECT_EDGES_INSERTION_WITHOUT_LABEL_VERTEX_CONST_HANDLE_CONST_ADJ_LIST_NOT_C_METHODS(TEST_SUITE_NAME,CONCRETE_CLASS_NAME)              \
     TEST(TEST_SUITE_NAME,correct_edges_insertion__without_label__vertex_const_handle__constant_adj_list__not_c_methods) {                                              \
         CONCRETE_CLASS_NAME graph;                                                                                                                      \
         const std::size_t number_of_different_vertex_values = 30;                                                                                       \
@@ -471,7 +471,7 @@
         }                                                                                                                                               \
     }                                                                                                                                                   \
 
-#define SET_VERTEX_UGRAPH_CORRECT_EDGES_INSERTION_WITHOUT_LABEL_VERTEX_CONST_HANDLE_CONST_ADJ_LIST_C_METHODS(TEST_SUITE_NAME,CONCRETE_CLASS_NAME)                  \
+#define SET_UGRAPH_CORRECT_EDGES_INSERTION_WITHOUT_LABEL_VERTEX_CONST_HANDLE_CONST_ADJ_LIST_C_METHODS(TEST_SUITE_NAME,CONCRETE_CLASS_NAME)                  \
     TEST(TEST_SUITE_NAME,correct_edges_insertion__without_label__vertex_const_handle__const_adj_list__c_methods) {                                                  \
         CONCRETE_CLASS_NAME graph;                                                                                                                      \
         const std::size_t number_of_different_vertex_values = 30;                                                                                       \
@@ -537,7 +537,7 @@
         }                                                                                                                                               \
     }                                                                                                                                                   \
 
-#define SET_VERTEX_UGRAPH_CORRECT_EDGES_ERASION_VERTEX_HANDLE_ADJ_LIST_NOT_C_METHODS(TEST_SUITE_NAME,CONCRETE_CLASS_NAME)                                            \
+#define SET_UGRAPH_CORRECT_EDGES_ERASION_VERTEX_HANDLE_ADJ_LIST_NOT_C_METHODS(TEST_SUITE_NAME,CONCRETE_CLASS_NAME)                                            \
     TEST(TEST_SUITE_NAME,correct_edges_erasion__vertex_handle__adj_list__not_c_methods) {                                                                            \
         CONCRETE_CLASS_NAME graph;                                                                                                                                                          \
         const std::size_t number_of_different_vertex_values = 30;                                                                                                                           \
@@ -608,7 +608,7 @@
         }                                                                                                                                                                                   \
     }                                                                                                                                                                                       \
 
-#define SET_VERTEX_UGRAPH_CORRECT_EDGES_ERASION_VERTEX_HANDLE_ADJ_LIST_C_METHODS(TEST_SUITE_NAME,CONCRETE_CLASS_NAME)                                                \
+#define SET_UGRAPH_CORRECT_EDGES_ERASION_VERTEX_HANDLE_ADJ_LIST_C_METHODS(TEST_SUITE_NAME,CONCRETE_CLASS_NAME)                                                \
     TEST(TEST_SUITE_NAME,correct_edges_erasion__vertex_handle__adj_list__c_methods) {                                                                                \
         CONCRETE_CLASS_NAME graph;                                                                                                                                                          \
         const std::size_t number_of_different_vertex_values = 30;                                                                                                                           \
@@ -679,7 +679,7 @@
         }                                                                                                                                                                                   \
     }                                                                                                                                                                                       \
 
-#define SET_VERTEX_UGRAPH_CORRECT_EDGES_ERASION_VERTEX_HANDLE_CONST_ADJ_LIST_NOT_C_METHODS(TEST_SUITE_NAME,CONCRETE_CLASS_NAME)                                                \
+#define SET_UGRAPH_CORRECT_EDGES_ERASION_VERTEX_HANDLE_CONST_ADJ_LIST_NOT_C_METHODS(TEST_SUITE_NAME,CONCRETE_CLASS_NAME)                                                \
     TEST(TEST_SUITE_NAME,correct_edges_erasion__vertex_handle__const_adj_list__not_c_methods) {                                                                                \
         CONCRETE_CLASS_NAME graph;                                                                                                                                                          \
         const std::size_t number_of_different_vertex_values = 30;                                                                                                                           \
@@ -750,7 +750,7 @@
         }                                                                                                                                                                                   \
     }                                                                                                                                                                                       \
 
-#define SET_VERTEX_UGRAPH_CORRECT_EDGES_ERASION_VERTEX_HANDLE_CONST_ADJ_LIST_C_METHODS(TEST_SUITE_NAME,CONCRETE_CLASS_NAME)                                                    \
+#define SET_UGRAPH_CORRECT_EDGES_ERASION_VERTEX_HANDLE_CONST_ADJ_LIST_C_METHODS(TEST_SUITE_NAME,CONCRETE_CLASS_NAME)                                                    \
     TEST(TEST_SUITE_NAME,correct_edges_erasion__vertex_handle__const_adj_list__c_methods) {                                                                                    \
         CONCRETE_CLASS_NAME graph;                                                                                                                                                          \
         const std::size_t number_of_different_vertex_values = 30;                                                                                                                           \
@@ -821,7 +821,7 @@
         }                                                                                                                                                                                   \
     }                                                                                                                                                                                       \
 
-#define SET_VERTEX_UGRAPH_CORRECT_EDGES_ERASION_VERTEX_CONST_HANDLE_ADJ_LIST_NOT_C_METHODS(TEST_SUITE_NAME,CONCRETE_CLASS_NAME)                                                \
+#define SET_UGRAPH_CORRECT_EDGES_ERASION_VERTEX_CONST_HANDLE_ADJ_LIST_NOT_C_METHODS(TEST_SUITE_NAME,CONCRETE_CLASS_NAME)                                                \
     TEST(TEST_SUITE_NAME,correct_edges_erasion__vertex_const_handle__adj_list__not_c_methods) {                                                                                \
         CONCRETE_CLASS_NAME graph;                                                                                                                                                          \
         const std::size_t number_of_different_vertex_values = 30;                                                                                                                           \
@@ -892,7 +892,7 @@
         }                                                                                                                                                                                   \
     }                                                                                                                                                                                       \
 
-#define SET_VERTEX_UGRAPH_CORRECT_EDGES_ERASION_VERTEX_CONST_HANDLE_ADJ_LIST_C_METHODS(TEST_SUITE_NAME,CONCRETE_CLASS_NAME)                                                    \
+#define SET_UGRAPH_CORRECT_EDGES_ERASION_VERTEX_CONST_HANDLE_ADJ_LIST_C_METHODS(TEST_SUITE_NAME,CONCRETE_CLASS_NAME)                                                    \
     TEST(TEST_SUITE_NAME,correct_edges_erasion__vertex_const_handle__adj_list__c_methods) {                                                                                    \
         CONCRETE_CLASS_NAME graph;                                                                                                                                                          \
         const std::size_t number_of_different_vertex_values = 30;                                                                                                                           \
@@ -963,7 +963,7 @@
         }                                                                                                                                                                                   \
     }                                                                                                                                                                                       \
 
-#define SET_VERTEX_UGRAPH_CORRECT_EDGES_ERASION_VERTEX_CONST_HANDLE_CONST_ADJ_LIST_NOT_C_METHODS(TEST_SUITE_NAME,CONCRETE_CLASS_NAME)                                                    \
+#define SET_UGRAPH_CORRECT_EDGES_ERASION_VERTEX_CONST_HANDLE_CONST_ADJ_LIST_NOT_C_METHODS(TEST_SUITE_NAME,CONCRETE_CLASS_NAME)                                                    \
     TEST(TEST_SUITE_NAME,correct_edges_erasion__vertex_const_handle__const_adj_list__not_c_methods) {                                                                                    \
         CONCRETE_CLASS_NAME graph;                                                                                                                                                          \
         const std::size_t number_of_different_vertex_values = 30;                                                                                                                           \
@@ -1034,7 +1034,7 @@
         }                                                                                                                                                                                   \
     }                                                                                                                                                                                       \
 
-#define SET_VERTEX_UGRAPH_CORRECT_EDGES_ERASION_VERTEX_CONST_HANDLE_CONST_ADJ_LIST_C_METHODS(TEST_SUITE_NAME,CONCRETE_CLASS_NAME)                                                        \
+#define SET_UGRAPH_CORRECT_EDGES_ERASION_VERTEX_CONST_HANDLE_CONST_ADJ_LIST_C_METHODS(TEST_SUITE_NAME,CONCRETE_CLASS_NAME)                                                        \
     TEST(TEST_SUITE_NAME,correct_edges_erasion__vertex_const_handle__const_adj_list__c_methods) {                                                                                        \
         CONCRETE_CLASS_NAME graph;                                                                                                                                                          \
         const std::size_t number_of_different_vertex_values = 30;                                                                                                                           \
