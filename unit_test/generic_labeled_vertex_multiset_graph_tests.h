@@ -1,6 +1,20 @@
-#ifndef GRAPHDOM_GENERIC_LABELED_VERTEX_MULTISET_GRAPH_TESTS_H
-#define GRAPHDOM_GENERIC_LABELED_VERTEX_MULTISET_GRAPH_TESTS_H
+#ifndef GENERIC_LABELED_VERTEX_MULTISET_GRAPH_TESTS_H
+#define GENERIC_LABELED_VERTEX_MULTISET_GRAPH_TESTS_H
 
-// TODO: add tests here
+#include "gtest/gtest.h"
+#include "graphdom/labeled_vertex_set_graph.h"
+#include "graphdom/labeled_vertex_multiset_graph.h"
 
-#endif //GRAPHDOM_GENERIC_LABELED_VERTEX_MULTISET_GRAPH_TESTS_H
+#define LABELED_VERTEX_MULTISET_GRAPH_IS_A_LABELED_VERTEX_MULTISET_GRAPH_TEST(TEST_SUITE_NAME,CONCRETE_CLASS_NAME,VERTEX_TYPENAME,VERTEX_LABEL_TYPENAME)    \
+    TEST(TEST_SUITE_NAME,is_a_labeled_vertex_set_graph) {                                                                                                   \
+        CONCRETE_CLASS_NAME graph;                                                                                                                          \
+        EXPECT_NE(dynamic_cast< typename graphdom::labeled_vertex_multiset_graph<VERTEX_TYPENAME,VERTEX_LABEL_TYPENAME>* >( &graph ),nullptr);              \
+    }                                                                                                                                                       \
+
+#define LABELED_VERTEX_MULTISET_GRAPH_IS_NOT_A_LABELED_VERTEX_SET_GRAPH_TEST(TEST_SUITE_NAME,CONCRETE_CLASS_NAME,VERTEX_TYPENAME,VERTEX_LABEL_TYPENAME) \
+    TEST(TEST_SUITE_NAME,is_not_a_labeled_vertex_multiset_graph) {                                                                                      \
+        CONCRETE_CLASS_NAME graph;                                                                                                                      \
+        EXPECT_EQ(dynamic_cast< typename graphdom::labeled_vertex_set_graph<VERTEX_TYPENAME,VERTEX_LABEL_TYPENAME>* >( &graph ),nullptr);               \
+    }                                                                                                                                                   \
+
+#endif //GENERIC_LABELED_VERTEX_MULTISET_GRAPH_TESTS_H
