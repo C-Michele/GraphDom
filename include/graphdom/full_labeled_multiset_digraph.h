@@ -47,8 +47,8 @@ namespace graphdom {
                 void insert_edge(const typename graph<VertexType>::vertex_const_handle&, const typename graph<VertexType>::vertex_const_handle&, EdgeLabelType&&) override;
             private:
                 using VertexContainerPointerType = typename graphdom::multiset_graph<VertexType>::VertexContainerPointerType;
-                using edge_endpoint = typename graphdom::multiset_graph<VertexType>::template labeled_directed_edge_endpoint<VertexLabelType>;
-                using vertex_container = typename graphdom::multiset_graph<VertexType>::template non_mixed_graph_labeled_vertex_container<EdgeLabelType>;
+                using edge_endpoint = typename graphdom::multiset_graph<VertexType>::template labeled_directed_edge_endpoint<EdgeLabelType>;
+                using vertex_container = typename graphdom::multiset_graph<VertexType>::template non_mixed_graph_labeled_vertex_container<VertexLabelType>;
 
                 static void safe_edge_endpoint_deallocation(typename graphdom::graph<VertexType>::template edge_endpoint<VertexContainerPointerType>*);
 

@@ -52,9 +52,9 @@ namespace graphdom {
             void insert_edge(const typename graph<VertexType>::vertex_const_handle&, const typename graph<VertexType>::vertex_const_handle&, EdgeLabelType&&) override;
         private:
             using VertexContainerPointerType = typename graphdom::set_graph<VertexType>::VertexContainerPointerType;
-            using edge_endpoint = typename graphdom::set_graph<VertexType>::template labeled_directed_edge_endpoint<VertexLabelType>;
+            using edge_endpoint = typename graphdom::set_graph<VertexType>::template labeled_directed_edge_endpoint<EdgeLabelType>;
             using adj_set = typename graphdom::set_graph<VertexType>::adj_set;
-            using vertex_container = typename graphdom::set_graph<VertexType>::template non_mixed_graph_labeled_vertex_container<EdgeLabelType>;
+            using vertex_container = typename graphdom::set_graph<VertexType>::template non_mixed_graph_labeled_vertex_container<VertexLabelType>;
 
             static void safe_edge_endpoint_deallocation(typename graphdom::graph<VertexType>::template edge_endpoint<VertexContainerPointerType>*);
 
@@ -169,8 +169,12 @@ std::size_t graphdom::full_labeled_set_digraph<VertexType,VertexLabelType,EdgeLa
 
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename T1, typename T2>
 const VertexLabelType& graphdom::full_labeled_set_digraph<VertexType,VertexLabelType,EdgeLabelType,Compare,T1,T2>::get_vertex_label(
-    const typename graph<VertexType>::vertex_const_handle& const_vertex_ptr) const {
-    //TODO: real implementation, look out to memory leaks in ADJs
+    const typename graph<VertexType>::vertex_const_handle& vertex) const {
+    if ( graphdom::graph<VertexType>::get_owner_graph(vertex) != this ) {
+        throw std::runtime_error("Error"); //TODO: write a better message
+    }
+    const auto* const vertex_container_ptr = static_cast< const vertex_container* >( graphdom::graph< VertexType >::get_vertex_container( vertex ) );
+    return vertex_container_ptr->vertex_label;
 }
 
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename T1, typename T2>
@@ -236,8 +240,12 @@ graphdom::full_labeled_set_digraph<VertexType,VertexLabelType,EdgeLabelType,Comp
 
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename T1, typename T2>
 VertexLabelType& graphdom::full_labeled_set_digraph<VertexType,VertexLabelType,EdgeLabelType,Compare,T1,T2>::get_vertex_label(
-    const typename graph<VertexType>::vertex_const_handle&) {
-    //TODO: real implementation
+    const typename graph<VertexType>::vertex_const_handle& vertex) {
+    if ( graphdom::graph<VertexType>::get_owner_graph(vertex) != this ) {
+        throw std::runtime_error("Error"); //TODO: write a better message
+    }
+    const auto* const vertex_container_ptr = static_cast< const vertex_container* >( graphdom::graph< VertexType >::get_vertex_container( vertex ) );
+    return const_cast< VertexLabelType& >( (*vertex_container_ptr).vertex_label );
 }
 
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename T1, typename T2>

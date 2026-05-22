@@ -6,11 +6,14 @@
 #include "generic_digraph_tests.h"
 #include "generic_set_graph_tests.h"
 #include "generic_set_digraph_tests.h"
+#include "generic_labeled_vertex_graph_tests.h"
+#include "generic_labeled_vertex_set_graph_tests.h"
 #include "graphdom/graph.h"
 #include "graphdom/full_labeled_set_digraph.h"
 
 using tested_graph = graphdom::full_labeled_set_digraph<std::size_t,std::string,std::string>;
 using tested_graph_2 = graphdom::full_labeled_set_digraph<graphdom_tests::heap_value<std::size_t>,std::string,std::string>;
+using tested_graph_3 = graphdom::full_labeled_set_digraph<graphdom_tests::heap_value<std::size_t>,graphdom_tests::heap_value<std::string>,std::string>;
 
 IS_A_GRAPH_TEST(full_labeled_set_digraph,tested_graph,std::size_t);
 
@@ -91,3 +94,17 @@ SET_DIGRAPH_CORRECT_EDGES_ERASION_VERTEX_CONST_HANDLE_ADJ_LIST_C_METHODS(full_la
 SET_DIGRAPH_CORRECT_EDGES_ERASION_VERTEX_CONST_HANDLE_CONST_ADJ_LIST_NOT_C_METHODS(full_labeled_set_digraph,tested_graph);
 
 SET_DIGRAPH_CORRECT_EDGES_ERASION_VERTEX_CONST_HANDLE_CONST_ADJ_LIST_C_METHODS(full_labeled_set_digraph,tested_graph);
+
+IS_A_LABELED_VERTEX_GRAPH(full_labeled_set_digraph,tested_graph,std::size_t,std::string);
+
+LABELED_VERTEX_SET_GRAPH_IS_A_LABELED_VERTEX_SET_GRAPH_TEST(full_labeled_set_digraph,tested_graph,std::size_t,std::string);
+
+LABELED_VERTEX_SET_GRAPH_IS_NOT_A_LABELED_VERTEX_MULTISET_GRAPH_TEST(full_labeled_set_digraph,tested_graph,std::size_t,std::string);
+
+LABELED_VERTEX_SET_GRAPH_CORRECT_VERTEX_INSERTION_WITH_LABEL_CORE_LVALUE_LABEL_LVALUE_VERTEX_HANDLE_TEST(full_labeled_set_digraph,tested_graph_3);
+
+LABELED_VERTEX_SET_GRAPH_CORRECT_VERTEX_INSERTION_WITH_LABEL_CORE_LVALUE_LABEL_RVALUE_VERTEX_HANDLE_TEST(full_labeled_set_digraph,tested_graph_3);
+
+LABELED_VERTEX_SET_GRAPH_CORRECT_VERTEX_INSERTION_WITH_LABEL_CORE_RVALUE_LABEL_LVALUE_VERTEX_HANDLE_TEST(full_labeled_set_digraph,tested_graph_3);
+
+LABELED_VERTEX_SET_GRAPH_CORRECT_VERTEX_INSERTION_WITH_LABEL_CORE_RVALUE_LABEL_RVALUE_VERTEX_HANDLE_TEST(full_labeled_set_digraph,tested_graph_3);
