@@ -113,8 +113,12 @@ std::size_t graphdom::full_labeled_multiset_digraph<VertexType,VertexLabelType,E
 
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename T1, typename T2>
 const VertexLabelType& graphdom::full_labeled_multiset_digraph<VertexType,VertexLabelType,EdgeLabelType,T1,T2>::get_vertex_label(
-    const typename graph<VertexType>::vertex_const_handle&) const {
-    //TODO: real implementation
+    const typename graph<VertexType>::vertex_const_handle& vertex) const {
+    if ( graphdom::graph<VertexType>::get_owner_graph(vertex) != this ) {
+        throw std::runtime_error("Error"); //TODO: write a better message
+    }
+    const auto* const vertex_container_ptr = static_cast< const vertex_container* >( graphdom::graph< VertexType >::get_vertex_container( vertex ) );
+    return vertex_container_ptr->vertex_label;
 }
 
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename T1, typename T2>
@@ -182,8 +186,12 @@ graphdom::full_labeled_multiset_digraph<VertexType,VertexLabelType, EdgeLabelTyp
 
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename T1, typename T2>
 VertexLabelType& graphdom::full_labeled_multiset_digraph<VertexType,VertexLabelType,EdgeLabelType,T1,T2>::get_vertex_label(
-    const typename graph<VertexType>::vertex_const_handle&) {
-    //TODO: real implementation
+    const typename graph<VertexType>::vertex_const_handle& vertex) {
+    if ( graphdom::graph<VertexType>::get_owner_graph(vertex) != this ) {
+        throw std::runtime_error("Error"); //TODO: write a better message
+    }
+    const auto* const vertex_container_ptr = static_cast< const vertex_container* >( graphdom::graph< VertexType >::get_vertex_container( vertex ) );
+    return const_cast< VertexLabelType& >( (*vertex_container_ptr).vertex_label );
 }
 
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename T1, typename T2> //TODO:: find a better name for T1 and T2
