@@ -843,18 +843,18 @@
         const std::size_t number_of_different_vertex_values = 10;                                                                                                                           \
         const std::size_t number_of_repetitions = 3;                                                                                                                                        \
         std::map<                                                                                                                                                                           \
-            const std::size_t*,                                                                                                                                                             \
+            std::size_t*,                                                                                                                                                             \
             std::pair<                                                                                                                                                                      \
                 typename graphdom::multiset_graph<std::size_t>::vertex_handle,                                                                                                       \
-                std::set< const std::size_t* >                                                                                                                                              \
+                std::set< std::size_t* >                                                                                                                                              \
             >                                                                                                                                                                               \
         > inserted_vertices_and_incidence_matrix;                                                                                                                                           \
         for(std::size_t i = 0; i < number_of_different_vertex_values; ++i) {                                                                                                                \
             for(std::size_t j = 0; j < number_of_repetitions; ++j){                                                                                                                         \
                 typename std::pair<                                                                                                                                                         \
                     typename graphdom::multiset_graph<std::size_t>::vertex_handle,                                                                                                                   \
-                    typename std::set< const std::size_t* >                                                                                                                                 \
-                > pair_to_insert{ graph.insert_vertex( i ) , std::set< const std::size_t* >() };                                                                                            \
+                    typename std::set< std::size_t* >                                                                                                                                 \
+                > pair_to_insert{ graph.insert_vertex( i ) , std::set< std::size_t* >() };                                                                                            \
                 inserted_vertices_and_incidence_matrix.emplace( &( *( pair_to_insert.first ) ) , std::move( pair_to_insert ) );                                                             \
             }                                                                                                                                                                               \
         }                                                                                                                                                                                   \
@@ -917,18 +917,18 @@
         const std::size_t number_of_different_vertex_values = 10;                                                                                                                           \
         const std::size_t number_of_repetitions = 3;                                                                                                                                        \
         std::map<                                                                                                                                                                           \
-            const std::size_t*,                                                                                                                                                             \
+            std::size_t*,                                                                                                                                                             \
             std::pair<                                                                                                                                                                      \
                 typename graphdom::multiset_graph<std::size_t>::vertex_handle,                                                                                                       \
-                std::set< const std::size_t* >                                                                                                                                              \
+                std::set< std::size_t* , std::less<> >                                                                                                                                              \
             >                                                                                                                                                                               \
         > inserted_vertices_and_incidence_matrix;                                                                                                                                           \
         for(std::size_t i = 0; i < number_of_different_vertex_values; ++i) {                                                                                                                \
             for(std::size_t j = 0; j < number_of_repetitions; ++j){                                                                                                                         \
                 typename std::pair<                                                                                                                                                         \
                     typename graphdom::multiset_graph<std::size_t>::vertex_handle,                                                                                                                   \
-                    typename std::set< const std::size_t* >                                                                                                                                 \
-                > pair_to_insert{ graph.insert_vertex( i ) , std::set< const std::size_t* >() };                                                                                            \
+                    typename std::set< std::size_t* , std::less<> >                                                                                                                                 \
+                > pair_to_insert{ graph.insert_vertex( i ) , std::set< std::size_t* , std::less<> >() };                                                                                            \
                 inserted_vertices_and_incidence_matrix.emplace( &( *( pair_to_insert.first ) ) , std::move( pair_to_insert ) );                                                             \
             }                                                                                                                                                                               \
         }                                                                                                                                                                                   \
@@ -991,18 +991,18 @@
         const std::size_t number_of_different_vertex_values = 10;                                                                                                                           \
         const std::size_t number_of_repetitions = 3;                                                                                                                                        \
         std::map<                                                                                                                                                                           \
-            const std::size_t*,                                                                                                                                                             \
+            std::size_t*,                                                                                                                                                             \
             std::pair<                                                                                                                                                                      \
                 typename graphdom::multiset_graph<std::size_t>::vertex_handle,                                                                                                       \
-                std::set< const std::size_t* >                                                                                                                                              \
+                std::set< std::size_t* , std::less<> >                                                                                                                                              \
             >                                                                                                                                                                               \
         > inserted_vertices_and_incidence_matrix;                                                                                                                                           \
         for(std::size_t i = 0; i < number_of_different_vertex_values; ++i) {                                                                                                                \
             for(std::size_t j = 0; j < number_of_repetitions; ++j){                                                                                                                         \
                 typename std::pair<                                                                                                                                                         \
                     typename graphdom::multiset_graph<std::size_t>::vertex_handle,                                                                                                                   \
-                    typename std::set< const std::size_t* >                                                                                                                                 \
-                > pair_to_insert{ graph.insert_vertex( i ) , std::set< const std::size_t* >() };                                                                                            \
+                    typename std::set< std::size_t* , std::less<> >                                                                                                                                 \
+                > pair_to_insert{ graph.insert_vertex( i ) , std::set< std::size_t* , std::less<> >() };                                                                                            \
                 inserted_vertices_and_incidence_matrix.emplace( &( *( pair_to_insert.first ) ) , std::move( pair_to_insert ) );                                                             \
             }                                                                                                                                                                               \
         }                                                                                                                                                                                   \
@@ -1065,18 +1065,18 @@
         const std::size_t number_of_different_vertex_values = 10;                                                                                                                           \
         const std::size_t number_of_repetitions = 3;                                                                                                                                        \
         std::map<                                                                                                                                                                           \
-            const std::size_t*,                                                                                                                                                             \
+            std::size_t*,                                                                                                                                                             \
             std::pair<                                                                                                                                                                      \
                 typename graphdom::multiset_graph<std::size_t>::vertex_handle,                                                                                                       \
-                std::set< const std::size_t* >                                                                                                                                              \
+                std::set< std::size_t* , std::less<> >                                                                                                                                              \
             >                                                                                                                                                                               \
         > inserted_vertices_and_incidence_matrix;                                                                                                                                           \
         for(std::size_t i = 0; i < number_of_different_vertex_values; ++i) {                                                                                                                \
             for(std::size_t j = 0; j < number_of_repetitions; ++j){                                                                                                                         \
                 typename std::pair<                                                                                                                                                         \
                     typename graphdom::multiset_graph<std::size_t>::vertex_handle,                                                                                                                   \
-                    typename std::set< const std::size_t* >                                                                                                                                 \
-                > pair_to_insert{ graph.insert_vertex( i ) , std::set< const std::size_t* >() };                                                                                            \
+                    typename std::set< std::size_t* , std::less<> >                                                                                                                                 \
+                > pair_to_insert{ graph.insert_vertex( i ) , std::set< std::size_t* , std::less<> >() };                                                                                            \
                 inserted_vertices_and_incidence_matrix.emplace( &( *( pair_to_insert.first ) ) , std::move( pair_to_insert ) );                                                             \
             }                                                                                                                                                                               \
         }                                                                                                                                                                                   \
@@ -1139,18 +1139,18 @@
         const std::size_t number_of_different_vertex_values = 10;                                                                                                                           \
         const std::size_t number_of_repetitions = 3;                                                                                                                                        \
         std::map<                                                                                                                                                                           \
-            const std::size_t*,                                                                                                                                                             \
+            std::size_t*,                                                                                                                                                             \
             std::pair<                                                                                                                                                                      \
                 typename graphdom::graph<std::size_t>::vertex_handle,                                                                                                       \
-                std::set< const std::size_t* >                                                                                                                                              \
+                std::set< std::size_t* , std::less<> >                                                                                                                                              \
             >                                                                                                                                                                               \
         > inserted_vertices_and_incidence_matrix;                                                                                                                                           \
         for(std::size_t i = 0; i < number_of_different_vertex_values; ++i) {                                                                                                                \
             for(std::size_t j = 0; j < number_of_repetitions; ++j){                                                                                                                         \
                 typename std::pair<                                                                                                                                                         \
                     typename graphdom::graph<std::size_t>::vertex_handle,                                                                                                                   \
-                    typename std::set< const std::size_t* >                                                                                                                                 \
-                > pair_to_insert{ graph.insert_vertex( i ) , std::set< const std::size_t* >() };                                                                                            \
+                    typename std::set< std::size_t* , std::less<> >                                                                                                                                 \
+                > pair_to_insert{ graph.insert_vertex( i ) , std::set< std::size_t* , std::less<> >() };                                                                                            \
                 inserted_vertices_and_incidence_matrix.emplace( &( *( pair_to_insert.first ) ) , std::move( pair_to_insert ) );                                                             \
             }                                                                                                                                                                               \
         }                                                                                                                                                                                   \
