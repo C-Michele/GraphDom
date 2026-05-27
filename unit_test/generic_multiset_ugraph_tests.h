@@ -1,5 +1,5 @@
-#ifndef GENERIC_SET_UGRAPH_TESTS_H
-#define GENERIC_SET_UGRAPH_TESTS_H
+#ifndef GENERIC_MULTISET_UGRAPH_TESTS_H
+#define GENERIC_MULTISET_UGRAPH_TESTS_H
 
 #include <vector>
 #include <utility>
@@ -9,8 +9,8 @@
 #include "gtest/gtest.h"
 #include "graphdom/graph.h"
 
-#define SET_UGRAPH_CORRECT_EDGES_INSERTION_WITHOUT_LABEL_VERTEX_HANDLE_ADJ_LIST_NOT_C_METHODS(TEST_SUITE_NAME,CONCRETE_CLASS_NAME)      \
-    TEST(TEST_SUITE_NAME,correct_edges_insertion__without_label__vertex_handle__adj_list__not_c_methods) {                                      \
+#define MULTISET_UGRAPH_CORRECT_EDGES_INSERTION_WITHOUT_LABEL_VERTEX_HANDLE_ADJ_LIST_NOT_C_METHODS(TEST_SUITE_NAME,CONCRETE_CLASS_NAME)      \
+    TEST(TEST_SUITE_NAME,correct_edges_insertion__without_label__vertex_const_handle__adj_list__not_c_methods) {                                      \
         CONCRETE_CLASS_NAME graph;                                                                                                                      \
         const std::size_t number_of_different_vertex_values = 30;                                                                                       \
         typename std::vector< typename graphdom::graph<std::size_t>::vertex_handle > inserted_vertices;                                   \
@@ -274,7 +274,7 @@
     }                                                                                                                                                   \
 
 #define SET_UGRAPH_CORRECT_EDGES_INSERTION_WITHOUT_LABEL_VERTEX_CONST_HANDLE_ADJ_LIST_NOT_C_METHODS(TEST_SUITE_NAME,CONCRETE_CLASS_NAME)          \
-    TEST(TEST_SUITE_NAME,correct_edges_insertion__without_label__vertex_const_handle__adj_list__not_c_methods) {                                          \
+    TEST(TEST_SUITE_NAME,correct_edges_insertion__vertex_const_handle__adj_list__not_c_methods) {                                          \
         CONCRETE_CLASS_NAME graph;                                                                                                                      \
         const std::size_t number_of_different_vertex_values = 30;                                                                                       \
         typename std::vector< typename graphdom::graph<std::size_t>::vertex_const_handle > inserted_vertices;                             \
@@ -1105,4 +1105,4 @@
         }                                                                                                                                                                                   \
     }                                                                                                                                                                                       \
 
-#endif //GENERIC_SET_UGRAPH_TESTS_H
+#endif //GENERIC_MULTISET_UGRAPH_TESTS_H

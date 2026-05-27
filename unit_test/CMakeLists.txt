@@ -25,6 +25,7 @@ set(SOURCE_TEST_FILES run_all_tests.cpp
         graphdom_tests_utility.h
         generic_labeled_vertex_set_graph_tests.h
         generic_labeled_vertex_multiset_graph_tests.h
-        generic_labeled_vertex_graph_tests.h)
+        generic_labeled_vertex_graph_tests.h
+        generic_multiset_ugraph_tests.h)
 add_executable(run_all_tests ${SOURCE_TEST_FILES})
 target_link_libraries(run_all_tests gtest_main graphdom)
