@@ -8,12 +8,14 @@
 #include "generic_set_digraph_tests.h"
 #include "generic_labeled_vertex_graph_tests.h"
 #include "generic_labeled_vertex_set_graph_tests.h"
+#include "generic_labeled_edge_digraph_tests.h"
 #include "graphdom/graph.h"
 #include "graphdom/full_labeled_set_digraph.h"
 
 using tested_graph = graphdom::full_labeled_set_digraph<std::size_t,std::string,std::string>;
 using tested_graph_2 = graphdom::full_labeled_set_digraph<graphdom_tests::heap_value<std::size_t>,std::string,std::string>;
 using tested_graph_3 = graphdom::full_labeled_set_digraph<graphdom_tests::heap_value<std::size_t>,graphdom_tests::heap_value<std::string>,std::string>;
+using tested_graph_4 = graphdom::full_labeled_set_digraph<std::size_t,std::string, graphdom_tests::heap_value< std::pair< const std::size_t* , const std::size_t* > > >;
 
 IS_A_GRAPH_TEST(full_labeled_set_digraph,tested_graph,std::size_t);
 
@@ -108,3 +110,5 @@ LABELED_VERTEX_SET_GRAPH_CORRECT_VERTEX_INSERTION_WITH_LABEL_CORE_LVALUE_LABEL_R
 LABELED_VERTEX_SET_GRAPH_CORRECT_VERTEX_INSERTION_WITH_LABEL_CORE_RVALUE_LABEL_LVALUE_VERTEX_HANDLE_TEST(full_labeled_set_digraph,tested_graph_3);
 
 LABELED_VERTEX_SET_GRAPH_CORRECT_VERTEX_INSERTION_WITH_LABEL_CORE_RVALUE_LABEL_RVALUE_VERTEX_HANDLE_TEST(full_labeled_set_digraph,tested_graph_3);
+
+LABELED_EDGE_DIGRAPH_CORRECT_EDGE_INSERTION_WITH_LABEL_WITHOUT_REPETITIONS_LVALUE_VERTEX_HANDLE_ADJ_LIST_NOT_C_METHODS_TEST(full_labeled_set_digraph,tested_graph_4);

@@ -179,8 +179,17 @@ const VertexLabelType& graphdom::full_labeled_set_digraph<VertexType,VertexLabel
 
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename T1, typename T2>
 const EdgeLabelType& graphdom::full_labeled_set_digraph<VertexType,VertexLabelType,EdgeLabelType,Compare,T1,T2>::get_edge_label(
-    const typename graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME &) const {
-    //TODO: real implementation
+const typename graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME& edge ) const {
+    if ( graphdom::graph<VertexType>::get_owner_graph( edge ) != this ) {
+        throw std::runtime_error("Error"); //TODO: write a better message
+    }
+    return (
+        *(
+            static_cast<edge_endpoint*>(
+                *( graphdom::set_graph<VertexType>::get_inner_iterator( edge ) )
+            )
+        )
+    ).edge_label;
 }
 
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename T1, typename T2>
@@ -373,8 +382,17 @@ VertexType&& vertex_to_insert, VertexLabelType&& vertex_label_to_insert) {
 
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename T1, typename T2>
 EdgeLabelType& graphdom::full_labeled_set_digraph<VertexType,VertexLabelType,EdgeLabelType,Compare,T1,T2>::get_edge_label(
-    const typename graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME&) {
-    //TODO: real implementation
+    const typename graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME& edge ) {
+    if ( graphdom::graph<VertexType>::get_owner_graph( edge ) != this ) {
+        throw std::runtime_error("Error"); //TODO: write a better message
+    }
+    return (
+        *(
+            static_cast<edge_endpoint*>(
+                *( graphdom::set_graph<VertexType>::get_inner_iterator( edge ) )
+            )
+        )
+    ).edge_label;
 }
 
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename T1, typename T2>

@@ -6,13 +6,16 @@
 #include "generic_digraph_tests.h"
 #include "generic_multiset_graph_tests.h"
 #include "generic_multiset_digraph_tests.h"
+#include "generic_labeled_vertex_graph_tests.h"
 #include "generic_labeled_vertex_multiset_graph_tests.h"
+#include "generic_labeled_edge_digraph_tests.h"
 #include "graphdom/graph.h"
 #include "graphdom/full_labeled_multiset_digraph.h"
 
 using tested_graph = graphdom::full_labeled_multiset_digraph<std::size_t,std::string,std::string>;
 using tested_graph_2 = graphdom::full_labeled_multiset_digraph<graphdom_tests::heap_value<std::size_t>,std::string,std::string>;
 using tested_graph_3 = graphdom::full_labeled_multiset_digraph<graphdom_tests::heap_value<std::size_t>,graphdom_tests::heap_value<std::string>,std::string>;
+using tested_graph_4 = graphdom::full_labeled_multiset_digraph<std::size_t,std::string, graphdom_tests::heap_value< std::pair< const std::size_t* , const std::size_t* > > >;
 
 IS_A_GRAPH_TEST(full_labeled_multiset_digraph,tested_graph,std::size_t);
 
@@ -112,6 +115,8 @@ MULTISET_DIGRAPH_CORRECT_EDGES_ERASION_VERTEX_CONST_HANDLE_CONST_ADJ_LIST_NOT_C_
 
 MULTISET_DIGRAPH_CORRECT_EDGES_ERASION_VERTEX_CONST_HANDLE_CONST_ADJ_LIST_C_METHODS(full_labeled_multiset_digraph,tested_graph);
 
+IS_A_LABELED_VERTEX_GRAPH(full_labeled_multiset_digraph,tested_graph,std::size_t,std::string);
+
 LABELED_VERTEX_MULTISET_GRAPH_CORRECT_VERTEX_INSERTION_WITH_LABEL_CORE_LVALUE_LABEL_LVALUE_SPECIFIC_VERTEX_HANDLE_TEST(full_labeled_multiset_digraph,tested_graph_3);
 
 LABELED_VERTEX_MULTISET_GRAPH_CORRECT_VERTEX_INSERTION_WITH_LABEL_CORE_LVALUE_LABEL_RVALUE_SPECIFIC_VERTEX_HANDLE_TEST(full_labeled_multiset_digraph,tested_graph_3);
@@ -127,3 +132,5 @@ LABELED_VERTEX_MULTISET_GRAPH_CORRECT_VERTEX_INSERTION_WITH_LABEL_CORE_LVALUE_LA
 LABELED_VERTEX_MULTISET_GRAPH_CORRECT_VERTEX_INSERTION_WITH_LABEL_CORE_RVALUE_LABEL_LVALUE_GENERIC_VERTEX_HANDLE_TEST(full_labeled_multiset_digraph,tested_graph_3);
 
 LABELED_VERTEX_MULTISET_GRAPH_CORRECT_VERTEX_INSERTION_WITH_LABEL_CORE_RVALUE_LABEL_RVALUE_GENERIC_VERTEX_HANDLE_TEST(full_labeled_multiset_digraph,tested_graph_3);
+
+LABELED_EDGE_DIGRAPH_CORRECT_EDGE_INSERTION_WITH_LABEL_WITHOUT_REPETITIONS_LVALUE_VERTEX_HANDLE_ADJ_LIST_NOT_C_METHODS_TEST(full_labeled_multiset_digraph,tested_graph_4);

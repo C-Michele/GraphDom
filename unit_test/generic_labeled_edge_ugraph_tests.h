@@ -1,0 +1,203 @@
+#ifndef GRAPHDOM_GENERIC_LABELED_EDGE_UGRAPH_TESTS_H
+#define GRAPHDOM_GENERIC_LABELED_EDGE_UGRAPH_TESTS_H
+
+#include <utility>
+#include <map>
+
+#include "gtest/gtest.h"
+#include "graphdom_tests_utility.h"
+#include "graphdom/graph.h"
+#include "graphdom/labeled_edge_non_mixed_graph.h"
+
+#define LABELED_EDGE_UGRAPH_CORRECT_EDGE_INSERTION_WITH_LABEL_WITHOUT_REPETITIONS_LVALUE_VERTEX_HANDLE_ADJ_LIST_NOT_C_METHODS_TEST(TEST_SUITE_NAME,CONCRETE_CLASS_NAME)                                         \
+    TEST(TEST_SUITE_NAME,correct_edge_insertion__with_label__without_repetitions__lvalue__vertex_handle__adj_list__not_c_methods){                                                                              \
+        static_assert( std::is_base_of< graphdom::graph< std::size_t > , CONCRETE_CLASS_NAME >() );                                                                                                             \
+        static_assert( std::is_base_of< graphdom::labeled_edge_non_mixed_graph< std::size_t , graphdom_tests::heap_value< std::pair< const std::size_t* , const std::size_t* > > > , CONCRETE_CLASS_NAME >() ); \
+        CONCRETE_CLASS_NAME graph;                                                                                                                                                                              \
+        const auto& graph_const_reference = graph;                                                                                                                                                              \
+                                                                                                                                                                                                                \
+        const bool the_graph_is_a_set_graph = ( ( dynamic_cast< graphdom::set_graph<std::size_t>* >( &graph ) ) == nullptr ) ? false : true;                                                                    \
+                                                                                                                                                                                                                \
+        const std::size_t number_of_different_vertex_values = 10;                                                                                                                                               \
+        const std::size_t number_of_repetitions = 3;                                                                                                                                                            \
+        typename std::vector<                                                                                                                                                                                   \
+            typename std::pair<                                                                                                                                                                                 \
+                typename graphdom::graph<std::size_t>::vertex_handle,                                                                                                                                           \
+                typename std::map<                                                                                                                                                                              \
+                    const std::size_t*,                                                                                                                                                                         \
+                    typename graphdom_tests::heap_value< std::pair< const std::size_t* , const std::size_t* > >*,                                                                                               \
+                    std::less<>                                                                                                                                                                                 \
+                >                                                                                                                                                                                               \
+            >                                                                                                                                                                                                   \
+        > inserted_vertices_and_incidence_matrix;                                                                                                                                                               \
+        if ( the_graph_is_a_set_graph ){                                                                                                                                                                        \
+            auto& set_graph = dynamic_cast< graphdom::set_graph<std::size_t>& >( graph );                                                                                                                       \
+            const std::size_t number_of_different_vertices = ( number_of_different_vertex_values * number_of_repetitions );                                                                                     \
+            for(std::size_t k = 0; k < number_of_different_vertices; ++k){                                                                                                                                      \
+                inserted_vertices_and_incidence_matrix.emplace_back(                                                                                                                                            \
+                    ( set_graph.insert_vertex(k) ).first,                                                                                                                                                       \
+                    std::map<                                                                                                                                                                                   \
+                        const std::size_t*,                                                                                                                                                                     \
+                        typename graphdom_tests::heap_value< std::pair< const std::size_t* , const std::size_t* > >*,                                                                                           \
+                        std::less<>                                                                                                                                                                             \
+                    >()                                                                                                                                                                                         \
+                );                                                                                                                                                                                              \
+            }                                                                                                                                                                                                   \
+        }                                                                                                                                                                                                       \
+        else {                                                                                                                                                                                                  \
+            auto& multiset_graph = dynamic_cast< graphdom::multiset_graph<std::size_t>& >( graph );                                                                                                             \
+            for(std::size_t i = 0; i < number_of_different_vertex_values; ++i){                                                                                                                                 \
+                for(std::size_t j = 0; j < number_of_repetitions; ++j){                                                                                                                                         \
+                    inserted_vertices_and_incidence_matrix.emplace_back(                                                                                                                                        \
+                        multiset_graph.insert_vertex(i),                                                                                                                                                        \
+                        std::map<                                                                                                                                                                               \
+                            const std::size_t*,                                                                                                                                                                 \
+                            typename graphdom_tests::heap_value< std::pair< const std::size_t* , const std::size_t* > >*,                                                                                       \
+                            std::less<>                                                                                                                                                                         \
+                        >()                                                                                                                                                                                     \
+                    );                                                                                                                                                                                          \
+                }                                                                                                                                                                                               \
+            }                                                                                                                                                                                                   \
+        }                                                                                                                                                                                                       \
+                                                                                                                                                                                                                \
+        for(std::size_t first = 0; first < inserted_vertices_and_incidence_matrix.size(); ++first){                                                                                                             \
+            for(std::size_t second = first; second < inserted_vertices_and_incidence_matrix.size(); ++second){                                                                                                  \
+                graphdom_tests::heap_value< std::pair< const std::size_t* , const std::size_t* > > first_edge_label_inserted(                                                                                   \
+                    std::pair< const std::size_t* , const std::size_t* >(                                                                                                                                       \
+                        &( *( ( inserted_vertices_and_incidence_matrix[ first ] ).first ) ),                                                                                                                    \
+                        &( *( ( inserted_vertices_and_incidence_matrix[ second ] ).first ) )                                                                                                                    \
+                    )                                                                                                                                                                                           \
+                );                                                                                                                                                                                              \
+                const auto* const first_edge_label_inserted_pair_raw_pointer = first_edge_label_inserted.get_as_pointer();                                                                                      \
+                                                                                                                                                                                                                \
+                graph.insert_edge(                                                                                                                                                                              \
+                    ( inserted_vertices_and_incidence_matrix[ first ] ).first,                                                                                                                                  \
+                    ( inserted_vertices_and_incidence_matrix[ second ] ).first,                                                                                                                                 \
+                    first_edge_label_inserted                                                                                                                                                                   \
+                );                                                                                                                                                                                              \
+                ( ( inserted_vertices_and_incidence_matrix[ first ] ).second ).emplace(                                                                                                                         \
+                    &( *( ( inserted_vertices_and_incidence_matrix[ second ] ).first ) ),                                                                                                                       \
+                    nullptr                                                                                                                                                                                     \
+                );                                                                                                                                                                                              \
+                ( ( inserted_vertices_and_incidence_matrix[ second ] ).second ).emplace(                                                                                                                        \
+                    &( *( ( inserted_vertices_and_incidence_matrix[ first ] ).first ) ),                                                                                                                        \
+                    nullptr                                                                                                                                                                                     \
+                );                                                                                                                                                                                              \
+                                                                                                                                                                                                                \
+                EXPECT_EQ(first_edge_label_inserted.get_as_pointer(),first_edge_label_inserted_pair_raw_pointer);                                                                                               \
+                                                                                                                                                                                                                \
+                for(std::size_t k = 0; k < inserted_vertices_and_incidence_matrix.size(); ++k){                                                                                                                 \
+                    auto k_adj_list_directed = ( ( inserted_vertices_and_incidence_matrix[ k ] ).first ).adj_list(graphdom::edge_type::directed);                                                               \
+                    ASSERT_EQ(k_adj_list_directed.begin(),k_adj_list_directed.end());                                                                                                                           \
+                                                                                                                                                                                                                \
+                    std::set<const std::size_t*> expected_vertices_in_k_adj_lists;                                                                                                                              \
+                    if( k < first ){                                                                                                                                                                            \
+                        for(std::size_t j = 0; j < inserted_vertices_and_incidence_matrix.size(); ++j ){                                                                                                        \
+                            expected_vertices_in_k_adj_lists.emplace( &( *( ( inserted_vertices_and_incidence_matrix[j].first ) ) ) );                                                                          \
+                        }                                                                                                                                                                                       \
+                    }                                                                                                                                                                                           \
+                    else if( k == first ){                                                                                                                                                                      \
+                        for(std::size_t j = 0; j <= second; ++j ){                                                                                                                                              \
+                            expected_vertices_in_k_adj_lists.emplace( &( *( ( inserted_vertices_and_incidence_matrix[j].first ) ) ) );                                                                          \
+                        }                                                                                                                                                                                       \
+                    }                                                                                                                                                                                           \
+                    else{                                                                                                                                                                                       \
+                        if( k <= second ){                                                                                                                                                                      \
+                            for(std::size_t j = 0; j <= first; ++j ){                                                                                                                                           \
+                                expected_vertices_in_k_adj_lists.emplace( &( *( ( inserted_vertices_and_incidence_matrix[j].first ) ) ) );                                                                      \
+                            }                                                                                                                                                                                   \
+                        }                                                                                                                                                                                       \
+                        else{                                                                                                                                                                                   \
+                            for(std::size_t j = 0; j < first; ++j ){                                                                                                                                            \
+                                expected_vertices_in_k_adj_lists.emplace( &( *( ( inserted_vertices_and_incidence_matrix[j].first ) ) ) );                                                                      \
+                            }                                                                                                                                                                                   \
+                        }                                                                                                                                                                                       \
+                    }                                                                                                                                                                                           \
+                                                                                                                                                                                                                \
+                    auto k_adj_list = ( ( inserted_vertices_and_incidence_matrix[ k ] ).first ).adj_list();                                                                                                     \
+                    std::set<const std::size_t*> vertices_encountered_in_k_adj_list;                                                                                                                            \
+                    for(auto edge_itr = k_adj_list.begin(); edge_itr != k_adj_list.end(); ++edge_itr){                                                                                                          \
+                        ASSERT_EQ( edge_itr.edge_type() , graphdom::edge_type::undirected );                                                                                                                      \
+                                                                                                                                                                                                                \
+                        const std::size_t* const edge_itr_vertex_raw_pointer = &(*(*edge_itr));                                                                                                                 \
+                        EXPECT_TRUE( ( vertices_encountered_in_k_adj_list.emplace( edge_itr_vertex_raw_pointer ) ).second );                                                                                    \
+                        ASSERT_NE( expected_vertices_in_k_adj_lists.find( edge_itr_vertex_raw_pointer ) , expected_vertices_in_k_adj_lists.end() );                                                             \
+                                                                                                                                                                                                                \
+                        auto* const edge_itr_label_raw_pointer = &( graph.get_edge_label( edge_itr ) );                                                                                                         \
+                        EXPECT_NE( edge_itr_label_raw_pointer , nullptr );                                                                                                                                      \
+                        const auto* const edge_itr_label_raw_pointer_to_const = &( graph_const_reference.get_edge_label( edge_itr ) );                                                                          \
+                        EXPECT_EQ( edge_itr_label_raw_pointer_to_const , edge_itr_label_raw_pointer );                                                                                                          \
+                                                                                                                                                                                                                \
+                        if( ( k == first ) && ( edge_itr_vertex_raw_pointer == &( *( ( inserted_vertices_and_incidence_matrix[ second ] ).first ) ) ) ){                                                        \
+                            (                                                                                                                                                                                   \
+                                ( ( inserted_vertices_and_incidence_matrix[ k ] ).second ).at(                                                                                                                  \
+                                    edge_itr_vertex_raw_pointer                                                                                                                                                 \
+                                )                                                                                                                                                                               \
+                            ) = edge_itr_label_raw_pointer;                                                                                                                                                     \
+                        }                                                                                                                                                                                       \
+                        else if( ( k == second ) && ( edge_itr_vertex_raw_pointer == &( *( ( inserted_vertices_and_incidence_matrix[ first ] ).first ) ) ) ){  \
+                            (   \
+                                ( ( inserted_vertices_and_incidence_matrix[ k ] ).second ).at(  \
+                                    edge_itr_vertex_raw_pointer \
+                                )   \
+                            ) = edge_itr_label_raw_pointer; \
+                        }   \
+                        else{                                                                                                                                                                                   \
+                            ASSERT_EQ(                                                                                                                                                                          \
+                                ( ( inserted_vertices_and_incidence_matrix[ k ] ).second ).at(                                                                                                                  \
+                                    edge_itr_vertex_raw_pointer                                                                                                                                                 \
+                                ),                                                                                                                                                                              \
+                                edge_itr_label_raw_pointer_to_const                                                                                                                                             \
+                            );                                                                                                                                                                                  \
+                        }                                                                                                                                                                                       \
+                                                                                                                                                                                                                \
+                        EXPECT_NE( ( *edge_itr_label_raw_pointer_to_const ).get_as_pointer() , first_edge_label_inserted_pair_raw_pointer );                                                                    \
+                                                                                                                                                                                                                \
+                        if( ( ( *edge_itr_label_raw_pointer_to_const ).get_as_reference() ).first == &( *( ( ( inserted_vertices_and_incidence_matrix[ k ] ).first ) ) ) ){\
+                            ASSERT_EQ( ( ( *edge_itr_label_raw_pointer_to_const ).get_as_reference() ).second , edge_itr_vertex_raw_pointer );   \
+                        }   \
+                        else{   \
+                            ASSERT_EQ( ( ( *edge_itr_label_raw_pointer_to_const ).get_as_reference() ).first , edge_itr_vertex_raw_pointer );   \
+                            ASSERT_EQ( ( ( *edge_itr_label_raw_pointer_to_const ).get_as_reference() ).second , &( *( ( ( inserted_vertices_and_incidence_matrix[ k ] ).first ) ) ) );   \
+                        }   \
+                    }                                                                                                                                                                                           \
+                    ASSERT_EQ(vertices_encountered_in_k_adj_list.size(),expected_vertices_in_k_adj_lists.size());                                                                                               \
+                                                                                                                                                                                                                \
+                    auto k_adj_list_undirected = ( ( inserted_vertices_and_incidence_matrix[ k ] ).first ).adj_list(graphdom::edge_type::undirected);                                                           \
+                    std::set<const std::size_t*> vertices_encountered_in_k_adj_list_undirected;                                                                                                                 \
+                    for(auto edge_itr = k_adj_list_undirected.begin(); edge_itr != k_adj_list_undirected.end(); ++edge_itr){                                                                                    \
+                        ASSERT_EQ( edge_itr.edge_type() , graphdom::edge_type::undirected );                                                                                                                    \
+                                                                                                                                                                                                                \
+                        const std::size_t* const edge_itr_vertex_raw_pointer = &(*(*edge_itr));                                                                                                                 \
+                        EXPECT_TRUE( ( vertices_encountered_in_k_adj_list_undirected.emplace( edge_itr_vertex_raw_pointer ) ).second );                                                                         \
+                        ASSERT_NE( expected_vertices_in_k_adj_lists.find( edge_itr_vertex_raw_pointer ) , expected_vertices_in_k_adj_lists.end() );                                                             \
+                                                                                                                                                                                                                \
+                        auto* const edge_itr_label_raw_pointer = &( graph.get_edge_label( edge_itr ) );                                                                                                         \
+                        EXPECT_NE( edge_itr_label_raw_pointer , nullptr );                                                                                                                                      \
+                        const auto* const edge_itr_label_raw_pointer_to_const = &( graph_const_reference.get_edge_label( edge_itr ) );                                                                          \
+                        EXPECT_EQ( edge_itr_label_raw_pointer_to_const , edge_itr_label_raw_pointer );                                                                                                          \
+                                                                                                                                                                                                                \
+                        ASSERT_EQ(                                                                                                                                                                              \
+                            ( ( inserted_vertices_and_incidence_matrix[ k ] ).second ).at(                                                                                                                      \
+                                edge_itr_vertex_raw_pointer                                                                                                                                                     \
+                            ),                                                                                                                                                                                  \
+                            edge_itr_label_raw_pointer_to_const                                                                                                                                                 \
+                        );                                                                                                                                                                                      \
+                                                                                                                                                                                                                \
+                        EXPECT_NE( ( *edge_itr_label_raw_pointer_to_const ).get_as_pointer() , first_edge_label_inserted_pair_raw_pointer );                                                                    \
+                                                                                                                                                                                                                \
+                        if( ( ( *edge_itr_label_raw_pointer_to_const ).get_as_reference() ).first == &( *( ( ( inserted_vertices_and_incidence_matrix[ k ] ).first ) ) ) ){\
+                            ASSERT_EQ( ( ( *edge_itr_label_raw_pointer_to_const ).get_as_reference() ).second , edge_itr_vertex_raw_pointer );   \
+                        }   \
+                        else{   \
+                            ASSERT_EQ( ( ( *edge_itr_label_raw_pointer_to_const ).get_as_reference() ).first , edge_itr_vertex_raw_pointer );   \
+                            ASSERT_EQ( ( ( *edge_itr_label_raw_pointer_to_const ).get_as_reference() ).second , &( *( ( ( inserted_vertices_and_incidence_matrix[ k ] ).first ) ) ) );   \
+                        }   \
+                    }                                                                                                                                                                                           \
+                    ASSERT_EQ(vertices_encountered_in_k_adj_list_undirected.size(),expected_vertices_in_k_adj_lists.size());                                                                                    \
+                }                                                                                                                                                                                               \
+            }                                                                                                                                                                                                   \
+        }                                                                                                                                                                                                       \
+    }                                                                                                                                                                                                           \
+
+#endif //GRAPHDOM_GENERIC_LABELED_EDGE_UGRAPH_TESTS_H
