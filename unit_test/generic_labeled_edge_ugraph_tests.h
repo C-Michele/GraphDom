@@ -117,7 +117,7 @@
                     auto k_adj_list = ( ( inserted_vertices_and_incidence_matrix[ k ] ).first ).adj_list();                                                                                                     \
                     std::set<const std::size_t*> vertices_encountered_in_k_adj_list;                                                                                                                            \
                     for(auto edge_itr = k_adj_list.begin(); edge_itr != k_adj_list.end(); ++edge_itr){                                                                                                          \
-                        ASSERT_EQ( edge_itr.edge_type() , graphdom::edge_type::undirected );                                                                                                                      \
+                        ASSERT_EQ( edge_itr.edge_type() , graphdom::edge_type::undirected );                                                                                                                    \
                                                                                                                                                                                                                 \
                         const std::size_t* const edge_itr_vertex_raw_pointer = &(*(*edge_itr));                                                                                                                 \
                         EXPECT_TRUE( ( vertices_encountered_in_k_adj_list.emplace( edge_itr_vertex_raw_pointer ) ).second );                                                                                    \
@@ -135,13 +135,13 @@
                                 )                                                                                                                                                                               \
                             ) = edge_itr_label_raw_pointer;                                                                                                                                                     \
                         }                                                                                                                                                                                       \
-                        else if( ( k == second ) && ( edge_itr_vertex_raw_pointer == &( *( ( inserted_vertices_and_incidence_matrix[ first ] ).first ) ) ) ){  \
-                            (   \
-                                ( ( inserted_vertices_and_incidence_matrix[ k ] ).second ).at(  \
-                                    edge_itr_vertex_raw_pointer \
-                                )   \
-                            ) = edge_itr_label_raw_pointer; \
-                        }   \
+                        else if( ( k == second ) && ( edge_itr_vertex_raw_pointer == &( *( ( inserted_vertices_and_incidence_matrix[ first ] ).first ) ) ) ){                                                   \
+                            (                                                                                                                                                                                   \
+                                ( ( inserted_vertices_and_incidence_matrix[ k ] ).second ).at(                                                                                                                  \
+                                    edge_itr_vertex_raw_pointer                                                                                                                                                 \
+                                )                                                                                                                                                                               \
+                            ) = edge_itr_label_raw_pointer;                                                                                                                                                     \
+                        }                                                                                                                                                                                       \
                         else{                                                                                                                                                                                   \
                             ASSERT_EQ(                                                                                                                                                                          \
                                 ( ( inserted_vertices_and_incidence_matrix[ k ] ).second ).at(                                                                                                                  \
@@ -153,13 +153,13 @@
                                                                                                                                                                                                                 \
                         EXPECT_NE( ( *edge_itr_label_raw_pointer_to_const ).get_as_pointer() , first_edge_label_inserted_pair_raw_pointer );                                                                    \
                                                                                                                                                                                                                 \
-                        if( ( ( *edge_itr_label_raw_pointer_to_const ).get_as_reference() ).first == &( *( ( ( inserted_vertices_and_incidence_matrix[ k ] ).first ) ) ) ){\
-                            ASSERT_EQ( ( ( *edge_itr_label_raw_pointer_to_const ).get_as_reference() ).second , edge_itr_vertex_raw_pointer );   \
-                        }   \
-                        else{   \
-                            ASSERT_EQ( ( ( *edge_itr_label_raw_pointer_to_const ).get_as_reference() ).first , edge_itr_vertex_raw_pointer );   \
-                            ASSERT_EQ( ( ( *edge_itr_label_raw_pointer_to_const ).get_as_reference() ).second , &( *( ( ( inserted_vertices_and_incidence_matrix[ k ] ).first ) ) ) );   \
-                        }   \
+                        if( ( ( *edge_itr_label_raw_pointer_to_const ).get_as_reference() ).first == &( *( ( ( inserted_vertices_and_incidence_matrix[ k ] ).first ) ) ) ){                                     \
+                            ASSERT_EQ( ( ( *edge_itr_label_raw_pointer_to_const ).get_as_reference() ).second , edge_itr_vertex_raw_pointer );                                                                  \
+                        }                                                                                                                                                                                       \
+                        else{                                                                                                                                                                                   \
+                            ASSERT_EQ( ( ( *edge_itr_label_raw_pointer_to_const ).get_as_reference() ).first , edge_itr_vertex_raw_pointer );                                                                   \
+                            ASSERT_EQ( ( ( *edge_itr_label_raw_pointer_to_const ).get_as_reference() ).second , &( *( ( ( inserted_vertices_and_incidence_matrix[ k ] ).first ) ) ) );                          \
+                        }                                                                                                                                                                                       \
                     }                                                                                                                                                                                           \
                     ASSERT_EQ(vertices_encountered_in_k_adj_list.size(),expected_vertices_in_k_adj_lists.size());                                                                                               \
                                                                                                                                                                                                                 \
@@ -186,13 +186,13 @@
                                                                                                                                                                                                                 \
                         EXPECT_NE( ( *edge_itr_label_raw_pointer_to_const ).get_as_pointer() , first_edge_label_inserted_pair_raw_pointer );                                                                    \
                                                                                                                                                                                                                 \
-                        if( ( ( *edge_itr_label_raw_pointer_to_const ).get_as_reference() ).first == &( *( ( ( inserted_vertices_and_incidence_matrix[ k ] ).first ) ) ) ){\
-                            ASSERT_EQ( ( ( *edge_itr_label_raw_pointer_to_const ).get_as_reference() ).second , edge_itr_vertex_raw_pointer );   \
-                        }   \
-                        else{   \
-                            ASSERT_EQ( ( ( *edge_itr_label_raw_pointer_to_const ).get_as_reference() ).first , edge_itr_vertex_raw_pointer );   \
-                            ASSERT_EQ( ( ( *edge_itr_label_raw_pointer_to_const ).get_as_reference() ).second , &( *( ( ( inserted_vertices_and_incidence_matrix[ k ] ).first ) ) ) );   \
-                        }   \
+                        if( ( ( *edge_itr_label_raw_pointer_to_const ).get_as_reference() ).first == &( *( ( ( inserted_vertices_and_incidence_matrix[ k ] ).first ) ) ) ){                                     \
+                            ASSERT_EQ( ( ( *edge_itr_label_raw_pointer_to_const ).get_as_reference() ).second , edge_itr_vertex_raw_pointer );                                                                  \
+                        }                                                                                                                                                                                       \
+                        else{                                                                                                                                                                                   \
+                            ASSERT_EQ( ( ( *edge_itr_label_raw_pointer_to_const ).get_as_reference() ).first , edge_itr_vertex_raw_pointer );                                                                   \
+                            ASSERT_EQ( ( ( *edge_itr_label_raw_pointer_to_const ).get_as_reference() ).second , &( *( ( ( inserted_vertices_and_incidence_matrix[ k ] ).first ) ) ) );                          \
+                        }                                                                                                                                                                                       \
                     }                                                                                                                                                                                           \
                     ASSERT_EQ(vertices_encountered_in_k_adj_list_undirected.size(),expected_vertices_in_k_adj_lists.size());                                                                                    \
                 }                                                                                                                                                                                               \
