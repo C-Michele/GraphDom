@@ -85,6 +85,8 @@
                 );                                                                                                                                                                                              \
                                                                                                                                                                                                                 \
                 EXPECT_EQ(first_edge_label_inserted.get_as_pointer(),first_edge_label_inserted_pair_raw_pointer);                                                                                               \
+                EXPECT_EQ( ( first_edge_label_inserted.get_as_reference() ).first , &( *( ( inserted_vertices_and_incidence_matrix[ first ] ).first ) )  );                                                     \
+                EXPECT_EQ( ( first_edge_label_inserted.get_as_reference() ).second , &( *( ( inserted_vertices_and_incidence_matrix[ second ] ).first ) ) );                                                    \
                                                                                                                                                                                                                 \
                 for(std::size_t k = 0; k < inserted_vertices_and_incidence_matrix.size(); ++k){                                                                                                                 \
                     auto k_adj_list_directed = ( ( inserted_vertices_and_incidence_matrix[ k ] ).first ).adj_list(graphdom::edge_type::directed);                                                               \
