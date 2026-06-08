@@ -3,7 +3,8 @@ project(graphdom)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_library(${PROJECT_NAME} INTERFACE)
+add_library(${PROJECT_NAME} INTERFACE
+        include/graphdom/utility.h)
 
 target_include_directories(${PROJECT_NAME}
         INTERFACE
