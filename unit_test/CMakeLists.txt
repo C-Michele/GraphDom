@@ -30,6 +30,7 @@ set(SOURCE_TEST_FILES run_all_tests.cpp
         generic_labeled_edge_digraph_tests.h
         generic_labeled_edge_ugraph_tests.h
         generic_labeled_edge_multiset_ugraph_tests.h
-        generic_labeled_edge_multiset_digraph_tests.h)
+        generic_labeled_edge_multiset_digraph_tests.h
+        full_labeled_multiset_ugraph_tests.cpp)
 add_executable(run_all_tests ${SOURCE_TEST_FILES})
 target_link_libraries(run_all_tests gtest_main graphdom)

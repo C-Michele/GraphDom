@@ -872,7 +872,7 @@
                 auto k_adj_list_next_edge_itr = k_adj_list_edge_itr;                                                                                                                        \
                 ++k_adj_list_next_edge_itr;                                                                                                                                                 \
                                                                                                                                                                                             \
-                const std::size_t* const k_adj_list_edge_itr_vertex_endpoint_raw_pointer = &( *( *k_adj_list_edge_itr ) );                                                                  \
+                std::size_t* const k_adj_list_edge_itr_vertex_endpoint_raw_pointer = &( *( *k_adj_list_edge_itr ) );                                                                  \
                                                                                                                                                                                             \
                 k_adj_list_edge_itr = graph.erase_edge( k_adj_list_edge_itr );                                                                                                              \
                 EXPECT_EQ( k_adj_list_edge_itr , k_adj_list_next_edge_itr );                                                                                                                \
@@ -890,7 +890,7 @@
                     for(auto edge_itr = j_adj_list.begin(); edge_itr != j_adj_list.end(); ++edge_itr ) {                                                                                    \
                         ASSERT_EQ( edge_itr.edge_type() , graphdom::edge_type::undirected );                                                                                  \
                                                                                                                                                                                             \
-                        const std::size_t* const edge_itr_endpoint_raw_pointer = &( *( *( edge_itr ) ) );                                                                                   \
+                        std::size_t* const edge_itr_endpoint_raw_pointer = &( *( *( edge_itr ) ) );                                                                                   \
                         EXPECT_TRUE( ( vertices_raw_pointers_encountered_in_j_adj_list.emplace( edge_itr_endpoint_raw_pointer ) ).second );                                                 \
                         ASSERT_NE( expected_vertices_raw_pointers_in_j_adj_lists.find( edge_itr_endpoint_raw_pointer ) , expected_vertices_raw_pointers_in_j_adj_lists.end() );             \
                     }                                                                                                                                                                       \
@@ -901,7 +901,7 @@
                     for(auto edge_itr = j_adj_list.begin(); edge_itr != j_adj_list.end(); ++edge_itr ) {                                                                                    \
                         ASSERT_EQ( edge_itr.edge_type() , graphdom::edge_type::undirected );                                                                                  \
                                                                                                                                                                                             \
-                        const std::size_t* const edge_itr_endpoint_raw_pointer = &( *( *( edge_itr ) ) );                                                                                   \
+                        std::size_t* const edge_itr_endpoint_raw_pointer = &( *( *( edge_itr ) ) );                                                                                   \
                         EXPECT_TRUE( ( vertices_raw_pointers_encountered_in_j_adj_list_undirected.emplace( edge_itr_endpoint_raw_pointer ) ).second );                                      \
                         ASSERT_NE( expected_vertices_raw_pointers_in_j_adj_lists.find( edge_itr_endpoint_raw_pointer ) , expected_vertices_raw_pointers_in_j_adj_lists.end() );             \
                     }                                                                                                                                                                       \
@@ -946,7 +946,7 @@
                 auto k_adj_list_next_edge_itr = k_adj_list_edge_itr;                                                                                                                        \
                 ++k_adj_list_next_edge_itr;                                                                                                                                                 \
                                                                                                                                                                                             \
-                const std::size_t* const k_adj_list_edge_itr_vertex_endpoint_raw_pointer = &( *( *k_adj_list_edge_itr ) );                                                                  \
+                std::size_t* const k_adj_list_edge_itr_vertex_endpoint_raw_pointer = &( *( *k_adj_list_edge_itr ) );                                                                  \
                                                                                                                                                                                             \
                 k_adj_list_edge_itr = graph.erase_edge( k_adj_list_edge_itr );                                                                                                              \
                 EXPECT_EQ( k_adj_list_edge_itr , k_adj_list_next_edge_itr );                                                                                                                \
@@ -1020,7 +1020,7 @@
                 auto k_adj_list_next_edge_itr = k_adj_list_edge_itr;                                                                                                                        \
                 ++k_adj_list_next_edge_itr;                                                                                                                                                 \
                                                                                                                                                                                             \
-                const std::size_t* const k_adj_list_edge_itr_vertex_endpoint_raw_pointer = &( *( *k_adj_list_edge_itr ) );                                                                  \
+                std::size_t* const k_adj_list_edge_itr_vertex_endpoint_raw_pointer = &( *( *k_adj_list_edge_itr ) );                                                                  \
                                                                                                                                                                                             \
                 k_adj_list_edge_itr = graph.erase_edge( k_adj_list_edge_itr );                                                                                                              \
                 EXPECT_EQ( k_adj_list_edge_itr , k_adj_list_next_edge_itr );                                                                                                                \
@@ -1094,7 +1094,7 @@
                 auto k_adj_list_next_edge_itr = k_adj_list_edge_itr;                                                                                                                        \
                 ++k_adj_list_next_edge_itr;                                                                                                                                                 \
                                                                                                                                                                                             \
-                const std::size_t* const k_adj_list_edge_itr_vertex_endpoint_raw_pointer = &( *( *k_adj_list_edge_itr ) );                                                                  \
+                std::size_t* const k_adj_list_edge_itr_vertex_endpoint_raw_pointer = &( *( *k_adj_list_edge_itr ) );                                                                  \
                                                                                                                                                                                             \
                 k_adj_list_edge_itr = graph.erase_edge( k_adj_list_edge_itr );                                                                                                              \
                 EXPECT_EQ( k_adj_list_edge_itr , k_adj_list_next_edge_itr );                                                                                                                \
@@ -1139,18 +1139,18 @@
         const std::size_t number_of_different_vertex_values = 10;                                                                                                                           \
         const std::size_t number_of_repetitions = 3;                                                                                                                                        \
         std::map<                                                                                                                                                                           \
-            std::size_t*,                                                                                                                                                             \
+            const std::size_t*,                                                                                                                                                             \
             std::pair<                                                                                                                                                                      \
                 typename graphdom::graph<std::size_t>::vertex_handle,                                                                                                       \
-                std::set< std::size_t* , std::less<> >                                                                                                                                              \
+                std::set< const std::size_t* >                                                                                                                                              \
             >                                                                                                                                                                               \
         > inserted_vertices_and_incidence_matrix;                                                                                                                                           \
         for(std::size_t i = 0; i < number_of_different_vertex_values; ++i) {                                                                                                                \
             for(std::size_t j = 0; j < number_of_repetitions; ++j){                                                                                                                         \
                 typename std::pair<                                                                                                                                                         \
                     typename graphdom::graph<std::size_t>::vertex_handle,                                                                                                                   \
-                    typename std::set< std::size_t* , std::less<> >                                                                                                                                 \
-                > pair_to_insert{ graph.insert_vertex( i ) , std::set< std::size_t* , std::less<> >() };                                                                                            \
+                    typename std::set< const std::size_t* >                                                                                                                                 \
+                > pair_to_insert{ graph.insert_vertex( i ) , std::set< const std::size_t* >() };                                                                                            \
                 inserted_vertices_and_incidence_matrix.emplace( &( *( pair_to_insert.first ) ) , std::move( pair_to_insert ) );                                                             \
             }                                                                                                                                                                               \
         }                                                                                                                                                                                   \
