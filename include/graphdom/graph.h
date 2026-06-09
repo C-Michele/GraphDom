@@ -1,5 +1,5 @@
-#ifndef GRAPH_H
-#define GRAPH_H
+#ifndef GRAPHDOM_GRAPH_H
+#define GRAPHDOM_GRAPH_H
 
 /* TODO: once you have chosen the appropriate names, remove the following macros */
 #define ADJ_LIST adj_list
@@ -631,4 +631,4 @@ graphdom::multiset_graph<VertexType>::edge_iterator_factory(
     );
 }
 
-#endif //GRAPH_H
+#endif //GRAPHDOM_GRAPH_H

@@ -1,5 +1,5 @@
-#ifndef HANDLERS_DECLARATIONS_H
-#define HANDLERS_DECLARATIONS_H
+#ifndef GRAPHDOM_HANDLERS_DECLARATIONS_H
+#define GRAPHDOM_HANDLERS_DECLARATIONS_H
 
 #include "graph.h"
 
@@ -824,4 +824,4 @@ class graphdom::multiset_graph<VertexType>::EDGE_ITERATOR_NAME final { //TODO: c
         graphdom::edge_type current_edge_type;
 };
 
-#endif //HANDLERS_DECLARATIONS_H
+#endif //GRAPHDOM_HANDLERS_DECLARATIONS_H

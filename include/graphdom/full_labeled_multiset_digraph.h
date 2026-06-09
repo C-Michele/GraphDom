@@ -1,5 +1,5 @@
-#ifndef FULL_LABELED_MULTISET_DIGRAPH_H
-#define FULL_LABELED_MULTISET_DIGRAPH_H
+#ifndef GRAPHDOM_FULL_LABELED_MULTISET_DIGRAPH_H
+#define GRAPHDOM_FULL_LABELED_MULTISET_DIGRAPH_H
 
 #include <forward_list>
 
@@ -346,4 +346,4 @@ safe_edge_endpoint_deallocation(
     delete static_cast< edge_endpoint* >( ee_ptr );
 }
 
-#endif //FULL_LABELED_MULTISET_DIGRAPH_H
+#endif //GRAPHDOM_FULL_LABELED_MULTISET_DIGRAPH_H

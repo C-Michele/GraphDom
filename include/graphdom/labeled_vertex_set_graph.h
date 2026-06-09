@@ -1,5 +1,5 @@
-#ifndef LABELED_VERTEX_SET_GRAPH_H
-#define LABELED_VERTEX_SET_GRAPH_H
+#ifndef GRAPHDOM_LABELED_VERTEX_SET_GRAPH_H
+#define GRAPHDOM_LABELED_VERTEX_SET_GRAPH_H
 
 #include <utility>
 
@@ -114,4 +114,4 @@ namespace graphdom {
     }
 }
 
-#endif //LABELED_VERTEX_SET_GRAPH_H
+#endif //GRAPHDOM_LABELED_VERTEX_SET_GRAPH_H

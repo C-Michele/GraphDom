@@ -1,5 +1,5 @@
-#ifndef GENERIC_MULTISET_DIGRAPH_TESTS_H
-#define GENERIC_MULTISET_DIGRAPH_TESTS_H
+#ifndef GRAPHDOM_GENERIC_MULTISET_DIGRAPH_TESTS_H
+#define GRAPHDOM_GENERIC_MULTISET_DIGRAPH_TESTS_H
 
 #include <vector>
 #include <cstddef>
@@ -1495,4 +1495,4 @@
         }                                                                                                                                                                                   \
     }                                                                                                                                                                                       \
 
-#endif //GENERIC_MULTISET_DIGRAPH_TESTS_H
+#endif //GRAPHDOM_GENERIC_MULTISET_DIGRAPH_TESTS_H

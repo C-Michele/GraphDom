@@ -1,5 +1,5 @@
-#ifndef GENERIC_MULTISET_GRAPH_TESTS_H
-#define GENERIC_MULTISET_GRAPH_TESTS_H
+#ifndef GRAPHDOM_GENERIC_MULTISET_GRAPH_TESTS_H
+#define GRAPHDOM_GENERIC_MULTISET_GRAPH_TESTS_H
 
 #include <utility>
 #include <list>
@@ -490,4 +490,4 @@
         }                                                                                                                       \
     }                                                                                                                           \
 
-#endif //GENERIC_MULTISET_GRAPH_TESTS_H
+#endif //GRAPHDOM_GENERIC_MULTISET_GRAPH_TESTS_H

@@ -1,5 +1,5 @@
-#ifndef GENERIC_UGRAPH_TESTS_H
-#define GENERIC_UGRAPH_TESTS_H
+#ifndef GRAPHDOM_GENERIC_UGRAPH_TESTS_H
+#define GRAPHDOM_GENERIC_UGRAPH_TESTS_H
 
 #include <utility>
 
@@ -19,4 +19,4 @@
         EXPECT_EQ(dynamic_cast< typename graphdom::mixed_graph<VERTEX_TYPENAME>* >( &graph ),nullptr);  \
     }                                                                                                   \
 
-#endif //GENERIC_UGRAPH_TESTS_H
+#endif //GRAPHDOM_GENERIC_UGRAPH_TESTS_H

@@ -1,5 +1,5 @@
-#ifndef LABELED_EDGE_MIXED_GRAPH_H
-#define LABELED_EDGE_MIXED_GRAPH_H
+#ifndef GRAPHDOM_LABELED_EDGE_MIXED_GRAPH_H
+#define GRAPHDOM_LABELED_EDGE_MIXED_GRAPH_H
 
 #include "labeled_edge_graph.h"
 #include "mixed_graph.h"
@@ -88,4 +88,4 @@ namespace graphdom {
     }
 }
 
-#endif //LABELED_EDGE_MIXED_GRAPH_H
+#endif //GRAPHDOM_LABELED_EDGE_MIXED_GRAPH_H

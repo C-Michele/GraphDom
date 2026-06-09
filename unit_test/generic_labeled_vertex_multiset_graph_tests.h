@@ -1,5 +1,5 @@
-#ifndef GENERIC_LABELED_VERTEX_MULTISET_GRAPH_TESTS_H
-#define GENERIC_LABELED_VERTEX_MULTISET_GRAPH_TESTS_H
+#ifndef GRAPHDOM_GENERIC_LABELED_VERTEX_MULTISET_GRAPH_TESTS_H
+#define GRAPHDOM_GENERIC_LABELED_VERTEX_MULTISET_GRAPH_TESTS_H
 
 #include "gtest/gtest.h"
 #include "graphdom/graph.h"
@@ -631,4 +631,4 @@
         }                                                                                                                                                                                                                                                                                                                                                                               \
     }                                                                                                                                                                                                                                                                                                                                                                                   \
 
-#endif //GENERIC_LABELED_VERTEX_MULTISET_GRAPH_TESTS_H
+#endif //GRAPHDOM_GENERIC_LABELED_VERTEX_MULTISET_GRAPH_TESTS_H

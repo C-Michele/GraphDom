@@ -1,5 +1,5 @@
-#ifndef MIXED_GRAPH_H
-#define MIXED_GRAPH_H
+#ifndef GRAPHDOM_MIXED_GRAPH_H
+#define GRAPHDOM_MIXED_GRAPH_H
 
 #include "graph.h"
 
@@ -26,4 +26,4 @@ namespace graphdom {
     };
 }
 
-#endif //MIXED_GRAPH_H
+#endif //GRAPHDOM_MIXED_GRAPH_H

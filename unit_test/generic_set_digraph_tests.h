@@ -1,5 +1,5 @@
-#ifndef GENERIC_SET_DIGRAPH_TESTS_H
-#define GENERIC_SET_DIGRAPH_TESTS_H
+#ifndef GRAPHDOM_GENERIC_SET_DIGRAPH_TESTS_H
+#define GRAPHDOM_GENERIC_SET_DIGRAPH_TESTS_H
 
 #include <vector>
 #include <utility>
@@ -952,4 +952,4 @@
         }                                                                                                                                                                                   \
     }                                                                                                                                                                                       \
 
-#endif //GENERIC_SET_DIGRAPH_TESTS_H
+#endif //GRAPHDOM_GENERIC_SET_DIGRAPH_TESTS_H

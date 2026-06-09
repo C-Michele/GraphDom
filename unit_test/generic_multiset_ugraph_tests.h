@@ -1,5 +1,5 @@
-#ifndef GENERIC_MULTISET_UGRAPH_TESTS_H
-#define GENERIC_MULTISET_UGRAPH_TESTS_H
+#ifndef GRAPHDOM_GENERIC_MULTISET_UGRAPH_TESTS_H
+#define GRAPHDOM_GENERIC_MULTISET_UGRAPH_TESTS_H
 
 #include <vector>
 #include <utility>
@@ -1725,4 +1725,4 @@
         }                                                                                                                                                                                   \
     }                                                                                                                                                                                       \
 
-#endif //GENERIC_MULTISET_UGRAPH_TESTS_H
+#endif //GRAPHDOM_GENERIC_MULTISET_UGRAPH_TESTS_H
