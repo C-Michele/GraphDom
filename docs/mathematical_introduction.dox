@@ -17,14 +17,14 @@
     \f$ G \f$ is a graph if and only if \f$ G \f$ is an ordered 8-tuple that satisfies all of the following conditions:
     -# \f$ G = ( V_\text{type} , V , E_\text{di} , E_\text{un} , C_{l_V} , l_V , C_{l_E} , l_E ) \f$ ;
     -# \f$ V_\text{type} \f$ is a set;
-    -# \f$ V \subseteq V_\text{type} \times \mathbb{N} \f$ ; ( \f$ \mathbb{N} \f$ is the set containing \f$ 0 \f$ and and all positive integers. See also the [Cartesian product definition](https://en.wikipedia.org/wiki/Cartesian_product))
+    -# \f$ V \subseteq V_\text{type} \times \mathbb{N} \f$ ; ( \f$ \mathbb{N} \f$ is the set containing only \f$ 0 \f$ and and all positive integers. See also the [Cartesian product definition](https://en.wikipedia.org/wiki/Cartesian_product))
     -# \f$ V \f$ is a finite set;
     -# \f$ E_\text{di} \subseteq V \times V \f$ ;
-    -# \f$ E_\text{un} \subseteq \{ u \mid u \subseteq V \wedge ( | u | = 1 \vee | u | = 2 ) \} \f$ ; (See the definition of [Cardinality of a finite set](https://en.wikipedia.org/wiki/Cardinality#Finite_cardinals))
+    -# \f$ E_\text{un} \subseteq \{ u \mid u \subseteq V \wedge ( | u | = 1 \vee | u | = 2 ) \} \f$ ; (If \f$ S \f$ is a finite set, then \f$ | S | \f$ denotes the number of elements of \f$ S \f$)
     -# \f$ C_{l_V} \f$ is a set;
-    -# \f$ l_V : D_{l_V} \to C_{l_V} \wedge D_{l_V} = \begin{cases} V & \text{if } C_{l_V} \neq \emptyset \\ \emptyset & \text{if } C_{l_V} = \emptyset \end{cases} \f$ ;
+    -# \f$ l_V \f$ is a function having as its codomain the set \f$ C_{l_V} \f$ and as its domain the set \f$ D_{l_V} \f$ such that \f$ D_{l_V} = \begin{cases} V & \text{if } C_{l_V} \neq \emptyset \\ \emptyset & \text{if } C_{l_V} = \emptyset \end{cases} \f$ ; (See the ["empty function" definition](https://en.wikipedia.org/wiki/Function_(mathematics)#Standard_functions))
     -# \f$ C_{l_E} \f$ is a set;
-    -# \f$ l_E : D_{l_E} \to C_{l_E} \wedge D_{l_E} = \begin{cases} E_\text{di} \cup E_\text{un} & \text{if } C_{l_E} \neq \emptyset \\ \emptyset & \text{if } C_{l_E} = \emptyset \end{cases} \f$ ;
+    -# \f$ l_E \f$ is a function having as its codomain the set \f$ C_{l_E} \f$ and as its domain the set \f$ D_{l_E} \f$ such that \f$ D_{l_E} = \begin{cases} E_\text{di} \cup E_\text{un} & \text{if } C_{l_E} \neq \emptyset \\ \emptyset & \text{if } C_{l_E} = \emptyset \end{cases} \f$ ;
 
     \note
     Let \f$ G \f$ be a @ref mathematical_graph_definition "graph" with \f$ G = ( V_\text{type} , V , E_\text{di} , E_\text{un} , C_{l_V} , l_V , C_{l_E} , l_E ) \f$.<br>
@@ -76,7 +76,8 @@
     \subsection mathematical_vertex_mul_definition Multiplicity of a vertex of a graph
     Let \f$ G \f$ be a @ref mathematical_graph_definition "graph" with \f$ G = ( V_\text{type} , V , E_\text{di} , E_\text{un} , C_{l_V} , l_V , C_{l_E} , l_E ) \f$.<br>
     For each @ref mathematical_vertex_definition "vertex" \f$ v \f$ of \f$ G \f$ such that \f$ v = ( x , n ) \f$,
-    the multiplicity of \f$ v \f$ with respect to \f$ G \f$ is  \f$ | \{ w | w \in V \wedge w = ( x , m ) \} | \f$.
+    the multiplicity of \f$ v \f$ with respect to \f$ G \f$ is the number of vertices of \f$ G \f$ that have \f$ x \f$ as their @ref mathematical_vertex_core_definition "cores" , including \f$ v \f$ in the count.<br>
+    ( i.e., more formally, \f$ | \{ w | w \in V \wedge \exists m | w = ( x , m ) \} | \f$ ).
 
     \subsection mathematical_edge_definition Edge of a graph
     Let \f$ G \f$ be a @ref mathematical_graph_definition "graph" with \f$ G = ( V_\text{type} , V , E_\text{di} , E_\text{un} , C_{l_V} , l_V , C_{l_E} , l_E ) \f$.<br>
@@ -107,6 +108,13 @@
     -# \f$ y \f$ is a @ref mathematical_directed_edge_definition "directed edge" (of \f$ G \f$ ) with \f$ y = ( a , b ) \f$;
     -# \f$ y \f$ is a @ref mathematical_directed_edge_definition "directed edge" (of \f$ G \f$ ) with \f$ y = ( b , a ) \f$;
     -# \f$ y \f$ is an @ref mathematical_undirected_edge_definition "undirected edge" (of \f$ G \f$ ) and \f$ a \in y \f$;
+
+    \subsection mathematical_vertex_out_edge_set_definition Out-edge of a vertex of a graph
+    Let \f$ G \f$ be a @ref mathematical_graph_definition "graph" with \f$ G = ( V_\text{type} , V , E_\text{di} , E_\text{un} , C_{l_V} , l_V , C_{l_E} , l_E ) \f$ .<br>
+    Let \f$ v \f$ be a @ref mathematical_vertex_definition "vertex" of \f$ G \f$.<br>
+    \f$ y \f$ is an out-edge of \f$ v \f$ with respect to \f$ G \f$ if and only if \f$ y \f$ satisfies one of the following conditions:
+    -# \f$ y \f$ is a @ref mathematical_directed_edge_definition "directed edge" of \f$ G \f$ and \f$ v \f$ is the @ref mathematical_directed_edge_head_definition "head" of \f$ y \f$;
+    -# \f$ y \f$ is a @ref mathematical_undirected_edge_definition "undirected edge" of \f$ G \f$ and \f$ v \f$ is an @ref mathematical_edge_endpoint_definition "endpoint" of \f$ y \f$;
 
     \subsection mathematical_set_graph_definition Set graph
     \f$ G \f$ is a set graph if and only if \f$ G \f$ is a @ref mathematical_graph_definition "graph" and
