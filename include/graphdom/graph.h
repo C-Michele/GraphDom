@@ -314,8 +314,6 @@ namespace graphdom {
             template <typename EdgeLabelType>
             using mixed_graph_labeled_vertex_container = typename graphdom::graph<VertexType>::template mixed_graph_labeled_vertex_container<VertexContainerPointerType,EdgeLabelType>;
 
-            static bool inner_iterator_is_real(const typename graphdom::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME&);
-
             static typename adj_set::const_iterator get_inner_iterator(const typename graphdom::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME&);
 
             static typename graphdom::graph<VertexType>::EDGE_ITERATOR_NAME edge_iterator_factory(
@@ -408,8 +406,6 @@ namespace graphdom {
 
             static VertexContainerPointerType get_vertex_container(const graphdom::multiset_graph<VertexType>::vertex_handle&);
 
-            static bool inner_iterator_is_real(const typename graphdom::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME&);
-
             static typename adj_set::const_iterator get_inner_iterator(const typename graphdom::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME&);
 
             static typename graphdom::graph<VertexType>::EDGE_ITERATOR_NAME edge_iterator_factory(
@@ -494,19 +490,6 @@ bool graphdom::graph<VertexType>::is_limited_by_edge_type(
 }
 
 template<typename VertexType>
-bool graphdom::set_graph<VertexType>::inner_iterator_is_real(
-    const typename graphdom::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME& const_edge_itr) {
-    const auto& set_vertex_graph_edge_info_pair =
-        std::get<graphdom::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME::set_vertex_graph_edge_info>( const_edge_itr.type_dependent_edge_info );
-    const auto& inner_itr = set_vertex_graph_edge_info_pair.first;
-    return std::holds_alternative<
-        graphdom::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME::real_set_vertex_graph_vertex_container_edge_iterator_type
-    >(
-        inner_itr
-    );
-}
-
-template<typename VertexType>
 typename graphdom::set_graph<VertexType>::adj_set::const_iterator
 graphdom::set_graph<VertexType>::get_inner_iterator(
 const typename graphdom::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME& const_edge_itr) {
@@ -587,19 +570,6 @@ typename graphdom::multiset_graph<VertexType>::VertexContainerPointerType
 graphdom::multiset_graph<VertexType>::get_vertex_container(
     const graphdom::multiset_graph<VertexType>::vertex_handle& ptr) {
     return ptr.multiset_graph_vertex_container;
-}
-
-template<typename VertexType>
-bool graphdom::multiset_graph<VertexType>::inner_iterator_is_real(
-const typename graphdom::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME& const_edge_itr) {
-    const auto& multiset_vertex_graph_edge_info_pair =
-        std::get<graphdom::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME::multiset_vertex_graph_edge_info>( const_edge_itr.type_dependent_edge_info );
-    const auto& inner_itr = multiset_vertex_graph_edge_info_pair.first;
-    return std::holds_alternative<
-        graphdom::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME::real_multiset_vertex_graph_vertex_container_edge_iterator_type
-    >(
-        inner_itr
-    );
 }
 
 template<typename VertexType>
