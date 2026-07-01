@@ -85,14 +85,14 @@ class graphdom::graph<VertexType>::vertex_handle final {
 
         vertex_handle& operator=(const vertex_handle&) = default;
 
-        [[nodiscard]] graphdom::graph<VertexType>::ADJ_LIST adj_list() const;
-        [[nodiscard]] graphdom::graph<VertexType>::ADJ_LIST adj_list(graphdom::edge_type) const;
-        [[nodiscard]] graphdom::graph<VertexType>::CONSTANT_ADJ_LIST const_adj_list() const;
-        [[nodiscard]] graphdom::graph<VertexType>::CONSTANT_ADJ_LIST const_adj_list(graphdom::edge_type) const;
+        [[nodiscard]] graphdom::graph<VertexType>::adj_list adj_list() const;
+        [[nodiscard]] graphdom::graph<VertexType>::adj_list adj_list(graphdom::edge_type) const;
+        [[nodiscard]] graphdom::graph<VertexType>::const_adj_list const_adj_list() const;
+        [[nodiscard]] graphdom::graph<VertexType>::const_adj_list const_adj_list(graphdom::edge_type) const;
 
         /// \cond DEV_DOC
         friend class graphdom::graph<VertexType>::vertex_const_handle;
-        friend class graphdom::graph<VertexType>::EDGE_ITERATOR_NAME;
+        friend class graphdom::graph<VertexType>::adj_list_iterator;
         friend class graphdom::multiset_graph<VertexType>::vertex_handle;
         friend class graphdom::graph<VertexType>;
         /// \endcond DEV_DOC
@@ -202,15 +202,15 @@ class graphdom::graph<VertexType>::vertex_const_handle final {
 
         vertex_const_handle& operator=(const vertex_const_handle&) = default;
 
-        [[nodiscard]] graphdom::graph<VertexType>::CONSTANT_ADJ_LIST adj_list() const;
-        [[nodiscard]] graphdom::graph<VertexType>::CONSTANT_ADJ_LIST adj_list(graphdom::edge_type) const;
-        [[nodiscard]] graphdom::graph<VertexType>::CONSTANT_ADJ_LIST const_adj_list() const;
-        [[nodiscard]] graphdom::graph<VertexType>::CONSTANT_ADJ_LIST const_adj_list(graphdom::edge_type) const;
+        [[nodiscard]] graphdom::graph<VertexType>::const_adj_list adj_list() const;
+        [[nodiscard]] graphdom::graph<VertexType>::const_adj_list adj_list(graphdom::edge_type) const;
+        [[nodiscard]] graphdom::graph<VertexType>::const_adj_list const_adj_list() const;
+        [[nodiscard]] graphdom::graph<VertexType>::const_adj_list const_adj_list(graphdom::edge_type) const;
 
         /// \cond DEV_DOC
         friend bool graphdom::graph<VertexType>::vertex_handle::operator==(const vertex_const_handle&) const;
         friend bool graphdom::graph<VertexType>::vertex_handle::operator!=(const vertex_const_handle&) const;
-        friend class graphdom::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME;
+        friend class graphdom::graph<VertexType>::adj_list_const_iterator;
         friend class graphdom::multiset_graph<VertexType>::vertex_handle;
         friend class graphdom::graph<VertexType>;
         friend class graphdom::multiset_graph<VertexType>;
@@ -241,24 +241,24 @@ class graphdom::graph<VertexType>::vertex_const_handle final {
 };
 
 template <typename VertexType>
-class graphdom::graph<VertexType>::ADJ_LIST {
+class graphdom::graph<VertexType>::adj_list {
     public:
-        ADJ_LIST() = delete;
-        ADJ_LIST(const ADJ_LIST&) = default;
-        ADJ_LIST(const typename graphdom::multiset_graph<VertexType>::ADJ_LIST&);
+        adj_list() = delete;
+        adj_list(const adj_list&) = default;
+        adj_list(const typename graphdom::multiset_graph<VertexType>::adj_list&);
 
-        [[nodiscard]] graphdom::graph<VertexType>::EDGE_ITERATOR_NAME begin() const;
-        [[nodiscard]] graphdom::graph<VertexType>::EDGE_ITERATOR_NAME end() const;
-        [[nodiscard]] graphdom::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME cbegin() const;
-        [[nodiscard]] graphdom::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME cend() const;
+        [[nodiscard]] graphdom::graph<VertexType>::adj_list_iterator begin() const;
+        [[nodiscard]] graphdom::graph<VertexType>::adj_list_iterator end() const;
+        [[nodiscard]] graphdom::graph<VertexType>::adj_list_const_iterator cbegin() const;
+        [[nodiscard]] graphdom::graph<VertexType>::adj_list_const_iterator cend() const;
 
         /// \cond DEV_DOC
-        friend class graphdom::graph<VertexType>::CONSTANT_ADJ_LIST;
+        friend class graphdom::graph<VertexType>::const_adj_list;
         friend class graphdom::graph<VertexType>::vertex_handle;
-        friend class graphdom::multiset_graph<VertexType>::ADJ_LIST;
+        friend class graphdom::multiset_graph<VertexType>::adj_list;
         /// \endcond DEV_DOC
     private:
-        ADJ_LIST(
+        adj_list(
             const graphdom::graph<VertexType>* vertex_container_graph_owner_ptr,
             const std::variant<
                 std::monostate,
@@ -267,7 +267,7 @@ class graphdom::graph<VertexType>::ADJ_LIST {
             >& vertex_container_ptr,
             graphdom::graph<VertexType>::graph_edges_type vertex_container_graph_owner_edges_type
         );
-        ADJ_LIST(
+        adj_list(
             const graphdom::graph<VertexType>* vertex_container_graph_owner_ptr,
             const std::variant<
                 std::monostate,
@@ -308,17 +308,17 @@ class graphdom::graph<VertexType>::ADJ_LIST {
 };
 
 template <typename VertexType>
-class graphdom::graph<VertexType>::CONSTANT_ADJ_LIST {
+class graphdom::graph<VertexType>::const_adj_list {
     public:
-        CONSTANT_ADJ_LIST() = delete;
-        CONSTANT_ADJ_LIST(const CONSTANT_ADJ_LIST&) = default;
-        CONSTANT_ADJ_LIST(const ADJ_LIST&);
-        CONSTANT_ADJ_LIST(const typename graphdom::multiset_graph<VertexType>::ADJ_LIST&);
+        const_adj_list() = delete;
+        const_adj_list(const const_adj_list&) = default;
+        const_adj_list(const adj_list&);
+        const_adj_list(const typename graphdom::multiset_graph<VertexType>::adj_list&);
 
-        [[nodiscard]] graphdom::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME begin() const;
-        [[nodiscard]] graphdom::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME end() const;
-        [[nodiscard]] graphdom::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME cbegin() const;
-        [[nodiscard]] graphdom::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME cend() const;
+        [[nodiscard]] graphdom::graph<VertexType>::adj_list_const_iterator begin() const;
+        [[nodiscard]] graphdom::graph<VertexType>::adj_list_const_iterator end() const;
+        [[nodiscard]] graphdom::graph<VertexType>::adj_list_const_iterator cbegin() const;
+        [[nodiscard]] graphdom::graph<VertexType>::adj_list_const_iterator cend() const;
 
         /// \cond DEV_DOC
         friend class graphdom::graph<VertexType>::vertex_handle;
@@ -326,12 +326,12 @@ class graphdom::graph<VertexType>::CONSTANT_ADJ_LIST {
         friend class graphdom::multiset_graph<VertexType>::vertex_handle;
         /// \endcond DEV_DOC
     private:
-        CONSTANT_ADJ_LIST(
+        const_adj_list(
             const graphdom::graph<VertexType>* vertex_container_graph_owner_ptr,
             const graphdom::graph<VertexType>::vertex_container* vertex_container_ptr,
             graphdom::graph<VertexType>::graph_edges_type vertex_container_graph_owner_edges_type
         );
-        CONSTANT_ADJ_LIST(
+        const_adj_list(
             const graphdom::graph<VertexType>* vertex_container_graph_owner_ptr,
             const graphdom::graph<VertexType>::vertex_container* vertex_container_ptr,
             graphdom::graph<VertexType>::graph_edges_type vertex_container_graph_owner_edges_type,
@@ -360,33 +360,33 @@ class graphdom::graph<VertexType>::CONSTANT_ADJ_LIST {
 };
 
 template <typename VertexType>
-class graphdom::graph<VertexType>::EDGE_ITERATOR_NAME final {
+class graphdom::graph<VertexType>::adj_list_iterator final {
     public:
-        EDGE_ITERATOR_NAME() = delete;
-        EDGE_ITERATOR_NAME(const EDGE_ITERATOR_NAME&) = default;
-        EDGE_ITERATOR_NAME(const typename graphdom::multiset_graph<VertexType>::EDGE_ITERATOR_NAME&);
+        adj_list_iterator() = delete;
+        adj_list_iterator(const adj_list_iterator&) = default;
+        adj_list_iterator(const typename graphdom::multiset_graph<VertexType>::adj_list_iterator&);
 
         [[nodiscard]] graphdom::graph<VertexType>::vertex_handle operator*() const;
         [[nodiscard]] graphdom::graph<VertexType>::vertex_handle operator->() const;
-        [[nodiscard]] bool operator==(const CONSTANT_EDGE_ITERATOR_NAME&) const;
-        [[nodiscard]] bool operator!=(const CONSTANT_EDGE_ITERATOR_NAME&) const;
+        [[nodiscard]] bool operator==(const adj_list_const_iterator&) const;
+        [[nodiscard]] bool operator!=(const adj_list_const_iterator&) const;
 
-        EDGE_ITERATOR_NAME& operator=(const EDGE_ITERATOR_NAME&) = default;
-        EDGE_ITERATOR_NAME& operator++();
-        [[nodiscard]] EDGE_ITERATOR_NAME operator++(int);
+        adj_list_iterator& operator=(const adj_list_iterator&) = default;
+        adj_list_iterator& operator++();
+        [[nodiscard]] adj_list_iterator operator++(int);
 
         [[nodiscard]] graphdom::edge_type edge_type() const;
 
         /// \cond DEV_DOC
-        friend class graphdom::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME;
-        friend class graphdom::graph<VertexType>::ADJ_LIST;
-        friend class graphdom::multiset_graph<VertexType>::EDGE_ITERATOR_NAME;
+        friend class graphdom::graph<VertexType>::adj_list_const_iterator;
+        friend class graphdom::graph<VertexType>::adj_list;
+        friend class graphdom::multiset_graph<VertexType>::adj_list_iterator;
         friend class graphdom::graph<VertexType>;
         friend class graphdom::set_graph<VertexType>;
         friend class graphdom::multiset_graph<VertexType>;
         /// \endcond DEV_DOC
     private:
-        EDGE_ITERATOR_NAME(
+        adj_list_iterator(
             const graphdom::graph<VertexType>* edge_set_vertex_graph_owner_ptr,
             const graphdom::graph<VertexType>::vertex_container* edge_begin_point_ptr,
             graphdom::graph<VertexType>::graph_edges_type edge_set_vertex_graph_owner_edges_type,
@@ -396,7 +396,7 @@ class graphdom::graph<VertexType>::EDGE_ITERATOR_NAME final {
             >& edge_begin_point_adj_sets_array_ptr,
             graphdom::graph<VertexType>::begin_or_end begin_or_end_indicator
         );
-        EDGE_ITERATOR_NAME(
+        adj_list_iterator(
             const graphdom::graph<VertexType>* edge_multiset_vertex_graph_owner_ptr,
             graphdom::graph<VertexType>::vertex_container* edge_begin_point_ptr,
             graphdom::graph<VertexType>::graph_edges_type edge_multiset_vertex_graph_owner_edges_type,
@@ -406,7 +406,7 @@ class graphdom::graph<VertexType>::EDGE_ITERATOR_NAME final {
             >& edge_begin_point_adj_sets_array_ptr,
             graphdom::graph<VertexType>::begin_or_end begin_or_end_indicator
         );
-        EDGE_ITERATOR_NAME(
+        adj_list_iterator(
             const graphdom::set_graph<VertexType>* edge_set_vertex_graph_owner_ptr,
             const graphdom::graph<VertexType>::non_mixed_graph_vertex_container<
                 const graphdom::graph<VertexType>::vertex_container*
@@ -414,7 +414,7 @@ class graphdom::graph<VertexType>::EDGE_ITERATOR_NAME final {
             graphdom::edge_type edge_set_vertex_graph_owner_edges_type,
             typename graphdom::graph<VertexType>::adj_set<const graphdom::graph<VertexType>::vertex_container*>::iterator inner_itr
         );
-        EDGE_ITERATOR_NAME(
+        adj_list_iterator(
             const graphdom::set_graph<VertexType>* edge_set_vertex_graph_owner_ptr,
             const graphdom::graph<VertexType>::mixed_graph_vertex_container<
                 const graphdom::graph<VertexType>::vertex_container*
@@ -423,7 +423,7 @@ class graphdom::graph<VertexType>::EDGE_ITERATOR_NAME final {
             graphdom::edge_type inner_itr_edge_type,
             bool inner_itr_is_limited_by_edge_type = false
         );
-        EDGE_ITERATOR_NAME(
+        adj_list_iterator(
             const graphdom::multiset_graph<VertexType>* edge_multiset_vertex_graph_owner_ptr,
             graphdom::graph<VertexType>::non_mixed_graph_vertex_container<
                 graphdom::graph<VertexType>::vertex_container*
@@ -431,7 +431,7 @@ class graphdom::graph<VertexType>::EDGE_ITERATOR_NAME final {
             graphdom::edge_type edge_multiset_vertex_graph_owner_edges_type,
             typename graphdom::graph<VertexType>::adj_set<graphdom::graph<VertexType>::vertex_container*>::iterator inner_itr
         );
-        EDGE_ITERATOR_NAME(
+        adj_list_iterator(
             const graphdom::multiset_graph<VertexType>* edge_multiset_vertex_graph_owner_ptr,
             graphdom::graph<VertexType>::mixed_graph_vertex_container<
                 graphdom::graph<VertexType>::vertex_container*
@@ -496,36 +496,36 @@ class graphdom::graph<VertexType>::EDGE_ITERATOR_NAME final {
 };
 
 template <typename VertexType>
-class graphdom::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME final {
+class graphdom::graph<VertexType>::adj_list_const_iterator final {
     public:
-        CONSTANT_EDGE_ITERATOR_NAME() = delete;
-        CONSTANT_EDGE_ITERATOR_NAME(const CONSTANT_EDGE_ITERATOR_NAME&) = default;
-        CONSTANT_EDGE_ITERATOR_NAME(const EDGE_ITERATOR_NAME&);
-        CONSTANT_EDGE_ITERATOR_NAME(const typename graphdom::multiset_graph<VertexType>::EDGE_ITERATOR_NAME&);
+        adj_list_const_iterator() = delete;
+        adj_list_const_iterator(const adj_list_const_iterator&) = default;
+        adj_list_const_iterator(const adj_list_iterator&);
+        adj_list_const_iterator(const typename graphdom::multiset_graph<VertexType>::adj_list_iterator&);
 
         [[nodiscard]] graphdom::graph<VertexType>::vertex_const_handle operator*() const;
         [[nodiscard]] graphdom::graph<VertexType>::vertex_const_handle operator->() const;
-        [[nodiscard]] bool operator==(const CONSTANT_EDGE_ITERATOR_NAME&) const;
-        [[nodiscard]] bool operator!=(const CONSTANT_EDGE_ITERATOR_NAME&) const;
+        [[nodiscard]] bool operator==(const adj_list_const_iterator&) const;
+        [[nodiscard]] bool operator!=(const adj_list_const_iterator&) const;
 
-        CONSTANT_EDGE_ITERATOR_NAME& operator=(const CONSTANT_EDGE_ITERATOR_NAME&) = default;
-        CONSTANT_EDGE_ITERATOR_NAME& operator++();
-        [[nodiscard]] CONSTANT_EDGE_ITERATOR_NAME operator++(int);
+        adj_list_const_iterator& operator=(const adj_list_const_iterator&) = default;
+        adj_list_const_iterator& operator++();
+        [[nodiscard]] adj_list_const_iterator operator++(int);
 
         [[nodiscard]] graphdom::edge_type edge_type() const;
 
         /// \cond DEV_DOC
         friend class graphdom::graph<VertexType>;
-        friend class graphdom::graph<VertexType>::ADJ_LIST;
-        friend class graphdom::graph<VertexType>::CONSTANT_ADJ_LIST;
-        friend class graphdom::multiset_graph<VertexType>::ADJ_LIST;
-        friend bool graphdom::graph<VertexType>::EDGE_ITERATOR_NAME::operator==(const CONSTANT_EDGE_ITERATOR_NAME&) const;
-        friend bool graphdom::graph<VertexType>::EDGE_ITERATOR_NAME::operator!=(const CONSTANT_EDGE_ITERATOR_NAME&) const;
+        friend class graphdom::graph<VertexType>::adj_list;
+        friend class graphdom::graph<VertexType>::const_adj_list;
+        friend class graphdom::multiset_graph<VertexType>::adj_list;
+        friend bool graphdom::graph<VertexType>::adj_list_iterator::operator==(const adj_list_const_iterator&) const;
+        friend bool graphdom::graph<VertexType>::adj_list_iterator::operator!=(const adj_list_const_iterator&) const;
         friend class graphdom::set_graph<VertexType>;
         friend class graphdom::multiset_graph<VertexType>;
         /// \endcond DEV_DOC
     private:
-        CONSTANT_EDGE_ITERATOR_NAME(
+        adj_list_const_iterator(
             const graphdom::graph<VertexType>* edge_set_vertex_graph_owner_ptr,
             const graphdom::graph<VertexType>::vertex_container* edge_begin_point_ptr,
             graphdom::graph<VertexType>::graph_edges_type edge_set_vertex_graph_owner_edges_type,
@@ -535,7 +535,7 @@ class graphdom::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME final {
             >& edge_begin_point_adj_sets_array_ptr,
             graphdom::graph<VertexType>::begin_or_end begin_or_end_indicator
         );
-        CONSTANT_EDGE_ITERATOR_NAME(
+        adj_list_const_iterator(
             const graphdom::graph<VertexType>* edge_multiset_vertex_graph_owner_ptr,
             const graphdom::graph<VertexType>::vertex_container* edge_begin_point_ptr,
             graphdom::graph<VertexType>::graph_edges_type edge_multiset_vertex_graph_owner_edges_type,
@@ -676,17 +676,17 @@ class graphdom::multiset_graph<VertexType>::vertex_handle final {
 
         vertex_handle& operator=(const vertex_handle&) = default;
 
-        [[nodiscard]] graphdom::multiset_graph<VertexType>::ADJ_LIST adj_list() const;
-        [[nodiscard]] graphdom::multiset_graph<VertexType>::ADJ_LIST adj_list(graphdom::edge_type) const;
-        [[nodiscard]] typename graphdom::graph<VertexType>::CONSTANT_ADJ_LIST const_adj_list() const;
-        [[nodiscard]] typename graphdom::graph<VertexType>::CONSTANT_ADJ_LIST const_adj_list(graphdom::edge_type) const;
+        [[nodiscard]] graphdom::multiset_graph<VertexType>::adj_list adj_list() const;
+        [[nodiscard]] graphdom::multiset_graph<VertexType>::adj_list adj_list(graphdom::edge_type) const;
+        [[nodiscard]] typename graphdom::graph<VertexType>::const_adj_list const_adj_list() const;
+        [[nodiscard]] typename graphdom::graph<VertexType>::const_adj_list const_adj_list(graphdom::edge_type) const;
 
         /// \cond DEV_DOC
         friend class graphdom::graph<VertexType>::vertex_const_handle;
-        friend class graphdom::multiset_graph<VertexType>::EDGE_ITERATOR_NAME;
+        friend class graphdom::multiset_graph<VertexType>::adj_list_iterator;
         friend class graphdom::graph<VertexType>::vertex_handle;
         friend class graphdom::multiset_graph<VertexType>;
-        friend typename graphdom::graph<VertexType>::vertex_handle graphdom::graph<VertexType>::EDGE_ITERATOR_NAME::operator*() const;
+        friend typename graphdom::graph<VertexType>::vertex_handle graphdom::graph<VertexType>::adj_list_iterator::operator*() const;
         /// \endcond DEV_DOC
     private:
         vertex_handle(
@@ -705,29 +705,29 @@ class graphdom::multiset_graph<VertexType>::vertex_handle final {
 };
 
 template <typename VertexType>
-class graphdom::multiset_graph<VertexType>::ADJ_LIST { //TODO: class implementation
+class graphdom::multiset_graph<VertexType>::adj_list { //TODO: class implementation
     public:
-        ADJ_LIST() = delete;
-        ADJ_LIST(const ADJ_LIST&) = default;
-        explicit ADJ_LIST(const typename graphdom::graph<VertexType>::ADJ_LIST&);
+        adj_list() = delete;
+        adj_list(const adj_list&) = default;
+        explicit adj_list(const typename graphdom::graph<VertexType>::adj_list&);
 
-        [[nodiscard]] graphdom::multiset_graph<VertexType>::EDGE_ITERATOR_NAME begin() const;
-        [[nodiscard]] graphdom::multiset_graph<VertexType>::EDGE_ITERATOR_NAME end() const;
-        [[nodiscard]] typename graphdom::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME cbegin() const;
-        [[nodiscard]] typename graphdom::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME cend() const;
+        [[nodiscard]] graphdom::multiset_graph<VertexType>::adj_list_iterator begin() const;
+        [[nodiscard]] graphdom::multiset_graph<VertexType>::adj_list_iterator end() const;
+        [[nodiscard]] typename graphdom::graph<VertexType>::adj_list_const_iterator cbegin() const;
+        [[nodiscard]] typename graphdom::graph<VertexType>::adj_list_const_iterator cend() const;
 
         /// \cond DEV_DOC
-        friend class graphdom::graph<VertexType>::CONSTANT_ADJ_LIST;
+        friend class graphdom::graph<VertexType>::const_adj_list;
         friend class graphdom::multiset_graph<VertexType>::vertex_handle;
-        friend class graphdom::graph<VertexType>::ADJ_LIST;
+        friend class graphdom::graph<VertexType>::adj_list;
         /// \endcond DEV_DOC
     private:
-        ADJ_LIST(
+        adj_list(
             const graphdom::multiset_graph<VertexType>* vertex_container_graph_owner_ptr,
             VertexContainerPointerType vertex_container_ptr,
             typename graphdom::graph<VertexType>::graph_edges_type vertex_container_graph_owner_edges_type
         );
-        ADJ_LIST(
+        adj_list(
             const graphdom::multiset_graph<VertexType>* vertex_container_graph_owner_ptr,
             VertexContainerPointerType vertex_container_ptr,
             typename graphdom::graph<VertexType>::graph_edges_type vertex_container_graph_owner_edges_type,
@@ -748,30 +748,30 @@ class graphdom::multiset_graph<VertexType>::ADJ_LIST { //TODO: class implementat
 };
 
 template <typename VertexType>
-class graphdom::multiset_graph<VertexType>::EDGE_ITERATOR_NAME final { //TODO: class implementation
+class graphdom::multiset_graph<VertexType>::adj_list_iterator final { //TODO: class implementation
     public:
-        EDGE_ITERATOR_NAME() = delete;
-        EDGE_ITERATOR_NAME(const EDGE_ITERATOR_NAME&) = default;
-        EDGE_ITERATOR_NAME(const typename graphdom::graph<VertexType>::EDGE_ITERATOR_NAME&);
+        adj_list_iterator() = delete;
+        adj_list_iterator(const adj_list_iterator&) = default;
+        adj_list_iterator(const typename graphdom::graph<VertexType>::adj_list_iterator&);
 
         [[nodiscard]] graphdom::multiset_graph<VertexType>::vertex_handle operator*() const;
         [[nodiscard]] graphdom::multiset_graph<VertexType>::vertex_handle operator->() const;
-        [[nodiscard]] bool operator==(const typename graphdom::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME&) const;
-        [[nodiscard]] bool operator!=(const typename graphdom::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME&) const;
+        [[nodiscard]] bool operator==(const typename graphdom::graph<VertexType>::adj_list_const_iterator&) const;
+        [[nodiscard]] bool operator!=(const typename graphdom::graph<VertexType>::adj_list_const_iterator&) const;
 
-        EDGE_ITERATOR_NAME& operator=(const typename graphdom::graph<VertexType>::EDGE_ITERATOR_NAME&);
-        EDGE_ITERATOR_NAME& operator++();
-        [[nodiscard]] EDGE_ITERATOR_NAME operator++(int);
+        adj_list_iterator& operator=(const typename graphdom::graph<VertexType>::adj_list_iterator&);
+        adj_list_iterator& operator++();
+        [[nodiscard]] adj_list_iterator operator++(int);
 
         [[nodiscard]] graphdom::edge_type edge_type() const;
 
         /// \cond DEV_DOC
-        friend class graphdom::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME;
-        friend class graphdom::multiset_graph<VertexType>::ADJ_LIST;
-        friend class graphdom::graph<VertexType>::EDGE_ITERATOR_NAME;
+        friend class graphdom::graph<VertexType>::adj_list_const_iterator;
+        friend class graphdom::multiset_graph<VertexType>::adj_list;
+        friend class graphdom::graph<VertexType>::adj_list_iterator;
         /// \endcond DEV_DOC
     private:
-        EDGE_ITERATOR_NAME(
+        adj_list_iterator(
             const graphdom::multiset_graph<VertexType>* edge_multiset_vertex_graph_owner_ptr,
             VertexContainerPointerType edge_begin_point_ptr,
             typename graphdom::graph<VertexType>::graph_edges_type edge_multiset_vertex_graph_owner_edges_type,
@@ -781,7 +781,7 @@ class graphdom::multiset_graph<VertexType>::EDGE_ITERATOR_NAME final { //TODO: c
             >& edge_begin_point_adj_sets_array_ptr,
             typename graphdom::graph<VertexType>::begin_or_end begin_or_end_indicator
         );
-        EDGE_ITERATOR_NAME(
+        adj_list_iterator(
             const graphdom::multiset_graph<VertexType>* edge_multiset_vertex_graph_owner_ptr,
             typename graphdom::graph<VertexType>::template non_mixed_graph_vertex_container<
                 VertexContainerPointerType
@@ -789,7 +789,7 @@ class graphdom::multiset_graph<VertexType>::EDGE_ITERATOR_NAME final { //TODO: c
             graphdom::edge_type edge_multiset_vertex_graph_owner_edges_type,
             typename graphdom::graph<VertexType>::template adj_set<VertexContainerPointerType>::iterator inner_itr
         );
-        EDGE_ITERATOR_NAME(
+        adj_list_iterator(
             const graphdom::multiset_graph<VertexType>* edge_multiset_vertex_graph_owner_ptr,
             typename graphdom::graph<VertexType>::template mixed_graph_vertex_container<
                 VertexContainerPointerType

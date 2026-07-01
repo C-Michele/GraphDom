@@ -3,7 +3,6 @@
 
 #include <set>
 
-#include "graph.h"
 #include "labeled_vertex_graph.h"
 #include "labeled_vertex_set_graph.h"
 #include "labeled_edge_graph.h"
@@ -36,17 +35,17 @@ namespace graphdom {
 
             [[nodiscard]] std::size_t order() const override;
             [[nodiscard]] const VertexLabelType& get_vertex_label(const typename graph<VertexType>::vertex_const_handle&) const override;
-            [[nodiscard]] const EdgeLabelType& get_edge_label(const typename graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME&) const override;
+            [[nodiscard]] const EdgeLabelType& get_edge_label(const typename graph<VertexType>::adj_list_const_iterator&) const override;
 
             void erase_vertex(const typename graphdom::graph<VertexType>::vertex_const_handle&) override; //TODO: look out to memory leaks in ADJ
-            [[nodiscard]] typename graphdom::graph<VertexType>::EDGE_ITERATOR_NAME erase_edge(const typename graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME&) override; //TODO: look out to memory leaks in ADJ
+            [[nodiscard]] typename graphdom::graph<VertexType>::adj_list_iterator erase_edge(const typename graph<VertexType>::adj_list_const_iterator&) override; //TODO: look out to memory leaks in ADJ
             [[nodiscard]] VertexLabelType& get_vertex_label(const typename graph<VertexType>::vertex_const_handle&) override;
             using graphdom::labeled_vertex_set_graph<VertexType,VertexLabelType,T1>::insert_vertex;
             [[nodiscard]] std::pair<typename graph<VertexType>::vertex_handle,bool> insert_vertex(const VertexType&, const VertexLabelType&) override;
             [[nodiscard]] std::pair<typename graph<VertexType>::vertex_handle,bool> insert_vertex(const VertexType&, VertexLabelType&&) override;
             [[nodiscard]] std::pair<typename graph<VertexType>::vertex_handle,bool> insert_vertex(VertexType&&, const VertexLabelType&) override;
             [[nodiscard]] std::pair<typename graph<VertexType>::vertex_handle,bool> insert_vertex(VertexType&&, VertexLabelType&&) override;
-            [[nodiscard]] EdgeLabelType& get_edge_label(const typename graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME&) override;
+            [[nodiscard]] EdgeLabelType& get_edge_label(const typename graph<VertexType>::adj_list_const_iterator&) override;
             using graphdom::labeled_edge_non_mixed_graph<VertexType,EdgeLabelType,T2>::insert_edge;
             void insert_edge(const typename graph<VertexType>::vertex_const_handle&, const typename graph<VertexType>::vertex_const_handle&, const EdgeLabelType&) override;
             void insert_edge(const typename graph<VertexType>::vertex_const_handle&, const typename graph<VertexType>::vertex_const_handle&, EdgeLabelType&&) override;
@@ -180,7 +179,7 @@ const VertexLabelType& graphdom::full_labeled_set_ugraph<VertexType,VertexLabelT
 
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename T1, typename T2>
 const EdgeLabelType& graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compare,T1,T2>::get_edge_label(
-const typename graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME& edge) const {
+const typename graph<VertexType>::adj_list_const_iterator& edge) const {
     if ( graphdom::graph<VertexType>::get_owner_graph( edge ) != this ) {
         throw std::runtime_error("Error"); //TODO: write a better message
     }
@@ -237,9 +236,9 @@ void graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,EdgeLabelType,
 }
 
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename T1, typename T2>
-typename graphdom::graph<VertexType>::EDGE_ITERATOR_NAME
+typename graphdom::graph<VertexType>::adj_list_iterator
 graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compare,T1,T2>::erase_edge(
-    const typename graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME& edge_itr) {
+    const typename graph<VertexType>::adj_list_const_iterator& edge_itr) {
     if ( graphdom::graph<VertexType>::get_owner_graph(edge_itr) != this ) {
         throw std::runtime_error("Error"); //TODO: write a better message
     }
@@ -395,7 +394,7 @@ VertexType&& vertex_to_insert, VertexLabelType&& vertex_label_to_insert) {
 
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename T1, typename T2>
 EdgeLabelType& graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compare,T1,T2>::get_edge_label(
-    const typename graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME& edge ) {
+    const typename graph<VertexType>::adj_list_const_iterator& edge ) {
     if ( graphdom::graph<VertexType>::get_owner_graph( edge ) != this ) {
         throw std::runtime_error("Error"); //TODO: write a better message
     }

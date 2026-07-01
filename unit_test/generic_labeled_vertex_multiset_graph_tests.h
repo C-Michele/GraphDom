@@ -2,7 +2,7 @@
 #define GRAPHDOM_GENERIC_LABELED_VERTEX_MULTISET_GRAPH_TESTS_H
 
 #include "gtest/gtest.h"
-#include "graphdom/graph.h"
+#include "graphdom/graphdom.h"
 #include "graphdom/labeled_vertex_set_graph.h"
 #include "graphdom/labeled_vertex_multiset_graph.h"
 #include "graphdom_tests_utility.h"

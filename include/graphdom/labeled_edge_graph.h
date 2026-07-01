@@ -17,9 +17,9 @@ namespace graphdom {
             /// To be polymorphic, this class has a virtual destructor.
             ~labeled_edge_graph() override = default;
 
-            [[nodiscard]] virtual const EdgeLabelType& get_edge_label(const typename graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME&) const = 0;
+            [[nodiscard]] virtual const EdgeLabelType& get_edge_label(const typename graph<VertexType>::adj_list_const_iterator&) const = 0;
 
-            [[nodiscard]] virtual EdgeLabelType& get_edge_label(const typename graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME&) = 0;
+            [[nodiscard]] virtual EdgeLabelType& get_edge_label(const typename graph<VertexType>::adj_list_const_iterator&) = 0;
     };
 }
 

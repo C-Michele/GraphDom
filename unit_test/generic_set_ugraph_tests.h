@@ -7,7 +7,7 @@
 #include <map>
 
 #include "gtest/gtest.h"
-#include "graphdom/graph.h"
+#include "graphdom/graphdom.h"
 
 #define SET_UGRAPH_CORRECT_EDGES_INSERTION_WITHOUT_LABEL_VERTEX_HANDLE_ADJ_LIST_NOT_C_METHODS(TEST_SUITE_NAME,CONCRETE_CLASS_NAME)      \
     TEST(TEST_SUITE_NAME,correct_edges_insertion__without_label__vertex_handle__adj_list__not_c_methods) {                                      \

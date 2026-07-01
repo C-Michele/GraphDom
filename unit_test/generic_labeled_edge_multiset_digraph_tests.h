@@ -6,7 +6,7 @@
 
 #include "gtest/gtest.h"
 #include "graphdom_tests_utility.h"
-#include "graphdom/graph.h"
+#include "graphdom/graphdom.h"
 #include "graphdom/labeled_edge_non_mixed_graph.h"
 
 #define LABELED_EDGE_DIGRAPH_CORRECT_EDGE_INSERTION_WITH_LABEL_WITHOUT_REPETITIONS_LVALUE_SPECIFIC_VERTEX_HANDLE_ADJ_LIST_NOT_C_METHODS_TEST(TEST_SUITE_NAME,CONCRETE_CLASS_NAME)                               \

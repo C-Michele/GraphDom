@@ -6,7 +6,7 @@
 #include <tuple>
 
 #include "gtest/gtest.h"
-#include "graphdom/graph.h"
+#include "graphdom/graphdom.h"
 #include "graphdom/labeled_vertex_graph.h"
 #include "graphdom/labeled_vertex_set_graph.h"
 #include "graphdom/labeled_vertex_multiset_graph.h"

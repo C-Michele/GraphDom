@@ -4,7 +4,7 @@
 #include <utility>
 
 #include "gtest/gtest.h"
-#include "graphdom/graph.h"
+#include "graphdom/graphdom.h"
 
 #define IS_A_GRAPH_TEST(TEST_SUITE_NAME,CONCRETE_CLASS_NAME,VERTEX_TYPENAME)                        \
     TEST(TEST_SUITE_NAME,is_a_graph) {                                                              \

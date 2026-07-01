@@ -63,8 +63,8 @@ bool graphdom::graph<VertexType>::vertex_handle::operator!=(
 }
 
 template<typename VertexType>
-typename graphdom::graph<VertexType>::ADJ_LIST graphdom::graph<VertexType>::vertex_handle::adj_list() const {
-    return graphdom::graph<VertexType>::ADJ_LIST(
+typename graphdom::graph<VertexType>::adj_list graphdom::graph<VertexType>::vertex_handle::adj_list() const {
+    return graphdom::graph<VertexType>::adj_list(
         vertex_owner,
         vertex_container_ptr,
         edges_type
@@ -72,9 +72,9 @@ typename graphdom::graph<VertexType>::ADJ_LIST graphdom::graph<VertexType>::vert
 }
 
 template<typename VertexType>
-typename graphdom::graph<VertexType>::ADJ_LIST graphdom::graph<VertexType>::vertex_handle::adj_list(
+typename graphdom::graph<VertexType>::adj_list graphdom::graph<VertexType>::vertex_handle::adj_list(
     const graphdom::edge_type selection ) const {
-    return graphdom::graph<VertexType>::ADJ_LIST(
+    return graphdom::graph<VertexType>::adj_list(
         vertex_owner,
         vertex_container_ptr,
         edges_type,
@@ -83,19 +83,19 @@ typename graphdom::graph<VertexType>::ADJ_LIST graphdom::graph<VertexType>::vert
 }
 
 template<typename VertexType>
-typename graphdom::graph<VertexType>::CONSTANT_ADJ_LIST graphdom::graph<VertexType>::vertex_handle::const_adj_list() const {
+typename graphdom::graph<VertexType>::const_adj_list graphdom::graph<VertexType>::vertex_handle::const_adj_list() const {
     if ( std::holds_alternative <std::monostate >( vertex_container_ptr ) ) {
         throw std::runtime_error("Error"); //TODO: write better message
     }
     else if ( std::holds_alternative< const graphdom::graph<VertexType>::vertex_container* >( vertex_container_ptr ) ) {
-        return graphdom::graph<VertexType>::CONSTANT_ADJ_LIST(
+        return graphdom::graph<VertexType>::const_adj_list(
             vertex_owner,
             std::get< const graphdom::graph<VertexType>::vertex_container* >( vertex_container_ptr ),
             edges_type
         );
     }
     else {
-        return graphdom::graph<VertexType>::CONSTANT_ADJ_LIST(
+        return graphdom::graph<VertexType>::const_adj_list(
             vertex_owner,
             std::get< graphdom::graph<VertexType>::vertex_container* >( vertex_container_ptr ),
             edges_type
@@ -104,13 +104,13 @@ typename graphdom::graph<VertexType>::CONSTANT_ADJ_LIST graphdom::graph<VertexTy
 }
 
 template<typename VertexType>
-typename graphdom::graph<VertexType>::CONSTANT_ADJ_LIST graphdom::graph<VertexType>::vertex_handle::const_adj_list(
+typename graphdom::graph<VertexType>::const_adj_list graphdom::graph<VertexType>::vertex_handle::const_adj_list(
 const graphdom::edge_type selection ) const {
     if ( std::holds_alternative< std::monostate >( vertex_container_ptr ) ) {
         throw std::runtime_error("Error"); //TODO: write better message
     }
     else if ( std::holds_alternative< const graphdom::graph<VertexType>::vertex_container* >( vertex_container_ptr ) ) {
-        return graphdom::graph<VertexType>::CONSTANT_ADJ_LIST(
+        return graphdom::graph<VertexType>::const_adj_list(
             vertex_owner,
             std::get< const graphdom::graph<VertexType>::vertex_container* >( vertex_container_ptr ),
             edges_type,
@@ -118,7 +118,7 @@ const graphdom::edge_type selection ) const {
         );
     }
     else {
-        return graphdom::graph<VertexType>::CONSTANT_ADJ_LIST(
+        return graphdom::graph<VertexType>::const_adj_list(
             vertex_owner,
             std::get< graphdom::graph<VertexType>::vertex_container* >( vertex_container_ptr ),
             edges_type,
@@ -198,23 +198,23 @@ bool graphdom::graph<VertexType>::vertex_const_handle::operator!=(const vertex_c
 }
 
 template<typename VertexType>
-typename graphdom::graph<VertexType>::CONSTANT_ADJ_LIST
+typename graphdom::graph<VertexType>::const_adj_list
 graphdom::graph<VertexType>::vertex_const_handle::adj_list() const {
     return const_adj_list();
 }
 
 template<typename VertexType>
-typename graphdom::graph<VertexType>::CONSTANT_ADJ_LIST
+typename graphdom::graph<VertexType>::const_adj_list
 graphdom::graph<VertexType>::vertex_const_handle::adj_list(const graphdom::edge_type et) const {
     return const_adj_list(et);
 }
 
 template<typename VertexType>
-typename graphdom::graph<VertexType>::CONSTANT_ADJ_LIST
+typename graphdom::graph<VertexType>::const_adj_list
 graphdom::graph<VertexType>::vertex_const_handle::const_adj_list() const {
     if (vertex_owner!=nullptr) {
         if (graph_vertex_container!=nullptr) {
-            return graphdom::graph<VertexType>::CONSTANT_ADJ_LIST(
+            return graphdom::graph<VertexType>::const_adj_list(
                 vertex_owner,
                 graph_vertex_container,
                 edges_type
@@ -225,11 +225,11 @@ graphdom::graph<VertexType>::vertex_const_handle::const_adj_list() const {
 }
 
 template<typename VertexType>
-typename graphdom::graph<VertexType>::CONSTANT_ADJ_LIST
+typename graphdom::graph<VertexType>::const_adj_list
 graphdom::graph<VertexType>::vertex_const_handle::const_adj_list(const graphdom::edge_type et) const {
     if (vertex_owner!=nullptr) {
         if (graph_vertex_container!=nullptr) {
-            return graphdom::graph<VertexType>::CONSTANT_ADJ_LIST(
+            return graphdom::graph<VertexType>::const_adj_list(
                 vertex_owner,
                 graph_vertex_container,
                 edges_type,
@@ -287,13 +287,13 @@ graphdom::graph<VertexType>::vertex_const_handle::vertex_const_handle(
     edges_type(graphdom::graph<VertexType>::graph_edges_type::mixed) {}
 
 template<typename VertexType>
-typename graphdom::graph<VertexType>::EDGE_ITERATOR_NAME
-graphdom::graph<VertexType>::ADJ_LIST::begin() const {
+typename graphdom::graph<VertexType>::adj_list_iterator
+graphdom::graph<VertexType>::adj_list::begin() const {
     if ( std::holds_alternative< set_vertex_graph_vertex_container_info_type >( graph_type_dependent_vertex_container_info ) ) {
         auto& set_vertex_graph_vertex_container_info_pair = std::get< set_vertex_graph_vertex_container_info_type >( graph_type_dependent_vertex_container_info );
         auto& set_vertex_graph_vertex_container = set_vertex_graph_vertex_container_info_pair.first;
         auto& set_vertex_graph_vertex_container_adj_sets_ptr_array = set_vertex_graph_vertex_container_info_pair.second;
-        return graphdom::graph<VertexType>::EDGE_ITERATOR_NAME(
+        return graphdom::graph<VertexType>::adj_list_iterator(
             vertex_container_graph_owner,
             set_vertex_graph_vertex_container,
             vertex_container_graph_owner_edges_type,
@@ -304,7 +304,7 @@ graphdom::graph<VertexType>::ADJ_LIST::begin() const {
     auto& multiset_vertex_graph_vertex_container_info_pair = std::get< multiset_vertex_graph_vertex_container_info_type >( graph_type_dependent_vertex_container_info );
     auto& multiset_vertex_graph_vertex_container = multiset_vertex_graph_vertex_container_info_pair.first;
     auto& multiset_vertex_graph_vertex_container_adj_sets_ptr_array = multiset_vertex_graph_vertex_container_info_pair.second;
-    return graphdom::graph<VertexType>::EDGE_ITERATOR_NAME(
+    return graphdom::graph<VertexType>::adj_list_iterator(
         vertex_container_graph_owner,
         multiset_vertex_graph_vertex_container,
         vertex_container_graph_owner_edges_type,
@@ -314,13 +314,13 @@ graphdom::graph<VertexType>::ADJ_LIST::begin() const {
 }
 
 template<typename VertexType>
-typename graphdom::graph<VertexType>::EDGE_ITERATOR_NAME
-graphdom::graph<VertexType>::ADJ_LIST::end() const {
+typename graphdom::graph<VertexType>::adj_list_iterator
+graphdom::graph<VertexType>::adj_list::end() const {
     if ( std::holds_alternative< set_vertex_graph_vertex_container_info_type >( graph_type_dependent_vertex_container_info ) ) {
         auto& set_vertex_graph_vertex_container_info_pair = std::get< set_vertex_graph_vertex_container_info_type >( graph_type_dependent_vertex_container_info );
         auto& set_vertex_graph_vertex_container = set_vertex_graph_vertex_container_info_pair.first;
         auto& set_vertex_graph_vertex_container_adj_sets_ptr_array = set_vertex_graph_vertex_container_info_pair.second;
-        return graphdom::graph<VertexType>::EDGE_ITERATOR_NAME(
+        return graphdom::graph<VertexType>::adj_list_iterator(
             vertex_container_graph_owner,
             set_vertex_graph_vertex_container,
             vertex_container_graph_owner_edges_type,
@@ -331,7 +331,7 @@ graphdom::graph<VertexType>::ADJ_LIST::end() const {
     auto& multiset_vertex_graph_vertex_container_info_pair = std::get< multiset_vertex_graph_vertex_container_info_type >( graph_type_dependent_vertex_container_info );
     auto& multiset_vertex_graph_vertex_container = multiset_vertex_graph_vertex_container_info_pair.first;
     auto& multiset_vertex_graph_vertex_container_adj_sets_ptr_array = multiset_vertex_graph_vertex_container_info_pair.second;
-    return graphdom::graph<VertexType>::EDGE_ITERATOR_NAME(
+    return graphdom::graph<VertexType>::adj_list_iterator(
         vertex_container_graph_owner,
         multiset_vertex_graph_vertex_container,
         vertex_container_graph_owner_edges_type,
@@ -341,19 +341,19 @@ graphdom::graph<VertexType>::ADJ_LIST::end() const {
 }
 
 template<typename VertexType>
-typename graphdom::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME
-graphdom::graph<VertexType>::ADJ_LIST::cbegin() const {
+typename graphdom::graph<VertexType>::adj_list_const_iterator
+graphdom::graph<VertexType>::adj_list::cbegin() const {
     return begin();
 }
 
 template<typename VertexType>
-typename graphdom::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME
-graphdom::graph<VertexType>::ADJ_LIST::cend() const {
+typename graphdom::graph<VertexType>::adj_list_const_iterator
+graphdom::graph<VertexType>::adj_list::cend() const {
     return end();
 }
 
 template<typename VertexType>
-graphdom::graph<VertexType>::ADJ_LIST::ADJ_LIST(
+graphdom::graph<VertexType>::adj_list::adj_list(
     const graphdom::graph<VertexType>* vertex_container_graph_owner_ptr,
     const std::variant<
         std::monostate,
@@ -423,7 +423,7 @@ graphdom::graph<VertexType>::ADJ_LIST::ADJ_LIST(
 }
 
 template<typename VertexType>
-graphdom::graph<VertexType>::ADJ_LIST::ADJ_LIST(
+graphdom::graph<VertexType>::adj_list::adj_list(
     const graphdom::graph<VertexType>* const vertex_container_graph_owner_ptr,
     const std::variant<
         std::monostate,
@@ -524,20 +524,20 @@ graphdom::graph<VertexType>::ADJ_LIST::ADJ_LIST(
 }
 
 template<typename VertexType>
-graphdom::graph<VertexType>::CONSTANT_ADJ_LIST::CONSTANT_ADJ_LIST(
-    const graphdom::graph<VertexType>::ADJ_LIST& other) :
+graphdom::graph<VertexType>::const_adj_list::const_adj_list(
+    const graphdom::graph<VertexType>::adj_list& other) :
     vertex_container_graph_owner( other.vertex_container_graph_owner ),
     vertex_container_graph_owner_edges_type( other.vertex_container_graph_owner_edges_type ){
     if (
         std::holds_alternative<
-            graphdom::graph<VertexType>::ADJ_LIST::set_vertex_graph_vertex_container_info_type
+            graphdom::graph<VertexType>::adj_list::set_vertex_graph_vertex_container_info_type
         >(
             other.graph_type_dependent_vertex_container_info
         )
     ) {
         const auto& other_type_dependent_vertex_container_info =
             std::get<
-                graphdom::graph<VertexType>::ADJ_LIST::set_vertex_graph_vertex_container_info_type
+                graphdom::graph<VertexType>::adj_list::set_vertex_graph_vertex_container_info_type
             >( other.graph_type_dependent_vertex_container_info );
         vertex_container_ptr = other_type_dependent_vertex_container_info.first;
         vertex_container_adj_sets_ptr_array.template emplace<
@@ -552,7 +552,7 @@ graphdom::graph<VertexType>::CONSTANT_ADJ_LIST::CONSTANT_ADJ_LIST(
     else {
         const auto& other_type_dependent_vertex_container_info =
             std::get<
-                graphdom::graph<VertexType>::ADJ_LIST::multiset_vertex_graph_vertex_container_info_type
+                graphdom::graph<VertexType>::adj_list::multiset_vertex_graph_vertex_container_info_type
             >( other.graph_type_dependent_vertex_container_info );
         vertex_container_ptr = other_type_dependent_vertex_container_info.first;
         vertex_container_adj_sets_ptr_array.template emplace<
@@ -580,14 +580,14 @@ CONSTANT_EDGE_ITERATOR_NAME(
 */
 
 template<typename VertexType>
-typename graphdom::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME
-graphdom::graph<VertexType>::CONSTANT_ADJ_LIST::begin() const {
+typename graphdom::graph<VertexType>::adj_list_const_iterator
+graphdom::graph<VertexType>::const_adj_list::begin() const {
     if ( std::holds_alternative< set_vertex_graph_vertex_container_adj_sets_ptr_array_type >( vertex_container_adj_sets_ptr_array ) ) {
         auto& adj_sets_ptr_array =
             std::get< set_vertex_graph_vertex_container_adj_sets_ptr_array_type >(
                 vertex_container_adj_sets_ptr_array
             );
-        return graphdom::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME(
+        return graphdom::graph<VertexType>::adj_list_const_iterator(
             vertex_container_graph_owner,
             vertex_container_ptr,
             vertex_container_graph_owner_edges_type,
@@ -599,7 +599,7 @@ graphdom::graph<VertexType>::CONSTANT_ADJ_LIST::begin() const {
         std::get< multiset_vertex_graph_vertex_container_adj_sets_ptr_array_type >(
             vertex_container_adj_sets_ptr_array
             );
-    return graphdom::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME(
+    return graphdom::graph<VertexType>::adj_list_const_iterator(
         vertex_container_graph_owner,
         vertex_container_ptr,
         vertex_container_graph_owner_edges_type,
@@ -609,14 +609,14 @@ graphdom::graph<VertexType>::CONSTANT_ADJ_LIST::begin() const {
 }
 
 template<typename VertexType>
-typename graphdom::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME
-graphdom::graph<VertexType>::CONSTANT_ADJ_LIST::end() const {
+typename graphdom::graph<VertexType>::adj_list_const_iterator
+graphdom::graph<VertexType>::const_adj_list::end() const {
     if ( std::holds_alternative< set_vertex_graph_vertex_container_adj_sets_ptr_array_type >( vertex_container_adj_sets_ptr_array ) ) {
         auto& adj_sets_ptr_array =
             std::get< set_vertex_graph_vertex_container_adj_sets_ptr_array_type >(
                 vertex_container_adj_sets_ptr_array
             );
-        return graphdom::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME(
+        return graphdom::graph<VertexType>::adj_list_const_iterator(
             vertex_container_graph_owner,
             vertex_container_ptr,
             vertex_container_graph_owner_edges_type,
@@ -628,7 +628,7 @@ graphdom::graph<VertexType>::CONSTANT_ADJ_LIST::end() const {
         std::get< multiset_vertex_graph_vertex_container_adj_sets_ptr_array_type >(
             vertex_container_adj_sets_ptr_array
             );
-    return graphdom::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME(
+    return graphdom::graph<VertexType>::adj_list_const_iterator(
         vertex_container_graph_owner,
         vertex_container_ptr,
         vertex_container_graph_owner_edges_type,
@@ -638,19 +638,19 @@ graphdom::graph<VertexType>::CONSTANT_ADJ_LIST::end() const {
 }
 
 template<typename VertexType>
-typename graphdom::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME
-graphdom::graph<VertexType>::CONSTANT_ADJ_LIST::cbegin() const {
+typename graphdom::graph<VertexType>::adj_list_const_iterator
+graphdom::graph<VertexType>::const_adj_list::cbegin() const {
     return begin();
 }
 
 template<typename VertexType>
-typename graphdom::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME
-graphdom::graph<VertexType>::CONSTANT_ADJ_LIST::cend() const {
+typename graphdom::graph<VertexType>::adj_list_const_iterator
+graphdom::graph<VertexType>::const_adj_list::cend() const {
     return end();
 }
 
 template<typename VertexType>
-graphdom::graph<VertexType>::CONSTANT_ADJ_LIST::CONSTANT_ADJ_LIST(
+graphdom::graph<VertexType>::const_adj_list::const_adj_list(
     const graphdom::graph<VertexType>* const vertex_container_graph_owner_ptr,
     const graphdom::graph<VertexType>::vertex_container* const vertex_container_ptr,
     const graphdom::graph<VertexType>::graph_edges_type vertex_container_graph_owner_edges_type) :
@@ -713,7 +713,7 @@ graphdom::graph<VertexType>::CONSTANT_ADJ_LIST::CONSTANT_ADJ_LIST(
 }
 
 template<typename VertexType>
-graphdom::graph<VertexType>::CONSTANT_ADJ_LIST::CONSTANT_ADJ_LIST(
+graphdom::graph<VertexType>::const_adj_list::const_adj_list(
     const graphdom::graph<VertexType>* const vertex_container_graph_owner_ptr,
     const graphdom::graph<VertexType>::vertex_container* const vertex_container_ptr,
     const graphdom::graph<VertexType>::graph_edges_type vertex_container_graph_owner_edges_type,
@@ -807,8 +807,8 @@ graphdom::graph<VertexType>::CONSTANT_ADJ_LIST::CONSTANT_ADJ_LIST(
 }
 
 template<typename VertexType>
-graphdom::graph<VertexType>::EDGE_ITERATOR_NAME::EDGE_ITERATOR_NAME(
-    const typename graphdom::multiset_graph<VertexType>::EDGE_ITERATOR_NAME& other) :
+graphdom::graph<VertexType>::adj_list_iterator::adj_list_iterator(
+    const typename graphdom::multiset_graph<VertexType>::adj_list_iterator& other) :
     edge_owner( other.edge_graph_owner ),
     type_dependent_edge_info(
         std::in_place_type< multiset_vertex_graph_edge_info >,
@@ -819,7 +819,7 @@ graphdom::graph<VertexType>::EDGE_ITERATOR_NAME::EDGE_ITERATOR_NAME(
     current_edge_type(other.current_edge_type) {}
 
 template<typename VertexType>
-typename graphdom::graph<VertexType>::vertex_handle graphdom::graph<VertexType>::EDGE_ITERATOR_NAME::operator*() const {
+typename graphdom::graph<VertexType>::vertex_handle graphdom::graph<VertexType>::adj_list_iterator::operator*() const {
     if (std::holds_alternative< set_vertex_graph_edge_info >( type_dependent_edge_info ) ) {
         auto& set_vertex_graph_edge_info_tuple = std::get < set_vertex_graph_edge_info >( type_dependent_edge_info );
         auto& inner_itr = std::get< set_vertex_graph_inner_edge_iterator_type >( set_vertex_graph_edge_info_tuple );
@@ -895,13 +895,13 @@ typename graphdom::graph<VertexType>::vertex_handle graphdom::graph<VertexType>:
 }
 
 template<typename VertexType>
-typename graphdom::graph<VertexType>::vertex_handle graphdom::graph<VertexType>::EDGE_ITERATOR_NAME::operator->() const {
+typename graphdom::graph<VertexType>::vertex_handle graphdom::graph<VertexType>::adj_list_iterator::operator->() const {
     return *(*this);
 }
 
 template<typename VertexType>
-bool graphdom::graph<VertexType>::EDGE_ITERATOR_NAME::operator==(const CONSTANT_EDGE_ITERATOR_NAME& other) const {
-    return CONSTANT_EDGE_ITERATOR_NAME(*this) == other;
+bool graphdom::graph<VertexType>::adj_list_iterator::operator==(const adj_list_const_iterator& other) const {
+    return adj_list_const_iterator(*this) == other;
     /*
     if (edge_owner != other.edge_graph_owner) {
         throw std::runtime_error("Undefined behavior"); //TODO: write a better message
@@ -944,12 +944,12 @@ bool graphdom::graph<VertexType>::EDGE_ITERATOR_NAME::operator==(const CONSTANT_
 }
 
 template<typename VertexType>
-bool graphdom::graph<VertexType>::EDGE_ITERATOR_NAME::operator!=(const CONSTANT_EDGE_ITERATOR_NAME& other) const {
+bool graphdom::graph<VertexType>::adj_list_iterator::operator!=(const adj_list_const_iterator& other) const {
     return !( (*this) == other );
 }
 
 template<typename VertexType>
-typename graphdom::graph<VertexType>::EDGE_ITERATOR_NAME& graphdom::graph<VertexType>::EDGE_ITERATOR_NAME::operator++() {
+typename graphdom::graph<VertexType>::adj_list_iterator& graphdom::graph<VertexType>::adj_list_iterator::operator++() {
     if ( std::holds_alternative<set_vertex_graph_edge_info>(type_dependent_edge_info) ) {
         auto& set_vertex_graph_info_tuple = std::get< set_vertex_graph_edge_info >( type_dependent_edge_info );
         auto& inner_itr = std::get< set_vertex_graph_inner_edge_iterator_type >( set_vertex_graph_info_tuple );
@@ -1003,19 +1003,19 @@ typename graphdom::graph<VertexType>::EDGE_ITERATOR_NAME& graphdom::graph<Vertex
 }
 
 template<typename VertexType>
-typename graphdom::graph<VertexType>::EDGE_ITERATOR_NAME graphdom::graph<VertexType>::EDGE_ITERATOR_NAME::operator++(int) {
+typename graphdom::graph<VertexType>::adj_list_iterator graphdom::graph<VertexType>::adj_list_iterator::operator++(int) {
     auto this_before_increment = *this;
     ++(*this);
     return this_before_increment;
 }
 
 template<typename VertexType>
-graphdom::edge_type graphdom::graph<VertexType>::EDGE_ITERATOR_NAME::edge_type() const {
+graphdom::edge_type graphdom::graph<VertexType>::adj_list_iterator::edge_type() const {
     return current_edge_type;
 }
 
 template<typename VertexType>
-graphdom::graph<VertexType>::EDGE_ITERATOR_NAME::EDGE_ITERATOR_NAME(
+graphdom::graph<VertexType>::adj_list_iterator::adj_list_iterator(
     const graphdom::graph<VertexType>* const edge_set_vertex_graph_owner_ptr,
     const graphdom::graph<VertexType>::vertex_container* const edge_begin_point_ptr,
     const graphdom::graph<VertexType>::graph_edges_type edge_set_vertex_graph_owner_edges_type,
@@ -1086,7 +1086,7 @@ graphdom::graph<VertexType>::EDGE_ITERATOR_NAME::EDGE_ITERATOR_NAME(
 }
 
 template<typename VertexType>
-graphdom::graph<VertexType>::EDGE_ITERATOR_NAME::EDGE_ITERATOR_NAME(
+graphdom::graph<VertexType>::adj_list_iterator::adj_list_iterator(
     const graphdom::graph<VertexType>* const edge_multiset_vertex_graph_owner_ptr,
     graphdom::graph<VertexType>::vertex_container* const edge_begin_point_ptr,
     const graphdom::graph<VertexType>::graph_edges_type edge_multiset_vertex_graph_owner_edges_type,
@@ -1157,7 +1157,7 @@ graphdom::graph<VertexType>::EDGE_ITERATOR_NAME::EDGE_ITERATOR_NAME(
 }
 
 template<typename VertexType>
-graphdom::graph<VertexType>::EDGE_ITERATOR_NAME::EDGE_ITERATOR_NAME(
+graphdom::graph<VertexType>::adj_list_iterator::adj_list_iterator(
     const set_graph<VertexType>* const edge_set_vertex_graph_owner_ptr,
     const graphdom::graph<VertexType>::non_mixed_graph_vertex_container<
         const graphdom::graph<VertexType>::vertex_container*
@@ -1185,7 +1185,7 @@ graphdom::graph<VertexType>::EDGE_ITERATOR_NAME::EDGE_ITERATOR_NAME(
 }
 
 template<typename VertexType>
-graphdom::graph<VertexType>::EDGE_ITERATOR_NAME::EDGE_ITERATOR_NAME(
+graphdom::graph<VertexType>::adj_list_iterator::adj_list_iterator(
     const set_graph<VertexType>* const edge_set_vertex_graph_owner_ptr,
     const graphdom::graph<VertexType>::mixed_graph_vertex_container<
         const graphdom::graph<VertexType>::vertex_container*
@@ -1221,7 +1221,7 @@ graphdom::graph<VertexType>::EDGE_ITERATOR_NAME::EDGE_ITERATOR_NAME(
 }
 
 template<typename VertexType>
-graphdom::graph<VertexType>::EDGE_ITERATOR_NAME::EDGE_ITERATOR_NAME(
+graphdom::graph<VertexType>::adj_list_iterator::adj_list_iterator(
     const multiset_graph<VertexType>* edge_multiset_vertex_graph_owner_ptr,
     graphdom::graph<VertexType>::non_mixed_graph_vertex_container<
         graphdom::graph<VertexType>::vertex_container*
@@ -1249,7 +1249,7 @@ graphdom::graph<VertexType>::EDGE_ITERATOR_NAME::EDGE_ITERATOR_NAME(
 }
 
 template<typename VertexType>
-graphdom::graph<VertexType>::EDGE_ITERATOR_NAME::EDGE_ITERATOR_NAME(
+graphdom::graph<VertexType>::adj_list_iterator::adj_list_iterator(
     const multiset_graph<VertexType>* edge_multiset_vertex_graph_owner_ptr,
     graphdom::graph<VertexType>::mixed_graph_vertex_container<
         graphdom::graph<VertexType>::vertex_container*
@@ -1285,18 +1285,18 @@ graphdom::graph<VertexType>::EDGE_ITERATOR_NAME::EDGE_ITERATOR_NAME(
 }
 
 template<typename VertexType>
-graphdom::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME::CONSTANT_EDGE_ITERATOR_NAME(const EDGE_ITERATOR_NAME& other) :
+graphdom::graph<VertexType>::adj_list_const_iterator::adj_list_const_iterator(const adj_list_iterator& other) :
 edge_graph_owner(other.edge_owner),
 edge_vertex_container_owner(nullptr),
 graph_owner_edges_type(other.graph_owner_edges_type),
 current_edge_type(other.current_edge_type) {
-    if ( std::holds_alternative< typename EDGE_ITERATOR_NAME::set_vertex_graph_edge_info >( other.type_dependent_edge_info ) ) {
+    if ( std::holds_alternative< typename adj_list_iterator::set_vertex_graph_edge_info >( other.type_dependent_edge_info ) ) {
         const auto& other_type_dependent_edge_info =
-            std::get< typename EDGE_ITERATOR_NAME::set_vertex_graph_edge_info >( other.type_dependent_edge_info );
+            std::get< typename adj_list_iterator::set_vertex_graph_edge_info >( other.type_dependent_edge_info );
         edge_vertex_container_owner = std::get<const graphdom::graph<VertexType>::vertex_container*>( other_type_dependent_edge_info );
-        const auto& other_inner_itr = std::get< typename EDGE_ITERATOR_NAME::set_vertex_graph_inner_edge_iterator_type >( other_type_dependent_edge_info );
-        const auto& other_adj_sets_ptr_array = std::get< typename EDGE_ITERATOR_NAME::set_vertex_graph_vertex_container_adj_sets_ptr_array_type >( other_type_dependent_edge_info );
-        if ( std::holds_alternative< typename EDGE_ITERATOR_NAME::special_begin_end_indicator >( other_inner_itr ) ) {
+        const auto& other_inner_itr = std::get< typename adj_list_iterator::set_vertex_graph_inner_edge_iterator_type >( other_type_dependent_edge_info );
+        const auto& other_adj_sets_ptr_array = std::get< typename adj_list_iterator::set_vertex_graph_vertex_container_adj_sets_ptr_array_type >( other_type_dependent_edge_info );
+        if ( std::holds_alternative< typename adj_list_iterator::special_begin_end_indicator >( other_inner_itr ) ) {
             const set_vertex_graph_inner_edge_iterator_type inner_itr_to_insert = special_begin_end_indicator();
             type_dependent_edge_info.template emplace< set_vertex_graph_edge_info >(
                 inner_itr_to_insert,
@@ -1308,7 +1308,7 @@ current_edge_type(other.current_edge_type) {
         }
         else {
             const set_vertex_graph_inner_edge_iterator_type inner_itr_to_insert =
-                std::get< typename EDGE_ITERATOR_NAME::real_set_vertex_graph_vertex_container_edge_iterator_type >( other_inner_itr );
+                std::get< typename adj_list_iterator::real_set_vertex_graph_vertex_container_edge_iterator_type >( other_inner_itr );
             type_dependent_edge_info.template emplace< set_vertex_graph_edge_info >(
                 inner_itr_to_insert,
                 set_vertex_graph_vertex_container_adj_sets_ptr_array_type{nullptr,nullptr}
@@ -1320,11 +1320,11 @@ current_edge_type(other.current_edge_type) {
     }
     else {
         const auto& other_type_dependent_edge_info =
-            std::get< typename EDGE_ITERATOR_NAME::multiset_vertex_graph_edge_info >( other.type_dependent_edge_info );
+            std::get< typename adj_list_iterator::multiset_vertex_graph_edge_info >( other.type_dependent_edge_info );
         edge_vertex_container_owner = std::get<graphdom::graph<VertexType>::vertex_container*>( other_type_dependent_edge_info );
-        const auto& other_inner_itr = std::get< typename EDGE_ITERATOR_NAME::multiset_vertex_graph_inner_edge_iterator_type >( other_type_dependent_edge_info );
-        const auto& other_adj_sets_ptr_array = std::get< typename EDGE_ITERATOR_NAME::multiset_vertex_graph_vertex_container_adj_sets_ptr_array_type >( other_type_dependent_edge_info );
-        if ( std::holds_alternative< typename EDGE_ITERATOR_NAME::special_begin_end_indicator >( other_inner_itr ) ) {
+        const auto& other_inner_itr = std::get< typename adj_list_iterator::multiset_vertex_graph_inner_edge_iterator_type >( other_type_dependent_edge_info );
+        const auto& other_adj_sets_ptr_array = std::get< typename adj_list_iterator::multiset_vertex_graph_vertex_container_adj_sets_ptr_array_type >( other_type_dependent_edge_info );
+        if ( std::holds_alternative< typename adj_list_iterator::special_begin_end_indicator >( other_inner_itr ) ) {
             const multiset_vertex_graph_inner_edge_iterator_type inner_itr_to_insert = special_begin_end_indicator();
             type_dependent_edge_info.template emplace< multiset_vertex_graph_edge_info >(
                 inner_itr_to_insert,
@@ -1336,7 +1336,7 @@ current_edge_type(other.current_edge_type) {
         }
         else {
             const multiset_vertex_graph_inner_edge_iterator_type inner_itr_to_insert =
-                std::get< typename EDGE_ITERATOR_NAME::real_multiset_vertex_graph_vertex_container_edge_iterator_type >( other_inner_itr );
+                std::get< typename adj_list_iterator::real_multiset_vertex_graph_vertex_container_edge_iterator_type >( other_inner_itr );
             type_dependent_edge_info.template emplace< multiset_vertex_graph_edge_info >(
                 inner_itr_to_insert,
                 multiset_vertex_graph_vertex_container_adj_sets_ptr_array_type{nullptr,nullptr}
@@ -1403,24 +1403,24 @@ current_edge_type(other.current_edge_type) {
 }
 
 template<typename VertexType>
-graphdom::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME::CONSTANT_EDGE_ITERATOR_NAME(
-    const typename graphdom::multiset_graph<VertexType>::EDGE_ITERATOR_NAME& other) :
+graphdom::graph<VertexType>::adj_list_const_iterator::adj_list_const_iterator(
+    const typename graphdom::multiset_graph<VertexType>::adj_list_iterator& other) :
     edge_graph_owner(other.edge_owner),
     edge_vertex_container_owner(other.edge_vertex_container_owner),
     graph_owner_edges_type(other.graph_owner_edges_type),
-    type_dependent_edge_info(std::in_place_type< graphdom::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME::multiset_vertex_graph_edge_info >),
+    type_dependent_edge_info(std::in_place_type< graphdom::graph<VertexType>::adj_list_const_iterator::multiset_vertex_graph_edge_info >),
     current_edge_type(other.current_edge_type) {
-    auto& this_multiset_vertex_graph_edge_info = std::get< graphdom::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME::multiset_vertex_graph_edge_info >( type_dependent_edge_info );
-    auto& this_multiset_vertex_graph_inner_edge_iterator_type = std::get< graphdom::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME::multiset_vertex_graph_inner_edge_iterator_type >( this_multiset_vertex_graph_edge_info );
+    auto& this_multiset_vertex_graph_edge_info = std::get< graphdom::graph<VertexType>::adj_list_const_iterator::multiset_vertex_graph_edge_info >( type_dependent_edge_info );
+    auto& this_multiset_vertex_graph_inner_edge_iterator_type = std::get< graphdom::graph<VertexType>::adj_list_const_iterator::multiset_vertex_graph_inner_edge_iterator_type >( this_multiset_vertex_graph_edge_info );
     this_multiset_vertex_graph_inner_edge_iterator_type = other.inner_edge_iterator;
-    auto& this_multiset_vertex_graph_vertex_container_adj_sets_ptr_array_type = std::get< graphdom::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME::multiset_vertex_graph_vertex_container_adj_sets_ptr_array_type >( this_multiset_vertex_graph_edge_info );
+    auto& this_multiset_vertex_graph_vertex_container_adj_sets_ptr_array_type = std::get< graphdom::graph<VertexType>::adj_list_const_iterator::multiset_vertex_graph_vertex_container_adj_sets_ptr_array_type >( this_multiset_vertex_graph_edge_info );
     this_multiset_vertex_graph_vertex_container_adj_sets_ptr_array_type[undirected] = (other.vertex_container_adj_sets_ptr_array)[undirected];
     this_multiset_vertex_graph_vertex_container_adj_sets_ptr_array_type[directed] = (other.vertex_container_adj_sets_ptr_array)[directed];
 }
 
 template<typename VertexType>
 typename graphdom::graph<VertexType>::vertex_const_handle
-graphdom::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME::operator*() const {
+graphdom::graph<VertexType>::adj_list_const_iterator::operator*() const {
     if ( std::holds_alternative< set_vertex_graph_edge_info >( type_dependent_edge_info ) ) {
         auto& specific_type_dependent_edge_info = std::get< set_vertex_graph_edge_info >( type_dependent_edge_info );
         auto& inner_itr = specific_type_dependent_edge_info.first;
@@ -1501,12 +1501,12 @@ graphdom::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME::operator*() const {
 
 template<typename VertexType>
 typename graphdom::graph<VertexType>::vertex_const_handle
-graphdom::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME::operator->() const {
+graphdom::graph<VertexType>::adj_list_const_iterator::operator->() const {
     return *(*this);
 }
 
 template<typename VertexType>
-bool graphdom::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME::operator==(const CONSTANT_EDGE_ITERATOR_NAME& other) const {
+bool graphdom::graph<VertexType>::adj_list_const_iterator::operator==(const adj_list_const_iterator& other) const {
     if (current_edge_type != other.current_edge_type) {
         return false;
     }
@@ -1521,12 +1521,12 @@ bool graphdom::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME::operator==(const 
 }
 
 template<typename VertexType>
-bool graphdom::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME::operator!=(const CONSTANT_EDGE_ITERATOR_NAME& other) const {
+bool graphdom::graph<VertexType>::adj_list_const_iterator::operator!=(const adj_list_const_iterator& other) const {
     return !( (*this) == other );
 }
 
 template<typename VertexType>
-typename graphdom::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME& graphdom::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME::operator++() {
+typename graphdom::graph<VertexType>::adj_list_const_iterator& graphdom::graph<VertexType>::adj_list_const_iterator::operator++() {
     if ( std::holds_alternative<set_vertex_graph_edge_info>(type_dependent_edge_info) ) {
         auto& specific_type_dependent_edge_info = std::get< set_vertex_graph_edge_info >( type_dependent_edge_info );
         auto& inner_itr = specific_type_dependent_edge_info.first;
@@ -1624,19 +1624,19 @@ typename graphdom::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME& graphdom::gra
 }
 
 template<typename VertexType>
-typename graphdom::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME graphdom::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME::operator++(int) {
+typename graphdom::graph<VertexType>::adj_list_const_iterator graphdom::graph<VertexType>::adj_list_const_iterator::operator++(int) {
     auto this_before_increment = *this;
     ++(*this);
     return this_before_increment;
 }
 
 template<typename VertexType>
-graphdom::edge_type graphdom::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME::edge_type() const {
+graphdom::edge_type graphdom::graph<VertexType>::adj_list_const_iterator::edge_type() const {
     return current_edge_type;
 }
 
 template<typename VertexType>
-graphdom::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME::CONSTANT_EDGE_ITERATOR_NAME(
+graphdom::graph<VertexType>::adj_list_const_iterator::adj_list_const_iterator(
     const graphdom::graph<VertexType>* const edge_set_vertex_graph_owner_ptr,
     const graphdom::graph<VertexType>::vertex_container* const edge_begin_point_ptr,
     const graphdom::graph<VertexType>::graph_edges_type edge_set_vertex_graph_owner_edges_type,
@@ -1704,7 +1704,7 @@ graphdom::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME::CONSTANT_EDGE_ITERATOR
 }
 
 template<typename VertexType>
-graphdom::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME::CONSTANT_EDGE_ITERATOR_NAME(
+graphdom::graph<VertexType>::adj_list_const_iterator::adj_list_const_iterator(
     const graphdom::graph<VertexType>* const edge_multiset_vertex_graph_owner_ptr,
     const graphdom::graph<VertexType>::vertex_container* const edge_begin_point_ptr,
     const graphdom::graph<VertexType>::graph_edges_type edge_multiset_vertex_graph_owner_edges_type,
@@ -1772,7 +1772,7 @@ graphdom::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME::CONSTANT_EDGE_ITERATOR
 }
 
 template<typename VertexType>
-bool graphdom::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME::is_limited_by_edge_type() const {
+bool graphdom::graph<VertexType>::adj_list_const_iterator::is_limited_by_edge_type() const {
     if ( std::holds_alternative< set_vertex_graph_edge_info >( type_dependent_edge_info ) ) {
         const auto& specific_type_dependent_edge_info = std::get< set_vertex_graph_edge_info >( type_dependent_edge_info );
         const auto& adj_sets_ptr_array = specific_type_dependent_edge_info.second;
@@ -1845,11 +1845,11 @@ bool graphdom::multiset_graph<VertexType>::vertex_handle::operator!=(
 }
 
 template<typename VertexType>
-typename graphdom::multiset_graph<VertexType>::ADJ_LIST
+typename graphdom::multiset_graph<VertexType>::adj_list
 graphdom::multiset_graph<VertexType>::vertex_handle::adj_list() const {
     if (vertex_owner!=nullptr) {
         if (multiset_graph_vertex_container!=nullptr){
-            return graphdom::multiset_graph<VertexType>::ADJ_LIST(
+            return graphdom::multiset_graph<VertexType>::adj_list(
                 vertex_owner,
                 multiset_graph_vertex_container,
                 edges_type
@@ -1860,11 +1860,11 @@ graphdom::multiset_graph<VertexType>::vertex_handle::adj_list() const {
 }
 
 template<typename VertexType>
-typename graphdom::multiset_graph<VertexType>::ADJ_LIST
+typename graphdom::multiset_graph<VertexType>::adj_list
 graphdom::multiset_graph<VertexType>::vertex_handle::adj_list(const graphdom::edge_type et) const {
     if (vertex_owner!=nullptr) {
         if (multiset_graph_vertex_container!=nullptr){
-            return graphdom::multiset_graph<VertexType>::ADJ_LIST(
+            return graphdom::multiset_graph<VertexType>::adj_list(
                 vertex_owner,
                 multiset_graph_vertex_container,
                 edges_type,
@@ -1876,10 +1876,10 @@ graphdom::multiset_graph<VertexType>::vertex_handle::adj_list(const graphdom::ed
 }
 
 template<typename VertexType>
-typename graphdom::graph<VertexType>::CONSTANT_ADJ_LIST
+typename graphdom::graph<VertexType>::const_adj_list
 graphdom::multiset_graph<VertexType>::vertex_handle::const_adj_list() const {
     if (vertex_owner!=nullptr) {
-        return typename graphdom::graph<VertexType>::CONSTANT_ADJ_LIST(
+        return typename graphdom::graph<VertexType>::const_adj_list(
             vertex_owner,
             multiset_graph_vertex_container,
             edges_type
@@ -1889,10 +1889,10 @@ graphdom::multiset_graph<VertexType>::vertex_handle::const_adj_list() const {
 }
 
 template<typename VertexType>
-typename graphdom::graph<VertexType>::CONSTANT_ADJ_LIST
+typename graphdom::graph<VertexType>::const_adj_list
 graphdom::multiset_graph<VertexType>::vertex_handle::const_adj_list(graphdom::edge_type et) const {
     if (vertex_owner!=nullptr) {
-        return typename graphdom::graph<VertexType>::CONSTANT_ADJ_LIST(
+        return typename graphdom::graph<VertexType>::const_adj_list(
             vertex_owner,
             multiset_graph_vertex_container,
             edges_type,
@@ -1926,8 +1926,8 @@ graphdom::multiset_graph<VertexType>::vertex_handle::vertex_handle(
     edges_type(graphdom::graph<VertexType>::graph_edges_type::mixed) {}
 
 template<typename VertexType>
-graphdom::multiset_graph<VertexType>::ADJ_LIST::ADJ_LIST(
-    const typename graphdom::graph<VertexType>::ADJ_LIST& other_adj_list) :
+graphdom::multiset_graph<VertexType>::adj_list::adj_list(
+    const typename graphdom::graph<VertexType>::adj_list& other_adj_list) :
     vertex_container_graph_owner(
         dynamic_cast< const graphdom::multiset_graph<VertexType>* >( other_adj_list.vertex_container_graph_owner )
     ),
@@ -1935,12 +1935,12 @@ graphdom::multiset_graph<VertexType>::ADJ_LIST::ADJ_LIST(
     vertex_container_ptr( nullptr ),
     adj_sets_array( {nullptr,nullptr} ) {
     if (
-        std::holds_alternative< typename graphdom::graph<VertexType>::ADJ_LIST::multiset_vertex_graph_vertex_container_info_type > (
+        std::holds_alternative< typename graphdom::graph<VertexType>::adj_list::multiset_vertex_graph_vertex_container_info_type > (
             other_adj_list.graph_type_dependent_vertex_container_info
         )
     ) {
         const auto& multiset_vertex_graph_vertex_container_info_type_pair =
-            std::get< typename graphdom::graph<VertexType>::ADJ_LIST::multiset_vertex_graph_vertex_container_info_type >(
+            std::get< typename graphdom::graph<VertexType>::adj_list::multiset_vertex_graph_vertex_container_info_type >(
                 other_adj_list.graph_type_dependent_vertex_container_info
             );
         vertex_container_ptr = multiset_vertex_graph_vertex_container_info_type_pair.first;
@@ -1952,9 +1952,9 @@ graphdom::multiset_graph<VertexType>::ADJ_LIST::ADJ_LIST(
 }
 
 template<typename VertexType>
-typename graphdom::multiset_graph<VertexType>::EDGE_ITERATOR_NAME
-graphdom::multiset_graph<VertexType>::ADJ_LIST::begin() const {
-    return graphdom::multiset_graph<VertexType>::EDGE_ITERATOR_NAME(
+typename graphdom::multiset_graph<VertexType>::adj_list_iterator
+graphdom::multiset_graph<VertexType>::adj_list::begin() const {
+    return graphdom::multiset_graph<VertexType>::adj_list_iterator(
         vertex_container_graph_owner,
         vertex_container_ptr,
         vertex_container_graph_owner_edges_type,
@@ -1964,9 +1964,9 @@ graphdom::multiset_graph<VertexType>::ADJ_LIST::begin() const {
 }
 
 template<typename VertexType>
-typename graphdom::multiset_graph<VertexType>::EDGE_ITERATOR_NAME
-graphdom::multiset_graph<VertexType>::ADJ_LIST::end() const {
-    return graphdom::multiset_graph<VertexType>::EDGE_ITERATOR_NAME(
+typename graphdom::multiset_graph<VertexType>::adj_list_iterator
+graphdom::multiset_graph<VertexType>::adj_list::end() const {
+    return graphdom::multiset_graph<VertexType>::adj_list_iterator(
         vertex_container_graph_owner,
         vertex_container_ptr,
         vertex_container_graph_owner_edges_type,
@@ -1976,19 +1976,19 @@ graphdom::multiset_graph<VertexType>::ADJ_LIST::end() const {
 }
 
 template<typename VertexType>
-typename graphdom::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME
-graphdom::multiset_graph<VertexType>::ADJ_LIST::cbegin() const {
-    return typename graphdom::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME((*this).begin());
+typename graphdom::graph<VertexType>::adj_list_const_iterator
+graphdom::multiset_graph<VertexType>::adj_list::cbegin() const {
+    return typename graphdom::graph<VertexType>::adj_list_const_iterator((*this).begin());
 }
 
 template<typename VertexType>
-typename graphdom::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME
-graphdom::multiset_graph<VertexType>::ADJ_LIST::cend() const {
-    return typename graphdom::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME((*this).end());
+typename graphdom::graph<VertexType>::adj_list_const_iterator
+graphdom::multiset_graph<VertexType>::adj_list::cend() const {
+    return typename graphdom::graph<VertexType>::adj_list_const_iterator((*this).end());
 }
 
 template<typename VertexType>
-graphdom::multiset_graph<VertexType>::ADJ_LIST::ADJ_LIST(
+graphdom::multiset_graph<VertexType>::adj_list::adj_list(
     const graphdom::multiset_graph<VertexType>* const vertex_container_graph_owner_ptr,
     const VertexContainerPointerType vertex_container_ptr,
     const typename graphdom::graph<VertexType>::graph_edges_type vertex_container_graph_owner_edges_type) :
@@ -2025,7 +2025,7 @@ graphdom::multiset_graph<VertexType>::ADJ_LIST::ADJ_LIST(
 }
 
 template<typename VertexType>
-graphdom::multiset_graph<VertexType>::ADJ_LIST::ADJ_LIST(
+graphdom::multiset_graph<VertexType>::adj_list::adj_list(
     const graphdom::multiset_graph<VertexType>* const vertex_container_graph_owner_ptr,
     const VertexContainerPointerType vertex_container_ptr,
     const typename graphdom::graph<VertexType>::graph_edges_type vertex_container_graph_owner_edges_type,
@@ -2074,29 +2074,29 @@ graphdom::multiset_graph<VertexType>::ADJ_LIST::ADJ_LIST(
 }
 
 template<typename VertexType>
-graphdom::multiset_graph<VertexType>::EDGE_ITERATOR_NAME::EDGE_ITERATOR_NAME(
-    const typename graphdom::graph<VertexType>::EDGE_ITERATOR_NAME& other) :
+graphdom::multiset_graph<VertexType>::adj_list_iterator::adj_list_iterator(
+    const typename graphdom::graph<VertexType>::adj_list_iterator& other) :
     edge_owner( dynamic_cast< graphdom::multiset_graph<VertexType>* > ( other.edge_owner ) ),
     graph_owner_edges_type( other.graph_owner_edges_type ),
     vertex_container_adj_sets_ptr_array( {nullptr,nullptr} ),
     current_edge_type( other.current_edge_type ) {
     auto& other_multiset_vertex_graph_edge_info = std::get<
-        graphdom::graph<VertexType>::EDGE_ITERATOR_NAME::multiset_vertex_graph_edge_info
+        graphdom::graph<VertexType>::adj_list_iterator::multiset_vertex_graph_edge_info
     >( other.type_dependent_edge_info );
     auto& other_begin_point = std::get<
         VertexContainerPointerType
     >( other_multiset_vertex_graph_edge_info );
     auto& other_inner_itr = std::get<
-        graphdom::graph<VertexType>::EDGE_ITERATOR_NAME::multiset_vertex_graph_inner_edge_iterator_type
+        graphdom::graph<VertexType>::adj_list_iterator::multiset_vertex_graph_inner_edge_iterator_type
     >( other_multiset_vertex_graph_edge_info );
     vertex_container_adj_sets_ptr_array = std::get<
-         graphdom::graph<VertexType>::EDGE_ITERATOR_NAME::multiset_vertex_graph_vertex_container_adj_sets_ptr_array_type
+         graphdom::graph<VertexType>::adj_list_iterator::multiset_vertex_graph_vertex_container_adj_sets_ptr_array_type
     >( other_multiset_vertex_graph_edge_info );
 }
 
 template<typename VertexType>
 typename graphdom::multiset_graph<VertexType>::vertex_handle
-graphdom::multiset_graph<VertexType>::EDGE_ITERATOR_NAME::operator*() const {
+graphdom::multiset_graph<VertexType>::adj_list_iterator::operator*() const {
     auto& real_inner_itr = std::get< real_multiset_vertex_graph_vertex_container_edge_iterator_type >( inner_edge_iterator );
     if ( graph_owner_edges_type == graphdom::graph<VertexType>::graph_edges_type::mixed ) {
         return graphdom::multiset_graph<VertexType>::vertex_handle(
@@ -2130,28 +2130,28 @@ graphdom::multiset_graph<VertexType>::EDGE_ITERATOR_NAME::operator*() const {
 
 template<typename VertexType>
 typename graphdom::multiset_graph<VertexType>::vertex_handle
-graphdom::multiset_graph<VertexType>::EDGE_ITERATOR_NAME::operator->() const {
+graphdom::multiset_graph<VertexType>::adj_list_iterator::operator->() const {
     return *(*this);
 }
 
 template<typename VertexType>
-bool graphdom::multiset_graph<VertexType>::EDGE_ITERATOR_NAME::operator==(
-    const typename graphdom::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME& other) const {
-    return typename graphdom::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME(*this) == other;
+bool graphdom::multiset_graph<VertexType>::adj_list_iterator::operator==(
+    const typename graphdom::graph<VertexType>::adj_list_const_iterator& other) const {
+    return typename graphdom::graph<VertexType>::adj_list_const_iterator(*this) == other;
 }
 
 template<typename VertexType>
-bool graphdom::multiset_graph<VertexType>::EDGE_ITERATOR_NAME::operator!=(
-    const typename graphdom::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME& other) const {
+bool graphdom::multiset_graph<VertexType>::adj_list_iterator::operator!=(
+    const typename graphdom::graph<VertexType>::adj_list_const_iterator& other) const {
     return ! ( (*this) == other );
 }
 
 template<typename VertexType>
-typename graphdom::multiset_graph<VertexType>::EDGE_ITERATOR_NAME&
-graphdom::multiset_graph<VertexType>::EDGE_ITERATOR_NAME::operator=(
-    const typename graphdom::graph<VertexType>::EDGE_ITERATOR_NAME& other) {
+typename graphdom::multiset_graph<VertexType>::adj_list_iterator&
+graphdom::multiset_graph<VertexType>::adj_list_iterator::operator=(
+    const typename graphdom::graph<VertexType>::adj_list_iterator& other) {
     auto& other_multiset_vertex_graph_edge_info = std::get<
-        typename graphdom::graph<VertexType>::EDGE_ITERATOR_NAME::multiset_vertex_graph_edge_info
+        typename graphdom::graph<VertexType>::adj_list_iterator::multiset_vertex_graph_edge_info
     >( other.type_dependent_edge_info );
     edge_owner = dynamic_cast< const graphdom::multiset_graph<VertexType>* > ( other.edge_owner );
     graph_owner_edges_type = other.graph_owner_edges_type;
@@ -2161,19 +2161,19 @@ graphdom::multiset_graph<VertexType>::EDGE_ITERATOR_NAME::operator=(
     >( other_multiset_vertex_graph_edge_info );
     edge_vertex_container_owner = other_begin_point;
     auto& other_inner_itr = std::get<
-        typename graphdom::graph<VertexType>::EDGE_ITERATOR_NAME::multiset_vertex_graph_inner_edge_iterator_type
+        typename graphdom::graph<VertexType>::adj_list_iterator::multiset_vertex_graph_inner_edge_iterator_type
     >( other_multiset_vertex_graph_edge_info );
     inner_edge_iterator = other_inner_itr;
     vertex_container_adj_sets_ptr_array = std::get<
-         typename graphdom::graph<VertexType>::EDGE_ITERATOR_NAME::multiset_vertex_graph_vertex_container_adj_sets_ptr_array_type
+         typename graphdom::graph<VertexType>::adj_list_iterator::multiset_vertex_graph_vertex_container_adj_sets_ptr_array_type
     >( other_multiset_vertex_graph_edge_info );
     return (*this);
 }
 
 
 template<typename VertexType>
-typename graphdom::multiset_graph<VertexType>::EDGE_ITERATOR_NAME&
-graphdom::multiset_graph<VertexType>::EDGE_ITERATOR_NAME::operator++() {
+typename graphdom::multiset_graph<VertexType>::adj_list_iterator&
+graphdom::multiset_graph<VertexType>::adj_list_iterator::operator++() {
     auto& real_inner_itr = std::get< real_multiset_vertex_graph_vertex_container_edge_iterator_type >( inner_edge_iterator );
     if ( current_edge_type == undirected ) {
         if ( std::next( real_inner_itr ) == ( vertex_container_adj_sets_ptr_array[undirected]->end() ) ) {
@@ -2190,20 +2190,20 @@ graphdom::multiset_graph<VertexType>::EDGE_ITERATOR_NAME::operator++() {
 }
 
 template<typename VertexType>
-typename graphdom::multiset_graph<VertexType>::EDGE_ITERATOR_NAME
-graphdom::multiset_graph<VertexType>::EDGE_ITERATOR_NAME::operator++(int) {
+typename graphdom::multiset_graph<VertexType>::adj_list_iterator
+graphdom::multiset_graph<VertexType>::adj_list_iterator::operator++(int) {
     auto this_before_increment = *(this);
     ++(*this);
     return this_before_increment;
 }
 
 template<typename VertexType>
-graphdom::edge_type graphdom::multiset_graph<VertexType>::EDGE_ITERATOR_NAME::edge_type() const {
+graphdom::edge_type graphdom::multiset_graph<VertexType>::adj_list_iterator::edge_type() const {
     return current_edge_type;
 }
 
 template<typename VertexType>
-graphdom::multiset_graph<VertexType>::EDGE_ITERATOR_NAME::EDGE_ITERATOR_NAME(
+graphdom::multiset_graph<VertexType>::adj_list_iterator::adj_list_iterator(
     const graphdom::multiset_graph<VertexType>* const edge_multiset_vertex_graph_owner_ptr,
     const VertexContainerPointerType edge_begin_point_ptr,
     const typename graphdom::graph<VertexType>::graph_edges_type edge_multiset_vertex_graph_owner_edges_type,

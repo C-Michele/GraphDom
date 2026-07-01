@@ -10,7 +10,7 @@
 #include "generic_labeled_vertex_multiset_graph_tests.h"
 #include "generic_labeled_edge_ugraph_tests.h"
 #include "generic_labeled_edge_multiset_ugraph_tests.h"
-#include "graphdom/graph.h"
+#include "graphdom/graphdom.h"
 #include "graphdom/full_labeled_multiset_ugraph.h"
 
 using tested_graph = graphdom::full_labeled_multiset_ugraph<std::size_t,std::string,std::string>;

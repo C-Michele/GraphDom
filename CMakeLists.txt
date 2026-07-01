@@ -3,9 +3,7 @@ project(graphdom)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_library(${PROJECT_NAME} INTERFACE
-        include/graphdom/utility.h
-        include/graphdom/full_labeled_multiset_ugraph.h)
+add_library(${PROJECT_NAME} INTERFACE)
 
 target_include_directories(${PROJECT_NAME}
         INTERFACE

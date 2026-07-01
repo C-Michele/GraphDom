@@ -10,7 +10,7 @@
 
 #include "gtest/gtest.h"
 #include "graphdom_tests_utility.h"
-#include "graphdom/graph.h"
+#include "graphdom/graphdom.h"
 
 #define SET_GRAPH_IS_A_SET_GRAPH_TEST(TEST_SUITE_NAME,CONCRETE_CLASS_NAME,VERTEX_TYPENAME)              \
     TEST(TEST_SUITE_NAME,is_a_set_graph) {                                                              \

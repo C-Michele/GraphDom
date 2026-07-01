@@ -9,7 +9,7 @@
 #include "generic_labeled_vertex_graph_tests.h"
 #include "generic_labeled_vertex_set_graph_tests.h"
 #include "generic_labeled_edge_digraph_tests.h"
-#include "graphdom/graph.h"
+#include "graphdom/graphdom.h"
 #include "graphdom/full_labeled_set_digraph.h"
 
 using tested_graph = graphdom::full_labeled_set_digraph<std::size_t,std::string,std::string>;

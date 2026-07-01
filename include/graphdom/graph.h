@@ -1,12 +1,6 @@
 #ifndef GRAPHDOM_GRAPH_H
 #define GRAPHDOM_GRAPH_H
 
-/* TODO: once you have chosen the appropriate names, remove the following macros */
-#define ADJ_LIST adj_list
-#define CONSTANT_ADJ_LIST const_adj_list
-#define EDGE_ITERATOR_NAME adj_list_iterator
-#define CONSTANT_EDGE_ITERATOR_NAME adj_list_const_iterator
-
 #include <cstdint>
 #include <cstddef>
 #include <memory>
@@ -44,10 +38,10 @@ namespace graphdom {
         public:
             class vertex_handle;
             class vertex_const_handle;
-            class ADJ_LIST;
-            class CONSTANT_ADJ_LIST;
-            class EDGE_ITERATOR_NAME;
-            class CONSTANT_EDGE_ITERATOR_NAME;
+            class adj_list;
+            class const_adj_list;
+            class adj_list_iterator;
+            class adj_list_const_iterator;
 
             /// To be polymorphic, this class has a virtual destructor.
             virtual ~graph() = default;
@@ -66,7 +60,7 @@ namespace graphdom {
              * @p vertex must be valid and must identify a vertex belonging to `*this`, otherwise the erasion will cause undefined behavior.
              */
             virtual void erase_vertex(const vertex_const_handle& vertex) = 0;
-            [[nodiscard]] virtual EDGE_ITERATOR_NAME erase_edge(const CONSTANT_EDGE_ITERATOR_NAME&) = 0;
+            [[nodiscard]] virtual adj_list_iterator erase_edge(const adj_list_const_iterator&) = 0;
 
         /// \cond DEV_DOC
         protected:
@@ -83,73 +77,13 @@ namespace graphdom {
                     VertexType vertex;
             };
             template<typename VertexContainerPointerType>
-            class edge_endpoint {
-                public:
-                    edge_endpoint() = delete;
-                    edge_endpoint(const edge_endpoint&) = delete;
-                    edge_endpoint(edge_endpoint&&) = delete;
-                    explicit edge_endpoint(const VertexContainerPointerType ptr) : vertex_container_ptr(ptr){}
-
-                    ~edge_endpoint() = default;
-
-                    VertexContainerPointerType vertex_container_ptr;
-            };
+            class edge_endpoint;
             template <typename VertexContainerPointerType, typename EdgeLabelType>
-            class labeled_directed_edge_endpoint final : public edge_endpoint<VertexContainerPointerType> {
-                public:
-                    labeled_directed_edge_endpoint() = delete;
-                    labeled_directed_edge_endpoint(const labeled_directed_edge_endpoint&) = delete;
-                    labeled_directed_edge_endpoint(labeled_directed_edge_endpoint&&) = delete;
-                    labeled_directed_edge_endpoint(const VertexContainerPointerType ptr, const EdgeLabelType& edge) :
-                        edge_endpoint<VertexContainerPointerType>(ptr),
-                        edge_label(edge) {}
-                    labeled_directed_edge_endpoint(const VertexContainerPointerType ptr, EdgeLabelType&& edge) :
-                        edge_endpoint<VertexContainerPointerType>(ptr),
-                        edge_label(std::move(edge)) {}
-
-                    ~labeled_directed_edge_endpoint() = default;
-
-                    mutable EdgeLabelType edge_label;
-            };
+            class labeled_directed_edge_endpoint;
             template <typename VertexContainerPointerType, typename EdgeLabelType>
-            class labeled_undirected_edge_endpoint final : public edge_endpoint<VertexContainerPointerType> {
-                public:
-                    labeled_undirected_edge_endpoint() = delete;
-                    labeled_undirected_edge_endpoint(const labeled_undirected_edge_endpoint&) = delete;
-                    labeled_undirected_edge_endpoint(labeled_undirected_edge_endpoint&&) = delete;
-                    labeled_undirected_edge_endpoint(const VertexContainerPointerType ptr, const EdgeLabelType& edge) :
-                        edge_endpoint<VertexContainerPointerType>(ptr),
-                        edge_label_ptr(std::make_shared<EdgeLabelType>(edge)) {}
-                    labeled_undirected_edge_endpoint(const VertexContainerPointerType ptr, EdgeLabelType&& edge) :
-                        edge_endpoint<VertexContainerPointerType>(ptr),
-                        edge_label_ptr(std::make_shared<EdgeLabelType>(std::move(edge))) {}
-                    labeled_undirected_edge_endpoint(const VertexContainerPointerType ptr, const std::shared_ptr<EdgeLabelType>& existent_edge_label_ptr) :
-                        edge_endpoint<VertexContainerPointerType>(ptr),
-                        edge_label_ptr(existent_edge_label_ptr) {}
-
-                    ~labeled_undirected_edge_endpoint() = default;
-
-                    mutable std::shared_ptr<EdgeLabelType> edge_label_ptr;
-            };
+            class labeled_undirected_edge_endpoint;
             template<typename VertexContainerPointerType>
-            class custom_edge_endpoint_less {
-                public:
-                    bool constexpr operator()(const edge_endpoint<VertexContainerPointerType>* const left, const edge_endpoint<VertexContainerPointerType>* const right) const {
-                        return less_functor( left->vertex_container_ptr , right->vertex_container_ptr );
-                    }
-
-                    using is_transparent = void;
-
-                    bool constexpr operator()(const edge_endpoint<VertexContainerPointerType>* const left, const vertex_container* const right) const {
-                        return less_functor( left->vertex_container_ptr , right );
-                    }
-
-                    bool constexpr operator()(const vertex_container* const left, const edge_endpoint<VertexContainerPointerType>* const right) const {
-                        return less_functor( left , right->vertex_container_ptr );
-                    }
-
-                    static constexpr std::less<const vertex_container*> less_functor = std::less<const vertex_container*>();
-            };
+            class custom_edge_endpoint_less;
             template<typename VertexContainerPointerType>
             using adj_set = std::set< edge_endpoint<VertexContainerPointerType>* , custom_edge_endpoint_less<VertexContainerPointerType> >;
             enum graph_edges_type : std::uint8_t {
@@ -162,18 +96,7 @@ namespace graphdom {
                 end
             };
             template<typename VertexContainerPointerType>
-            class non_mixed_graph_vertex_container : public vertex_container {
-                public:
-                    non_mixed_graph_vertex_container() = delete;
-                    non_mixed_graph_vertex_container(const non_mixed_graph_vertex_container&) = delete;
-                    non_mixed_graph_vertex_container(non_mixed_graph_vertex_container&&) = delete;
-                    explicit non_mixed_graph_vertex_container(const VertexType& v) : vertex_container(v) {}
-                    explicit non_mixed_graph_vertex_container(VertexType&& v) : vertex_container(std::move(v)) {}
-
-                    ~non_mixed_graph_vertex_container() = default;
-
-                    mutable adj_set<VertexContainerPointerType> adj;
-            };
+            class non_mixed_graph_vertex_container;
             template<typename VertexContainerPointerType>
             class mixed_graph_vertex_container : public vertex_container {
                 public:
@@ -189,51 +112,9 @@ namespace graphdom {
                     mutable adj_set<VertexContainerPointerType> undirected_adj;
             };
             template<typename VertexContainerPointerType, typename VertexLabelType>
-            class non_mixed_graph_labeled_vertex_container final : public non_mixed_graph_vertex_container<VertexContainerPointerType> {
-                public:
-                    non_mixed_graph_labeled_vertex_container() = delete;
-                    non_mixed_graph_labeled_vertex_container(const non_mixed_graph_labeled_vertex_container&) = delete;
-                    non_mixed_graph_labeled_vertex_container(non_mixed_graph_labeled_vertex_container&&) = delete;
-                    non_mixed_graph_labeled_vertex_container(const VertexType& v, const VertexLabelType& vl) :
-                        non_mixed_graph_vertex_container<VertexContainerPointerType>(v),
-                        vertex_label(vl) {}
-                    non_mixed_graph_labeled_vertex_container(const VertexType& v, VertexLabelType&& vl) :
-                        non_mixed_graph_vertex_container<VertexContainerPointerType>(v),
-                        vertex_label(std::move(vl)) {}
-                    non_mixed_graph_labeled_vertex_container(VertexType&& v, const VertexLabelType& vl) :
-                        non_mixed_graph_vertex_container<VertexContainerPointerType>(std::move(v)),
-                        vertex_label(vl) {}
-                    non_mixed_graph_labeled_vertex_container(VertexType&& v, VertexLabelType&& vl) :
-                        non_mixed_graph_vertex_container<VertexContainerPointerType>(std::move(v)),
-                        vertex_label(std::move(vl)) {}
-
-                    ~non_mixed_graph_labeled_vertex_container() = default;
-
-                    mutable VertexLabelType vertex_label;
-            };
+            class non_mixed_graph_labeled_vertex_container;
             template<typename VertexContainerPointerType, typename VertexLabelType>
-            class mixed_graph_labeled_vertex_container final : public mixed_graph_vertex_container<VertexContainerPointerType> {
-                public:
-                    mixed_graph_labeled_vertex_container() = delete;
-                    mixed_graph_labeled_vertex_container(const mixed_graph_labeled_vertex_container&) = delete;
-                    mixed_graph_labeled_vertex_container(mixed_graph_labeled_vertex_container&&) = delete;
-                    mixed_graph_labeled_vertex_container(const VertexType& v, const VertexLabelType& vl) :
-                        mixed_graph_vertex_container<VertexContainerPointerType>(v),
-                        vertex_label(vl) {}
-                    mixed_graph_labeled_vertex_container(const VertexType& v, VertexLabelType&& vl) :
-                        mixed_graph_vertex_container<VertexContainerPointerType>(v),
-                        vertex_label(std::move(vl)) {}
-                    mixed_graph_labeled_vertex_container(VertexType&& v, const VertexLabelType& vl) :
-                        mixed_graph_vertex_container<VertexContainerPointerType>(std::move(v)),
-                        vertex_label(vl) {}
-                    mixed_graph_labeled_vertex_container(VertexType&& v, VertexLabelType&& vl) :
-                        mixed_graph_vertex_container<VertexContainerPointerType>(std::move(v)),
-                        vertex_label(std::move(vl)) {}
-
-                    ~mixed_graph_labeled_vertex_container() = default;
-
-                    mutable VertexLabelType vertex_label;
-            };
+            class mixed_graph_labeled_vertex_container;
 
             static vertex_handle vertex_ptr_factory(
                 const graphdom::graph<VertexType>*,
@@ -261,14 +142,22 @@ namespace graphdom {
 
             static const vertex_container* get_vertex_container(const graphdom::graph<VertexType>::vertex_const_handle&);
 
-            static const graphdom::graph<VertexType>* get_owner_graph(const graphdom::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME&);
+            static const graphdom::graph<VertexType>* get_owner_graph(const graphdom::graph<VertexType>::adj_list_const_iterator&);
 
-            static const graphdom::graph<VertexType>::vertex_container* get_begin_point(const graphdom::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME&);
+            static const graphdom::graph<VertexType>::vertex_container* get_begin_point(const graphdom::graph<VertexType>::adj_list_const_iterator&);
 
-            static bool is_limited_by_edge_type(const graphdom::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME&);
+            static bool is_limited_by_edge_type(const graphdom::graph<VertexType>::adj_list_const_iterator&);
         /// \endcond DEV_DOC
     };
 }
+
+#include "detail/edge_endpoint.h"
+#include "detail/labeled_directed_edge_endpoint.h"
+#include "detail/labeled_undirected_edge_endpoint.h"
+#include "detail/custom_edge_endpoint_less.h"
+#include "detail/non_mixed_graph_vertex_container.h"
+#include "detail/non_mixed_graph_labeled_vertex_container.h"
+#include "detail/mixed_graph_labeled_vertex_container.h"
 
 namespace graphdom {
     /// Every [set graph](@ref mathematical_set_graph_definition) created using this library is an instance of a concrete class publicly derived, directly or indirectly, from this polymorphic template class.
@@ -314,16 +203,16 @@ namespace graphdom {
             template <typename EdgeLabelType>
             using mixed_graph_labeled_vertex_container = typename graphdom::graph<VertexType>::template mixed_graph_labeled_vertex_container<VertexContainerPointerType,EdgeLabelType>;
 
-            static typename adj_set::const_iterator get_inner_iterator(const typename graphdom::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME&);
+            static typename adj_set::const_iterator get_inner_iterator(const typename graphdom::graph<VertexType>::adj_list_const_iterator&);
 
-            static typename graphdom::graph<VertexType>::EDGE_ITERATOR_NAME edge_iterator_factory(
+            static typename graphdom::graph<VertexType>::adj_list_iterator edge_iterator_factory(
                 const graphdom::set_graph<VertexType>* edge_set_vertex_graph_owner_ptr,
                 const non_mixed_graph_vertex_container* edge_begin_point_ptr,
                 graphdom::edge_type edge_set_vertex_graph_owner_edges_type,
                 typename adj_set::iterator inner_itr
             );
 
-            static typename graphdom::graph<VertexType>::EDGE_ITERATOR_NAME edge_iterator_factory(
+            static typename graphdom::graph<VertexType>::adj_list_iterator edge_iterator_factory(
                 const graphdom::set_graph<VertexType>* edge_set_vertex_graph_owner_ptr,
                 const mixed_graph_vertex_container* edge_begin_point_ptr,
                 typename adj_set::iterator inner_itr,
@@ -343,8 +232,8 @@ namespace graphdom {
     class multiset_graph : virtual public graph<VertexType>  {
         public:
             class vertex_handle;
-            class ADJ_LIST;
-            class EDGE_ITERATOR_NAME;
+            class adj_list;
+            class adj_list_iterator;
 
             /// To be polymorphic, this class has a virtual destructor.
             ~multiset_graph() override = default;
@@ -406,16 +295,16 @@ namespace graphdom {
 
             static VertexContainerPointerType get_vertex_container(const graphdom::multiset_graph<VertexType>::vertex_handle&);
 
-            static typename adj_set::const_iterator get_inner_iterator(const typename graphdom::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME&);
+            static typename adj_set::const_iterator get_inner_iterator(const typename graphdom::graph<VertexType>::adj_list_const_iterator&);
 
-            static typename graphdom::graph<VertexType>::EDGE_ITERATOR_NAME edge_iterator_factory(
+            static typename graphdom::graph<VertexType>::adj_list_iterator edge_iterator_factory(
                 const graphdom::multiset_graph<VertexType>* edge_multiset_vertex_graph_owner_ptr,
                 non_mixed_graph_vertex_container* edge_begin_point_ptr,
                 graphdom::edge_type edge_multiset_vertex_graph_owner_edges_type,
                 typename adj_set::iterator inner_itr
             );
 
-            static typename graphdom::graph<VertexType>::EDGE_ITERATOR_NAME edge_iterator_factory(
+            static typename graphdom::graph<VertexType>::adj_list_iterator edge_iterator_factory(
                 const graphdom::set_graph<VertexType>* edge_multiset_vertex_graph_owner_ptr,
                 mixed_graph_vertex_container* edge_begin_point_ptr,
                 typename adj_set::iterator inner_itr,
@@ -473,44 +362,44 @@ const typename graphdom::graph<VertexType>::vertex_container* graphdom::graph<Ve
 
 template<typename VertexType>
 const graphdom::graph<VertexType>* graphdom::graph<VertexType>::get_owner_graph(
-    const graphdom::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME& const_edge_itr) {
+    const graphdom::graph<VertexType>::adj_list_const_iterator& const_edge_itr) {
     return const_edge_itr.edge_graph_owner;
 }
 
 template<typename VertexType>
 const typename graphdom::graph<VertexType>::vertex_container* graphdom::graph<VertexType>::get_begin_point(
-    const graphdom::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME& const_edge_itr) {
+    const graphdom::graph<VertexType>::adj_list_const_iterator& const_edge_itr) {
     return const_edge_itr.edge_vertex_container_owner;
 }
 
 template<typename VertexType>
 bool graphdom::graph<VertexType>::is_limited_by_edge_type(
-    const graphdom::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME& const_edge_itr) {
+    const graphdom::graph<VertexType>::adj_list_const_iterator& const_edge_itr) {
     return const_edge_itr.is_limited_by_edge_type();
 }
 
 template<typename VertexType>
 typename graphdom::set_graph<VertexType>::adj_set::const_iterator
 graphdom::set_graph<VertexType>::get_inner_iterator(
-const typename graphdom::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME& const_edge_itr) {
+const typename graphdom::graph<VertexType>::adj_list_const_iterator& const_edge_itr) {
     const auto& set_vertex_graph_edge_info_pair =
-        std::get<typename graphdom::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME::set_vertex_graph_edge_info>( const_edge_itr.type_dependent_edge_info );
+        std::get<typename graphdom::graph<VertexType>::adj_list_const_iterator::set_vertex_graph_edge_info>( const_edge_itr.type_dependent_edge_info );
     const auto& inner_itr = set_vertex_graph_edge_info_pair.first;
     return std::get<
-        typename graphdom::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME::real_set_vertex_graph_vertex_container_edge_iterator_type
+        typename graphdom::graph<VertexType>::adj_list_const_iterator::real_set_vertex_graph_vertex_container_edge_iterator_type
     >(
         inner_itr
     );
 }
 
 template<typename VertexType>
-typename graphdom::graph<VertexType>::EDGE_ITERATOR_NAME
+typename graphdom::graph<VertexType>::adj_list_iterator
 graphdom::set_graph<VertexType>::edge_iterator_factory(
     const graphdom::set_graph<VertexType>* const edge_set_vertex_graph_owner_ptr,
     const non_mixed_graph_vertex_container* const edge_begin_point_ptr,
     const graphdom::edge_type edge_set_vertex_graph_owner_edges_type,
     const typename adj_set::iterator inner_itr) {
-    return typename graphdom::graph<VertexType>::EDGE_ITERATOR_NAME(
+    return typename graphdom::graph<VertexType>::adj_list_iterator(
         edge_set_vertex_graph_owner_ptr,
         edge_begin_point_ptr,
         edge_set_vertex_graph_owner_edges_type,
@@ -519,14 +408,14 @@ graphdom::set_graph<VertexType>::edge_iterator_factory(
 }
 
 template<typename VertexType>
-typename graphdom::graph<VertexType>::EDGE_ITERATOR_NAME
+typename graphdom::graph<VertexType>::adj_list_iterator
 graphdom::set_graph<VertexType>::edge_iterator_factory(
     const graphdom::set_graph<VertexType>* const edge_set_vertex_graph_owner_ptr,
     const mixed_graph_vertex_container* const edge_begin_point_ptr,
     const typename adj_set::iterator inner_itr,
     const graphdom::edge_type inner_itr_edge_type,
     const bool inner_itr_is_limited_by_edge_type) {
-    return graphdom::graph<VertexType>::EDGE_ITERATOR_NAME(
+    return graphdom::graph<VertexType>::adj_list_iterator(
         edge_set_vertex_graph_owner_ptr,
         edge_begin_point_ptr,
         inner_itr,
@@ -575,25 +464,25 @@ graphdom::multiset_graph<VertexType>::get_vertex_container(
 template<typename VertexType>
 typename graphdom::multiset_graph<VertexType>::adj_set::const_iterator
 graphdom::multiset_graph<VertexType>::get_inner_iterator(
-const typename graphdom::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME& const_edge_itr) {
+const typename graphdom::graph<VertexType>::adj_list_const_iterator& const_edge_itr) {
     const auto& multiset_vertex_graph_edge_info_pair =
-        std::get<typename graphdom::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME::multiset_vertex_graph_edge_info>( const_edge_itr.type_dependent_edge_info );
+        std::get<typename graphdom::graph<VertexType>::adj_list_const_iterator::multiset_vertex_graph_edge_info>( const_edge_itr.type_dependent_edge_info );
     const auto& inner_itr = multiset_vertex_graph_edge_info_pair.first;
     return std::get<
-        typename graphdom::graph<VertexType>::CONSTANT_EDGE_ITERATOR_NAME::real_multiset_vertex_graph_vertex_container_edge_iterator_type
+        typename graphdom::graph<VertexType>::adj_list_const_iterator::real_multiset_vertex_graph_vertex_container_edge_iterator_type
     >(
         inner_itr
     );
 }
 
 template<typename VertexType>
-typename graphdom::graph<VertexType>::EDGE_ITERATOR_NAME
+typename graphdom::graph<VertexType>::adj_list_iterator
 graphdom::multiset_graph<VertexType>::edge_iterator_factory(
     const graphdom::multiset_graph<VertexType>* const edge_multiset_vertex_graph_owner_ptr,
     non_mixed_graph_vertex_container* const edge_begin_point_ptr,
     const graphdom::edge_type edge_multiset_vertex_graph_owner_edges_type,
     const typename adj_set::iterator inner_itr) {
-    return typename graphdom::graph<VertexType>::EDGE_ITERATOR_NAME(
+    return typename graphdom::graph<VertexType>::adj_list_iterator(
         edge_multiset_vertex_graph_owner_ptr,
         edge_begin_point_ptr,
         edge_multiset_vertex_graph_owner_edges_type,
