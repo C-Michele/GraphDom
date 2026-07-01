@@ -1,0 +1,12 @@
+#ifndef GRAPHDOM_VERTEX_CONTAINER_IMPL_H
+#define GRAPHDOM_VERTEX_CONTAINER_IMPL_H
+
+#include "../vertex_container.h"
+
+template<typename VertexType>
+graphdom::graph<VertexType>::vertex_container::vertex_container(const VertexType& v) : vertex(v) {}
+
+template<typename VertexType>
+graphdom::graph<VertexType>::vertex_container::vertex_container(VertexType&& v) : vertex( std::move(v) ) {}
+
+#endif //GRAPHDOM_VERTEX_CONTAINER_IMPL_H

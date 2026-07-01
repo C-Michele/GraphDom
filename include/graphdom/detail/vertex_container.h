@@ -10,13 +10,15 @@ namespace graphdom {
             vertex_container() = delete;
             vertex_container(const vertex_container&) = delete;
             vertex_container(vertex_container&&) = delete;
-            explicit vertex_container(const VertexType& v) : vertex(v) {}
-            explicit vertex_container(VertexType&& v) : vertex(std::move(v)) {}
+            explicit vertex_container(const VertexType& v);
+            explicit vertex_container(VertexType&& v);
 
             ~vertex_container() = default;
 
             VertexType vertex;
     };
 }
+
+#include "impl/vertex_container.h"
 
 #endif //GRAPHDOM_VERTEX_CONTAINER_H
