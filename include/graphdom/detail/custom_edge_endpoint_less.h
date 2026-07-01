@@ -2,6 +2,7 @@
 #define GRAPHDOM_CUSTOM_EDGE_ENDPOINT_LESS_H
 
 #include "../graph.h"
+#include "edge_endpoint.h"
 
 namespace graphdom {
     template <typename VertexType>

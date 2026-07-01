@@ -64,18 +64,7 @@ namespace graphdom {
 
         /// \cond DEV_DOC
         protected:
-            class vertex_container {
-                public:
-                    vertex_container() = delete;
-                    vertex_container(const vertex_container&) = delete;
-                    vertex_container(vertex_container&&) = delete;
-                    explicit vertex_container(const VertexType& v) : vertex(v) {}
-                    explicit vertex_container(VertexType&& v) : vertex(std::move(v)) {}
-
-                    ~vertex_container() = default;
-
-                    VertexType vertex;
-            };
+            class vertex_container;
             template<typename VertexContainerPointerType>
             class edge_endpoint;
             template <typename VertexContainerPointerType, typename EdgeLabelType>
@@ -139,6 +128,7 @@ namespace graphdom {
     };
 }
 
+#include "detail/vertex_container.h"
 #include "detail/edge_endpoint.h"
 #include "detail/labeled_directed_edge_endpoint.h"
 #include "detail/labeled_undirected_edge_endpoint.h"
