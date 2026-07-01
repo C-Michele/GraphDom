@@ -2,6 +2,7 @@
 #define GRAPHDOM_MIXED_GRAPH_LABELED_VERTEX_CONTAINER_H
 
 #include "../graph.h"
+#include "mixed_graph_vertex_container.h"
 
 namespace graphdom {
     template <typename VertexType>

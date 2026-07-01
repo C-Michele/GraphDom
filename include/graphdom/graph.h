@@ -98,19 +98,7 @@ namespace graphdom {
             template<typename VertexContainerPointerType>
             class non_mixed_graph_vertex_container;
             template<typename VertexContainerPointerType>
-            class mixed_graph_vertex_container : public vertex_container {
-                public:
-                    mixed_graph_vertex_container() = delete;
-                    mixed_graph_vertex_container(const mixed_graph_vertex_container&) = delete;
-                    mixed_graph_vertex_container(mixed_graph_vertex_container&&) = delete;
-                    explicit mixed_graph_vertex_container(const VertexType& v) : vertex_container(v) {}
-                    explicit mixed_graph_vertex_container(VertexType&& v) : vertex_container(std::move(v)) {}
-
-                    ~mixed_graph_vertex_container() = default;
-
-                    mutable adj_set<VertexContainerPointerType> directed_adj;
-                    mutable adj_set<VertexContainerPointerType> undirected_adj;
-            };
+            class mixed_graph_vertex_container;
             template<typename VertexContainerPointerType, typename VertexLabelType>
             class non_mixed_graph_labeled_vertex_container;
             template<typename VertexContainerPointerType, typename VertexLabelType>
@@ -156,6 +144,7 @@ namespace graphdom {
 #include "detail/labeled_undirected_edge_endpoint.h"
 #include "detail/custom_edge_endpoint_less.h"
 #include "detail/non_mixed_graph_vertex_container.h"
+#include "detail/mixed_graph_vertex_container.h"
 #include "detail/non_mixed_graph_labeled_vertex_container.h"
 #include "detail/mixed_graph_labeled_vertex_container.h"
 
