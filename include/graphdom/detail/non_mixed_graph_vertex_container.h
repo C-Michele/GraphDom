@@ -12,13 +12,15 @@ namespace graphdom {
             non_mixed_graph_vertex_container() = delete;
             non_mixed_graph_vertex_container(const non_mixed_graph_vertex_container&) = delete;
             non_mixed_graph_vertex_container(non_mixed_graph_vertex_container&&) = delete;
-            explicit non_mixed_graph_vertex_container(const VertexType& v) : vertex_container(v) {}
-            explicit non_mixed_graph_vertex_container(VertexType&& v) : vertex_container(std::move(v)) {}
+            explicit non_mixed_graph_vertex_container(const VertexType& v);
+            explicit non_mixed_graph_vertex_container(VertexType&& v);
 
             ~non_mixed_graph_vertex_container() = default;
 
             mutable adj_set<VertexContainerPointerType> adj;
     };
 }
+
+#include "impl/non_mixed_graph_vertex_container.h"
 
 #endif //GRAPHDOM_NON_MIXED_GRAPH_VERTEX_CONTAINER_H
