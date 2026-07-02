@@ -1,5 +1,5 @@
-#ifndef GRAPHDOM_LABELED_DIRECT_EDGE_ENDPOINT_H
-#define GRAPHDOM_LABELED_DIRECT_EDGE_ENDPOINT_H
+#ifndef GRAPHDOM_LABELED_DIRECTED_EDGE_ENDPOINT_H
+#define GRAPHDOM_LABELED_DIRECTED_EDGE_ENDPOINT_H
 
 #include "../graph.h"
 #include "edge_endpoint.h"
@@ -12,12 +12,8 @@ namespace graphdom {
             labeled_directed_edge_endpoint() = delete;
             labeled_directed_edge_endpoint(const labeled_directed_edge_endpoint&) = delete;
             labeled_directed_edge_endpoint(labeled_directed_edge_endpoint&&) = delete;
-            labeled_directed_edge_endpoint(const VertexContainerPointerType ptr, const EdgeLabelType& edge) :
-                edge_endpoint<VertexContainerPointerType>(ptr),
-                edge_label(edge) {}
-            labeled_directed_edge_endpoint(const VertexContainerPointerType ptr, EdgeLabelType&& edge) :
-                edge_endpoint<VertexContainerPointerType>(ptr),
-                edge_label(std::move(edge)) {}
+            labeled_directed_edge_endpoint(VertexContainerPointerType ptr, const EdgeLabelType& edge);
+            labeled_directed_edge_endpoint(VertexContainerPointerType ptr, EdgeLabelType&& edge);
 
             ~labeled_directed_edge_endpoint() = default;
 
@@ -25,4 +21,6 @@ namespace graphdom {
     };
 }
 
-#endif //GRAPHDOM_LABELED_DIRECT_EDGE_ENDPOINT_H
+#include "impl/labeled_directed_edge_endpoint.h"
+
+#endif //GRAPHDOM_LABELED_DIRECTED_EDGE_ENDPOINT_H
