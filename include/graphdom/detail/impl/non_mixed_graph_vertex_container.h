@@ -2,7 +2,7 @@
 #define GRAPHDOM_NON_MIXED_GRAPH_VERTEX_CONTAINER_IMPL_H
 
 #include "../../graph.h"
-#include "vertex_container.h"
+#include "../vertex_container.h"
 
 template <typename VertexType>
 template <typename VertexContainerPointerType>

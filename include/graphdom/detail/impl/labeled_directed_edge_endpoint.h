@@ -2,7 +2,7 @@
 #define GRAPHDOM_LABELED_DIRECTED_EDGE_ENDPOINT_IMPL_H
 
 #include "../../graph.h"
-#include "edge_endpoint.h"
+#include "../edge_endpoint.h"
 #include "../labeled_directed_edge_endpoint.h"
 
 template <typename VertexType>
