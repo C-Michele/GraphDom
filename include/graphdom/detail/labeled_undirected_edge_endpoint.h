@@ -12,20 +12,16 @@ namespace graphdom {
             labeled_undirected_edge_endpoint() = delete;
             labeled_undirected_edge_endpoint(const labeled_undirected_edge_endpoint&) = delete;
             labeled_undirected_edge_endpoint(labeled_undirected_edge_endpoint&&) = delete;
-            labeled_undirected_edge_endpoint(const VertexContainerPointerType ptr, const EdgeLabelType& edge) :
-                edge_endpoint<VertexContainerPointerType>(ptr),
-                edge_label_ptr(std::make_shared<EdgeLabelType>(edge)) {}
-            labeled_undirected_edge_endpoint(const VertexContainerPointerType ptr, EdgeLabelType&& edge) :
-                edge_endpoint<VertexContainerPointerType>(ptr),
-                edge_label_ptr(std::make_shared<EdgeLabelType>(std::move(edge))) {}
-            labeled_undirected_edge_endpoint(const VertexContainerPointerType ptr, const std::shared_ptr<EdgeLabelType>& existent_edge_label_ptr) :
-                edge_endpoint<VertexContainerPointerType>(ptr),
-                edge_label_ptr(existent_edge_label_ptr) {}
+            labeled_undirected_edge_endpoint(VertexContainerPointerType ptr, const EdgeLabelType& edge);
+            labeled_undirected_edge_endpoint(VertexContainerPointerType ptr, EdgeLabelType&& edge);
+            labeled_undirected_edge_endpoint(VertexContainerPointerType ptr, const std::shared_ptr<EdgeLabelType>& existent_edge_label_ptr);
 
             ~labeled_undirected_edge_endpoint() = default;
 
             mutable std::shared_ptr<EdgeLabelType> edge_label_ptr;
     };
 }
+
+#include "impl/labeled_undirected_edge_endpoint.h"
 
 #endif //GRAPHDOM_LABELED_UNDIRECTED_EDGE_ENDPOINT_H
