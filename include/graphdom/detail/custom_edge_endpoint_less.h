@@ -2,29 +2,40 @@
 #define GRAPHDOM_CUSTOM_EDGE_ENDPOINT_LESS_H
 
 #include "../graph.h"
+#include "vertex_container.h"
 #include "edge_endpoint.h"
 
 namespace graphdom {
     template <typename VertexType>
     template <typename VertexContainerPointerType>
-    class graph<VertexType>::custom_edge_endpoint_less {
+    class graph<VertexType>::custom_edge_endpoint_less final {
         public:
-            bool constexpr operator()(const edge_endpoint<VertexContainerPointerType>* const left, const edge_endpoint<VertexContainerPointerType>* const right) const {
-                return less_functor( left->vertex_container_ptr , right->vertex_container_ptr );
-            }
+            static_assert(
+                std::is_same< VertexContainerPointerType , graphdom::graph<VertexType>::vertex_container* >::value ||
+                std::is_same< VertexContainerPointerType , const graphdom::graph<VertexType>::vertex_container* >::value
+                ,
+                "The typename 'VertexContainerPointerType' of 'graphdom::graph<VertexType>::custom_edge_endpoint_less<VertexContainerPointerType>' class must be a pointer to graphdom::graph<VertexType>::vertex_container"
+            );
+
+            bool constexpr operator()(
+                const edge_endpoint<VertexContainerPointerType>* left,
+                const edge_endpoint<VertexContainerPointerType>* right) const;
 
             using is_transparent = void;
 
-            bool constexpr operator()(const edge_endpoint<VertexContainerPointerType>* const left, const vertex_container* const right) const {
-                return less_functor( left->vertex_container_ptr , right );
-            }
+            bool constexpr operator()(
+                const edge_endpoint<VertexContainerPointerType>* left,
+                const vertex_container* right) const;
 
-            bool constexpr operator()(const vertex_container* const left, const edge_endpoint<VertexContainerPointerType>* const right) const {
-                return less_functor( left , right->vertex_container_ptr );
-            }
+            bool constexpr operator()(
+                const vertex_container* left,
+                const edge_endpoint<VertexContainerPointerType>* right) const;
 
+        private:
             static constexpr std::less<const vertex_container*> less_functor = std::less<const vertex_container*>();
     };
 }
+
+#include "impl/custom_edge_endpoint_less.h"
 
 #endif //GRAPHDOM_CUSTOM_EDGE_ENDPOINT_LESS_H
