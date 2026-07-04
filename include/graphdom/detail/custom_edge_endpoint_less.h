@@ -1,6 +1,8 @@
 #ifndef GRAPHDOM_CUSTOM_EDGE_ENDPOINT_LESS_H
 #define GRAPHDOM_CUSTOM_EDGE_ENDPOINT_LESS_H
 
+#include <type_traits>
+
 #include "../graph.h"
 #include "vertex_container.h"
 #include "edge_endpoint.h"
