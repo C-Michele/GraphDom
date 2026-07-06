@@ -17,8 +17,8 @@ namespace graphdom {
 
             ~mixed_graph_vertex_container() = default;
 
-            mutable adj_set<VertexContainerPointerType> directed_adj;
             mutable adj_set<VertexContainerPointerType> undirected_adj;
+            mutable adj_set<VertexContainerPointerType> directed_adj;
     };
 }
 
