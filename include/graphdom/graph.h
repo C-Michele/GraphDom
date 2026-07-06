@@ -64,6 +64,11 @@ namespace graphdom {
 
         /// \cond DEV_DOC
         protected:
+            template <typename VertexContainerPointerType>
+            class vertex_base_handle;
+            template <typename VertexContainerPointerType, typename EdgesEndpointsContainerType>
+            class adj_list_base_iterator;
+
             class vertex_container;
             template<typename VertexContainerPointerType>
             class edge_endpoint;
@@ -137,6 +142,9 @@ namespace graphdom {
 #include "detail/mixed_graph_vertex_container.h"
 #include "detail/non_mixed_graph_labeled_vertex_container.h"
 #include "detail/mixed_graph_labeled_vertex_container.h"
+
+#include "detail/vertex_base_handle.h"
+#include "detail/adj_list_base_iterator.h"
 
 namespace graphdom {
     /// Every [set graph](@ref mathematical_set_graph_definition) created using this library is an instance of a concrete class publicly derived, directly or indirectly, from this polymorphic template class.
