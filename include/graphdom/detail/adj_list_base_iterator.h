@@ -12,8 +12,8 @@ namespace graphdom {
     class graph<VertexType>::adj_list_base_iterator {
         public:
             static_assert(
-                std::is_same< VertexContainerPointerType , graphdom::graph<VertexType>::vertex_container* >::value ||
-                std::is_same< VertexContainerPointerType , const graphdom::graph<VertexType>::vertex_container* >::value
+                std::is_same< VertexContainerPointerType , graph<VertexType>::vertex_container* >::value ||
+                std::is_same< VertexContainerPointerType , const graph<VertexType>::vertex_container* >::value
                 ,
                 "The typename 'VertexContainerPointerType' of 'graphdom::graph<VertexType>::adj_list_base_iterator<VertexContainerPointerType,EdgesEndpointsContainerType>' class must be a pointer to graphdom::graph<VertexType>::vertex_container"
             );
@@ -47,14 +47,14 @@ namespace graphdom {
                 graph<VertexType>::graph_edges_type iterator_owner_graph_edges_type,
                 EdgesEndpointsContainerType* edge_begin_point_undirected_adj,
                 EdgesEndpointsContainerType* edge_begin_point_directed_adj,
-                graphdom::edge_type inner_iterator_edge_current_type
+                edge_type inner_iterator_edge_current_type
             );
             adj_list_base_iterator(
                 const graph<VertexType>* iterator_owner_pointer,
                 graph<VertexType>::graph_edges_type iterator_owner_graph_edges_type,
                 EdgesEndpointsContainerType* edge_begin_point_undirected_adj,
                 EdgesEndpointsContainerType* edge_begin_point_directed_adj,
-                graphdom::edge_type inner_iterator_edge_current_type,
+                edge_type inner_iterator_edge_current_type,
                 const typename EdgesEndpointsContainerType::iterator& inner_iterator
             );
 
@@ -62,7 +62,7 @@ namespace graphdom {
             graph<VertexType>::graph_edges_type iterator_owner_graph_edges_type;
             EdgesEndpointsContainerType* edge_begin_point_undirected_adj;
             EdgesEndpointsContainerType* edge_begin_point_directed_adj;
-            graphdom::edge_type inner_iterator_edge_current_type;
+            edge_type inner_iterator_edge_current_type;
             iterator_type inner_iterator;
     };
 }

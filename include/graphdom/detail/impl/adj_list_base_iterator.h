@@ -24,7 +24,7 @@ adj_list_base_iterator(
     const graph<VertexType>::graph_edges_type iterator_owner_graph_edges_type,
     EdgesEndpointsContainerType* const edge_begin_point_undirected_adj,
     EdgesEndpointsContainerType* const edge_begin_point_directed_adj,
-    const graphdom::edge_type inner_iterator_edge_current_type) :
+    const edge_type inner_iterator_edge_current_type) :
     iterator_owner_graph(iterator_owner_pointer),
     iterator_owner_graph_edges_type(iterator_owner_graph_edges_type),
     edge_begin_point_undirected_adj(edge_begin_point_undirected_adj),
@@ -40,7 +40,7 @@ adj_list_base_iterator(
     const graph<VertexType>::graph_edges_type iterator_owner_graph_edges_type,
     EdgesEndpointsContainerType* const edge_begin_point_undirected_adj,
     EdgesEndpointsContainerType* const edge_begin_point_directed_adj,
-    const graphdom::edge_type inner_iterator_edge_current_type,
+    const edge_type inner_iterator_edge_current_type,
     const typename EdgesEndpointsContainerType::iterator& inner_iterator) :
     iterator_owner_graph(iterator_owner_pointer),
     iterator_owner_graph_edges_type(iterator_owner_graph_edges_type),
