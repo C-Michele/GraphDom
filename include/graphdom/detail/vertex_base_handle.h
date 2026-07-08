@@ -12,8 +12,8 @@ namespace graphdom {
     class graph<VertexType>::vertex_base_handle {
         public:
             static_assert(
-                std::is_same< VertexContainerPointerType , graphdom::graph<VertexType>::vertex_container* >::value ||
-                std::is_same< VertexContainerPointerType , const graphdom::graph<VertexType>::vertex_container* >::value
+                std::is_same< VertexContainerPointerType , graph<VertexType>::vertex_container* >::value ||
+                std::is_same< VertexContainerPointerType , const graph<VertexType>::vertex_container* >::value
                 ,
                 "The typename 'VertexContainerPointerType' of 'graphdom::graph<VertexType>::vertex_base_handle<VertexContainerPointerType>' class must be a pointer to graphdom::graph<VertexType>::vertex_container"
             );
