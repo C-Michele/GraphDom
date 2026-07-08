@@ -26,13 +26,13 @@ namespace graphdom {
 
             ~adj_list_base_iterator() = default;
 
-            template<typename, typename>
-            friend class graph<VertexType>::adj_list_base_iterator;
             template<typename K, typename J>
             [[nodiscard]] constexpr bool operator==(const adj_list_base_iterator<K,J>& other_iterator) const;
             template<typename K, typename J>
             [[nodiscard]] constexpr bool operator!=(const adj_list_base_iterator<K,J>& other_iterator) const;
 
+            template<typename, typename>
+            friend class graph<VertexType>::adj_list_base_iterator;
         protected:
             using special_begin_end_indicator = std::monostate;
             using iterator_type =
