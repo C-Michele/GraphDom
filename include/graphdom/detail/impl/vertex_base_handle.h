@@ -8,8 +8,8 @@
 template<typename VertexType>
 template<typename VertexContainerPointerType>
 graphdom::graph<VertexType>::vertex_base_handle<VertexContainerPointerType>::vertex_base_handle() :
-    vertex_container_owner_pointer(nullptr),
-    vertex_container_owner_edges_type(mixed),
+    vertex_container_owner_graph_pointer(nullptr),
+    vertex_container_owner_graph_edges_type(mixed),
     vertex_container_pointer(nullptr) {}
 
 template<typename VertexType>
@@ -18,8 +18,8 @@ graphdom::graph<VertexType>::vertex_base_handle<VertexContainerPointerType>::ver
     const graph<VertexType>* vertex_container_owner_ptr,
     const graph_edges_type vertex_container_owner_et,
     const VertexContainerPointerType vertex_container_ptr ) :
-    vertex_container_owner_pointer(vertex_container_owner_ptr),
-    vertex_container_owner_edges_type(vertex_container_owner_et),
+    vertex_container_owner_graph_pointer(vertex_container_owner_ptr),
+    vertex_container_owner_graph_edges_type(vertex_container_owner_et),
     vertex_container_pointer(vertex_container_ptr) {}
 
 template<typename VertexType>
