@@ -58,13 +58,13 @@ constexpr bool graphdom::graph<VertexType>::adj_list_base_iterator<VertexContain
         return false;
     }
     if ( std::holds_alternative< special_begin_end_indicator >( inner_iterator ) ) {
-        if ( std::holds_alternative< special_begin_end_indicator >( other_iterator.inner_iterator ) ) {
+        if ( std::holds_alternative< adj_list_base_iterator<K,J>::special_begin_end_indicator >( other_iterator.inner_iterator ) ) {
             return true;
         }
         return false;
     }
     if ( std::holds_alternative< J::iterator >( other_iterator.inner_iterator ) ) {
-        return ( std::get< EdgesEndpointsContainerType::iterator >( inner_iterator ) == std::get< J::iterator >( other_iterator.inner_iterator ) );
+        return ( *( std::get< EdgesEndpointsContainerType::iterator >( inner_iterator ) ) ) == ( *( std::get< J::iterator >( other_iterator.inner_iterator ) ) );
     }
     return false;
 }
