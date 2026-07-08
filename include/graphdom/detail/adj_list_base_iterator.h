@@ -21,7 +21,7 @@ namespace graphdom {
                 std::is_same< EdgesEndpointsContainerType , graph<VertexType>::adj_set<VertexContainerPointerType> >::value ||
                 std::is_same< EdgesEndpointsContainerType , const graph<VertexType>::adj_set<VertexContainerPointerType> >::value
                 ,
-                "The typename 'EdgesEndpointsContainerType' of 'graphdom::graph<VertexType>::adj_list_base_iterator<VertexContainerPointerType,EdgesEndpointsContainerType>' class must be graph<VertexType>::adj_set<VertexContainerPointerType> or const graph<VertexType>::adj_set<VertexContainerPointerType>"
+                "The typename 'EdgesEndpointsContainerType' of 'graphdom::graph<VertexType>::adj_list_base_iterator<VertexContainerPointerType,EdgesEndpointsContainerType>' class must be graphdom::graph<VertexType>::adj_set<VertexContainerPointerType> or const graphdom::graph<VertexType>::adj_set<VertexContainerPointerType>"
             );
 
             ~adj_list_base_iterator() = default;
