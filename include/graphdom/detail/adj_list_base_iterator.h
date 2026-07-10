@@ -8,62 +8,68 @@
 
 namespace graphdom {
     template <typename VertexType>
-    template <typename VertexContainerPointerType, typename EdgesEndpointsContainerType>
+    template <typename VertexContainerPointerType>
     class graph<VertexType>::adj_list_base_iterator {
         public:
             static_assert(
                 std::is_same< VertexContainerPointerType , graph<VertexType>::vertex_container* >::value ||
                 std::is_same< VertexContainerPointerType , const graph<VertexType>::vertex_container* >::value
                 ,
-                "The typename 'VertexContainerPointerType' of 'graphdom::graph<VertexType>::adj_list_base_iterator<VertexContainerPointerType,EdgesEndpointsContainerType>' class must be a pointer to graphdom::graph<VertexType>::vertex_container"
-            );
-            static_assert(
-                std::is_same< EdgesEndpointsContainerType , graph<VertexType>::adj_set<VertexContainerPointerType> >::value ||
-                std::is_same< EdgesEndpointsContainerType , const graph<VertexType>::adj_set<VertexContainerPointerType> >::value
-                ,
-                "The typename 'EdgesEndpointsContainerType' of 'graphdom::graph<VertexType>::adj_list_base_iterator<VertexContainerPointerType,EdgesEndpointsContainerType>' class must be graphdom::graph<VertexType>::adj_set<VertexContainerPointerType> or const graphdom::graph<VertexType>::adj_set<VertexContainerPointerType>"
+                "The typename 'VertexContainerPointerType' of 'graphdom::graph<VertexType>::adj_list_base_iterator<VertexContainerPointerType>' class must be a pointer to graphdom::graph<VertexType>::vertex_container"
             );
 
             ~adj_list_base_iterator() = default;
 
-            template<typename K, typename J>
-            [[nodiscard]] constexpr bool operator==(const adj_list_base_iterator<K,J>& other_iterator) const;
-            template<typename K, typename J>
-            [[nodiscard]] constexpr bool operator!=(const adj_list_base_iterator<K,J>& other_iterator) const;
+            template<typename K>
+            [[nodiscard]] constexpr bool operator==(const adj_list_base_iterator<K>& other_iterator) const;
+            template<typename K>
+            [[nodiscard]] constexpr bool operator!=(const adj_list_base_iterator<K>& other_iterator) const;
 
-            template<typename, typename>
+            [[nodiscard]] constexpr graphdom::edge_type edge_type() const;
+
+            template<typename>
             friend class graph<VertexType>::adj_list_base_iterator;
         protected:
             using special_begin_end_indicator = std::monostate;
             using iterator_type =
                 std::variant<
                     special_begin_end_indicator,
-                    typename EdgesEndpointsContainerType::iterator
+                    typename graph<VertexType>::adj_set<graph<VertexType>::vertex_container*>::iterator,
+                    typename graph<VertexType>::adj_set<const graph<VertexType>::vertex_container*>::iterator
                 >;
 
             adj_list_base_iterator();
+            adj_list_base_iterator(const adj_list_base_iterator&) = default;
             adj_list_base_iterator(
                 const graph<VertexType>* iterator_owner_pointer,
                 graph<VertexType>::graph_edges_type iterator_owner_graph_edges_type,
-                EdgesEndpointsContainerType* edge_begin_point_undirected_adj,
-                EdgesEndpointsContainerType* edge_begin_point_directed_adj,
-                edge_type inner_iterator_edge_current_type
+                VertexContainerPointerType edge_begin_point_vertex_container,
+                graph<VertexType>::edges_type_selection_type edges_type_restriction,
+                graphdom::edge_type inner_iterator_edge_current_type
             );
             adj_list_base_iterator(
                 const graph<VertexType>* iterator_owner_pointer,
                 graph<VertexType>::graph_edges_type iterator_owner_graph_edges_type,
-                EdgesEndpointsContainerType* edge_begin_point_undirected_adj,
-                EdgesEndpointsContainerType* edge_begin_point_directed_adj,
-                edge_type inner_iterator_edge_current_type,
-                const typename EdgesEndpointsContainerType::iterator& inner_iterator
+                VertexContainerPointerType edge_begin_point_vertex_container,
+                graph<VertexType>::edges_type_selection_type edges_type_restriction,
+                graphdom::edge_type inner_iterator_edge_current_type,
+                const typename graph<VertexType>::adj_set< VertexContainerPointerType >::iterator& inner_iterator
             );
+
+            constexpr adj_list_base_iterator& internal_next();
 
             const graph<VertexType>* iterator_owner_graph;
             graph<VertexType>::graph_edges_type iterator_owner_graph_edges_type;
-            EdgesEndpointsContainerType* edge_begin_point_undirected_adj;
-            EdgesEndpointsContainerType* edge_begin_point_directed_adj;
-            edge_type inner_iterator_edge_current_type;
+            VertexContainerPointerType edge_begin_point_vertex_container;
+            graph<VertexType>::edges_type_selection_type edges_type_restriction;
+            graphdom::edge_type inner_iterator_edge_current_type;
             iterator_type inner_iterator;
+        private:
+            template <typename K>
+            constexpr adj_list_base_iterator& specialized_internal_next();
+
+            template <typename K>
+            constexpr graph<VertexType>::adj_set<K>* get_adj_set_if_accessible(graphdom::edge_type edge_type) const;
     };
 }
 

@@ -18,6 +18,8 @@ namespace graphdom {
                 "The typename 'VertexContainerPointerType' of 'graphdom::graph<VertexType>::vertex_base_handle<VertexContainerPointerType>' class must be a pointer to graphdom::graph<VertexType>::vertex_container"
             );
 
+            vertex_base_handle() = delete;
+
             ~vertex_base_handle() = default;
 
             /**
@@ -64,7 +66,6 @@ namespace graphdom {
             template<typename>
             friend class graph<VertexType>::vertex_base_handle;
         protected:
-            vertex_base_handle();
             vertex_base_handle(const vertex_base_handle&) = default;
             vertex_base_handle(
                 const graph<VertexType>* vertex_container_owner_ptr,

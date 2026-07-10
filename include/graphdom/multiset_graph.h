@@ -1,0 +1,102 @@
+#ifndef GRAPHDOM_MULTISET_GRAPH_H
+#define GRAPHDOM_MULTISET_GRAPH_H
+
+#include "graph.h"
+#include "set_graph.h"
+
+namespace graphdom {
+    /// Every [multiset graph](@ref mathematical_multiset_graph_definition) created using this library is an instance of a concrete class publicly derived, directly or indirectly, from this polymorphic template class.
+    /**
+     * Creating an object of a user-defined class derived, directly or indirectly, from this one will cause undefined behavior.
+     */
+    template <typename VertexType>
+    class multiset_graph : virtual public graph<VertexType>  {
+        public:
+            class vertex_handle;
+            class adj_list;
+            class adj_list_iterator;
+
+            /// To be polymorphic, this class has a virtual destructor.
+            ~multiset_graph() override = default;
+
+            /**
+             * Inserts in `*this` a vertex having @p v_core as core.
+             *
+             * @param v_core
+             * @return A valid handle of the inserted vertex.
+             */
+            [[nodiscard]] virtual vertex_handle insert_vertex(const VertexType& v_core) = 0;
+
+            /**
+             * Inserts in `*this` a vertex having @p v_core as core.
+             *
+             * @param v_core
+             * @return A valid handle of the inserted vertex.
+             */
+            [[nodiscard]] virtual vertex_handle insert_vertex(VertexType&& v_core) = 0;
+
+        /// \cond DEV_DOC
+        protected:
+            using VertexContainerPointerType = typename graphdom::graph<VertexType>::vertex_container*;
+            using edge_endpoint = typename graphdom::graph<VertexType>::template edge_endpoint< VertexContainerPointerType >;
+            template <typename EdgeLabelType>
+            using labeled_directed_edge_endpoint = typename graphdom::graph<VertexType>::template labeled_directed_edge_endpoint<VertexContainerPointerType,EdgeLabelType>;
+            template <typename EdgeLabelType>
+            using labeled_undirected_edge_endpoint = typename graphdom::graph<VertexType>::template labeled_undirected_edge_endpoint<VertexContainerPointerType,EdgeLabelType>;
+            using custom_edge_endpoint_less = typename graphdom::graph<VertexType>::template custom_edge_endpoint_less<VertexContainerPointerType>;
+            using adj_set = typename graphdom::graph<VertexType>::template adj_set<VertexContainerPointerType>;
+            using non_mixed_graph_vertex_container = typename graphdom::graph<VertexType>::template non_mixed_graph_vertex_container<VertexContainerPointerType>;
+            using mixed_graph_vertex_container = typename graphdom::graph<VertexType>::template mixed_graph_vertex_container<VertexContainerPointerType>;
+            template <typename EdgeLabelType>
+            using non_mixed_graph_labeled_vertex_container = typename graphdom::graph<VertexType>::template non_mixed_graph_labeled_vertex_container<VertexContainerPointerType,EdgeLabelType>;
+            template <typename EdgeLabelType>
+            using mixed_graph_labeled_vertex_container = typename graphdom::graph<VertexType>::template mixed_graph_labeled_vertex_container<VertexContainerPointerType,EdgeLabelType>;
+
+            static vertex_handle vertex_ptr_factory(
+                const graphdom::multiset_graph<VertexType>*,
+                typename graphdom::graph<VertexType>::template non_mixed_graph_vertex_container<VertexContainerPointerType>&,
+                graphdom::edge_type non_mixed_graph_type
+            );
+
+            static vertex_handle vertex_ptr_factory(
+                const graphdom::multiset_graph<VertexType>*,
+                typename graphdom::graph<VertexType>::template mixed_graph_vertex_container<VertexContainerPointerType>&
+            );
+
+            static typename graphdom::graph<VertexType>::vertex_const_handle const_vertex_ptr_factory(
+                const graphdom::multiset_graph<VertexType>*,
+                const typename graphdom::graph<VertexType>::template non_mixed_graph_vertex_container<VertexContainerPointerType>&,
+                graphdom::edge_type non_mixed_graph_type
+            );
+
+            static typename graphdom::graph<VertexType>::vertex_const_handle const_vertex_ptr_factory(
+                const graphdom::multiset_graph<VertexType>*,
+                const typename graphdom::graph<VertexType>::template mixed_graph_vertex_container<VertexContainerPointerType>&
+            );
+
+            static VertexContainerPointerType get_vertex_container(const graphdom::multiset_graph<VertexType>::vertex_handle&);
+
+            static typename adj_set::const_iterator get_inner_iterator(const typename graphdom::graph<VertexType>::adj_list_const_iterator&);
+
+            static typename graphdom::graph<VertexType>::adj_list_iterator edge_iterator_factory(
+                const graphdom::multiset_graph<VertexType>* edge_multiset_vertex_graph_owner_ptr,
+                non_mixed_graph_vertex_container* edge_begin_point_ptr,
+                graphdom::edge_type edge_multiset_vertex_graph_owner_edges_type,
+                typename adj_set::iterator inner_itr
+            );
+
+            static typename graphdom::graph<VertexType>::adj_list_iterator edge_iterator_factory(
+                const graphdom::set_graph<VertexType>* edge_multiset_vertex_graph_owner_ptr,
+                mixed_graph_vertex_container* edge_begin_point_ptr,
+                typename adj_set::iterator inner_itr,
+                graphdom::edge_type inner_itr_edge_type,
+                bool inner_itr_is_limited_by_edge_type = false
+            );
+        /// \endcond DEV_DOC
+    };
+}
+
+#include "detail/multiset_graph_vertex_handle.h"
+#include "detail/multiset_graph_adj_list.h"
+
+#endif //GRAPHDOM_MULTISET_GRAPH_H
