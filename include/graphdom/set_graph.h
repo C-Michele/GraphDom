@@ -67,4 +67,32 @@ namespace graphdom {
     };
 }
 
+template<typename VertexType>
+typename graphdom::set_graph<VertexType>::adj_set::const_iterator
+graphdom::set_graph<VertexType>::get_inner_iterator(
+const typename graphdom::graph<VertexType>::adj_list_const_iterator& const_edge_itr) {
+    //TODO: implementation
+}
+
+template<typename VertexType>
+typename graphdom::graph<VertexType>::adj_list_iterator
+graphdom::set_graph<VertexType>::edge_iterator_factory(
+    const graphdom::set_graph<VertexType>* const edge_set_vertex_graph_owner_ptr,
+    const non_mixed_graph_vertex_container* const edge_begin_point_ptr,
+    const graphdom::edge_type edge_set_vertex_graph_owner_edges_type,
+    const typename adj_set::iterator inner_itr) {
+    //TODO: implementation
+}
+
+template<typename VertexType>
+typename graphdom::graph<VertexType>::adj_list_iterator
+graphdom::set_graph<VertexType>::edge_iterator_factory(
+    const graphdom::set_graph<VertexType>* const edge_set_vertex_graph_owner_ptr,
+    const mixed_graph_vertex_container* const edge_begin_point_ptr,
+    const typename adj_set::iterator inner_itr,
+    const graphdom::edge_type inner_itr_edge_type,
+    const bool inner_itr_is_limited_by_edge_type) {
+    //TODO: implementation
+}
+
 #endif //GRAPHDOM_SET_GRAPH_H

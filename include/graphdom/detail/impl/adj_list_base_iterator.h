@@ -40,7 +40,23 @@ graphdom::graph<VertexType>::adj_list_base_iterator<VertexContainerPointerType>:
     const VertexContainerPointerType edge_begin_point_vertex_container,
     const typename graph<VertexType>::edges_type_selection_type edges_type_restriction,
     const graphdom::edge_type inner_iterator_edge_current_type,
-    const typename graph<VertexType>::adj_set<VertexContainerPointerType>::iterator& inner_iterator) :
+    const typename graph<VertexType>::adj_set<graphdom::graph<VertexType>::vertex_container*>::iterator& inner_iterator) :
+iterator_owner_graph(iterator_owner_pointer),
+iterator_owner_graph_edges_type(iterator_owner_graph_edges_type),
+edge_begin_point_vertex_container(edge_begin_point_vertex_container),
+edges_type_restriction(edges_type_restriction),
+inner_iterator_edge_current_type(inner_iterator_edge_current_type),
+inner_iterator( inner_iterator ){}
+
+template<typename VertexType>
+template<typename VertexContainerPointerType>
+graphdom::graph<VertexType>::adj_list_base_iterator<VertexContainerPointerType>::adj_list_base_iterator(
+    const graphdom::graph<VertexType>* const iterator_owner_pointer,
+    const typename graph<VertexType>::graph_edges_type iterator_owner_graph_edges_type,
+    const VertexContainerPointerType edge_begin_point_vertex_container,
+    const typename graph<VertexType>::edges_type_selection_type edges_type_restriction,
+    const graphdom::edge_type inner_iterator_edge_current_type,
+    const typename graph<VertexType>::adj_set<const graphdom::graph<VertexType>::vertex_container*>::iterator& inner_iterator) :
 iterator_owner_graph(iterator_owner_pointer),
 iterator_owner_graph_edges_type(iterator_owner_graph_edges_type),
 edge_begin_point_vertex_container(edge_begin_point_vertex_container),
@@ -95,12 +111,12 @@ constexpr graphdom::edge_type graphdom::graph<VertexType>::adj_list_base_iterato
 template<typename VertexType>
 template<typename VertexContainerPointerType>
 constexpr typename graphdom::graph<VertexType>::template adj_list_base_iterator<VertexContainerPointerType>&
-graphdom::graph<VertexType>::adj_list_base_iterator<VertexContainerPointerType>::internal_next() {
+graphdom::graph<VertexType>::adj_list_base_iterator<VertexContainerPointerType>::internal_single_increment() {
     if ( std::holds_alternative< typename graphdom::graph<VertexType>::adj_set<graphdom::graph<VertexType>::vertex_container*>::iterator >( inner_iterator ) ) {
-        return specialized_internal_next< graphdom::graph<VertexType>::vertex_container* >();
+        return specialized_internal_single_increment< graphdom::graph<VertexType>::vertex_container* >();
     }
     if ( std::holds_alternative< typename graphdom::graph<VertexType>::adj_set<const graphdom::graph<VertexType>::vertex_container*>::iterator >( inner_iterator ) ) {
-        return specialized_internal_next< const graphdom::graph<VertexType>::vertex_container* >();
+        return specialized_internal_single_increment< const graphdom::graph<VertexType>::vertex_container* >();
     }
     throw std::runtime_error("adj_list overflow"); //TODO: write a better message
 }
@@ -109,7 +125,7 @@ template<typename VertexType>
 template<typename VertexContainerPointerType>
 template<typename K>
 constexpr typename graphdom::graph<VertexType>::template adj_list_base_iterator<VertexContainerPointerType>&
-graphdom::graph<VertexType>::adj_list_base_iterator<VertexContainerPointerType>::specialized_internal_next() {
+graphdom::graph<VertexType>::adj_list_base_iterator<VertexContainerPointerType>::specialized_internal_single_increment() {
     static_assert(
         std::is_same< K , graphdom::graph<VertexType>::vertex_container* >::value ||
         std::is_same< K , const graphdom::graph<VertexType>::vertex_container* >::value
@@ -128,10 +144,10 @@ graphdom::graph<VertexType>::adj_list_base_iterator<VertexContainerPointerType>:
                 }
             }
         }
-        ++inner_iterator;
+        ++specialized_inner_iterator;
         return *this;
     }
-    ++inner_iterator;
+    ++specialized_inner_iterator;
     return *this;
 }
 
@@ -148,19 +164,19 @@ graphdom::graph<VertexType>::adj_list_base_iterator<VertexContainerPointerType>:
     );
     if ( iterator_owner_graph_edges_type == mixed ) {
         auto* const specific_edge_begin_point_vertex_container_pointer =
-            static_cast< typename graphdom::graph<VertexType>::mixed_graph_vertex_container<K>* >( edge_begin_point_vertex_container );
-        if ( edges_type_restriction == none || ( ( edge_type == undirected ) ? ( edges_type_restriction == undirected_edges ) : ( edges_type_restriction == directed_edges ) ) ) {
-            if ( edge_type == undirected ) {
-                return specific_edge_begin_point_vertex_container_pointer->undirected_adj;
+            static_cast< const typename graphdom::graph<VertexType>::mixed_graph_vertex_container<K>* >( edge_begin_point_vertex_container );
+        if ( edges_type_restriction == none || ( ( edge_type == graphdom::edge_type::undirected ) ? ( edges_type_restriction == undirected_edges ) : ( edges_type_restriction == directed_edges ) ) ) {
+            if ( edge_type == graphdom::edge_type::undirected ) {
+                return &( specific_edge_begin_point_vertex_container_pointer->undirected_adj );
             }
-            return specific_edge_begin_point_vertex_container_pointer->directed_adj;
+            return &( specific_edge_begin_point_vertex_container_pointer->directed_adj );
         }
         return nullptr;
     }
-    auto* const specific_edge_begin_point_vertex_container_pointer =
-        static_cast< typename graphdom::graph<VertexType>::non_mixed_graph_vertex_container<K>* >( edge_begin_point_vertex_container );
-    if ( edges_type_restriction == none || ( ( edge_type == undirected ) ? ( edges_type_restriction == undirected_edges ) : ( edges_type_restriction == directed_edges ) ) ) {
-        return specific_edge_begin_point_vertex_container_pointer->adj;
+    const auto* const specific_edge_begin_point_vertex_container_pointer =
+        static_cast< const typename graphdom::graph<VertexType>::non_mixed_graph_vertex_container<K>* >( edge_begin_point_vertex_container );
+    if ( edges_type_restriction == none || ( ( edge_type == graphdom::edge_type::undirected ) ? ( edges_type_restriction == undirected_edges ) : ( edges_type_restriction == directed_edges ) ) ) {
+        return &( specific_edge_begin_point_vertex_container_pointer->adj );
     }
     return nullptr;
 }

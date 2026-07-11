@@ -49,7 +49,7 @@ typename graphdom::graph<VertexType>::adj_list graphdom::graph<VertexType>::vert
         this->vertex_container_owner_graph_pointer,
         this->vertex_container_owner_graph_edges_type,
         this->vertex_container_pointer,
-        ( edge_type == undirected ) ?
+        ( edge_type == graphdom::edge_type::undirected ) ?
             graphdom::graph<VertexType>::edges_type_selection_type::undirected_edges :
             graphdom::graph<VertexType>::edges_type_selection_type::directed_edges
     );
@@ -70,10 +70,21 @@ typename graphdom::graph<VertexType>::const_adj_list graphdom::graph<VertexType>
         this->vertex_container_owner_graph_pointer,
         this->vertex_container_owner_graph_edges_type,
         this->vertex_container_pointer,
-        ( edge_type == undirected ) ?
+        ( edge_type == graphdom::edge_type::undirected ) ?
             graphdom::graph<VertexType>::edges_type_selection_type::undirected_edges :
             graphdom::graph<VertexType>::edges_type_selection_type::directed_edges
     );
 }
+
+template<typename VertexType>
+graphdom::graph<VertexType>::vertex_handle::vertex_handle(
+    const graph<VertexType>* const vertex_container_owner_ptr,
+    const graph<VertexType>::graph_edges_type vertex_container_owner_et,
+    const typename graph<VertexType>::vertex_container* const vertex_container_ptr)  :
+vertex_base_handle< const graphdom::graph<VertexType>::vertex_container* >(
+    vertex_container_owner_ptr,
+    vertex_container_owner_et,
+    vertex_container_ptr
+) {}
 
 #endif //GRAPHDOM_VERTEX_HANDLE_IMPL_H

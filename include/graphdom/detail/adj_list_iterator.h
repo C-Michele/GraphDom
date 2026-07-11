@@ -17,11 +17,16 @@ namespace graphdom {
             ~adj_list_iterator() = default;
 
             operator typename multiset_graph<VertexType>::adj_list_iterator() const;
+            graph<VertexType>::vertex_handle operator->() const;
+            graph<VertexType>::vertex_handle operator*() const;
 
             adj_list_iterator& operator=(const adj_list_iterator& other);
-
             adj_list_iterator& operator++();
             [[nodiscard]] adj_list_iterator operator++(int);
+
+            friend class graph<VertexType>::adj_list_const_iterator;
+            friend class multiset_graph<VertexType>::adj_list_iterator;
+            friend class graph<VertexType>::adj_list;
     };
 }
 

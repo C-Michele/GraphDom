@@ -158,6 +158,7 @@ namespace graphdom {
 #include "detail/const_adj_list.h"
 #include "detail/adj_list_base_iterator.h"
 #include "detail/adj_list_iterator.h"
+#include "detail/adj_list_const_iterator.h"
 
 template<typename VertexType>
 typename graphdom::graph<VertexType>::vertex_handle graphdom::graph<VertexType>::vertex_ptr_factory(
@@ -216,88 +217,6 @@ const typename graphdom::graph<VertexType>::vertex_container* graphdom::graph<Ve
 template<typename VertexType>
 bool graphdom::graph<VertexType>::is_limited_by_edge_type(
     const graphdom::graph<VertexType>::adj_list_const_iterator& const_edge_itr) {
-    //TODO: implementation
-}
-
-template<typename VertexType>
-typename graphdom::set_graph<VertexType>::adj_set::const_iterator
-graphdom::set_graph<VertexType>::get_inner_iterator(
-const typename graphdom::graph<VertexType>::adj_list_const_iterator& const_edge_itr) {
-    //TODO: implementation
-}
-
-template<typename VertexType>
-typename graphdom::graph<VertexType>::adj_list_iterator
-graphdom::set_graph<VertexType>::edge_iterator_factory(
-    const graphdom::set_graph<VertexType>* const edge_set_vertex_graph_owner_ptr,
-    const non_mixed_graph_vertex_container* const edge_begin_point_ptr,
-    const graphdom::edge_type edge_set_vertex_graph_owner_edges_type,
-    const typename adj_set::iterator inner_itr) {
-    //TODO: implementation
-}
-
-template<typename VertexType>
-typename graphdom::graph<VertexType>::adj_list_iterator
-graphdom::set_graph<VertexType>::edge_iterator_factory(
-    const graphdom::set_graph<VertexType>* const edge_set_vertex_graph_owner_ptr,
-    const mixed_graph_vertex_container* const edge_begin_point_ptr,
-    const typename adj_set::iterator inner_itr,
-    const graphdom::edge_type inner_itr_edge_type,
-    const bool inner_itr_is_limited_by_edge_type) {
-    //TODO: implementation
-}
-
-template<typename VertexType>
-typename graphdom::multiset_graph<VertexType>::vertex_handle graphdom::multiset_graph<VertexType>::vertex_ptr_factory(
-    const graphdom::multiset_graph<VertexType>* const graph_ptr,
-    typename graphdom::graph<VertexType>::template non_mixed_graph_vertex_container<VertexContainerPointerType>& vertex_container_reference,
-    const graphdom::edge_type non_mixed_graph_type) {
-    //TODO: implementation
-}
-
-template<typename VertexType>
-typename graphdom::multiset_graph<VertexType>::vertex_handle graphdom::multiset_graph<VertexType>::vertex_ptr_factory(
-    const graphdom::multiset_graph<VertexType>* const graph_ptr,
-    typename graphdom::graph<VertexType>::template mixed_graph_vertex_container<VertexContainerPointerType>& vertex_container_reference) {
-    //TODO: implementation
-}
-
-template<typename VertexType>
-typename graphdom::graph<VertexType>::vertex_const_handle graphdom::multiset_graph<VertexType>::const_vertex_ptr_factory(
-    const graphdom::multiset_graph<VertexType>* const graph_ptr,
-    const typename graphdom::graph<VertexType>::template non_mixed_graph_vertex_container<VertexContainerPointerType>& vertex_container_reference,
-    const graphdom::edge_type non_mixed_graph_type) {
-    //TODO: implementation
-}
-
-template<typename VertexType>
-typename graphdom::graph<VertexType>::vertex_const_handle graphdom::multiset_graph<VertexType>::const_vertex_ptr_factory(
-    const graphdom::multiset_graph<VertexType>* const graph_ptr,
-    const typename graphdom::graph<VertexType>::template mixed_graph_vertex_container<VertexContainerPointerType>& vertex_container_reference) {
-    //TODO: implementation
-}
-
-template<typename VertexType>
-typename graphdom::multiset_graph<VertexType>::VertexContainerPointerType
-graphdom::multiset_graph<VertexType>::get_vertex_container(
-    const graphdom::multiset_graph<VertexType>::vertex_handle& ptr) {
-    //TODO: implementation
-}
-
-template<typename VertexType>
-typename graphdom::multiset_graph<VertexType>::adj_set::const_iterator
-graphdom::multiset_graph<VertexType>::get_inner_iterator(
-const typename graphdom::graph<VertexType>::adj_list_const_iterator& const_edge_itr) {
-    //TODO: implementation
-}
-
-template<typename VertexType>
-typename graphdom::graph<VertexType>::adj_list_iterator
-graphdom::multiset_graph<VertexType>::edge_iterator_factory(
-    const graphdom::multiset_graph<VertexType>* const edge_multiset_vertex_graph_owner_ptr,
-    non_mixed_graph_vertex_container* const edge_begin_point_ptr,
-    const graphdom::edge_type edge_multiset_vertex_graph_owner_edges_type,
-    const typename adj_set::iterator inner_itr) {
     //TODO: implementation
 }
 

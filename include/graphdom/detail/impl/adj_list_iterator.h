@@ -9,6 +9,17 @@ template <typename VertexType>
 graphdom::graph<VertexType>::adj_list_iterator::adj_list_iterator(const adj_list_iterator& other_iterator) :
 graphdom::graph<VertexType>::adj_list_base_iterator<  const graph<VertexType>::vertex_container*  >( other_iterator ){}
 
+template<typename VertexType>
+graphdom::graph<VertexType>::adj_list_iterator::adj_list_iterator(const typename multiset_graph<VertexType>::adj_list_iterator& other_iterator) :
+graphdom::graph<VertexType>::adj_list_base_iterator<  const graph<VertexType>::vertex_container*  >(
+    other_iterator.iterator_owner_graph,
+    other_iterator.iterator_owner_graph_edges_type,
+    other_iterator.edge_begin_point_vertex_container,
+    other_iterator.edges_type_restriction,
+    other_iterator.inner_iterator_edge_current_type,
+    std::get< typename graph<VertexType>::adj_set<graph<VertexType>::vertex_container*>::iterator >( other_iterator.inner_iterator )
+){}
+
 /*
 template<typename VertexType>
 graphdom::graph<VertexType>::adj_list_iterator::adj_list_iterator(const typename multiset_graph<VertexType>::adj_list_iterator& other_iterator) :
@@ -18,7 +29,23 @@ graphdom::graph<VertexType>::adj_list_base_iterator<  const graph<VertexType>::v
 
 template<typename VertexType>
 graphdom::graph<VertexType>::adj_list_iterator::operator typename multiset_graph<VertexType>::adj_list_iterator() const {
-    //TODO: implementation
+    return graphdom::multiset_graph<VertexType>::adj_list_iterator(*this);
+}
+
+template<typename VertexType>
+typename graphdom::graph<VertexType>::vertex_handle graphdom::graph<VertexType>::adj_list_iterator::operator->() const {
+    return *this;
+}
+
+template<typename VertexType>
+typename graphdom::graph<VertexType>::vertex_handle graphdom::graph<VertexType>::adj_list_iterator::operator*() const {
+    return graphdom::graph<VertexType>::vertex_handle(
+        this->iterator_owner_graph,
+        this->iterator_owner_graph_edges_type,
+        ( std::holds_alternative< typename graphdom::graph<VertexType>::adj_set<graphdom::graph<VertexType>::vertex_container*>::iterator >( this->inner_iterator ) ) ?
+        ( ( *( std::get< typename graphdom::graph<VertexType>::adj_set<graphdom::graph<VertexType>::vertex_container*>::iterator >( this->inner_iterator ) ) )->vertex_container_ptr ) :
+        ( ( *( std::get< typename graphdom::graph<VertexType>::adj_set<const graphdom::graph<VertexType>::vertex_container*>::iterator >( this->inner_iterator ) ) )->vertex_container_ptr )
+    );
 }
 
 template<typename VertexType>
@@ -36,7 +63,8 @@ typename graphdom::graph<VertexType>::adj_list_iterator& graphdom::graph<VertexT
 
 template<typename VertexType>
 typename graphdom::graph<VertexType>::adj_list_iterator& graphdom::graph<VertexType>::adj_list_iterator::operator++() {
-    //TODO: implementation
+    this->internal_single_increment();
+    return *this;
 }
 
 template<typename VertexType>

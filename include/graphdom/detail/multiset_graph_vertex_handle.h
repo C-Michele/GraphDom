@@ -55,6 +55,13 @@ namespace graphdom {
 
             friend typename graph<VertexType>::vertex_const_handle;
             friend typename graph<VertexType>::vertex_handle;
+            friend typename multiset_graph<VertexType>::adj_list_iterator;
+        private:
+            vertex_handle(
+                const graph<VertexType>* vertex_container_owner_ptr,
+                typename graph<VertexType>::graph_edges_type vertex_container_owner_et,
+                typename graph<VertexType>::vertex_container* vertex_container_ptr
+            );
     };
 }
 

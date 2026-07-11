@@ -78,4 +78,15 @@ typename graphdom::graph<VertexType>::const_adj_list graphdom::multiset_graph<Ve
     );
 }
 
+template<typename VertexType>
+graphdom::multiset_graph<VertexType>::vertex_handle::vertex_handle(
+    const graph<VertexType>* const vertex_container_owner_ptr,
+    typename graph<VertexType>::graph_edges_type vertex_container_owner_et,
+    typename graph<VertexType>::vertex_container* const vertex_container_ptr):
+graphdom::graph<VertexType>::template vertex_base_handle< typename graphdom::graph<VertexType>::vertex_container* >(
+    vertex_container_owner_ptr,
+    vertex_container_owner_et,
+    vertex_container_ptr
+){}
+
 #endif //GRAPHDOM_MULTISET_GRAPH_VERTEX_HANDLE_IMPL_H

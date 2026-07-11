@@ -65,6 +65,14 @@ namespace graphdom {
             [[nodiscard]] graph<VertexType>::const_adj_list adj_list(edge_type edge_type) const;
             [[nodiscard]] graph<VertexType>::const_adj_list const_adj_list() const;
             [[nodiscard]] graph<VertexType>::const_adj_list const_adj_list(edge_type edge_type) const;
+
+            friend typename graph<VertexType>::adj_list_const_iterator;
+        private:
+            vertex_const_handle(
+                const graph<VertexType>* vertex_container_owner_ptr,
+                graph<VertexType>::graph_edges_type vertex_container_owner_et,
+                const graph<VertexType>::vertex_container* vertex_container_ptr
+            );
     };
 }
 

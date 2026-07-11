@@ -28,6 +28,26 @@ graph<VertexType>::base_adj_list< const graph<VertexType>::vertex_container* >(
 ){}
 
 template<typename VertexType>
+typename graphdom::graph<VertexType>::adj_list_const_iterator graphdom::graph<VertexType>::const_adj_list::begin() const {
+    //TODO: implementation
+}
+
+template<typename VertexType>
+typename graphdom::graph<VertexType>::adj_list_const_iterator graphdom::graph<VertexType>::const_adj_list::end() const {
+    //TODO: implementation
+}
+
+template<typename VertexType>
+typename graphdom::graph<VertexType>::adj_list_const_iterator graphdom::graph<VertexType>::const_adj_list::cbegin() const {
+    return begin();
+}
+
+template<typename VertexType>
+typename graphdom::graph<VertexType>::adj_list_const_iterator graphdom::graph<VertexType>::const_adj_list::cend() const {
+    return end();
+}
+
+template<typename VertexType>
 graphdom::graph<VertexType>::const_adj_list::const_adj_list(
     const graphdom::graph<VertexType>* const adj_list_owner_graph_pointer,
     const typename graphdom::graph<VertexType>::graph_edges_type adj_list_owner_graph_edges_type,
