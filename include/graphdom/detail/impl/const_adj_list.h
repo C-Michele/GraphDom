@@ -29,12 +29,18 @@ graph<VertexType>::base_adj_list< const graph<VertexType>::vertex_container* >(
 
 template<typename VertexType>
 typename graphdom::graph<VertexType>::adj_list_const_iterator graphdom::graph<VertexType>::const_adj_list::begin() const {
-    //TODO: implementation
+    if ( dynamic_cast< const graphdom::multiset_graph<VertexType>* >( this->adj_list_owner_graph_pointer ) != nullptr ) {
+        return graphdom::graph<VertexType>::adj_list_const_iterator( this->template internal_begin<graphdom::graph<VertexType>::vertex_container*>() );
+    }
+    return graphdom::graph<VertexType>::adj_list_const_iterator( this->template internal_begin<const graphdom::graph<VertexType>::vertex_container*>() );
 }
 
 template<typename VertexType>
 typename graphdom::graph<VertexType>::adj_list_const_iterator graphdom::graph<VertexType>::const_adj_list::end() const {
-    //TODO: implementation
+    if ( dynamic_cast< const graphdom::multiset_graph<VertexType>* >( this->adj_list_owner_graph_pointer ) != nullptr ) {
+        return graphdom::graph<VertexType>::adj_list_const_iterator( this->template internal_end<graphdom::graph<VertexType>::vertex_container*>() );
+    }
+    return graphdom::graph<VertexType>::adj_list_const_iterator( this->template internal_end<const graphdom::graph<VertexType>::vertex_container*>() );
 }
 
 template<typename VertexType>
