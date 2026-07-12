@@ -74,5 +74,8 @@ typename graphdom::graph<VertexType>::adj_list_iterator graphdom::graph<VertexTy
     return to_return;
 }
 
+template<typename VertexType>
+graphdom::graph<VertexType>::adj_list_iterator::adj_list_iterator(const typename graph<VertexType>::adj_list_base_iterator<const typename graph<VertexType>::vertex_container*>& other) :
+graphdom::graph<VertexType>::adj_list_base_iterator<  const graph<VertexType>::vertex_container*  >( other ){}
 
 #endif //GRAPHDOM_ADJ_LIST_ITERATOR_IMPL_H

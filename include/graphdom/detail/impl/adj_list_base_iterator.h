@@ -155,7 +155,7 @@ template<typename VertexType>
 template<typename VertexContainerPointerType>
 template<typename K>
 constexpr typename graphdom::graph<VertexType>::template adj_set<K>*
-graphdom::graph<VertexType>::adj_list_base_iterator<VertexContainerPointerType>::get_adj_set_if_accessible(graphdom::edge_type edge_type) const {
+graphdom::graph<VertexType>::adj_list_base_iterator<VertexContainerPointerType>::get_adj_set_if_accessible(const graphdom::edge_type edge_type) const {
     static_assert(
         std::is_same< K , graphdom::graph<VertexType>::vertex_container* >::value ||
         std::is_same< K , const graphdom::graph<VertexType>::vertex_container* >::value

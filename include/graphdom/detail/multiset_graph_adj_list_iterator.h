@@ -25,6 +25,8 @@ namespace graphdom {
             friend class graph<VertexType>::adj_list_const_iterator;
             friend class graph<VertexType>::adj_list_iterator;
             friend class multiset_graph<VertexType>::adj_list;
+        private:
+            adj_list_iterator( const typename graph<VertexType>::template adj_list_base_iterator<typename graph<VertexType>::vertex_container* >& other );
     };
 }
 

@@ -67,4 +67,8 @@ typename graphdom::multiset_graph<VertexType>::adj_list_iterator graphdom::multi
     return to_return;
 }
 
+template<typename VertexType>
+graphdom::multiset_graph<VertexType>::adj_list_iterator::adj_list_iterator(const typename graph<VertexType>::template adj_list_base_iterator<typename graph<VertexType>::vertex_container*>& other) :
+graphdom::graph<VertexType>::template adj_list_base_iterator< typename graph<VertexType>::vertex_container*  >( other ){}
+
 #endif //GRAPHDOM_MULTISET_GRAPH_ADJ_LIST_ITERATOR_IMPL_H

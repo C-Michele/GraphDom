@@ -7,6 +7,7 @@
 #include "../adj_list.h"
 #include "../../multiset_graph.h"
 #include "../multiset_graph_adj_list.h"
+#include "graphdom/detail/adj_list_iterator.h"
 
 template <typename VertexType>
 graphdom::graph<VertexType>::adj_list::adj_list(const adj_list& other) :
@@ -28,12 +29,18 @@ graphdom::graph<VertexType>::adj_list::operator typename multiset_graph<VertexTy
 
 template<typename VertexType>
 typename graphdom::graph<VertexType>::adj_list_iterator graphdom::graph<VertexType>::adj_list::begin() const {
-    //TODO: implementation
+    if ( dynamic_cast< const graphdom::multiset_graph<VertexType>* >( this->adj_list_owner_graph_pointer ) != nullptr ) {
+        return graphdom::graph<VertexType>::adj_list_iterator( this->template internal_begin<graphdom::graph<VertexType>::vertex_container*>() );
+    }
+    return graphdom::graph<VertexType>::adj_list_iterator( this->template internal_begin<const graphdom::graph<VertexType>::vertex_container*>() );
 }
 
 template<typename VertexType>
 typename graphdom::graph<VertexType>::adj_list_iterator graphdom::graph<VertexType>::adj_list::end() const {
-    //TODO: implementation
+    if ( dynamic_cast< const graphdom::multiset_graph<VertexType>* >( this->adj_list_owner_graph_pointer ) != nullptr ) {
+        return graphdom::graph<VertexType>::adj_list_iterator( this->template internal_end<graphdom::graph<VertexType>::vertex_container*>() );
+    }
+    return graphdom::graph<VertexType>::adj_list_iterator( this->template internal_end<const graphdom::graph<VertexType>::vertex_container*>() );
 }
 
 template<typename VertexType>

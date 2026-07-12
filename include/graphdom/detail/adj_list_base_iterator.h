@@ -29,6 +29,8 @@ namespace graphdom {
 
             template<typename>
             friend class graph<VertexType>::adj_list_base_iterator;
+            template<typename>
+            friend class graph<VertexType>::base_adj_list;
         protected:
             using special_begin_end_indicator = std::monostate;
             using iterator_type =
