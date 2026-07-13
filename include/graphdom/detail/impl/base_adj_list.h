@@ -35,7 +35,7 @@ graphdom::graph<VertexType>::base_adj_list<VertexContainerPointerType>::internal
             adj_list_owner_graph_edges_type,
             adj_list_common_begin_point_vertex_container_pointer,
             adj_list_edges_type_selection,
-            ( adj_list_owner_graph_edges_type == directed_edges ) ? graphdom::edge_type::directed : graphdom::edge_type::undirected
+            ( adj_list_owner_graph_edges_type == undirected ) ? graphdom::edge_type::undirected : graphdom::edge_type::directed
         );
     }
     if ( undirected_adj_set != nullptr ) {
@@ -95,7 +95,7 @@ graphdom::graph<VertexType>::base_adj_list<VertexContainerPointerType>::internal
             adj_list_owner_graph_edges_type,
             adj_list_common_begin_point_vertex_container_pointer,
             adj_list_edges_type_selection,
-            ( adj_list_owner_graph_edges_type == directed_edges ) ? graphdom::edge_type::directed : graphdom::edge_type::undirected
+            ( adj_list_owner_graph_edges_type == undirected ) ? graphdom::edge_type::undirected : graphdom::edge_type::directed
         );
     }
     if ( directed_adj_set != nullptr ) {
@@ -136,22 +136,35 @@ graphdom::graph<VertexType>::base_adj_list<VertexContainerPointerType>::get_adj_
     static_assert(
         std::is_same< K , graphdom::graph<VertexType>::vertex_container* >::value ||
         std::is_same< K , const graphdom::graph<VertexType>::vertex_container* >::value
-    );
-    if ( adj_list_owner_graph_edges_type == mixed ) {
-        auto* const specific_edge_begin_point_vertex_container_pointer =
-            static_cast< const typename graphdom::graph<VertexType>::mixed_graph_vertex_container<K>* >( adj_list_common_begin_point_vertex_container_pointer );
-        if ( adj_list_edges_type_selection == none || ( ( edge_type == graphdom::edge_type::undirected ) ? ( adj_list_edges_type_selection == undirected_edges ) : ( adj_list_edges_type_selection == directed_edges ) ) ) {
-            if ( edge_type == graphdom::edge_type::undirected ) {
-                return &( specific_edge_begin_point_vertex_container_pointer->undirected_adj );
-            }
-            return &( specific_edge_begin_point_vertex_container_pointer->directed_adj );
+        );
+    auto* const undirected_adj =
+        ( adj_list_owner_graph_edges_type == mixed ) ?
+        &( ( static_cast< const typename graphdom::graph<VertexType>::mixed_graph_vertex_container<K>* >( adj_list_common_begin_point_vertex_container_pointer ) )->undirected_adj )
+        :
+        (
+            ( adj_list_owner_graph_edges_type == undirected ) ?
+            &( ( static_cast< const typename graphdom::graph<VertexType>::non_mixed_graph_vertex_container<K>* >( adj_list_common_begin_point_vertex_container_pointer ) )->adj )
+            :
+            nullptr
+        );
+    auto* const directed_adj =
+        ( adj_list_owner_graph_edges_type == mixed ) ?
+        &( ( static_cast< const typename graphdom::graph<VertexType>::mixed_graph_vertex_container<K>* >( adj_list_common_begin_point_vertex_container_pointer ) )->directed_adj )
+        :
+        (
+            ( adj_list_owner_graph_edges_type == directed ) ?
+            &( ( static_cast< const typename graphdom::graph<VertexType>::non_mixed_graph_vertex_container<K>* >( adj_list_common_begin_point_vertex_container_pointer ) )->adj )
+            :
+            nullptr
+        );
+    if ( edge_type == undirected ) {
+        if ( adj_list_edges_type_selection != directed_edges ) {
+            return undirected_adj;
         }
         return nullptr;
     }
-    const auto* const specific_edge_begin_point_vertex_container_pointer =
-        static_cast< const typename graphdom::graph<VertexType>::non_mixed_graph_vertex_container<K>* >( adj_list_common_begin_point_vertex_container_pointer );
-    if ( adj_list_edges_type_selection == none || ( ( edge_type == graphdom::edge_type::undirected ) ? ( adj_list_edges_type_selection == undirected_edges ) : ( adj_list_edges_type_selection == directed_edges ) ) ) {
-        return &( specific_edge_begin_point_vertex_container_pointer->adj );
+    if ( adj_list_edges_type_selection != undirected_edges ) {
+        return directed_adj;
     }
     return nullptr;
 }

@@ -28,9 +28,12 @@ graphdom::graph<VertexType>::adj_list_base_iterator<  const graph<VertexType>::v
     other_iterator.iterator_owner_graph_edges_type,
     other_iterator.edge_begin_point_vertex_container,
     other_iterator.edges_type_restriction,
-    other_iterator.inner_iterator_edge_current_type,
-    std::get< typename graphdom::graph<VertexType>::adj_set<graphdom::graph<VertexType>::vertex_container*>::iterator >( other_iterator.inner_iterator )
-){}
+    other_iterator.inner_iterator_edge_current_type
+) {
+    if ( std::holds_alternative< typename graph<VertexType>::adj_set<graph<VertexType>::vertex_container*>::iterator >( other_iterator.inner_iterator ) ) {
+        this->inner_iterator = std::get< typename graph<VertexType>::adj_set<graph<VertexType>::vertex_container*>::iterator >( other_iterator.inner_iterator );
+    }
+}
 
 template<typename VertexType>
 typename graphdom::graph<VertexType>::vertex_const_handle graphdom::graph<VertexType>::adj_list_const_iterator::operator->() const {
@@ -77,5 +80,54 @@ typename graphdom::graph<VertexType>::adj_list_const_iterator graphdom::graph<Ve
 template<typename VertexType>
 graphdom::graph<VertexType>::adj_list_const_iterator::adj_list_const_iterator(const typename graph<VertexType>::adj_list_base_iterator<const typename graph<VertexType>::vertex_container*>& other) :
 graphdom::graph<VertexType>::adj_list_base_iterator< const graphdom::graph<VertexType>::vertex_container* >( other ){}
+
+template<typename VertexType>
+graphdom::graph<VertexType>::adj_list_const_iterator::adj_list_const_iterator(
+    const graph<VertexType>* const iterator_owner_pointer,
+    const typename graph<VertexType>::graph_edges_type iterator_owner_graph_edges_type,
+    const typename graph<VertexType>::vertex_container* const edge_begin_point_vertex_container,
+    const typename graph<VertexType>::edges_type_selection_type edges_type_restriction,
+    const graphdom::edge_type inner_iterator_edge_current_type) :
+graphdom::graph<VertexType>::adj_list_base_iterator<  const graph<VertexType>::vertex_container* >(
+    iterator_owner_pointer,
+    iterator_owner_graph_edges_type,
+    edge_begin_point_vertex_container,
+    edges_type_restriction,
+    inner_iterator_edge_current_type
+){}
+
+template<typename VertexType>
+graphdom::graph<VertexType>::adj_list_const_iterator::adj_list_const_iterator(
+    const graph<VertexType>* const iterator_owner_pointer,
+    const typename graph<VertexType>::graph_edges_type iterator_owner_graph_edges_type,
+    const typename graph<VertexType>::vertex_container* const edge_begin_point_vertex_container,
+    const typename graph<VertexType>::edges_type_selection_type edges_type_restriction,
+    const graphdom::edge_type inner_iterator_edge_current_type,
+    const typename graph<VertexType>::adj_set<typename graph<VertexType>::vertex_container *>::iterator& inner_iterator) :
+graphdom::graph<VertexType>::adj_list_base_iterator<  const graph<VertexType>::vertex_container* >(
+    iterator_owner_pointer,
+    iterator_owner_graph_edges_type,
+    edge_begin_point_vertex_container,
+    edges_type_restriction,
+    inner_iterator_edge_current_type,
+    inner_iterator
+){}
+
+template<typename VertexType>
+graphdom::graph<VertexType>::adj_list_const_iterator::adj_list_const_iterator(
+    const graph<VertexType>* const iterator_owner_pointer,
+    const typename graph<VertexType>::graph_edges_type iterator_owner_graph_edges_type,
+    const typename graph<VertexType>::vertex_container* const edge_begin_point_vertex_container,
+    const typename graph<VertexType>::edges_type_selection_type edges_type_restriction,
+    const graphdom::edge_type inner_iterator_edge_current_type,
+    const typename graph<VertexType>::adj_set<const typename graph<VertexType>::vertex_container*>::iterator& inner_iterator) :
+graphdom::graph<VertexType>::adj_list_base_iterator<  const graph<VertexType>::vertex_container* >(
+    iterator_owner_pointer,
+    iterator_owner_graph_edges_type,
+    edge_begin_point_vertex_container,
+    edges_type_restriction,
+    inner_iterator_edge_current_type,
+    inner_iterator
+){}
 
 #endif //GRAPHDOM_ADJ_LIST_CONST_ITERATOR_IMPL_H

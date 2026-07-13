@@ -165,59 +165,77 @@ typename graphdom::graph<VertexType>::vertex_handle graphdom::graph<VertexType>:
     const graphdom::graph<VertexType>* const graph_ptr,
     const graphdom::graph<VertexType>::non_mixed_graph_vertex_container<const vertex_container*>& vertex_container_reference,
     const graphdom::edge_type non_mixed_graph_type) {
-    //TODO: implementation
+    return graphdom::graph<VertexType>::vertex_handle(
+        graph_ptr,
+        ( non_mixed_graph_type == graphdom::edge_type::undirected ) ? graphdom::graph<VertexType>::graph_edges_type::undirected : graphdom::graph<VertexType>::graph_edges_type::directed,
+        &vertex_container_reference
+    );
 }
 
 template<typename VertexType>
 typename graphdom::graph<VertexType>::vertex_handle graphdom::graph<VertexType>::vertex_ptr_factory(
     const graphdom::graph<VertexType>* const graph_ptr,
     const graphdom::graph<VertexType>::mixed_graph_vertex_container<const vertex_container*>& vertex_container_reference) {
-    //TODO: implementation
+    return graphdom::graph<VertexType>::vertex_handle(
+        graph_ptr,
+        graphdom::graph<VertexType>::graph_edges_type::mixed,
+        &vertex_container_reference
+    );
 }
 
 template<typename VertexType>
 typename graphdom::graph<VertexType>::vertex_const_handle graphdom::graph<VertexType>::const_vertex_ptr_factory(
     const graphdom::graph<VertexType>* const graph_ptr,
     const graphdom::graph<VertexType>::non_mixed_graph_vertex_container<const vertex_container*>& vertex_container_reference,
-    graphdom::edge_type const non_mixed_graph_type) {
-    //TODO: implementation
+    const graphdom::edge_type non_mixed_graph_type) {
+    return graphdom::graph<VertexType>::vertex_const_handle(
+        graph_ptr,
+        ( non_mixed_graph_type == graphdom::edge_type::undirected ) ? graphdom::graph<VertexType>::graph_edges_type::undirected : graphdom::graph<VertexType>::graph_edges_type::directed,
+        &vertex_container_reference
+    );
 }
 
 template<typename VertexType>
 typename graphdom::graph<VertexType>::vertex_const_handle graphdom::graph<VertexType>::const_vertex_ptr_factory(
     const graphdom::graph<VertexType>* const graph_ptr,
     const graphdom::graph<VertexType>::mixed_graph_vertex_container<const vertex_container*>& vertex_container_reference) {
-    //TODO: implementation
+    return graphdom::graph<VertexType>::vertex_const_handle(
+        graph_ptr,
+        graphdom::graph<VertexType>::graph_edges_type::mixed,
+        &vertex_container_reference
+    );
 }
 
 template<typename VertexType>
 const graphdom::graph<VertexType>* graphdom::graph<VertexType>::get_owner_graph(
     const graphdom::graph<VertexType>::vertex_const_handle& ptr) {
-    //TODO: implementation
+    return ptr.vertex_container_owner_graph_pointer;
 }
 
 template<typename VertexType>
 const typename graphdom::graph<VertexType>::vertex_container* graphdom::graph<VertexType>::get_vertex_container(
     const graphdom::graph<VertexType>::vertex_const_handle& ptr) {
-    //TODO: implementation
+    return ptr.vertex_container_pointer;
 }
 
 template<typename VertexType>
 const graphdom::graph<VertexType>* graphdom::graph<VertexType>::get_owner_graph(
     const graphdom::graph<VertexType>::adj_list_const_iterator& const_edge_itr) {
-    //TODO: implementation
+    return const_edge_itr.iterator_owner_graph;
 }
 
 template<typename VertexType>
 const typename graphdom::graph<VertexType>::vertex_container* graphdom::graph<VertexType>::get_begin_point(
     const graphdom::graph<VertexType>::adj_list_const_iterator& const_edge_itr) {
-    //TODO: implementation
+    return const_edge_itr.edge_begin_point_vertex_container;
 }
 
 template<typename VertexType>
 bool graphdom::graph<VertexType>::is_limited_by_edge_type(
     const graphdom::graph<VertexType>::adj_list_const_iterator& const_edge_itr) {
-    //TODO: implementation
+    if ( const_edge_itr.iterator_owner_graph_edges_type == graph<VertexType>::graph_edges_type::mixed ) {
+
+    }
 }
 
 #endif //GRAPHDOM_GRAPH_H

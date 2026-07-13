@@ -162,21 +162,34 @@ graphdom::graph<VertexType>::adj_list_base_iterator<VertexContainerPointerType>:
         ,
         "The typename 'K' of 'graphdom::graph<VertexType>::adj_list_base_iterator<VertexContainerPointerType>::get_adj_list<K>(graphdom::edge_type edge_type)' method must be a pointer to graphdom::graph<VertexType>::vertex_container"
     );
-    if ( iterator_owner_graph_edges_type == mixed ) {
-        auto* const specific_edge_begin_point_vertex_container_pointer =
-            static_cast< const typename graphdom::graph<VertexType>::mixed_graph_vertex_container<K>* >( edge_begin_point_vertex_container );
-        if ( edges_type_restriction == none || ( ( edge_type == graphdom::edge_type::undirected ) ? ( edges_type_restriction == undirected_edges ) : ( edges_type_restriction == directed_edges ) ) ) {
-            if ( edge_type == graphdom::edge_type::undirected ) {
-                return &( specific_edge_begin_point_vertex_container_pointer->undirected_adj );
-            }
-            return &( specific_edge_begin_point_vertex_container_pointer->directed_adj );
+    auto* const undirected_adj =
+        ( iterator_owner_graph_edges_type == mixed ) ?
+        &( ( static_cast< const typename graphdom::graph<VertexType>::mixed_graph_vertex_container<K>* >( edge_begin_point_vertex_container ) )->undirected_adj )
+        :
+        (
+            ( iterator_owner_graph_edges_type == undirected ) ?
+            &( ( static_cast< const typename graphdom::graph<VertexType>::non_mixed_graph_vertex_container<K>* >( edge_begin_point_vertex_container ) )->adj )
+            :
+            nullptr
+        );
+    auto* const directed_adj =
+        ( iterator_owner_graph_edges_type == mixed ) ?
+        &( ( static_cast< const typename graphdom::graph<VertexType>::mixed_graph_vertex_container<K>* >( edge_begin_point_vertex_container ) )->directed_adj )
+        :
+        (
+            ( iterator_owner_graph_edges_type == directed ) ?
+            &( ( static_cast< const typename graphdom::graph<VertexType>::non_mixed_graph_vertex_container<K>* >( edge_begin_point_vertex_container ) )->adj )
+            :
+            nullptr
+        );
+    if ( edge_type == undirected ) {
+        if ( edges_type_restriction != directed_edges ) {
+            return undirected_adj;
         }
         return nullptr;
     }
-    const auto* const specific_edge_begin_point_vertex_container_pointer =
-        static_cast< const typename graphdom::graph<VertexType>::non_mixed_graph_vertex_container<K>* >( edge_begin_point_vertex_container );
-    if ( edges_type_restriction == none || ( ( edge_type == graphdom::edge_type::undirected ) ? ( edges_type_restriction == undirected_edges ) : ( edges_type_restriction == directed_edges ) ) ) {
-        return &( specific_edge_begin_point_vertex_container_pointer->adj );
+    if ( edges_type_restriction != undirected_edges ) {
+        return directed_adj;
     }
     return nullptr;
 }

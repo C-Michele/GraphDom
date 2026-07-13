@@ -71,4 +71,36 @@ template<typename VertexType>
 graphdom::multiset_graph<VertexType>::adj_list_iterator::adj_list_iterator(const typename graph<VertexType>::template adj_list_base_iterator<typename graph<VertexType>::vertex_container*>& other) :
 graphdom::graph<VertexType>::template adj_list_base_iterator< typename graph<VertexType>::vertex_container*  >( other ){}
 
+template<typename VertexType>
+graphdom::multiset_graph<VertexType>::adj_list_iterator::adj_list_iterator(
+    const graph<VertexType>* const iterator_owner_pointer,
+    const typename graph<VertexType>::graph_edges_type iterator_owner_graph_edges_type,
+    typename graph<VertexType>::vertex_container* const edge_begin_point_vertex_container,
+    const typename graph<VertexType>::edges_type_selection_type edges_type_restriction,
+    const graphdom::edge_type inner_iterator_edge_current_type) :
+graphdom::graph<VertexType>::template adj_list_base_iterator< typename graph<VertexType>::vertex_container* >(
+    iterator_owner_pointer,
+    iterator_owner_graph_edges_type,
+    edge_begin_point_vertex_container,
+    edges_type_restriction,
+    inner_iterator_edge_current_type
+) {}
+
+template<typename VertexType>
+graphdom::multiset_graph<VertexType>::adj_list_iterator::adj_list_iterator(
+    const graph<VertexType> *iterator_owner_pointer,
+    const typename graph<VertexType>::graph_edges_type iterator_owner_graph_edges_type,
+    typename graph<VertexType>::vertex_container* const edge_begin_point_vertex_container,
+    const typename graph<VertexType>::edges_type_selection_type edges_type_restriction,
+    const graphdom::edge_type inner_iterator_edge_current_type,
+    const typename graph<VertexType>::template adj_set<typename graph<VertexType>::vertex_container* >::iterator& inner_iterator) :
+graphdom::graph<VertexType>::template adj_list_base_iterator< typename graph<VertexType>::vertex_container* >(
+    iterator_owner_pointer,
+    iterator_owner_graph_edges_type,
+    edge_begin_point_vertex_container,
+    edges_type_restriction,
+    inner_iterator_edge_current_type,
+    inner_iterator
+) {}
+
 #endif //GRAPHDOM_MULTISET_GRAPH_ADJ_LIST_ITERATOR_IMPL_H

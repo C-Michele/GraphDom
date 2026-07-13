@@ -67,6 +67,7 @@ namespace graphdom {
             [[nodiscard]] graph<VertexType>::const_adj_list const_adj_list(edge_type edge_type) const;
 
             friend typename graph<VertexType>::adj_list_const_iterator;
+            friend graph<VertexType>;
         private:
             vertex_const_handle(
                 const graph<VertexType>* vertex_container_owner_ptr,
