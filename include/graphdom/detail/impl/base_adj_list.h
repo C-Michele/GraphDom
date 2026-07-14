@@ -157,7 +157,7 @@ graphdom::graph<VertexType>::base_adj_list<VertexContainerPointerType>::get_adj_
             :
             nullptr
         );
-    if ( edge_type == undirected ) {
+    if ( edge_type == edge_type::undirected ) {
         if ( adj_list_edges_type_selection != directed_edges ) {
             return undirected_adj;
         }

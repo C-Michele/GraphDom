@@ -1,10 +1,8 @@
 #ifndef GRAPHDOM_GENERIC_GRAPH_TESTS_H
 #define GRAPHDOM_GENERIC_GRAPH_TESTS_H
 
-#include <utility>
-
 #include "gtest/gtest.h"
-#include "graphdom/graphdom.h"
+#include "graphdom/graph.h"
 
 #define IS_A_GRAPH_TEST(TEST_SUITE_NAME,CONCRETE_CLASS_NAME,VERTEX_TYPENAME)                        \
     TEST(TEST_SUITE_NAME,is_a_graph) {                                                              \

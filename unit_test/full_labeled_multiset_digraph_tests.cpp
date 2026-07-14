@@ -10,7 +10,6 @@
 #include "generic_labeled_vertex_multiset_graph_tests.h"
 #include "generic_labeled_edge_digraph_tests.h"
 #include "generic_labeled_edge_multiset_digraph_tests.h"
-#include "graphdom/graphdom.h"
 #include "graphdom/full_labeled_multiset_digraph.h"
 
 using tested_graph = graphdom::full_labeled_multiset_digraph<std::size_t,std::string,std::string>;
@@ -71,56 +70,7 @@ MULTISET_GRAPH_VERTEX_CONST_HANDLE_ASSIGNMENT_OPERATOR_TEST_1(full_labeled_multi
 
 MULTISET_DIGRAPH_CORRECT_EDGES_INSERTION_WITHOUT_LABEL_SPECIFIC_VERTEX_HANDLE_ADJ_LIST_NOT_C_METHODS(full_labeled_multiset_digraph,tested_graph);
 
-TEST(full_labeled_multiset_digraph,correct_edges_insertion__without_label__specific_vertex_handle__adj_list__c_methods) {
-    tested_graph graph;
-    const std::size_t number_of_different_vertex_values = 10;
-    const std::size_t number_of_repetitions = 3;
-    typename std::vector< typename graphdom::multiset_graph<std::size_t>::vertex_handle > inserted_vertices;
-    inserted_vertices.reserve( number_of_different_vertex_values * number_of_repetitions );
-    for(std::size_t i = 0; i < number_of_different_vertex_values; ++i) {
-        for(std::size_t j = 0; j < number_of_repetitions; ++j) {
-            inserted_vertices.emplace_back( graph.insert_vertex( i ) );
-        }
-    }
-    for(std::size_t first = 0; first < inserted_vertices.size(); ++first) {
-        for(std::size_t second = 0; second < inserted_vertices.size(); ++second) {
-            graph.insert_edge( inserted_vertices[first], inserted_vertices[second] );
-            for( std::size_t k = 0; k < inserted_vertices.size(); ++k ) {
-                auto k_adj_list_undirected = inserted_vertices[k].adj_list(graphdom::edge_type::undirected);
-                ASSERT_EQ(k_adj_list_undirected.cbegin(),k_adj_list_undirected.cend());
-                std::set<const std::size_t*> expected_vertices_in_k_adj_lists;
-                if( k < first ) {
-                    for(std::size_t j = 0; j < inserted_vertices.size(); ++j ) {
-                        expected_vertices_in_k_adj_lists.emplace( &*inserted_vertices[j] );
-                    }
-                }
-                else if( k == first ) {
-                    for(std::size_t j = 0; j <= second; ++j ) {
-                        expected_vertices_in_k_adj_lists.emplace( &*inserted_vertices[j] );
-                    }
-                }
-                auto k_adj_list = inserted_vertices[k].adj_list();
-                std::set<const std::size_t*> vertices_encountered_in_k_adj_list;
-                for(auto edge_itr = k_adj_list.cbegin(); edge_itr != k_adj_list.cend(); ++edge_itr) {
-                    ASSERT_EQ(edge_itr.edge_type(),graphdom::edge_type::directed);
-                    const std::size_t* const edge_itr_vertex_raw_pointer = &(*(*edge_itr));
-                    EXPECT_TRUE( ( vertices_encountered_in_k_adj_list.emplace( edge_itr_vertex_raw_pointer ) ).second );
-                    ASSERT_NE( expected_vertices_in_k_adj_lists.find( edge_itr_vertex_raw_pointer ) , expected_vertices_in_k_adj_lists.end() );
-                }
-                ASSERT_EQ(vertices_encountered_in_k_adj_list.size(),expected_vertices_in_k_adj_lists.size());
-                auto k_adj_list_directed = inserted_vertices[k].adj_list(graphdom::edge_type::directed);
-                std::set<const std::size_t*> vertices_encountered_in_k_adj_list_directed;
-                for(auto edge_itr = k_adj_list_directed.cbegin(); edge_itr != k_adj_list_directed.cend(); ++edge_itr) {
-                    ASSERT_EQ(edge_itr.edge_type(),graphdom::edge_type::directed);
-                    const std::size_t* const edge_itr_vertex_raw_pointer = &(*(*edge_itr));
-                    EXPECT_TRUE( ( vertices_encountered_in_k_adj_list_directed.emplace( edge_itr_vertex_raw_pointer ) ).second );
-                    ASSERT_NE( expected_vertices_in_k_adj_lists.find( edge_itr_vertex_raw_pointer ) , expected_vertices_in_k_adj_lists.end() );
-                }
-                ASSERT_EQ(vertices_encountered_in_k_adj_list_directed.size(),expected_vertices_in_k_adj_lists.size());
-            }
-        }
-    }
-};
+MULTISET_DIGRAPH_CORRECT_EDGES_INSERTION_WITHOUT_LABEL_SPECIFIC_VERTEX_HANDLE_ADJ_LIST_C_METHODS(full_labeled_multiset_digraph,tested_graph);
 
 MULTISET_DIGRAPH_CORRECT_EDGES_INSERTION_WITHOUT_LABEL_SPECIFIC_VERTEX_HANDLE_CONST_ADJ_LIST_NOT_C_METHODS(full_labeled_multiset_digraph,tested_graph);
 

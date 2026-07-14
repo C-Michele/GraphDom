@@ -10,7 +10,7 @@
 
 #include "gtest/gtest.h"
 #include "graphdom_tests_utility.h"
-#include "graphdom/graphdom.h"
+#include "graphdom/set_graph.h"
 
 #define SET_GRAPH_IS_A_SET_GRAPH_TEST(TEST_SUITE_NAME,CONCRETE_CLASS_NAME,VERTEX_TYPENAME)              \
     TEST(TEST_SUITE_NAME,is_a_set_graph) {                                                              \
@@ -387,13 +387,13 @@
         }                                                                                                                   \
     }                                                                                                                       \
 
-#define SET_GRAPH_UNABLE_TO_CONVERT_A_VERTEX_HANDLE_TO_MULTISET_VERTEX_HANDLE_TEST(TEST_SUITE_NAME,CONCRETE_CLASS_NAME)                                                                                                                                                        \
-    TEST(TEST_SUITE_NAME, unable_to_convert_a_vertex_handle_to_multiset_vertex_handle) {                                                                                                                                                                                              \
+#define SET_GRAPH_UNABLE_TO_CONVERT_A_VERTEX_HANDLE_TO_MULTISET_VERTEX_HANDLE_TEST(TEST_SUITE_NAME,CONCRETE_CLASS_NAME)                                                                                                                                                                 \
+    TEST(TEST_SUITE_NAME, unable_to_convert_a_vertex_handle_to_multiset_vertex_handle) {                                                                                                                                                                                                \
         CONCRETE_CLASS_NAME graph;                                                                                                                                                                                                                                                      \
         const std::size_t number_of_vertices = 100;                                                                                                                                                                                                                                     \
         typename std::vector<                                                                                                                                                                                                                                                           \
             std::pair<                                                                                                                                                                                                                                                                  \
-                typename graphdom::graph<std::size_t>::vertex_handle,                                                                                                                                                                                                     \
+                typename graphdom::graph<std::size_t>::vertex_handle,                                                                                                                                                                                                                   \
                 const std::size_t*                                                                                                                                                                                                                                                      \
             >                                                                                                                                                                                                                                                                           \
         > inserted_vertices;                                                                                                                                                                                                                                                            \
@@ -403,7 +403,7 @@
             ( inserted_vertices.back() ).second = &( *( ( inserted_vertices.back() ).first ) );                                                                                                                                                                                         \
         }                                                                                                                                                                                                                                                                               \
         for(std::size_t i = 0; i < number_of_vertices; ++i) {                                                                                                                                                                                                                           \
-            ASSERT_THROW(const typename graphdom::multiset_graph<std::size_t>::vertex_handle multiset_vertex_ptr_i = static_cast<graphdom::multiset_graph<std::size_t>::vertex_handle>(( inserted_vertices[i] ).first), std::exception);      \
+            ASSERT_THROW(const typename graphdom::multiset_graph<std::size_t>::vertex_handle multiset_vertex_ptr_i = static_cast<graphdom::multiset_graph<std::size_t>::vertex_handle>(( inserted_vertices[i] ).first), std::exception);                                                \
         }                                                                                                                                                                                                                                                                               \
     }                                                                                                                                                                                                                                                                                   \
 

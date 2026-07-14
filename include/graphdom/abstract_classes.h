@@ -7,7 +7,7 @@
 
 #include "labeled_edge_graph.h"
 #include "labeled_edge_non_mixed_graph.h"
-// #include "labeled_edge_mixed_graph.h"
+#include "labeled_edge_mixed_graph.h"
 
 #include "labeled_vertex_graph.h"
 #include "labeled_vertex_set_graph.h"

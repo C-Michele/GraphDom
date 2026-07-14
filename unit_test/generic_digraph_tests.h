@@ -1,8 +1,6 @@
 #ifndef GRAPHDOM_GENERIC_DIGRAPH_TESTS_H
 #define GRAPHDOM_GENERIC_DIGRAPH_TESTS_H
 
-#include <utility>
-
 #include "gtest/gtest.h"
 #include "graphdom/non_mixed_graph.h"
 #include "graphdom/mixed_graph.h"

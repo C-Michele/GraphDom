@@ -9,7 +9,6 @@
 #include "generic_labeled_vertex_graph_tests.h"
 #include "generic_labeled_vertex_set_graph_tests.h"
 #include "generic_labeled_edge_ugraph_tests.h"
-#include "graphdom/graphdom.h"
 #include "graphdom/full_labeled_set_ugraph.h"
 
 using tested_graph = graphdom::full_labeled_set_ugraph<std::size_t,std::string,std::string>;

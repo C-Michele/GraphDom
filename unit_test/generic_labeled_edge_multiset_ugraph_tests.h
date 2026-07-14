@@ -885,8 +885,8 @@
         }                                                                                                                                                                                                       \
     }                                                                                                                                                                                                           \
 
-#define LABELED_EDGE_UGRAPH_CORRECT_EDGE_INSERTION_WITH_LABEL_WITHOUT_REPETITIONS_RVALUE_SPECIFIC_VERTEX_HANDLE_ADJ_LIST_C_METHODS_TEST(TEST_SUITE_NAME,CONCRETE_CLASS_NAME)                                             \
-    TEST(TEST_SUITE_NAME,correct_edge_insertion__with_label__without_repetitions__rvalue__specific_vertex_handle__adj_list__c_methods){                                                                                  \
+#define LABELED_EDGE_UGRAPH_CORRECT_EDGE_INSERTION_WITH_LABEL_WITHOUT_REPETITIONS_RVALUE_SPECIFIC_VERTEX_HANDLE_ADJ_LIST_C_METHODS_TEST(TEST_SUITE_NAME,CONCRETE_CLASS_NAME)                                    \
+    TEST(TEST_SUITE_NAME,correct_edge_insertion__with_label__without_repetitions__rvalue__specific_vertex_handle__adj_list__c_methods){                                                                         \
         static_assert( std::is_base_of< graphdom::graph< std::size_t > , CONCRETE_CLASS_NAME >() );                                                                                                             \
         static_assert( std::is_base_of< graphdom::labeled_edge_non_mixed_graph< std::size_t , graphdom_tests::heap_value< std::pair< std::size_t* , std::size_t* > > > , CONCRETE_CLASS_NAME >() );             \
         CONCRETE_CLASS_NAME graph;                                                                                                                                                                              \

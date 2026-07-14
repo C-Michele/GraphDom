@@ -7,7 +7,7 @@
 #include <cstddef>
 
 #include "gtest/gtest.h"
-#include "graphdom/graphdom.h"
+#include "graphdom/multiset_graph.h"
 
 #define MULTISET_GRAPH_IS_A_MULTISET_GRAPH_TEST(TEST_SUITE_NAME,CONCRETE_CLASS_NAME,VERTEX_TYPENAME)        \
     TEST(TEST_SUITE_NAME,is_a_multiset_graph) {                                                             \
@@ -395,8 +395,8 @@
                     ASSERT_EQ( *vertex_handle , k/number_of_repetitions );                                                          \
                 }                                                                                                                   \
             }                                                                                                                       \
-        }                                                                                                                                               \
-    }                                                                                                                                                   \
+        }                                                                                                                           \
+    }                                                                                                                               \
 
 #define MULTISET_GRAPH_CORRECT_RETURNED_VERTEX_HANDLE_REFERENCE_AFTER_ASSIGNMENT_TEST(TEST_SUITE_NAME,CONCRETE_CLASS_NAME)  \
     TEST(TEST_SUITE_NAME, correct_returned_vertex_handle_reference_after_assignment) {                                      \
