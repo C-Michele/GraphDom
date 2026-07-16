@@ -61,27 +61,8 @@ namespace graphdom {
         private:
             EdgeLabellerType edges_labeller;
     };
-
-    template<typename VertexType, typename EdgeLabelType, typename EdgeLabellerType>
-    labeled_edge_non_mixed_graph<VertexType,EdgeLabelType,EdgeLabellerType>::labeled_edge_non_mixed_graph() : edges_labeller() {}
-
-    template<typename VertexType, typename EdgeLabelType, typename EdgeLabellerType>
-    labeled_edge_non_mixed_graph<VertexType,EdgeLabelType,EdgeLabellerType>::labeled_edge_non_mixed_graph(const EdgeLabellerType& edge_labeller) : edges_labeller(edge_labeller) {}
-
-    template<typename VertexType, typename EdgeLabelType, typename EdgeLabellerType>
-    labeled_edge_non_mixed_graph<VertexType,EdgeLabelType,EdgeLabellerType>::labeled_edge_non_mixed_graph(EdgeLabellerType&& edge_labeller) : edges_labeller(std::move(edge_labeller)) {}
-
-    template<typename VertexType, typename EdgeLabelType, typename EdgeLabellerType>
-    constexpr const EdgeLabellerType& labeled_edge_non_mixed_graph<VertexType,EdgeLabelType,EdgeLabellerType>::get_edges_labeller() const {
-        return edges_labeller;
-    }
-
-    template<typename VertexType, typename EdgeLabelType, typename EdgeLabellerType>
-    void labeled_edge_non_mixed_graph<VertexType,EdgeLabelType,EdgeLabellerType>::insert_edge(
-        const typename graph<VertexType>::vertex_const_handle& first_endpoint,
-        const typename graph<VertexType>::vertex_const_handle& second_endpoint) {
-        insert_edge(first_endpoint,second_endpoint,edges_labeller(first_endpoint,second_endpoint));
-    }
 }
+
+#include "impl/labeled_edge_non_mixed_graph.h"
 
 #endif //GRAPHDOM_LABELED_EDGE_NON_MIXED_GRAPH_H

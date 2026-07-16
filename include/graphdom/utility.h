@@ -24,6 +24,7 @@ namespace graphdom::utility {
             output ^= output >> 16;
             return output;
         }
+        return reinterpret_cast< std::uintptr_t >( input );
     }
 }
 
