@@ -20,8 +20,10 @@ namespace graphdom {
 
             ~base_adj_list() = default;
 
+            /// \endcond DEV_DOC
             template<typename>
             friend class graph<VertexType>::base_adj_list;
+            /// \endcond DEV_DOC
         protected:
             base_adj_list(const base_adj_list&) = default;
             base_adj_list(

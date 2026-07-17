@@ -7,8 +7,9 @@
 #include "../multiset_graph.h"
 
 namespace graphdom {
-    /// Every valid instance of this class can be used to identify a specific [vertex](@ref mathematical_vertex_definition) of a [multiset-vertex graph](@ref graphdom::multiset_vertex_graph) and to access its [core](@ref mathematical_vertex_core_definition) by reference or pointer.
     /**
+     * @brief Every valid instance of this class can be used to identify a specific [vertex](@ref mathematical_vertex_definition) of a [multiset graph](@ref graphdom::multiset_graph) and to access its [core](@ref mathematical_vertex_core_definition) by reference or pointer.
+     *
      * An instance `hndl` of this class is invalidated as soon as one of the following scenarios occurs:
      * -# `hndl` is constructed using an invalid instance of this class.
      * -# `hndl` is constructed using an invalid instance of [graphdom::graph< VertexType >::vertex_handle](@ref graphdom::graph::vertex_handle).

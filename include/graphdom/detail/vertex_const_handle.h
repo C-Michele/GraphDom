@@ -16,7 +16,7 @@ namespace graphdom {
      * An instance `hndl` of this class is invalidated as soon as one of the following scenarios occurs:
      * -# `hndl` is constructed using an invalid instance of this class.
      * -# `hndl` is constructed using an invalid instance of [graphdom::graph< VertexType >::vertex_handle](@ref graphdom::graph::vertex_handle).
-     * -# `hndl` is constructed using an invalid instance of [graphdom::multiset_vertex_graph< VertexType >::vertex_handle](@ref graphdom::multiset_vertex_graph::vertex_handle).
+     * -# `hndl` is constructed using an invalid instance of [graphdom::multiset_graph< VertexType >::vertex_handle](@ref graphdom::multiset_graph::vertex_handle).
      * -# `hndl = other_hndl;` is executed where `other_hndl` is an invalid instance of this class.
      *
      * A valid instance `hndl` of this class is invalidated as soon as the vertex it is associated with is erased.

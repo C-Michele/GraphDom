@@ -24,9 +24,11 @@ namespace graphdom {
             [[nodiscard]] graph<VertexType>::adj_list_const_iterator cbegin() const;
             [[nodiscard]] graph<VertexType>::adj_list_const_iterator cend() const;
 
+            /// \cond DEV_DOC
             friend typename graph<VertexType>::const_adj_list;
             friend typename multiset_graph<VertexType>::adj_list;
             friend typename graph<VertexType>::vertex_handle;
+            /// \endcond DEV_DOC
         private:
             adj_list(
                 const graph<VertexType>* adj_list_owner_graph_pointer,

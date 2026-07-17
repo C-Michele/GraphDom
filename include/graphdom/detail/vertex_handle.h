@@ -8,11 +8,12 @@
 #include "multiset_graph_vertex_handle.h"
 
 namespace graphdom {
-    /// Every valid instance of this class can be used to identify a specific [vertex](@ref mathematical_vertex_definition) of a [graph](@ref graphdom::graph) and to access its [core](@ref mathematical_vertex_core_definition) by reference or pointer.
     /**
+     * @brief Every valid instance of this class can be used to identify a specific [vertex](@ref mathematical_vertex_definition) of a [graph](@ref graphdom::graph) and to access its [core](@ref mathematical_vertex_core_definition) by reference or pointer.
+     *
      * An instance `hndl` of this class is invalidated as soon as one of the following scenarios occurs:
      * -# `hndl` is constructed using an invalid instance of this class.
-     * -# `hndl` is constructed using an invalid instance of [graphdom::multiset_vertex_graph< VertexType >::vertex_handle](@ref graphdom::multiset_vertex_graph::vertex_handle).
+     * -# `hndl` is constructed using an invalid instance of [graphdom::multiset_graph< VertexType >::vertex_handle](@ref graphdom::multiset_graph::vertex_handle).
      * -# `hndl = other_hndl;` is executed where `other_hndl` is an invalid instance of this class.
      *
      * A valid instance `hndl` of this class is invalidated as soon as the vertex it is associated with is erased.
@@ -62,10 +63,12 @@ namespace graphdom {
             [[nodiscard]] graph<VertexType>::const_adj_list const_adj_list() const;
             [[nodiscard]] graph<VertexType>::const_adj_list const_adj_list(edge_type edge_type) const;
 
+            /// \cond DEV_DOC
             friend typename graph<VertexType>::vertex_const_handle;
             friend typename multiset_graph<VertexType>::vertex_handle;
             friend typename graph<VertexType>::adj_list_iterator;
             friend graph<VertexType>;
+            /// \endcond DEV_DOC
         private:
             vertex_handle(
                 const graph<VertexType>* vertex_container_owner_ptr,

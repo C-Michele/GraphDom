@@ -9,6 +9,9 @@
 #include "multiset_graph_adj_list.h"
 
 namespace graphdom {
+    /**
+     * @brief Every valid instance of this class is a "container-like and non-owning" handle to a subset of the set of all [out-edges](@ref mathematical_vertex_out_edge_definition) of a [vertex](@ref mathematical_vertex_definition).
+     */
     template <typename VertexType>
     class graph<VertexType>::const_adj_list : public graph<VertexType>::base_adj_list< const graph<VertexType>::vertex_container* > {
         public:
@@ -24,9 +27,11 @@ namespace graphdom {
             [[nodiscard]] graph<VertexType>::adj_list_const_iterator cbegin() const;
             [[nodiscard]] graph<VertexType>::adj_list_const_iterator cend() const;
 
+            /// \cond DEV_DOC
             friend class graph<VertexType>::vertex_handle;
             friend class graph<VertexType>::vertex_const_handle;
             friend class multiset_graph<VertexType>::vertex_handle;
+            /// \endcond DEV_DOC
         private:
             const_adj_list(
                 const graphdom::graph<VertexType>* adj_list_owner_graph_pointer,

@@ -109,12 +109,26 @@
     -# \f$ y \f$ is a @ref mathematical_directed_edge_definition "directed edge" (of \f$ G \f$ ) with \f$ y = ( b , a ) \f$;
     -# \f$ y \f$ is an @ref mathematical_undirected_edge_definition "undirected edge" (of \f$ G \f$ ) and \f$ a \in y \f$;
 
-    \subsection mathematical_vertex_out_edge_set_definition Out-edge of a vertex of a graph
+    \subsection mathematical_vertex_out_edge_definition Out-edge of a vertex of a graph
     Let \f$ G \f$ be a @ref mathematical_graph_definition "graph" with \f$ G = ( V_\text{type} , V , E_\text{di} , E_\text{un} , C_{l_V} , l_V , C_{l_E} , l_E ) \f$ .<br>
     Let \f$ v \f$ be a @ref mathematical_vertex_definition "vertex" of \f$ G \f$.<br>
     \f$ y \f$ is an out-edge of \f$ v \f$ with respect to \f$ G \f$ if and only if \f$ y \f$ satisfies one of the following conditions:
     -# \f$ y \f$ is a @ref mathematical_directed_edge_definition "directed edge" of \f$ G \f$ and \f$ v \f$ is the @ref mathematical_directed_edge_head_definition "head" of \f$ y \f$;
     -# \f$ y \f$ is a @ref mathematical_undirected_edge_definition "undirected edge" of \f$ G \f$ and \f$ v \f$ is an @ref mathematical_edge_endpoint_definition "endpoint" of \f$ y \f$;
+
+    \subsection mathematical_vertex_undirected_out_edge_definition Undirected out-edge of a vertex of a graph
+    Let \f$ G \f$ be a @ref mathematical_graph_definition "graph".<br>
+    Let \f$ v \f$ be a @ref mathematical_vertex_definition "vertex" of \f$ G \f$.<br>
+    \f$ y \f$ is an undirected out-edge of \f$ v \f$ with respect to \f$ G \f$ if and only if \f$ y \f$ satisfies all the following conditions:
+    -# \f$ y \f$ is an @ref mathematical_undirected_edge_definition "undirected edge" of \f$ G \f$;
+    -# \f$ y \f$ is an @ref mathematical_vertex_out_edge_definition "out-edge" of \f$ v \f$ with respect to \f$ G \f$;
+
+    \subsection mathematical_vertex_directed_out_edge_definition Directed out-edge of a vertex of a graph
+    Let \f$ G \f$ be a @ref mathematical_graph_definition "graph".<br>
+    Let \f$ v \f$ be a @ref mathematical_vertex_definition "vertex" of \f$ G \f$.<br>
+    \f$ y \f$ is a directed out-edge of \f$ v \f$ with respect to \f$ G \f$ if and only if \f$ y \f$ satisfies all the following conditions:
+    -# \f$ y \f$ is an @ref mathematical_directed_edge_definition "directed edge" of \f$ G \f$;
+    -# \f$ y \f$ is an @ref mathematical_vertex_out_edge_definition "out-edge" of \f$ v \f$ with respect to \f$ G \f$;
 
     \subsection mathematical_set_graph_definition Set graph
     \f$ G \f$ is a set graph if and only if \f$ G \f$ is a @ref mathematical_graph_definition "graph" and
@@ -126,13 +140,13 @@
     the @ref mathematical_vertex_mul_definition "multiplicity" of \f$ v \f$ (with respect to \f$ G \f$) is strictly greater than \f$ 1 \f$ .
 
     \subsection mathematical_mixed_graph_definition Mixed graph
-    \f$ G \f$ is a mixed graph if and only if \f$ G \f$ satisfies all of the following conditions:
+    \f$ G \f$ is a mixed graph if and only if \f$ G \f$ satisfies all the following conditions:
     -# \f$ G \f$ is a @ref mathematical_graph_definition "graph";
     -# exists (at least) a @ref mathematical_directed_edge_definition "directed edge" of \f$ G \f$;
     -# exists (at least) an @ref mathematical_undirected_edge_definition "undirected edge" of \f$ G \f$;
 
     \subsection mathematical_non_mixed_graph_definition Non-mixed graph
-    \f$ G \f$ is a non-mixed graph if and only if \f$ G \f$ satisfies all of the following conditions:
+    \f$ G \f$ is a non-mixed graph if and only if \f$ G \f$ satisfies all the following conditions:
     -# \f$ G \f$ is a @ref mathematical_graph_definition "graph";
     -# \f$ G \f$ is not a @ref mathematical_mixed_graph_definition "mixed graph";
 

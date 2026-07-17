@@ -23,12 +23,14 @@ namespace graphdom {
             adj_list_const_iterator& operator++();
             [[nodiscard]] adj_list_const_iterator operator++(int);
 
+            /// \cond DEV_DOC
             friend class graph<VertexType>::const_adj_list;
             friend class graph<VertexType>::adj_list;
             friend class multiset_graph<VertexType>::adj_list;
             friend class graph<VertexType>;
             friend class set_graph<VertexType>;
             friend class multiset_graph<VertexType>;
+            /// \endcond DEV_DOC
         private:
             adj_list_const_iterator( const graph<VertexType>::adj_list_base_iterator< const graph<VertexType>::vertex_container* >& other );
             adj_list_const_iterator(
