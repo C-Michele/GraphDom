@@ -14,7 +14,7 @@
 
 namespace graphdom {
     /**
-     * @brief Every valid instance of this class is a "container-like and non-owning" handle to a subset of the set of all [out-edges](@ref mathematical_vertex_out_edge_definition) of a [vertex](@ref mathematical_vertex_definition) belongings to a [multiset graph](@ref graphdom::multiset_graph).<br>
+     * @brief Every valid instance of this class is a "container-like and non-owning" handle to a subset of the set of all [out-edges](@ref mathematical_vertex_out_edge_definition) of a [vertex](@ref mathematical_vertex_definition) belongings to a [multiset graph](@ref graphdom::multiset_graph).
      *
      * An instance `adj` of this class is invalidated as soon as one of the following scenarios occurs:
      * -# `adj` is constructed using an invalid instance of this class.
