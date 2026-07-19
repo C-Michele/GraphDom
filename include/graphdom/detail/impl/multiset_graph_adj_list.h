@@ -1,3 +1,9 @@
+/*
+ * Copyright 2026 Michele Comparini
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 #ifndef GRAPHDOM_MULTISET_GRAPH_ADJ_LIST_IMPL_H
 #define GRAPHDOM_MULTISET_GRAPH_ADJ_LIST_IMPL_H
 

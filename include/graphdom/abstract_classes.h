@@ -1,3 +1,9 @@
+/*
+ * Copyright 2026 Michele Comparini
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 #ifndef GRAPHDOM_ABSTRACT_CLASSES_H
 #define GRAPHDOM_ABSTRACT_CLASSES_H
 

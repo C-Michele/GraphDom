@@ -1,3 +1,9 @@
+/*
+ * Copyright 2026 Michele Comparini
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 #ifndef GRAPHDOM_FULL_LABELED_MULTISET_DIGRAPH_IMPL_H
 #define GRAPHDOM_FULL_LABELED_MULTISET_DIGRAPH_IMPL_H
 

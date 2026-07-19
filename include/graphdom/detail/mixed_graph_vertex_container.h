@@ -1,3 +1,9 @@
+/*
+ * Copyright 2026 Michele Comparini
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 #ifndef GRAPHDOM_MIXED_GRAPH_VERTEX_CONTAINER_H
 #define GRAPHDOM_MIXED_GRAPH_VERTEX_CONTAINER_H
 

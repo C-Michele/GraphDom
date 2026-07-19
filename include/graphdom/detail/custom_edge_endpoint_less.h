@@ -1,3 +1,9 @@
+/*
+ * Copyright 2026 Michele Comparini
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 #ifndef GRAPHDOM_CUSTOM_EDGE_ENDPOINT_LESS_H
 #define GRAPHDOM_CUSTOM_EDGE_ENDPOINT_LESS_H
 

@@ -1,3 +1,9 @@
+/*
+ * Copyright 2026 Michele Comparini
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 #ifndef GRAPHDOM_LABELED_VERTEX_SET_GRAPH_IMPL_H
 #define GRAPHDOM_LABELED_VERTEX_SET_GRAPH_IMPL_H
 
