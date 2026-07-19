@@ -14,6 +14,20 @@
 #include "multiset_graph_adj_list.h"
 
 namespace graphdom {
+    /**
+     * @brief Every valid instance of this class is a "container-like and non-owning" handle to a subset of the set of all [out-edges](@ref mathematical_vertex_out_edge_definition) of a [vertex](@ref mathematical_vertex_definition).<br>
+     *
+     * An instance `adj` of this class is invalidated as soon as one of the following scenarios occurs:
+     * -# `adj` is constructed using an invalid instance of this class.
+     * -# `adj` is constructed using an invalid instance of [graphdom::multiset_graph< VertexType >::adj_list](@ref graphdom::multiset_graph::adj_list).
+     *
+     * A valid instance `adj` of this class is invalidated as soon as the vertex it is associated with is erased.
+     *
+     * If `*this` is invalid then any operation other than the destruction of `*this` will cause undefined behavior.
+     *
+     * \warning
+     * Users of the library MUST ABSOLUTELY NOT write code whose flow depends on the order of the elements in this container, even if the order relationship in which the elements are arranged is (obviously) deterministic.
+     */
     template <typename VertexType>
     class graph<VertexType>::adj_list : public graph<VertexType>::base_adj_list< const graph<VertexType>::vertex_container* > {
         public:
@@ -24,6 +38,9 @@ namespace graphdom {
             ~adj_list() = default;
 
             explicit operator typename multiset_graph<VertexType>::adj_list() const;
+
+            adj_list& operator=(const adj_list&) = delete;
+            adj_list& operator=(adj_list&&) = delete;
 
             [[nodiscard]] graph<VertexType>::adj_list_iterator begin() const;
             [[nodiscard]] graph<VertexType>::adj_list_iterator end() const;

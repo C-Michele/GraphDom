@@ -26,6 +26,9 @@ namespace graphdom {
 
             ~base_adj_list() = default;
 
+            base_adj_list& operator=(const base_adj_list&) = delete;
+            base_adj_list& operator=(base_adj_list&&) = delete;
+
             /// \endcond DEV_DOC
             template<typename>
             friend class graph<VertexType>::base_adj_list;
