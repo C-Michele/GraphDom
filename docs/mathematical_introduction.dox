@@ -180,8 +180,13 @@
     Let \f$ G \f$ be a @ref mathematical_labeled_vertex_graph_definition "labeled-vertex graph" with \f$ G = ( V_\text{type} , V , E_\text{di} , E_\text{un} , C_{l_V} , l_V , C_{l_E} , l_E ) \f$ ( \f$ C_{l_V} \neq \emptyset \f$ ).<br>
     If \f$ v \f$ is a @ref mathematical_vertex_definition "vertex" of \f$ G \f$, then \f$ l_V(v) \f$ is the label of \f$ v \f$ with respect to \f$ G \f$.
 
-    \subsection matematical_full_labeled_graph_definition Full labeled graph
+    \subsection mathematical_full_labeled_graph_definition Full labeled graph
     \f$ G \f$ is a full labeled graph if and only if \f$ G \f$ satisfies all the following conditions:
     -# \f$ G \f$ is a @ref mathematical_labeled_edge_graph_definition "labeled-edge graph";
     -# \f$ G \f$ is a @ref mathematical_labeled_vertex_graph_definition "labeled-vertex graph";
+
+    \subsection mathematical_unlabeled_graph_definition Unlabeled graph
+    \f$ G \f$ is a unlabeled graph if and only if \f$ G \f$ satisfies all the following conditions:
+    -# \f$ G \f$ is not a @ref mathematical_labeled_edge_graph_definition "labeled-edge graph";
+    -# \f$ G \f$ is not a @ref mathematical_labeled_vertex_graph_definition "labeled-vertex graph";
 */

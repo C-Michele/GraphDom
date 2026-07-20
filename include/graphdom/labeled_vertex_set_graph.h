@@ -45,7 +45,8 @@ namespace graphdom {
 
             /**
              * Inserts in `*this` a vertex having @p v_core as core, if `*this` doesn't already contain a vertex with an equivalent core.<br>
-             * If and as soon as the insertion took place, the [label of the inserted vertex](@ref mathematical_vertex_label_definition) is equal to `( this->get_vertices_labeller() )()`
+             * If and as soon as the insertion took place, the [label of the inserted vertex](@ref mathematical_vertex_label_definition) is equal to `( this->get_vertices_labeller() )()`<br>
+             * If the insertion did not take place, @p v_core remains unchanged.
              *
              * @param v_core
              * @return A pair consisting of a valid handle of the inserted vertex (or the vertex that prevented the insertion) and a bool value set to true if and only if the insertion took place.
@@ -64,7 +65,8 @@ namespace graphdom {
 
             /**
              * Inserts in `*this` a vertex having @p v_core as core, if `*this` doesn't already contain a vertex with an equivalent core.<br>
-             * If and as soon as the insertion took place, the [label of the inserted vertex](@ref mathematical_vertex_label_definition) is equal to @p vertex_label .
+             * If and as soon as the insertion took place, the [label of the inserted vertex](@ref mathematical_vertex_label_definition) is equal to @p vertex_label .<br>
+             * If the insertion did not take place, @p vertex_label remains unchanged.
              *
              * @param v_core
              * @param vertex_label If and as soon as the insertion took place, the [label of the inserted vertex](@ref mathematical_vertex_label_definition) is equal to @p vertex_label .
@@ -74,7 +76,8 @@ namespace graphdom {
 
             /**
              * Inserts in `*this` a vertex having @p v_core as core, if `*this` doesn't already contain a vertex with an equivalent core.<br>
-             * If and as soon as the insertion took place, the [label of the inserted vertex](@ref mathematical_vertex_label_definition) is equal to @p vertex_label .
+             * If and as soon as the insertion took place, the [label of the inserted vertex](@ref mathematical_vertex_label_definition) is equal to @p vertex_label .<br>
+             * If the insertion did not take place, @p v_core remains unchanged.
              *
              * @param v_core
              * @param vertex_label If and as soon as the insertion took place, the [label of the inserted vertex](@ref mathematical_vertex_label_definition) is equal to @p vertex_label .
@@ -84,7 +87,8 @@ namespace graphdom {
 
             /**
              * Inserts in `*this` a vertex having @p v_core as core, if `*this` doesn't already contain a vertex with an equivalent core.<br>
-             * If and as soon as the insertion took place, the [label of the inserted vertex](@ref mathematical_vertex_label_definition) is equal to @p vertex_label .
+             * If and as soon as the insertion took place, the [label of the inserted vertex](@ref mathematical_vertex_label_definition) is equal to @p vertex_label .<br>
+             * If the insertion did not take place, @p v_core and @p vertex_label remain unchanged
              *
              * @param v_core
              * @param vertex_label If and as soon as the insertion took place, the [label of the inserted vertex](@ref mathematical_vertex_label_definition) is equal to @p vertex_label .

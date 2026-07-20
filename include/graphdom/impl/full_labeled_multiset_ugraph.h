@@ -9,43 +9,43 @@
 
 #include "../full_labeled_multiset_ugraph.h"
 
-template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename T1, typename T2>//TODO:: find a better name for T1 and T2
-graphdom::full_labeled_multiset_ugraph<VertexType,VertexLabelType,EdgeLabelType,T1,T2>::
+template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename VertexLabellerType, typename EdgeLabellerType>
+graphdom::full_labeled_multiset_ugraph<VertexType,VertexLabelType,EdgeLabelType,VertexLabellerType,EdgeLabellerType>::
 full_labeled_multiset_ugraph() :
-labeled_vertex_multiset_graph<VertexType,VertexLabelType,T1>(),
-labeled_edge_non_mixed_graph<VertexType,EdgeLabelType,T2>(),
+labeled_vertex_multiset_graph<VertexType,VertexLabelType,VertexLabellerType>(),
+labeled_edge_non_mixed_graph<VertexType,EdgeLabelType,EdgeLabellerType>(),
 number_of_vertices_inserted(0) {}
 
-template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename T1, typename T2>//TODO:: find a better name for T1 and T2
-graphdom::full_labeled_multiset_ugraph<VertexType,VertexLabelType,EdgeLabelType,T1,T2>::
-full_labeled_multiset_ugraph(const T1& v_lab, const T2& e_lab) :
-labeled_vertex_multiset_graph<VertexType,VertexLabelType,T1>(v_lab),
-labeled_edge_non_mixed_graph<VertexType,EdgeLabelType,T2>(e_lab),
+template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename VertexLabellerType, typename EdgeLabellerType>
+graphdom::full_labeled_multiset_ugraph<VertexType,VertexLabelType,EdgeLabelType,VertexLabellerType,EdgeLabellerType>::
+full_labeled_multiset_ugraph(const VertexLabellerType& v_lab, const EdgeLabellerType& e_lab) :
+labeled_vertex_multiset_graph<VertexType,VertexLabelType,VertexLabellerType>(v_lab),
+labeled_edge_non_mixed_graph<VertexType,EdgeLabelType,EdgeLabellerType>(e_lab),
 number_of_vertices_inserted(0) {}
 
-template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename T1, typename T2> //TODO:: find a better name for T1 and T2
-graphdom::full_labeled_multiset_ugraph<VertexType,VertexLabelType,EdgeLabelType,T1,T2>::
-full_labeled_multiset_ugraph(const T1& v_lab, T2&& e_lab) :
-labeled_vertex_multiset_graph<VertexType,VertexLabelType,T1>(v_lab),
-labeled_edge_non_mixed_graph<VertexType,EdgeLabelType,T2>(std::move(e_lab)),
+template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename VertexLabellerType, typename EdgeLabellerType>
+graphdom::full_labeled_multiset_ugraph<VertexType,VertexLabelType,EdgeLabelType,VertexLabellerType,EdgeLabellerType>::
+full_labeled_multiset_ugraph(const VertexLabellerType& v_lab, EdgeLabellerType&& e_lab) :
+labeled_vertex_multiset_graph<VertexType,VertexLabelType,VertexLabellerType>(v_lab),
+labeled_edge_non_mixed_graph<VertexType,EdgeLabelType,EdgeLabellerType>(std::move(e_lab)),
 number_of_vertices_inserted(0) {}
 
-template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename T1, typename T2> //TODO:: find a better name for T1 and T2
-graphdom::full_labeled_multiset_ugraph<VertexType,VertexLabelType,EdgeLabelType,T1,T2>::
-full_labeled_multiset_ugraph(T1&& v_lab, const T2& e_lab) :
-labeled_vertex_multiset_graph<VertexType,VertexLabelType,T1>(std::move(v_lab)),
-labeled_edge_non_mixed_graph<VertexType,EdgeLabelType,T2>(e_lab),
+template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename VertexLabellerType, typename EdgeLabellerType>
+graphdom::full_labeled_multiset_ugraph<VertexType,VertexLabelType,EdgeLabelType,VertexLabellerType,EdgeLabellerType>::
+full_labeled_multiset_ugraph(VertexLabellerType&& v_lab, const EdgeLabellerType& e_lab) :
+labeled_vertex_multiset_graph<VertexType,VertexLabelType,VertexLabellerType>(std::move(v_lab)),
+labeled_edge_non_mixed_graph<VertexType,EdgeLabelType,EdgeLabellerType>(e_lab),
 number_of_vertices_inserted(0) {}
 
-template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename T1, typename T2> //TODO:: find a better name for T1 and T2
-graphdom::full_labeled_multiset_ugraph<VertexType,VertexLabelType,EdgeLabelType,T1,T2>::
-full_labeled_multiset_ugraph(T1&& v_lab, T2&& e_lab) :
-labeled_vertex_multiset_graph<VertexType,VertexLabelType,T1>(std::move(v_lab)),
-labeled_edge_non_mixed_graph<VertexType,EdgeLabelType,T2>(std::move(e_lab)),
+template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename VertexLabellerType, typename EdgeLabellerType>
+graphdom::full_labeled_multiset_ugraph<VertexType,VertexLabelType,EdgeLabelType,VertexLabellerType,EdgeLabellerType>::
+full_labeled_multiset_ugraph(VertexLabellerType&& v_lab, EdgeLabellerType&& e_lab) :
+labeled_vertex_multiset_graph<VertexType,VertexLabelType,VertexLabellerType>(std::move(v_lab)),
+labeled_edge_non_mixed_graph<VertexType,EdgeLabelType,EdgeLabellerType>(std::move(e_lab)),
 number_of_vertices_inserted(0) {}
 
-template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename T1, typename T2> //TODO:: find a better name for T1 and T2
-graphdom::full_labeled_multiset_ugraph<VertexType,VertexLabelType,EdgeLabelType,T1,T2>::~full_labeled_multiset_ugraph() {
+template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename VertexLabellerType, typename EdgeLabellerType>
+graphdom::full_labeled_multiset_ugraph<VertexType,VertexLabelType,EdgeLabelType,VertexLabellerType,EdgeLabellerType>::~full_labeled_multiset_ugraph() {
     while ( ! vertices.empty() ) {
         auto& vertex_to_erase = vertices.front();
         auto& vertex_to_erase_adj = vertex_to_erase.adj;
@@ -58,13 +58,13 @@ graphdom::full_labeled_multiset_ugraph<VertexType,VertexLabelType,EdgeLabelType,
     }
 }
 
-template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename T1, typename T2> //TODO:: find a better name for T1 and T2
-std::size_t graphdom::full_labeled_multiset_ugraph<VertexType,VertexLabelType,EdgeLabelType,T1,T2>::order() const {
+template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename VertexLabellerType, typename EdgeLabellerType>
+std::size_t graphdom::full_labeled_multiset_ugraph<VertexType,VertexLabelType,EdgeLabelType,VertexLabellerType,EdgeLabellerType>::order() const {
     return number_of_vertices_inserted;
 }
 
-template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename T1, typename T2>
-const VertexLabelType& graphdom::full_labeled_multiset_ugraph<VertexType,VertexLabelType,EdgeLabelType,T1,T2>::get_vertex_label(
+template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename VertexLabellerType, typename EdgeLabellerType>
+const VertexLabelType& graphdom::full_labeled_multiset_ugraph<VertexType,VertexLabelType,EdgeLabelType,VertexLabellerType,EdgeLabellerType>::get_vertex_label(
     const typename graph<VertexType>::vertex_const_handle& vertex) const {
     if ( graphdom::graph<VertexType>::get_owner_graph(vertex) != this ) {
         throw std::runtime_error("Error"); //TODO: write a better message
@@ -73,8 +73,8 @@ const VertexLabelType& graphdom::full_labeled_multiset_ugraph<VertexType,VertexL
     return vertex_container_ptr->vertex_label;
 }
 
-template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename T1, typename T2>
-const EdgeLabelType& graphdom::full_labeled_multiset_ugraph<VertexType,VertexLabelType,EdgeLabelType,T1,T2>::get_edge_label(
+template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename VertexLabellerType, typename EdgeLabellerType>
+const EdgeLabelType& graphdom::full_labeled_multiset_ugraph<VertexType,VertexLabelType,EdgeLabelType,VertexLabellerType,EdgeLabellerType>::get_edge_label(
 const typename graph<VertexType>::adj_list_const_iterator& edge) const {
     if ( graphdom::graph<VertexType>::get_owner_graph( edge ) != this ) {
         throw std::runtime_error("Error"); //TODO: write a better message
@@ -91,11 +91,11 @@ const typename graph<VertexType>::adj_list_const_iterator& edge) const {
     );
 }
 
-template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename T1, typename T2>
-void graphdom::full_labeled_multiset_ugraph<VertexType,VertexLabelType,EdgeLabelType,T1,T2>::erase_vertex(
-    const typename graphdom::graph<VertexType>::vertex_const_handle& const_vertex_ptr_to_erase_reference) {
-    if( graphdom::graph<VertexType>::get_owner_graph(const_vertex_ptr_to_erase_reference) == this ) {
-        const auto vertex_container_to_erase_ptr = graphdom::graph<VertexType>::get_vertex_container(const_vertex_ptr_to_erase_reference);
+template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename VertexLabellerType, typename EdgeLabellerType>
+void graphdom::full_labeled_multiset_ugraph<VertexType,VertexLabelType,EdgeLabelType,VertexLabellerType,EdgeLabellerType>::erase_vertex(
+    const typename graphdom::graph<VertexType>::vertex_const_handle& vertex) {
+    if( graphdom::graph<VertexType>::get_owner_graph(vertex) == this ) {
+        const auto vertex_container_to_erase_ptr = graphdom::graph<VertexType>::get_vertex_container(vertex);
         if ( vertex_container_to_erase_ptr != nullptr ) {
             for(auto vertices_itr = vertices.before_begin(); vertices_itr != vertices.end(); ++vertices_itr) {
                 auto vertices_itr_next = std::next(vertices_itr);
@@ -139,9 +139,9 @@ void graphdom::full_labeled_multiset_ugraph<VertexType,VertexLabelType,EdgeLabel
     //TODO:: Evaluate a possible exception throw HERE
 }
 
-template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename T1, typename T2>
+template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename VertexLabellerType, typename EdgeLabellerType>
 typename graphdom::graph<VertexType>::adj_list_iterator
-graphdom::full_labeled_multiset_ugraph<VertexType,VertexLabelType,EdgeLabelType,T1,T2>::erase_edge(
+graphdom::full_labeled_multiset_ugraph<VertexType,VertexLabelType,EdgeLabelType,VertexLabellerType,EdgeLabellerType>::erase_edge(
     const typename graph<VertexType>::adj_list_const_iterator& edge_itr) {
     if ( graphdom::graph<VertexType>::get_owner_graph(edge_itr) != this ) {
         throw std::runtime_error("Error"); //TODO: write a better message
@@ -163,8 +163,8 @@ graphdom::full_labeled_multiset_ugraph<VertexType,VertexLabelType,EdgeLabelType,
     );
 }
 
-template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename T1, typename T2>
-VertexLabelType& graphdom::full_labeled_multiset_ugraph<VertexType,VertexLabelType,EdgeLabelType,T1,T2>::get_vertex_label(
+template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename VertexLabellerType, typename EdgeLabellerType>
+VertexLabelType& graphdom::full_labeled_multiset_ugraph<VertexType,VertexLabelType,EdgeLabelType,VertexLabellerType,EdgeLabellerType>::get_vertex_label(
     const typename graph<VertexType>::vertex_const_handle& vertex) {
     if ( graphdom::graph<VertexType>::get_owner_graph(vertex) != this ) {
         throw std::runtime_error("Error"); //TODO: write a better message
@@ -173,13 +173,13 @@ VertexLabelType& graphdom::full_labeled_multiset_ugraph<VertexType,VertexLabelTy
     return const_cast< VertexLabelType& >( (*vertex_container_ptr).vertex_label );
 }
 
-template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename T1, typename T2> //TODO:: find a better name for T1 and T2
+template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename VertexLabellerType, typename EdgeLabellerType>
 typename graphdom::multiset_graph<VertexType>::vertex_handle
-graphdom::full_labeled_multiset_ugraph<VertexType,VertexLabelType,EdgeLabelType,T1,T2>::insert_vertex(
-    const VertexType& vertex_to_insert, const VertexLabelType& vertex_label_to_insert) {
+graphdom::full_labeled_multiset_ugraph<VertexType,VertexLabelType,EdgeLabelType,VertexLabellerType,EdgeLabellerType>::insert_vertex(
+    const VertexType& v_core, const VertexLabelType& vertex_label) {
     vertices.emplace_front(
-        vertex_to_insert,
-        vertex_label_to_insert
+        v_core,
+        vertex_label
     );
     ++number_of_vertices_inserted;
     return graphdom::multiset_graph<VertexType>::vertex_handle_factory(
@@ -189,13 +189,13 @@ graphdom::full_labeled_multiset_ugraph<VertexType,VertexLabelType,EdgeLabelType,
     );
 }
 
-template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename T1, typename T2> //TODO:: find a better name for T1 and T2
+template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename VertexLabellerType, typename EdgeLabellerType>
 typename graphdom::multiset_graph<VertexType>::vertex_handle
-graphdom::full_labeled_multiset_ugraph<VertexType,VertexLabelType,EdgeLabelType,T1,T2>::insert_vertex(
-const VertexType& vertex_to_insert, VertexLabelType&& vertex_label_to_insert) {
+graphdom::full_labeled_multiset_ugraph<VertexType,VertexLabelType,EdgeLabelType,VertexLabellerType,EdgeLabellerType>::insert_vertex(
+const VertexType& v_core, VertexLabelType&& vertex_label) {
     vertices.emplace_front(
-        vertex_to_insert,
-        std::move(vertex_label_to_insert)
+        v_core,
+        std::move(vertex_label)
     );
     ++number_of_vertices_inserted;
     return graphdom::multiset_graph<VertexType>::vertex_handle_factory(
@@ -205,13 +205,13 @@ const VertexType& vertex_to_insert, VertexLabelType&& vertex_label_to_insert) {
     );
 }
 
-template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename T1, typename T2> //TODO:: find a better name for T1 and T2
+template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename VertexLabellerType, typename EdgeLabellerType>
 typename graphdom::multiset_graph<VertexType>::vertex_handle
-graphdom::full_labeled_multiset_ugraph<VertexType,VertexLabelType,EdgeLabelType,T1,T2>::insert_vertex(
-VertexType&& vertex_to_insert, const VertexLabelType& vertex_label_to_insert) {
+graphdom::full_labeled_multiset_ugraph<VertexType,VertexLabelType,EdgeLabelType,VertexLabellerType,EdgeLabellerType>::insert_vertex(
+VertexType&& v_core, const VertexLabelType& vertex_label) {
     vertices.emplace_front(
-        std::move(vertex_to_insert),
-        vertex_label_to_insert
+        std::move(v_core),
+        vertex_label
     );
     ++number_of_vertices_inserted;
     return graphdom::multiset_graph<VertexType>::vertex_handle_factory(
@@ -221,13 +221,13 @@ VertexType&& vertex_to_insert, const VertexLabelType& vertex_label_to_insert) {
     );
 }
 
-template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename T1, typename T2> //TODO:: find a better name for T1 and T2
+template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename VertexLabellerType, typename EdgeLabellerType>
 typename graphdom::multiset_graph<VertexType>::vertex_handle
-graphdom::full_labeled_multiset_ugraph<VertexType,VertexLabelType,EdgeLabelType,T1,T2>::insert_vertex(
-VertexType&& vertex_to_insert, VertexLabelType&& vertex_label_to_insert) {
+graphdom::full_labeled_multiset_ugraph<VertexType,VertexLabelType,EdgeLabelType,VertexLabellerType,EdgeLabellerType>::insert_vertex(
+VertexType&& v_core, VertexLabelType&& vertex_label) {
     vertices.emplace_front(
-        std::move(vertex_to_insert),
-        std::move(vertex_label_to_insert)
+        std::move(v_core),
+        std::move(vertex_label)
     );
     ++number_of_vertices_inserted;
     return graphdom::multiset_graph<VertexType>::vertex_handle_factory(
@@ -237,8 +237,8 @@ VertexType&& vertex_to_insert, VertexLabelType&& vertex_label_to_insert) {
     );
 }
 
-template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename T1, typename T2>
-EdgeLabelType& graphdom::full_labeled_multiset_ugraph<VertexType,VertexLabelType,EdgeLabelType,T1,T2>::get_edge_label(
+template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename VertexLabellerType, typename EdgeLabellerType>
+EdgeLabelType& graphdom::full_labeled_multiset_ugraph<VertexType,VertexLabelType,EdgeLabelType,VertexLabellerType,EdgeLabellerType>::get_edge_label(
     const typename graph<VertexType>::adj_list_const_iterator& edge ) {
     if ( graphdom::graph<VertexType>::get_owner_graph( edge ) != this ) {
         throw std::runtime_error("Error"); //TODO: write a better message
@@ -255,8 +255,8 @@ EdgeLabelType& graphdom::full_labeled_multiset_ugraph<VertexType,VertexLabelType
     );
 }
 
-template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename T1, typename T2>
-void graphdom::full_labeled_multiset_ugraph<VertexType,VertexLabelType,EdgeLabelType,T1,T2>::insert_edge(
+template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename VertexLabellerType, typename EdgeLabellerType>
+void graphdom::full_labeled_multiset_ugraph<VertexType,VertexLabelType,EdgeLabelType,VertexLabellerType,EdgeLabellerType>::insert_edge(
     const typename graph<VertexType>::vertex_const_handle& first_endpoint,
     const typename graph<VertexType>::vertex_const_handle& second_endpoint,
     const EdgeLabelType& edge_label) {
@@ -294,8 +294,8 @@ void graphdom::full_labeled_multiset_ugraph<VertexType,VertexLabelType,EdgeLabel
     }
 }
 
-template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename T1, typename T2>
-void graphdom::full_labeled_multiset_ugraph<VertexType,VertexLabelType,EdgeLabelType,T1,T2>::insert_edge(
+template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename VertexLabellerType, typename EdgeLabellerType>
+void graphdom::full_labeled_multiset_ugraph<VertexType,VertexLabelType,EdgeLabelType,VertexLabellerType,EdgeLabellerType>::insert_edge(
     const typename graph<VertexType>::vertex_const_handle& first_endpoint,
     const typename graph<VertexType>::vertex_const_handle& second_endpoint,
     EdgeLabelType&& edge_label) {
@@ -350,8 +350,8 @@ void graphdom::full_labeled_multiset_ugraph<VertexType,VertexLabelType,EdgeLabel
     */
 }
 
-template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename T1, typename T2>
-void graphdom::full_labeled_multiset_ugraph<VertexType,VertexLabelType,EdgeLabelType,T1,T2>::
+template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename VertexLabellerType, typename EdgeLabellerType>
+void graphdom::full_labeled_multiset_ugraph<VertexType,VertexLabelType,EdgeLabelType,VertexLabellerType,EdgeLabellerType>::
 safe_edge_endpoint_deallocation(
     typename graphdom::graph<VertexType>::template edge_endpoint<VertexContainerPointerType>* ee_ptr) {
     delete static_cast<edge_endpoint*>(ee_ptr);

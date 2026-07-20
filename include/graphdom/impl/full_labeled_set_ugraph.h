@@ -9,64 +9,64 @@
 
 #include "../full_labeled_set_ugraph.h"
 
-template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename T1, typename T2>
-graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compare,T1,T2>::
-full_labeled_set_ugraph(const Compare& v_comp, const T1& v_lab, const T2& e_lab) :
-labeled_vertex_set_graph<VertexType,VertexLabelType,T1>(v_lab),
-labeled_edge_non_mixed_graph<VertexType,EdgeLabelType,T2>(e_lab),
+template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename VertexLabellerType, typename EdgeLabellerType>
+graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compare,VertexLabellerType,EdgeLabellerType>::
+full_labeled_set_ugraph(const Compare& v_comp, const VertexLabellerType& v_lab, const EdgeLabellerType& e_lab) :
+labeled_vertex_set_graph<VertexType,VertexLabelType,VertexLabellerType>(v_lab),
+labeled_edge_non_mixed_graph<VertexType,EdgeLabelType,EdgeLabellerType>(e_lab),
 vertices( custom_vertices_set_compare(v_comp) ) {}
 
-template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename T1, typename T2>
-graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compare,T1,T2>::
-full_labeled_set_ugraph(const Compare& v_comp, const T1& v_lab, T2&& e_lab) :
-labeled_vertex_set_graph<VertexType,VertexLabelType,T1>(v_lab),
-labeled_edge_non_mixed_graph<VertexType,EdgeLabelType,T2>(std::move(e_lab)),
+template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename VertexLabellerType, typename EdgeLabellerType>
+graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compare,VertexLabellerType,EdgeLabellerType>::
+full_labeled_set_ugraph(const Compare& v_comp, const VertexLabellerType& v_lab, EdgeLabellerType&& e_lab) :
+labeled_vertex_set_graph<VertexType,VertexLabelType,VertexLabellerType>(v_lab),
+labeled_edge_non_mixed_graph<VertexType,EdgeLabelType,EdgeLabellerType>(std::move(e_lab)),
 vertices( custom_vertices_set_compare(v_comp) ) {}
 
-template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename T1, typename T2>
-graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compare,T1,T2>::
-full_labeled_set_ugraph(const Compare& v_comp, T1&& v_lab, const T2& e_lab) :
-labeled_vertex_set_graph<VertexType,VertexLabelType,T1>(std::move(v_lab)),
-labeled_edge_non_mixed_graph<VertexType,EdgeLabelType,T2>(e_lab),
+template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename VertexLabellerType, typename EdgeLabellerType>
+graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compare,VertexLabellerType,EdgeLabellerType>::
+full_labeled_set_ugraph(const Compare& v_comp, VertexLabellerType&& v_lab, const EdgeLabellerType& e_lab) :
+labeled_vertex_set_graph<VertexType,VertexLabelType,VertexLabellerType>(std::move(v_lab)),
+labeled_edge_non_mixed_graph<VertexType,EdgeLabelType,EdgeLabellerType>(e_lab),
 vertices( custom_vertices_set_compare(v_comp) ) {}
 
-template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename T1, typename T2>
-graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compare,T1,T2>::
-full_labeled_set_ugraph(const Compare& v_comp, T1&& v_lab, T2&& e_lab) :
-labeled_vertex_set_graph<VertexType,VertexLabelType,T1>(std::move(v_lab)),
-labeled_edge_non_mixed_graph<VertexType,EdgeLabelType,T2>(std::move(e_lab)),
+template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename VertexLabellerType, typename EdgeLabellerType>
+graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compare,VertexLabellerType,EdgeLabellerType>::
+full_labeled_set_ugraph(const Compare& v_comp, VertexLabellerType&& v_lab, EdgeLabellerType&& e_lab) :
+labeled_vertex_set_graph<VertexType,VertexLabelType,VertexLabellerType>(std::move(v_lab)),
+labeled_edge_non_mixed_graph<VertexType,EdgeLabelType,EdgeLabellerType>(std::move(e_lab)),
 vertices( custom_vertices_set_compare(v_comp) ) {}
 
-template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename T1, typename T2>
-graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compare,T1,T2>::
-full_labeled_set_ugraph(Compare&& v_comp, const T1& v_lab, const T2& e_lab) :
-labeled_vertex_set_graph<VertexType,VertexLabelType,T1>(v_lab),
-labeled_edge_non_mixed_graph<VertexType,EdgeLabelType,T2>(e_lab),
+template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename VertexLabellerType, typename EdgeLabellerType>
+graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compare,VertexLabellerType,EdgeLabellerType>::
+full_labeled_set_ugraph(Compare&& v_comp, const VertexLabellerType& v_lab, const EdgeLabellerType& e_lab) :
+labeled_vertex_set_graph<VertexType,VertexLabelType,VertexLabellerType>(v_lab),
+labeled_edge_non_mixed_graph<VertexType,EdgeLabelType,EdgeLabellerType>(e_lab),
 vertices( custom_vertices_set_compare(std::move(v_comp)) ) {}
 
-template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename T1, typename T2>
-graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compare,T1,T2>::
-full_labeled_set_ugraph(Compare&& v_comp, const T1& v_lab, T2&& e_lab) :
-labeled_vertex_set_graph<VertexType,VertexLabelType,T1>(v_lab),
-labeled_edge_non_mixed_graph<VertexType,EdgeLabelType,T2>(std::move(e_lab)),
+template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename VertexLabellerType, typename EdgeLabellerType>
+graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compare,VertexLabellerType,EdgeLabellerType>::
+full_labeled_set_ugraph(Compare&& v_comp, const VertexLabellerType& v_lab, EdgeLabellerType&& e_lab) :
+labeled_vertex_set_graph<VertexType,VertexLabelType,VertexLabellerType>(v_lab),
+labeled_edge_non_mixed_graph<VertexType,EdgeLabelType,EdgeLabellerType>(std::move(e_lab)),
 vertices( custom_vertices_set_compare(std::move(v_comp)) ) {}
 
-template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename T1, typename T2>
-graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compare,T1,T2>::
-full_labeled_set_ugraph(Compare&& v_comp, T1&& v_lab, const T2& e_lab) :
-labeled_vertex_set_graph<VertexType,VertexLabelType,T1>(std::move(v_lab)),
-labeled_edge_non_mixed_graph<VertexType,EdgeLabelType,T2>(e_lab),
+template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename VertexLabellerType, typename EdgeLabellerType>
+graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compare,VertexLabellerType,EdgeLabellerType>::
+full_labeled_set_ugraph(Compare&& v_comp, VertexLabellerType&& v_lab, const EdgeLabellerType& e_lab) :
+labeled_vertex_set_graph<VertexType,VertexLabelType,VertexLabellerType>(std::move(v_lab)),
+labeled_edge_non_mixed_graph<VertexType,EdgeLabelType,EdgeLabellerType>(e_lab),
 vertices( custom_vertices_set_compare(std::move(v_comp)) ) {}
 
-template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename T1, typename T2>
-graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compare,T1,T2>::
-full_labeled_set_ugraph(Compare&& v_comp, T1&& v_lab, T2&& e_lab) :
-labeled_vertex_set_graph<VertexType,VertexLabelType,T1>(std::move(v_lab)),
-labeled_edge_non_mixed_graph<VertexType,EdgeLabelType,T2>(std::move(e_lab)),
+template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename VertexLabellerType, typename EdgeLabellerType>
+graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compare,VertexLabellerType,EdgeLabellerType>::
+full_labeled_set_ugraph(Compare&& v_comp, VertexLabellerType&& v_lab, EdgeLabellerType&& e_lab) :
+labeled_vertex_set_graph<VertexType,VertexLabelType,VertexLabellerType>(std::move(v_lab)),
+labeled_edge_non_mixed_graph<VertexType,EdgeLabelType,EdgeLabellerType>(std::move(e_lab)),
 vertices( custom_vertices_set_compare(std::move(v_comp)) ) {}
 
-template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename T1, typename T2>
-graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compare,T1,T2>::
+template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename VertexLabellerType, typename EdgeLabellerType>
+graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compare,VertexLabellerType,EdgeLabellerType>::
 ~full_labeled_set_ugraph() {
     for (auto ugraph_vertices_itr = vertices.begin(); ugraph_vertices_itr != vertices.end(); ++ugraph_vertices_itr) {
         auto& ugv_itr_vertex_container = *ugraph_vertices_itr;
@@ -78,13 +78,13 @@ graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compa
     }
 }
 
-template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename T1, typename T2>
-std::size_t graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compare,T1,T2>::order() const {
+template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename VertexLabellerType, typename EdgeLabellerType>
+std::size_t graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compare,VertexLabellerType,EdgeLabellerType>::order() const {
     return vertices.size();
 }
 
-template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename T1, typename T2>
-const VertexLabelType& graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compare,T1,T2>::get_vertex_label(
+template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename VertexLabellerType, typename EdgeLabellerType>
+const VertexLabelType& graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compare,VertexLabellerType,EdgeLabellerType>::get_vertex_label(
     const typename graph<VertexType>::vertex_const_handle& vertex) const {
     if ( graphdom::graph<VertexType>::get_owner_graph(vertex) != this ) {
         throw std::runtime_error("Error"); //TODO: write a better message
@@ -93,8 +93,8 @@ const VertexLabelType& graphdom::full_labeled_set_ugraph<VertexType,VertexLabelT
     return vertex_container_ptr->vertex_label;
 }
 
-template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename T1, typename T2>
-const EdgeLabelType& graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compare,T1,T2>::get_edge_label(
+template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename VertexLabellerType, typename EdgeLabellerType>
+const EdgeLabelType& graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compare,VertexLabellerType,EdgeLabellerType>::get_edge_label(
 const typename graph<VertexType>::adj_list_const_iterator& edge) const {
     if ( graphdom::graph<VertexType>::get_owner_graph( edge ) != this ) {
         throw std::runtime_error("Error"); //TODO: write a better message
@@ -111,8 +111,8 @@ const typename graph<VertexType>::adj_list_const_iterator& edge) const {
     );
 }
 
-template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename T1, typename T2>
-void graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compare,T1,T2>::erase_vertex(
+template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename VertexLabellerType, typename EdgeLabellerType>
+void graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compare,VertexLabellerType,EdgeLabellerType>::erase_vertex(
     const typename graphdom::graph<VertexType>::vertex_const_handle& const_vertex_ptr) {
     if ( graphdom::graph<VertexType>::get_owner_graph(const_vertex_ptr) == this ) {
         const auto* const vertex_container_to_erase_ptr =
@@ -151,9 +151,9 @@ void graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,EdgeLabelType,
     //TODO:: Evaluate a possible exception throw HERE
 }
 
-template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename T1, typename T2>
+template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename VertexLabellerType, typename EdgeLabellerType>
 typename graphdom::graph<VertexType>::adj_list_iterator
-graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compare,T1,T2>::erase_edge(
+graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compare,VertexLabellerType,EdgeLabellerType>::erase_edge(
     const typename graph<VertexType>::adj_list_const_iterator& edge_itr) {
     if ( graphdom::graph<VertexType>::get_owner_graph(edge_itr) != this ) {
         throw std::runtime_error("Error"); //TODO: write a better message
@@ -175,8 +175,8 @@ graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compa
     );
 }
 
-template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename T1, typename T2>
-VertexLabelType& graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compare,T1,T2>::get_vertex_label(
+template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename VertexLabellerType, typename EdgeLabellerType>
+VertexLabelType& graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compare,VertexLabellerType,EdgeLabellerType>::get_vertex_label(
     const typename graph<VertexType>::vertex_const_handle& vertex) {
     if ( graphdom::graph<VertexType>::get_owner_graph(vertex) != this ) {
         throw std::runtime_error("Error"); //TODO: write a better message
@@ -185,13 +185,13 @@ VertexLabelType& graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,Ed
     return const_cast< VertexLabelType& >( (*vertex_container_ptr).vertex_label );
 }
 
-template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename T1, typename T2>
+template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename VertexLabellerType, typename EdgeLabellerType>
 std::pair<typename graphdom::graph<VertexType>::vertex_handle,bool>
-graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compare,T1,T2>::insert_vertex(
-    const VertexType& vertex_to_insert, const VertexLabelType& vertex_label_to_insert) {
+graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compare,VertexLabellerType,EdgeLabellerType>::insert_vertex(
+    const VertexType& v_core, const VertexLabelType& vertex_label) {
     auto inner_insertion_result = vertices.emplace(
-        vertex_to_insert,
-        vertex_label_to_insert
+        v_core,
+        vertex_label
     );
     return std::pair<typename graphdom::graph<VertexType>::vertex_handle, bool>(
         graphdom::graph<VertexType>::vertex_handle_factory(
@@ -203,26 +203,26 @@ graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compa
     );
 }
 
-template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename T1, typename T2>
+template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename VertexLabellerType, typename EdgeLabellerType>
 std::pair<typename graphdom::graph<VertexType>::vertex_handle,bool>
-graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compare,T1,T2>::insert_vertex(
-const VertexType& vertex_to_insert, VertexLabelType&& vertex_label_to_insert) {
-    const auto lower_bound = vertices.lower_bound(vertex_to_insert);
+graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compare,VertexLabellerType,EdgeLabellerType>::insert_vertex(
+const VertexType& v_core, VertexLabelType&& vertex_label) {
+    const auto lower_bound = vertices.lower_bound(v_core);
     if ( lower_bound == vertices.cend()  ) {
         return std::pair<typename graphdom::graph<VertexType>::vertex_handle, bool>(
             graphdom::graph<VertexType>::vertex_handle_factory(
                 this,
-                *( vertices.emplace_hint(lower_bound, vertex_to_insert, std::move(vertex_label_to_insert)) ),
+                *( vertices.emplace_hint(lower_bound, v_core, std::move(vertex_label)) ),
                 graphdom::edge_type::undirected
             ),
             true
         );
     }
-    if ( ( vertices.key_comp() )( vertex_to_insert, *lower_bound ) ) {
+    if ( ( vertices.key_comp() )( v_core, *lower_bound ) ) {
         return std::pair<typename graphdom::graph<VertexType>::vertex_handle, bool>(
             graphdom::graph<VertexType>::vertex_handle_factory(
                 this,
-                *( vertices.emplace_hint(lower_bound, vertex_to_insert, std::move(vertex_label_to_insert)) ),
+                *( vertices.emplace_hint(lower_bound, v_core, std::move(vertex_label)) ),
                 graphdom::edge_type::undirected
             ),
             true
@@ -238,26 +238,26 @@ const VertexType& vertex_to_insert, VertexLabelType&& vertex_label_to_insert) {
     );
 }
 
-template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename T1, typename T2>
+template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename VertexLabellerType, typename EdgeLabellerType>
 std::pair<typename graphdom::graph<VertexType>::vertex_handle,bool>
-graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compare,T1,T2>::insert_vertex(
-VertexType&& vertex_to_insert, const VertexLabelType& vertex_label_to_insert) {
-    const auto lower_bound = vertices.lower_bound(vertex_to_insert);
+graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compare,VertexLabellerType,EdgeLabellerType>::insert_vertex(
+VertexType&& v_core, const VertexLabelType& vertex_label) {
+    const auto lower_bound = vertices.lower_bound(v_core);
     if ( lower_bound == vertices.cend()  ) {
         return std::pair<typename graphdom::graph<VertexType>::vertex_handle, bool>(
             graphdom::graph<VertexType>::vertex_handle_factory(
                 this,
-                *( vertices.emplace_hint(lower_bound, std::move(vertex_to_insert), vertex_label_to_insert) ),
+                *( vertices.emplace_hint(lower_bound, std::move(v_core), vertex_label) ),
                 graphdom::edge_type::undirected
             ),
             true
         );
     }
-    if ( ( vertices.key_comp() )( vertex_to_insert, *lower_bound ) ) {
+    if ( ( vertices.key_comp() )( v_core, *lower_bound ) ) {
         return std::pair<typename graphdom::graph<VertexType>::vertex_handle, bool>(
             graphdom::graph<VertexType>::vertex_handle_factory(
                 this,
-                *( vertices.emplace_hint(lower_bound, std::move(vertex_to_insert), vertex_label_to_insert) ),
+                *( vertices.emplace_hint(lower_bound, std::move(v_core), vertex_label) ),
                 graphdom::edge_type::undirected
             ),
             true
@@ -273,26 +273,26 @@ VertexType&& vertex_to_insert, const VertexLabelType& vertex_label_to_insert) {
     );
 }
 
-template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename T1, typename T2>
+template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename VertexLabellerType, typename EdgeLabellerType>
 std::pair<typename graphdom::graph<VertexType>::vertex_handle,bool>
-graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compare,T1,T2>::insert_vertex(
-VertexType&& vertex_to_insert, VertexLabelType&& vertex_label_to_insert) {
-    const auto lower_bound = vertices.lower_bound(vertex_to_insert);
+graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compare,VertexLabellerType,EdgeLabellerType>::insert_vertex(
+VertexType&& v_core, VertexLabelType&& vertex_label) {
+    const auto lower_bound = vertices.lower_bound(v_core);
     if ( lower_bound == vertices.cend()  ) {
         return std::pair<typename graphdom::graph<VertexType>::vertex_handle, bool>(
             graphdom::graph<VertexType>::vertex_handle_factory(
                 this,
-                *( vertices.emplace_hint(lower_bound, std::move(vertex_to_insert), std::move(vertex_label_to_insert)) ),
+                *( vertices.emplace_hint(lower_bound, std::move(v_core), std::move(vertex_label)) ),
                 graphdom::edge_type::undirected
             ),
             true
         );
     }
-    if ( ( vertices.key_comp() )( vertex_to_insert, *lower_bound ) ) {
+    if ( ( vertices.key_comp() )( v_core, *lower_bound ) ) {
         return std::pair<typename graphdom::graph<VertexType>::vertex_handle, bool>(
             graphdom::graph<VertexType>::vertex_handle_factory(
                 this,
-                *( vertices.emplace_hint(lower_bound, std::move(vertex_to_insert), std::move(vertex_label_to_insert)) ),
+                *( vertices.emplace_hint(lower_bound, std::move(v_core), std::move(vertex_label)) ),
                 graphdom::edge_type::undirected
             ),
             true
@@ -308,8 +308,8 @@ VertexType&& vertex_to_insert, VertexLabelType&& vertex_label_to_insert) {
     );
 }
 
-template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename T1, typename T2>
-EdgeLabelType& graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compare,T1,T2>::get_edge_label(
+template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename VertexLabellerType, typename EdgeLabellerType>
+EdgeLabelType& graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compare,VertexLabellerType,EdgeLabellerType>::get_edge_label(
     const typename graph<VertexType>::adj_list_const_iterator& edge ) {
     if ( graphdom::graph<VertexType>::get_owner_graph( edge ) != this ) {
         throw std::runtime_error("Error"); //TODO: write a better message
@@ -326,8 +326,8 @@ EdgeLabelType& graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,Edge
     );
 }
 
-template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename T1, typename T2>
-void graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compare,T1,T2>::insert_edge(
+template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename VertexLabellerType, typename EdgeLabellerType>
+void graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compare,VertexLabellerType,EdgeLabellerType>::insert_edge(
     const typename graph<VertexType>::vertex_const_handle& first_endpoint,
     const typename graph<VertexType>::vertex_const_handle& second_endpoint,
     const EdgeLabelType& edge_label) {
@@ -365,8 +365,8 @@ void graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,EdgeLabelType,
     }
 }
 
-template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename T1, typename T2>
-void graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compare,T1,T2>::insert_edge(
+template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename VertexLabellerType, typename EdgeLabellerType>
+void graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compare,VertexLabellerType,EdgeLabellerType>::insert_edge(
     const typename graph<VertexType>::vertex_const_handle& first_endpoint,
     const typename graph<VertexType>::vertex_const_handle& second_endpoint,
     EdgeLabelType&& edge_label) {
@@ -421,8 +421,8 @@ void graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,EdgeLabelType,
     */
 }
 
-template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename T1, typename T2>
-void graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compare,T1,T2>::
+template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename VertexLabellerType, typename EdgeLabellerType>
+void graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compare,VertexLabellerType,EdgeLabellerType>::
 safe_edge_endpoint_deallocation(
     typename graphdom::graph<VertexType>::template edge_endpoint<VertexContainerPointerType>* ee_ptr) {
     delete static_cast<edge_endpoint*>(ee_ptr);
