@@ -30,12 +30,26 @@ namespace graphdom {
 }
 
 namespace graphdom {
+    /**
+     * @brief This class template is the default vertex labeller used by all [labeled-edge graphs](@ref graphdom::labeled_edge_graph) if no user-specified vertex labeller is provided.
+     */
     template <typename VertexType, typename EdgeLabelType>
     class default_edge_labeller final {
         public:
+            /**
+             * This operator always returns a default-constructed instance of @p EdgeLabelType type.
+             *
+             * @return A default-constructed instance of @p EdgeLabelType type.
+             */
             [[nodiscard]] constexpr EdgeLabelType operator()(const typename graph<VertexType>::vertex_const_handle&, const typename graph<VertexType>::vertex_const_handle&) const {
                 return EdgeLabelType();
             }
+
+            /**
+             * This operator always returns a default-constructed instance of @p EdgeLabelType type.
+             *
+             * @return A default-constructed instance of @p EdgeLabelType type.
+             */
             [[nodiscard]] constexpr EdgeLabelType operator()(const typename graph<VertexType>::vertex_const_handle&, const typename graph<VertexType>::vertex_const_handle&, edge_type) const {
                 return EdgeLabelType();
             }

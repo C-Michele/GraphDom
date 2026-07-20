@@ -46,9 +46,17 @@ namespace graphdom {
 }
 
 namespace graphdom {
+    /**
+     * @brief This class template is the default vertex labeller used by all [labeled-vertex graphs](@ref graphdom::labeled_vertex_graph) if no user-specified vertex labeller is provided.
+     */
     template <typename VertexType, typename VertexLabelType>
     class default_vertex_labeller final {
         public:
+            /**
+             * This operator always returns a default-constructed instance of @p VertexLabelType type.
+             *
+             * @return A default-constructed instance of @p VertexLabelType type.
+             */
             [[nodiscard]] constexpr VertexLabelType operator()(const VertexType&) const {
                 return VertexLabelType();
             }
