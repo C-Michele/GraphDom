@@ -19,18 +19,18 @@ namespace graphdom {
         typename VertexType,
         typename VertexLabelType,
         typename EdgeLabelType,
-        typename T1 = default_vertex_labeller<VertexType,VertexLabelType>, //TODO:: find a better name for T1
-        typename T2 = default_edge_labeller<VertexType,EdgeLabelType> // TODO: find a better name for T2
+        typename VertexLabellerType = default_vertex_labeller<VertexType,VertexLabelType>,
+        typename EdgeLabellerType = default_edge_labeller<VertexType,EdgeLabelType>
     >
     class full_labeled_multiset_ugraph final :
-    virtual public labeled_vertex_multiset_graph<VertexType,VertexLabelType,T1>,
-    virtual public labeled_edge_non_mixed_graph<VertexType,EdgeLabelType,T2> {
+    virtual public labeled_vertex_multiset_graph<VertexType,VertexLabelType,VertexLabellerType>,
+    virtual public labeled_edge_non_mixed_graph<VertexType,EdgeLabelType,EdgeLabellerType> {
         public:
             full_labeled_multiset_ugraph();
-            full_labeled_multiset_ugraph(const T1& v_lab, const T2& e_lab);
-            explicit full_labeled_multiset_ugraph(const T1& v_lab, T2&& e_lab = T2());
-            full_labeled_multiset_ugraph(T1&& v_lab, const T2& e_lab);
-            explicit full_labeled_multiset_ugraph(T1&& v_lab, T2&& e_lab = T2());
+            full_labeled_multiset_ugraph(const VertexLabellerType& v_lab, const EdgeLabellerType& e_lab);
+            explicit full_labeled_multiset_ugraph(const VertexLabellerType& v_lab, EdgeLabellerType&& e_lab = EdgeLabellerType());
+            full_labeled_multiset_ugraph(VertexLabellerType&& v_lab, const EdgeLabellerType& e_lab);
+            explicit full_labeled_multiset_ugraph(VertexLabellerType&& v_lab, EdgeLabellerType&& e_lab = EdgeLabellerType());
 
             ~full_labeled_multiset_ugraph() override;
 
@@ -38,18 +38,37 @@ namespace graphdom {
             [[nodiscard]] const VertexLabelType& get_vertex_label(const typename graph<VertexType>::vertex_const_handle&) const override;
             [[nodiscard]] const EdgeLabelType& get_edge_label(const typename graph<VertexType>::adj_list_const_iterator&) const override;
 
-            void erase_vertex(const typename graphdom::graph<VertexType>::vertex_const_handle&) override; //TODO: look out to memory leaks in ADJ
-            [[nodiscard]] typename graphdom::graph<VertexType>::adj_list_iterator erase_edge(const typename graph<VertexType>::adj_list_const_iterator&) override; //TODO: look out to memory leaks in ADJ
+            void erase_vertex(const typename graphdom::graph<VertexType>::vertex_const_handle&) override;
+            [[nodiscard]] typename graphdom::graph<VertexType>::adj_list_iterator erase_edge(const typename graph<VertexType>::adj_list_const_iterator&) override;
             [[nodiscard]] VertexLabelType& get_vertex_label(const typename graph<VertexType>::vertex_const_handle&) override;
-            using graphdom::labeled_vertex_multiset_graph<VertexType,VertexLabelType,T1>::insert_vertex;
+            using graphdom::labeled_vertex_multiset_graph<VertexType,VertexLabelType,VertexLabellerType>::insert_vertex;
             [[nodiscard]] typename multiset_graph<VertexType>::vertex_handle insert_vertex(const VertexType&, const VertexLabelType&) override;
             [[nodiscard]] typename multiset_graph<VertexType>::vertex_handle insert_vertex(const VertexType&, VertexLabelType&&) override;
             [[nodiscard]] typename multiset_graph<VertexType>::vertex_handle insert_vertex(VertexType&&, const VertexLabelType&) override;
             [[nodiscard]] typename multiset_graph<VertexType>::vertex_handle insert_vertex(VertexType&&, VertexLabelType&&) override;
             [[nodiscard]] EdgeLabelType& get_edge_label(const typename graph<VertexType>::adj_list_const_iterator&) override;
-            using graphdom::labeled_edge_non_mixed_graph<VertexType,EdgeLabelType,T2>::insert_edge;
-            void insert_edge(const typename graph<VertexType>::vertex_const_handle&, const typename graph<VertexType>::vertex_const_handle&, const EdgeLabelType&) override;
-            void insert_edge(const typename graph<VertexType>::vertex_const_handle&, const typename graph<VertexType>::vertex_const_handle&, EdgeLabelType&&) override;
+            using graphdom::labeled_edge_non_mixed_graph<VertexType,EdgeLabelType,EdgeLabellerType>::insert_edge;
+
+            /**
+             * Inserts in `*this` an [undirected edge](@ref mathematical_undirected_edge_definition) having @p first_endpoint, @p second_endpoint as [endpoints](@ref mathematical_edge_endpoint_definition), if `*this` doesn't already contain the same edge.<br>
+             * If and as soon as the insertion took place, the [label of the inserted edge](@ref mathematical_edge_label_definition) is equal to @p edge_label .
+             *
+             * @param first_endpoint This handle must be valid and must identify a vertex belonging to `*this`, otherwise the insertion will cause undefined behavior.
+             * @param second_endpoint This handle must be valid and must identify a vertex belonging to `*this`, otherwise the insertion will cause undefined behavior.
+             * @param edge_label If and as soon as the insertion took place, the [label of the inserted edge](@ref mathematical_edge_label_definition) is equal to @p edge_label .
+             */
+            void insert_edge(const typename graph<VertexType>::vertex_const_handle& first_endpoint, const typename graph<VertexType>::vertex_const_handle& second_endpoint, const EdgeLabelType& edge_label) override;
+
+            /**
+             * If `*this` is an [ugraph](@ref mathematical_ugraph_definition) then inserts in `*this` an [undirected edge](@ref mathematical_undirected_edge_definition) having @p first_endpoint, @p second_endpoint as [endpoints](@ref mathematical_edge_endpoint_definition), if `*this` doesn't already contain the same edge.<br>
+             * If `*this` is a [digraph](@ref mathematical_digraph_definition) then inserts in `*this` a [directed edge](@ref mathematical_directed_edge_definition) having @p first_endpoint as [tail](@ref mathematical_directed_edge_tail_definition) and @p second_endpoint as [head](@ref mathematical_directed_edge_head_definition), if `*this` doesn't already contain the same edge.<br>
+             * If and as soon as the insertion took place, the [label of the inserted edge](@ref mathematical_edge_label_definition) is equal to @p edge_label .
+             *
+             * @param first_endpoint This handle must be valid and must identify a vertex belonging to `*this`, otherwise the insertion will cause undefined behavior.
+             * @param second_endpoint This handle must be valid and must identify a vertex belonging to `*this`, otherwise the insertion will cause undefined behavior.
+             * @param edge_label If and as soon as the insertion took place, the [label of the inserted edge](@ref mathematical_edge_label_definition) is equal to @p edge_label .
+             */
+            void insert_edge(const typename graph<VertexType>::vertex_const_handle& first_endpoint, const typename graph<VertexType>::vertex_const_handle& second_endpoint, EdgeLabelType&& edge_label) override;
         private:
             using VertexContainerPointerType = typename graphdom::multiset_graph<VertexType>::VertexContainerPointerType;
             using edge_endpoint = typename graphdom::multiset_graph<VertexType>::template labeled_undirected_edge_endpoint<EdgeLabelType>;

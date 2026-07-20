@@ -20,8 +20,8 @@ namespace graphdom {
         typename VertexLabelType,
         typename EdgeLabelType,
         typename Compare = std::less<VertexType>,
-        typename T1 = default_vertex_labeller<VertexType,VertexLabelType>, //TODO:: find a better name for T1
-        typename T2 = default_edge_labeller<VertexType,EdgeLabelType> // TODO: find a better name for T2
+        typename T1 = default_vertex_labeller<VertexType,VertexLabelType>,
+        typename T2 = default_edge_labeller<VertexType,EdgeLabelType>
     >
     class full_labeled_set_ugraph final :
     virtual public labeled_vertex_set_graph<VertexType,VertexLabelType,T1>,
@@ -43,8 +43,8 @@ namespace graphdom {
             [[nodiscard]] const VertexLabelType& get_vertex_label(const typename graph<VertexType>::vertex_const_handle&) const override;
             [[nodiscard]] const EdgeLabelType& get_edge_label(const typename graph<VertexType>::adj_list_const_iterator&) const override;
 
-            void erase_vertex(const typename graphdom::graph<VertexType>::vertex_const_handle&) override; //TODO: look out to memory leaks in ADJ
-            [[nodiscard]] typename graphdom::graph<VertexType>::adj_list_iterator erase_edge(const typename graph<VertexType>::adj_list_const_iterator&) override; //TODO: look out to memory leaks in ADJ
+            void erase_vertex(const typename graphdom::graph<VertexType>::vertex_const_handle&) override;
+            [[nodiscard]] typename graphdom::graph<VertexType>::adj_list_iterator erase_edge(const typename graph<VertexType>::adj_list_const_iterator&) override;
             [[nodiscard]] VertexLabelType& get_vertex_label(const typename graph<VertexType>::vertex_const_handle&) override;
             using graphdom::labeled_vertex_set_graph<VertexType,VertexLabelType,T1>::insert_vertex;
             [[nodiscard]] std::pair<typename graph<VertexType>::vertex_handle,bool> insert_vertex(const VertexType&, const VertexLabelType&) override;
@@ -53,8 +53,26 @@ namespace graphdom {
             [[nodiscard]] std::pair<typename graph<VertexType>::vertex_handle,bool> insert_vertex(VertexType&&, VertexLabelType&&) override;
             [[nodiscard]] EdgeLabelType& get_edge_label(const typename graph<VertexType>::adj_list_const_iterator&) override;
             using graphdom::labeled_edge_non_mixed_graph<VertexType,EdgeLabelType,T2>::insert_edge;
-            void insert_edge(const typename graph<VertexType>::vertex_const_handle&, const typename graph<VertexType>::vertex_const_handle&, const EdgeLabelType&) override;
-            void insert_edge(const typename graph<VertexType>::vertex_const_handle&, const typename graph<VertexType>::vertex_const_handle&, EdgeLabelType&&) override;
+
+            /**
+             * Inserts in `*this` an [undirected edge](@ref mathematical_undirected_edge_definition) having @p first_endpoint, @p second_endpoint as [endpoints](@ref mathematical_edge_endpoint_definition), if `*this` doesn't already contain the same edge.<br>
+             * If and as soon as the insertion took place, the [label of the inserted edge](@ref mathematical_edge_label_definition) is equal to @p edge_label .
+             *
+             * @param first_endpoint This handle must be valid and must identify a vertex belonging to `*this`, otherwise the insertion will cause undefined behavior.
+             * @param second_endpoint This handle must be valid and must identify a vertex belonging to `*this`, otherwise the insertion will cause undefined behavior.
+             * @param edge_label If and as soon as the insertion took place, the [label of the inserted edge](@ref mathematical_edge_label_definition) is equal to @p edge_label .
+             */
+            void insert_edge(const typename graph<VertexType>::vertex_const_handle& first_endpoint, const typename graph<VertexType>::vertex_const_handle& second_endpoint, const EdgeLabelType& edge_label) override;
+
+            /**
+             * Inserts in `*this` an [undirected edge](@ref mathematical_undirected_edge_definition) having @p first_endpoint, @p second_endpoint as [endpoints](@ref mathematical_edge_endpoint_definition), if `*this` doesn't already contain the same edge.<br>
+             * If and as soon as the insertion took place, the [label of the inserted edge](@ref mathematical_edge_label_definition) is equal to @p edge_label .
+             *
+             * @param first_endpoint This handle must be valid and must identify a vertex belonging to `*this`, otherwise the insertion will cause undefined behavior.
+             * @param second_endpoint This handle must be valid and must identify a vertex belonging to `*this`, otherwise the insertion will cause undefined behavior.
+             * @param edge_label If and as soon as the insertion took place, the [label of the inserted edge](@ref mathematical_edge_label_definition) is equal to @p edge_label .
+             */
+            void insert_edge(const typename graph<VertexType>::vertex_const_handle& first_endpoint, const typename graph<VertexType>::vertex_const_handle& second_endpoint, EdgeLabelType&& edge_label) override;
         private:
             using VertexContainerPointerType = typename graphdom::set_graph<VertexType>::VertexContainerPointerType;
             using edge_endpoint = typename graphdom::set_graph<VertexType>::template labeled_undirected_edge_endpoint<EdgeLabelType>;

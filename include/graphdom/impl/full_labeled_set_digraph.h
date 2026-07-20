@@ -312,21 +312,21 @@ EdgeLabelType& graphdom::full_labeled_set_digraph<VertexType,VertexLabelType,Edg
 
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename T1, typename T2>
 void graphdom::full_labeled_set_digraph<VertexType,VertexLabelType,EdgeLabelType,Compare,T1,T2>::insert_edge(
-    const typename graph<VertexType>::vertex_const_handle& begin_point_vertex_ptr,
-    const typename graph<VertexType>::vertex_const_handle& end_point_vertex_ptr,
-    const EdgeLabelType& edge_label_to_insert) {
+    const typename graph<VertexType>::vertex_const_handle& tail,
+    const typename graph<VertexType>::vertex_const_handle& head,
+    const EdgeLabelType& edge_label) {
     if (
-        graphdom::graph<VertexType>::get_owner_graph( begin_point_vertex_ptr ) != this ||
-        graphdom::graph<VertexType>::get_owner_graph( end_point_vertex_ptr ) != this
+        graphdom::graph<VertexType>::get_owner_graph( tail ) != this ||
+        graphdom::graph<VertexType>::get_owner_graph( head ) != this
     ) {
         throw std::runtime_error("Error"); //TODO: write a better message
     }
-    auto const begin_point_vertex_container = static_cast< const vertex_container* >( graphdom::graph<VertexType>::get_vertex_container( begin_point_vertex_ptr ) );
-    auto const end_point_vertex_container = graphdom::graph<VertexType>::get_vertex_container( end_point_vertex_ptr );
+    auto const begin_point_vertex_container = static_cast< const vertex_container* >( graphdom::graph<VertexType>::get_vertex_container( tail ) );
+    auto const end_point_vertex_container = graphdom::graph<VertexType>::get_vertex_container( head );
     if ( begin_point_vertex_container == nullptr || end_point_vertex_container == nullptr ) {
         throw std::runtime_error("Error"); //TODO: write a better message
     }
-    std::unique_ptr< edge_endpoint > edge_endpoint_to_insert( new edge_endpoint( end_point_vertex_container , edge_label_to_insert ) );
+    std::unique_ptr< edge_endpoint > edge_endpoint_to_insert( new edge_endpoint( end_point_vertex_container , edge_label ) );
     const auto inner_insertion_result = ( ( begin_point_vertex_container->adj ).insert( edge_endpoint_to_insert.get() ) ).second;
     if ( inner_insertion_result ) {
         edge_endpoint_to_insert.release();
@@ -335,27 +335,27 @@ void graphdom::full_labeled_set_digraph<VertexType,VertexLabelType,EdgeLabelType
 
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename T1, typename T2>
 void graphdom::full_labeled_set_digraph<VertexType,VertexLabelType,EdgeLabelType,Compare,T1,T2>::insert_edge(
-    const typename graph<VertexType>::vertex_const_handle& begin_point_vertex_ptr,
-    const typename graph<VertexType>::vertex_const_handle& end_point_vertex_ptr,
-    EdgeLabelType&& edge_label_to_insert) {
+    const typename graph<VertexType>::vertex_const_handle& tail,
+    const typename graph<VertexType>::vertex_const_handle& head,
+    EdgeLabelType&& edge_label) {
     if (
-        graphdom::graph<VertexType>::get_owner_graph( begin_point_vertex_ptr ) != this ||
-        graphdom::graph<VertexType>::get_owner_graph( end_point_vertex_ptr ) != this
+        graphdom::graph<VertexType>::get_owner_graph( tail ) != this ||
+        graphdom::graph<VertexType>::get_owner_graph( head ) != this
     ) {
         throw std::runtime_error("Error"); //TODO: write a better message
     }
-    auto const begin_point_vertex_container = static_cast< const vertex_container* >( graphdom::graph<VertexType>::get_vertex_container( begin_point_vertex_ptr ) );
-    auto const end_point_vertex_container = graphdom::graph<VertexType>::get_vertex_container( end_point_vertex_ptr );
+    auto const begin_point_vertex_container = static_cast< const vertex_container* >( graphdom::graph<VertexType>::get_vertex_container( tail ) );
+    auto const end_point_vertex_container = graphdom::graph<VertexType>::get_vertex_container( head );
     if ( begin_point_vertex_container == nullptr || end_point_vertex_container == nullptr ) {
         throw std::runtime_error("Error"); //TODO: write a better message
     }
     const auto lower_bound = ( begin_point_vertex_container->adj ).lower_bound( end_point_vertex_container );
     if ( lower_bound == ( begin_point_vertex_container->adj ).cend()  ) {
-        ( begin_point_vertex_container->adj ).emplace_hint( lower_bound, new edge_endpoint( end_point_vertex_container , std::move(edge_label_to_insert) ) );
+        ( begin_point_vertex_container->adj ).emplace_hint( lower_bound, new edge_endpoint( end_point_vertex_container , std::move(edge_label) ) );
     }
     else {
         if ( ( ( begin_point_vertex_container->adj ).key_comp() )( end_point_vertex_container, *lower_bound ) ) {
-            ( begin_point_vertex_container->adj ).emplace_hint( lower_bound, new edge_endpoint( end_point_vertex_container , std::move(edge_label_to_insert) ) );
+            ( begin_point_vertex_container->adj ).emplace_hint( lower_bound, new edge_endpoint( end_point_vertex_container , std::move(edge_label) ) );
         }
     }
     /*
