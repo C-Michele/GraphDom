@@ -1,0 +1,16 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: GraphDom
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Michele
+    family-names: Comparini
+    email: comparini.michele@gmail.com
+repository-code: 'https://github.com/C-Michele/GraphDom'
+url: 'https://graphdom.michelecomparini.me/'
+license: Apache-2.0
