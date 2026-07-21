@@ -55,7 +55,7 @@ namespace graphdom {
 
             /**
              * If `*this` is invalid, invoking this conversion operator via `*this` will cause undefined behavior.<br>
-             * If `*this` is valid and identifies a vertex belonging to a set-vertex graph, invoking this conversion operator via `*this` will throw an instance of a class publicly derived, directly or indirectly, from `std::exception`.
+             * If `*this` is valid and identifies a vertex belonging to a set graph, invoking this conversion operator via `*this` will throw an instance of a class publicly derived, directly or indirectly, from `std::exception`.
              *
              * @par Complexity
              * Constant.
