@@ -1,0 +1,25 @@
+@PACKAGE_INIT@
+
+if(GraphDom_USE_STATIC_LIBS)
+    include(
+        "${CMAKE_CURRENT_LIST_DIR}/GraphDomStaticTargets.cmake"
+    )
+    add_library(
+        GraphDom::GraphDom
+
+        ALIAS
+
+        GraphDomInternal::GraphDom_Static
+    )
+else()
+    include(
+        "${CMAKE_CURRENT_LIST_DIR}/GraphDomSharedTargets.cmake"
+    )
+    add_library(
+        GraphDom::GraphDom
+
+        ALIAS
+
+        GraphDomInternal::GraphDom_Shared
+    )
+endif()
