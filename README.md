@@ -1,5 +1,3 @@
-@mainpage GraphDom
-
 # GraphDom
 
 **GraphDom** is a modern C++17 library for graph data structures designed around a hierarchy of abstract interfaces and concrete implementations.
