@@ -1,4 +1,3 @@
-/**
 @mainpage GraphDom
 
 # GraphDom
@@ -224,7 +223,7 @@ Recommended order:
 
 1. Start from the concrete graph classes.
 2. Learn how to create and manipulate graphs.
-3. Afterwards explore the abstract interfaces to understand how generic algorithms are built.
+3. Afterward explore the abstract interfaces to understand how generic algorithms are built.
 
 ---
 
