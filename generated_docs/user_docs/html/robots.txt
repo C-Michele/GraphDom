@@ -1,0 +1,20 @@
+User-agent: *
+Allow: /
+
+# OpenAI - training
+User-agent: GPTBot
+Disallow: /
+
+# Anthropic - training / collection
+User-agent: ClaudeBot
+Disallow: /
+
+# Google - AI training / generative AI use
+User-agent: Google-Extended
+Disallow: /
+
+# Common Crawl - public web datasets
+User-agent: CCBot
+Disallow: /
+
+Sitemap: https://graphdom.michelecomparini.me/sitemap.xml

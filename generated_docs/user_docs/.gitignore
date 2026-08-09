@@ -1,3 +1,5 @@
 *
 !/.gitignore
+!/html/
 !/html/CNAME
+!/html/robots.txt
