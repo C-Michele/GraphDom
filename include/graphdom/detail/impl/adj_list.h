@@ -8,6 +8,7 @@
 #define GRAPHDOM_ADJ_LIST_IMPL_H
 
 #include "../../graph.h"
+#include "../../set_graph.h"
 #include "../vertex_container.h"
 #include "../base_adj_list.h"
 #include "../adj_list.h"
@@ -17,16 +18,18 @@
 
 template <typename VertexType>
 graphdom::graph<VertexType>::adj_list::adj_list(const adj_list& other) :
-graphdom::graph<VertexType>::base_adj_list< const graph<VertexType>::vertex_container* >( other ){}
+graphdom::graph<VertexType>::base_adj_list< const graph<VertexType>::vertex_container* >( other ),
+adj_list_owner_graph_is_a_set_graph( other.adj_list_owner_graph_is_a_set_graph ) {}
 
 template <typename VertexType>
 graphdom::graph<VertexType>::adj_list::adj_list(const typename graphdom::multiset_graph<VertexType>::adj_list& other) :
 graphdom::graph<VertexType>::base_adj_list< const graph<VertexType>::vertex_container* >(
-    other.adj_list_owner_graph_pointer,
+    other.adj_list_owner_graph_pointer, //TODO: remove this line
     other.adj_list_owner_graph_edges_type,
     other.adj_list_common_begin_point_vertex_container_pointer,
     other.adj_list_edges_type_selection
-){}
+),
+adj_list_owner_graph_is_a_set_graph( false ) {}
 
 template<typename VertexType>
 graphdom::graph<VertexType>::adj_list::operator typename multiset_graph<VertexType>::adj_list() const {
@@ -35,18 +38,18 @@ graphdom::graph<VertexType>::adj_list::operator typename multiset_graph<VertexTy
 
 template<typename VertexType>
 typename graphdom::graph<VertexType>::adj_list_iterator graphdom::graph<VertexType>::adj_list::begin() const {
-    if ( dynamic_cast< const graphdom::multiset_graph<VertexType>* >( this->adj_list_owner_graph_pointer ) != nullptr ) {
-        return graphdom::graph<VertexType>::adj_list_iterator( this->template internal_begin<graphdom::graph<VertexType>::vertex_container*>() );
+    if ( adj_list_owner_graph_is_a_set_graph ) {
+        return graphdom::graph<VertexType>::adj_list_iterator( this->template internal_begin<const graphdom::graph<VertexType>::vertex_container*>() );
     }
-    return graphdom::graph<VertexType>::adj_list_iterator( this->template internal_begin<const graphdom::graph<VertexType>::vertex_container*>() );
+    return graphdom::graph<VertexType>::adj_list_iterator( this->template internal_begin<graphdom::graph<VertexType>::vertex_container*>() );
 }
 
 template<typename VertexType>
 typename graphdom::graph<VertexType>::adj_list_iterator graphdom::graph<VertexType>::adj_list::end() const {
-    if ( dynamic_cast< const graphdom::multiset_graph<VertexType>* >( this->adj_list_owner_graph_pointer ) != nullptr ) {
-        return graphdom::graph<VertexType>::adj_list_iterator( this->template internal_end<graphdom::graph<VertexType>::vertex_container*>() );
+    if ( adj_list_owner_graph_is_a_set_graph ) {
+        return graphdom::graph<VertexType>::adj_list_iterator( this->template internal_end<const graphdom::graph<VertexType>::vertex_container*>() );
     }
-    return graphdom::graph<VertexType>::adj_list_iterator( this->template internal_end<const graphdom::graph<VertexType>::vertex_container*>() );
+    return graphdom::graph<VertexType>::adj_list_iterator( this->template internal_end<graphdom::graph<VertexType>::vertex_container*>() );
 }
 
 template<typename VertexType>
@@ -66,10 +69,24 @@ graphdom::graph<VertexType>::adj_list::adj_list(
     const typename graphdom::graph<VertexType>::vertex_container* const adj_list_common_begin_point_vertex_container_pointer,
     const typename graphdom::graph<VertexType>::edges_type_selection_type adj_list_edges_type_selection) :
 graphdom::graph<VertexType>::base_adj_list< const graphdom::graph<VertexType>::vertex_container* >(
-    adj_list_owner_graph_pointer,
+    adj_list_owner_graph_pointer, // TODO: remove this line
     adj_list_owner_graph_edges_type,
     adj_list_common_begin_point_vertex_container_pointer,
     adj_list_edges_type_selection
-){}
+),
+adj_list_owner_graph_is_a_set_graph( dynamic_cast< const graphdom::set_graph<VertexType>* >( adj_list_owner_graph_pointer ) != nullptr ){}
+
+template<typename VertexType>
+graphdom::graph<VertexType>::adj_list::adj_list(
+    const bool adj_list_owner_graph_is_a_set_graph,
+    const typename graphdom::graph<VertexType>::graph_edges_type adj_list_owner_graph_edges_type,
+    const typename graphdom::graph<VertexType>::vertex_container* const adj_list_common_begin_point_vertex_container_pointer,
+    const typename graphdom::graph<VertexType>::edges_type_selection_type adj_list_edges_type_selection) :
+graphdom::graph<VertexType>::base_adj_list< const graphdom::graph<VertexType>::vertex_container* >(
+    adj_list_owner_graph_edges_type,
+    adj_list_common_begin_point_vertex_container_pointer,
+    adj_list_edges_type_selection
+),
+adj_list_owner_graph_is_a_set_graph( adj_list_owner_graph_is_a_set_graph ) {}
 
 #endif //GRAPHDOM_ADJ_LIST_IMPL_H

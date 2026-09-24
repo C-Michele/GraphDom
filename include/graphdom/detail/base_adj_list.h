@@ -40,6 +40,11 @@ namespace graphdom {
                 graph_edges_type adj_list_owner_graph_edges_type,
                 VertexContainerPointerType adj_list_common_begin_point_vertex_container_pointer,
                 graph<VertexType>::edges_type_selection_type adj_list_edges_type_selection = none
+            ); //TODO: remove this constructor
+            base_adj_list(
+                graph_edges_type adj_list_owner_graph_edges_type,
+                VertexContainerPointerType adj_list_common_begin_point_vertex_container_pointer,
+                graph<VertexType>::edges_type_selection_type adj_list_edges_type_selection = none
             );
 
             template <typename K>
@@ -51,7 +56,7 @@ namespace graphdom {
             template <typename K>
             constexpr graph<VertexType>::adj_set<K>* get_adj_set_if_accessible(graphdom::edge_type edge_type) const;
 
-            const graph<VertexType>* adj_list_owner_graph_pointer;
+            const graph<VertexType>* adj_list_owner_graph_pointer; //TODO: remove this attribute
             graph_edges_type adj_list_owner_graph_edges_type;
             VertexContainerPointerType adj_list_common_begin_point_vertex_container_pointer;
             edges_type_selection_type adj_list_edges_type_selection;

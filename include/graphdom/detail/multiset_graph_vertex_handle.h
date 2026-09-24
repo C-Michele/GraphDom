@@ -69,6 +69,10 @@ namespace graphdom {
                 const graph<VertexType>* vertex_container_owner_ptr,
                 typename graph<VertexType>::graph_edges_type vertex_container_owner_et,
                 typename graph<VertexType>::vertex_container* vertex_container_ptr
+            ); //TODO: Consider removing this constructor
+            vertex_handle(
+                typename graph<VertexType>::graph_edges_type vertex_container_owner_et,
+                typename graph<VertexType>::vertex_container* vertex_container_ptr
             );
     };
 }

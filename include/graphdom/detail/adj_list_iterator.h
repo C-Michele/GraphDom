@@ -97,9 +97,20 @@ namespace graphdom {
             friend class multiset_graph<VertexType>;
             /// \endcond DEV_DOC
         private:
-            adj_list_iterator( const graph<VertexType>::adj_list_base_iterator< const graph<VertexType>::vertex_container* >& other );
+            adj_list_iterator( const graph<VertexType>::adj_list_base_iterator< const graph<VertexType>::vertex_container* >& other ); //TODO: remove this constructor
+            adj_list_iterator(
+                const graph<VertexType>::adj_list_base_iterator< const graph<VertexType>::vertex_container* >& other,
+                bool iterator_owner_graph_is_a_set_graph
+            );
             adj_list_iterator(
                 const graph<VertexType>* iterator_owner_pointer,
+                typename graph<VertexType>::graph_edges_type iterator_owner_graph_edges_type,
+                const typename graph<VertexType>::vertex_container* edge_begin_point_vertex_container,
+                typename graph<VertexType>::edges_type_selection_type edges_type_restriction,
+                graphdom::edge_type inner_iterator_edge_current_type
+            ); //TODO: Consider removing this constructor
+            adj_list_iterator(
+                bool iterator_owner_graph_is_a_set_graph,
                 typename graph<VertexType>::graph_edges_type iterator_owner_graph_edges_type,
                 const typename graph<VertexType>::vertex_container* edge_begin_point_vertex_container,
                 typename graph<VertexType>::edges_type_selection_type edges_type_restriction,
@@ -107,6 +118,14 @@ namespace graphdom {
             );
             adj_list_iterator(
                 const graph<VertexType>* iterator_owner_pointer,
+                typename graph<VertexType>::graph_edges_type iterator_owner_graph_edges_type,
+                const typename graph<VertexType>::vertex_container* edge_begin_point_vertex_container,
+                typename graph<VertexType>::edges_type_selection_type edges_type_restriction,
+                graphdom::edge_type inner_iterator_edge_current_type,
+                const typename graph<VertexType>::template adj_set<typename graph<VertexType>::vertex_container*>::iterator& inner_iterator
+            ); //TODO: Consider removing this constructor
+            adj_list_iterator(
+                bool iterator_owner_graph_is_a_set_graph,
                 typename graph<VertexType>::graph_edges_type iterator_owner_graph_edges_type,
                 const typename graph<VertexType>::vertex_container* edge_begin_point_vertex_container,
                 typename graph<VertexType>::edges_type_selection_type edges_type_restriction,
@@ -120,7 +139,17 @@ namespace graphdom {
                 typename graph<VertexType>::edges_type_selection_type edges_type_restriction,
                 graphdom::edge_type inner_iterator_edge_current_type,
                 const typename graph<VertexType>::template adj_set<const typename graph<VertexType>::vertex_container*>::iterator& inner_iterator
+            ); //TODO: Consider removing this constructor
+            adj_list_iterator(
+                bool iterator_owner_graph_is_a_set_graph,
+                typename graph<VertexType>::graph_edges_type iterator_owner_graph_edges_type,
+                const typename graph<VertexType>::vertex_container* edge_begin_point_vertex_container,
+                typename graph<VertexType>::edges_type_selection_type edges_type_restriction,
+                graphdom::edge_type inner_iterator_edge_current_type,
+                const typename graph<VertexType>::template adj_set<const typename graph<VertexType>::vertex_container*>::iterator& inner_iterator
             );
+
+            bool iterator_owner_graph_is_a_set_graph;
     };
 }
 

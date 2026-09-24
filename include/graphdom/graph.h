@@ -129,11 +129,11 @@ namespace graphdom {
                 const graphdom::graph<VertexType>::mixed_graph_vertex_container<const vertex_container*>&
             );
 
-            static const graphdom::graph<VertexType>* get_owner_graph(const graphdom::graph<VertexType>::vertex_const_handle&);
+            static const graphdom::graph<VertexType>* get_owner_graph(const graphdom::graph<VertexType>::vertex_const_handle&); //TODO: remove this method
 
             static const vertex_container* get_vertex_container(const graphdom::graph<VertexType>::vertex_const_handle&);
 
-            static const graphdom::graph<VertexType>* get_owner_graph(const graphdom::graph<VertexType>::adj_list_const_iterator&);
+            static const graphdom::graph<VertexType>* get_owner_graph(const graphdom::graph<VertexType>::adj_list_const_iterator&); //TODO: remove this method
 
             static const graphdom::graph<VertexType>::vertex_container* get_begin_point(const graphdom::graph<VertexType>::adj_list_const_iterator&);
         /// \endcond DEV_DOC

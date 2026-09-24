@@ -55,6 +55,11 @@ namespace graphdom {
                 typename graph<VertexType>::graph_edges_type adj_list_owner_graph_edges_type,
                 typename graph<VertexType>::vertex_container* adj_list_common_begin_point_vertex_container_pointer,
                 typename graph<VertexType>::edges_type_selection_type adj_list_edges_type_selection = graph<VertexType>::edges_type_selection_type::none
+            ); //TODO: Consider removing this constructor
+            adj_list(
+                typename graph<VertexType>::graph_edges_type adj_list_owner_graph_edges_type,
+                typename graph<VertexType>::vertex_container* adj_list_common_begin_point_vertex_container_pointer,
+                typename graph<VertexType>::edges_type_selection_type adj_list_edges_type_selection = graph<VertexType>::edges_type_selection_type::none
             );
     };
 }

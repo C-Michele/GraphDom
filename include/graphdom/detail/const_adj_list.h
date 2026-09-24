@@ -60,7 +60,15 @@ namespace graphdom {
                 graphdom::graph<VertexType>::graph_edges_type adj_list_owner_graph_edges_type,
                 const graphdom::graph<VertexType>::vertex_container* adj_list_common_begin_point_vertex_container_pointer,
                 typename graphdom::graph<VertexType>::edges_type_selection_type adj_list_edges_type_selection = none
+            ); //TODO: Consider removing this constructor
+            const_adj_list(
+                bool adj_list_owner_graph_is_a_set_graph,
+                graphdom::graph<VertexType>::graph_edges_type adj_list_owner_graph_edges_type,
+                const graphdom::graph<VertexType>::vertex_container* adj_list_common_begin_point_vertex_container_pointer,
+                typename graphdom::graph<VertexType>::edges_type_selection_type adj_list_edges_type_selection = none
             );
+
+            bool adj_list_owner_graph_is_a_set_graph;
     };
 }
 

@@ -79,7 +79,14 @@ namespace graphdom {
                 const graph<VertexType>* vertex_container_owner_ptr,
                 graph<VertexType>::graph_edges_type vertex_container_owner_et,
                 const graph<VertexType>::vertex_container* vertex_container_ptr
+            ); //TODO: Consider removing this constructor
+            vertex_const_handle(
+                bool vertex_container_owner_graph_is_a_set_graph,
+                graph<VertexType>::graph_edges_type vertex_container_owner_et,
+                const graph<VertexType>::vertex_container* vertex_container_ptr
             );
+
+            bool vertex_container_owner_graph_is_a_set_graph;
     };
 }
 

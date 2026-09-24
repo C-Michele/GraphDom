@@ -22,11 +22,11 @@ graphdom::graph<VertexType>::template vertex_base_handle< typename graphdom::gra
 template <typename VertexType>
 graphdom::multiset_graph<VertexType>::vertex_handle::vertex_handle(const typename graph<VertexType>::vertex_handle& other) :
 graphdom::graph<VertexType>::template vertex_base_handle< typename graphdom::graph<VertexType>::vertex_container* >(
-    other.vertex_container_owner_graph_pointer,
+    other.vertex_container_owner_graph_pointer, //TODO: remove this line
     other.vertex_container_owner_graph_edges_type,
     nullptr
 ) {
-    if ( dynamic_cast< const graphdom::multiset_graph<VertexType>* >( this->vertex_container_owner_graph_pointer ) == nullptr ) {
+    if ( other.vertex_container_owner_graph_is_a_set_graph ) {
         throw std::runtime_error("Attempt to convert a \"graphdom::graph<VertexType>::vertex_handle\", which identifies a vertex belonging to a \"graphdom::set_graph<VertexType>\", to a \"graphdom::multiset_graph<VertexType>::vertex_handle\""); //TODO: write a better message
     }
     this->vertex_container_pointer = const_cast< typename graphdom::graph<VertexType>::vertex_container* >( other.vertex_container_pointer );
@@ -35,7 +35,7 @@ graphdom::graph<VertexType>::template vertex_base_handle< typename graphdom::gra
 template<typename VertexType>
 typename graphdom::multiset_graph<VertexType>::vertex_handle& graphdom::multiset_graph<VertexType>::vertex_handle::operator=(const vertex_handle& other) {
     if ( this != &other ) {
-        this->vertex_container_owner_graph_pointer = other.vertex_container_owner_graph_pointer;
+        this->vertex_container_owner_graph_pointer = other.vertex_container_owner_graph_pointer; //TODO: remove this line
         this->vertex_container_owner_graph_edges_type = other.vertex_container_owner_graph_edges_type;
         this->vertex_container_pointer = other.vertex_container_pointer;
     }
@@ -90,7 +90,20 @@ graphdom::multiset_graph<VertexType>::vertex_handle::vertex_handle(
     typename graph<VertexType>::graph_edges_type vertex_container_owner_et,
     typename graph<VertexType>::vertex_container* const vertex_container_ptr):
 graphdom::graph<VertexType>::template vertex_base_handle< typename graphdom::graph<VertexType>::vertex_container* >(
-    vertex_container_owner_ptr,
+    vertex_container_owner_ptr, //TODO: remove this line
+    vertex_container_owner_et,
+    vertex_container_ptr
+){
+    if ( dynamic_cast< const graphdom::multiset_graph<VertexType>* >( vertex_container_owner_ptr ) == nullptr ) {
+        throw std::runtime_error(""); //TODO: write a message
+    }
+}
+
+template<typename VertexType>
+graphdom::multiset_graph<VertexType>::vertex_handle::vertex_handle(
+    typename graph<VertexType>::graph_edges_type vertex_container_owner_et,
+    typename graph<VertexType>::vertex_container* const vertex_container_ptr):
+graphdom::graph<VertexType>::template vertex_base_handle< typename graphdom::graph<VertexType>::vertex_container* >(
     vertex_container_owner_et,
     vertex_container_ptr
 ){}

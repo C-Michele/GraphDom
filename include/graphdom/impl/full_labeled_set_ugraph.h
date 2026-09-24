@@ -86,19 +86,22 @@ std::size_t graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,EdgeLab
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename VertexLabellerType, typename EdgeLabellerType>
 const VertexLabelType& graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compare,VertexLabellerType,EdgeLabellerType>::get_vertex_label(
     const typename graph<VertexType>::vertex_const_handle& vertex) const {
+    /*
     if ( graphdom::graph<VertexType>::get_owner_graph(vertex) != this ) {
         throw std::runtime_error("Error"); //TODO: write a better message
     }
-    const auto* const vertex_container_ptr = static_cast< const vertex_container* >( graphdom::graph< VertexType >::get_vertex_container( vertex ) );
-    return vertex_container_ptr->vertex_label;
+    */
+    return static_cast< const vertex_container* >( graphdom::graph< VertexType >::get_vertex_container( vertex ) )->vertex_label;
 }
 
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename VertexLabellerType, typename EdgeLabellerType>
 const EdgeLabelType& graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compare,VertexLabellerType,EdgeLabellerType>::get_edge_label(
 const typename graph<VertexType>::adj_list_const_iterator& edge) const {
+    /*
     if ( graphdom::graph<VertexType>::get_owner_graph( edge ) != this ) {
         throw std::runtime_error("Error"); //TODO: write a better message
     }
+    */
     return
     *(
         (
@@ -113,8 +116,10 @@ const typename graph<VertexType>::adj_list_const_iterator& edge) const {
 
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename VertexLabellerType, typename EdgeLabellerType>
 void graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compare,VertexLabellerType,EdgeLabellerType>::erase_vertex(
-    const typename graphdom::graph<VertexType>::vertex_const_handle& const_vertex_ptr) {
+    const typename graphdom::graph<VertexType>::vertex_const_handle& const_vertex_ptr){
+    /*
     if ( graphdom::graph<VertexType>::get_owner_graph(const_vertex_ptr) == this ) {
+    */
         const auto* const vertex_container_to_erase_ptr =
             static_cast< const vertex_container* >( graphdom::graph<VertexType>::get_vertex_container(const_vertex_ptr) );
         if ( vertex_container_to_erase_ptr != nullptr ) {
@@ -147,17 +152,21 @@ void graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,EdgeLabelType,
             vertices.erase(vertex_container_to_erase_found_vertices_itr);
         }
         //TODO:: Evaluate a possible exception throw HERE
+    /*
     }
     //TODO:: Evaluate a possible exception throw HERE
+    */
 }
 
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename VertexLabellerType, typename EdgeLabellerType>
 typename graphdom::graph<VertexType>::adj_list_iterator
 graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compare,VertexLabellerType,EdgeLabellerType>::erase_edge(
     const typename graph<VertexType>::adj_list_const_iterator& edge_itr) {
+    /*
     if ( graphdom::graph<VertexType>::get_owner_graph(edge_itr) != this ) {
         throw std::runtime_error("Error"); //TODO: write a better message
     }
+    */
     auto const edge_itr_begin_point = static_cast< const vertex_container* >( graphdom::graph<VertexType>::get_begin_point( edge_itr ) );
     auto inner_iterator_of_begin_point_adj = graphdom::set_graph<VertexType>::get_inner_iterator( edge_itr );
     auto const edge_itr_endpoint = static_cast< const vertex_container* >( ( *( *inner_iterator_of_begin_point_adj ) ).vertex_container_ptr );
@@ -168,7 +177,7 @@ graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compa
     }
     safe_edge_endpoint_deallocation(*inner_iterator_of_begin_point_adj);
     return graphdom::set_graph<VertexType>::adj_list_iterator_factory(
-        this,
+        this, //TODO: remove this line
         edge_itr_begin_point,
         undirected,
         ( (*edge_itr_begin_point).adj ).erase( inner_iterator_of_begin_point_adj )
@@ -178,9 +187,11 @@ graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compa
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename VertexLabellerType, typename EdgeLabellerType>
 VertexLabelType& graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compare,VertexLabellerType,EdgeLabellerType>::get_vertex_label(
     const typename graph<VertexType>::vertex_const_handle& vertex) {
+    /*
     if ( graphdom::graph<VertexType>::get_owner_graph(vertex) != this ) {
         throw std::runtime_error("Error"); //TODO: write a better message
     }
+    */
     const auto* const vertex_container_ptr = static_cast< const vertex_container* >( graphdom::graph< VertexType >::get_vertex_container( vertex ) );
     return const_cast< VertexLabelType& >( (*vertex_container_ptr).vertex_label );
 }
@@ -311,9 +322,11 @@ VertexType&& v_core, VertexLabelType&& vertex_label) {
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename VertexLabellerType, typename EdgeLabellerType>
 EdgeLabelType& graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compare,VertexLabellerType,EdgeLabellerType>::get_edge_label(
     const typename graph<VertexType>::adj_list_const_iterator& edge ) {
+    /*
     if ( graphdom::graph<VertexType>::get_owner_graph( edge ) != this ) {
         throw std::runtime_error("Error"); //TODO: write a better message
     }
+    */
     return
     *(
         (
@@ -331,12 +344,14 @@ void graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,EdgeLabelType,
     const typename graph<VertexType>::vertex_const_handle& first_endpoint,
     const typename graph<VertexType>::vertex_const_handle& second_endpoint,
     const EdgeLabelType& edge_label) {
+    /*
     if (
         graphdom::graph<VertexType>::get_owner_graph( first_endpoint ) != this ||
         graphdom::graph<VertexType>::get_owner_graph( second_endpoint ) != this
     ) {
         throw std::runtime_error("Error"); //TODO: write a better message
     }
+    */
     auto const begin_point_vertex_container = static_cast< const vertex_container* >( graphdom::graph<VertexType>::get_vertex_container( first_endpoint ) );
     auto const end_point_vertex_container = static_cast< const vertex_container* >( graphdom::graph<VertexType>::get_vertex_container( second_endpoint ) );
     if ( begin_point_vertex_container == nullptr || end_point_vertex_container == nullptr ) {
@@ -370,12 +385,14 @@ void graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,EdgeLabelType,
     const typename graph<VertexType>::vertex_const_handle& first_endpoint,
     const typename graph<VertexType>::vertex_const_handle& second_endpoint,
     EdgeLabelType&& edge_label) {
+    /*
     if (
         graphdom::graph<VertexType>::get_owner_graph( first_endpoint ) != this ||
         graphdom::graph<VertexType>::get_owner_graph( second_endpoint ) != this
     ) {
         throw std::runtime_error("Error"); //TODO: write a better message
     }
+    */
     auto const begin_point_vertex_container = static_cast< const vertex_container* >( graphdom::graph<VertexType>::get_vertex_container( first_endpoint ) );
     auto const end_point_vertex_container = static_cast< const vertex_container* >( graphdom::graph<VertexType>::get_vertex_container( second_endpoint ) );
     if ( begin_point_vertex_container == nullptr || end_point_vertex_container == nullptr ) {
@@ -396,29 +413,6 @@ void graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,EdgeLabelType,
             }
         }
     }
-    /*
-    std::unique_ptr< edge_endpoint > edge_endpoint_to_insert_in_begin_point_adj( new edge_endpoint( end_point_vertex_container , std::move(edge_label_to_insert) ) );
-    const auto inner_insertion_result_in_begin_point_adj = ( begin_point_vertex_container->adj ).insert( edge_endpoint_to_insert_in_begin_point_adj.get() );
-    if ( inner_insertion_result_in_begin_point_adj.second ) {
-        edge_endpoint_to_insert_in_begin_point_adj.release();
-        if ( begin_point_vertex_container != end_point_vertex_container ) { //The edge could be a loop
-            std::unique_ptr< edge_endpoint > edge_endpoint_to_insert_in_end_point_adj(
-                new edge_endpoint(
-                    begin_point_vertex_container ,
-                    ( static_cast< edge_endpoint* >( *( inner_insertion_result_in_begin_point_adj.first ) ) )->edge_label_ptr
-                )
-            );
-            const auto inner_insertion_result_in_end_point_adj = ( ( end_point_vertex_container->adj ).insert( edge_endpoint_to_insert_in_end_point_adj.get() ) ).second;
-            if ( inner_insertion_result_in_end_point_adj ) {
-                edge_endpoint_to_insert_in_end_point_adj.release();
-            }
-            else {
-                safe_edge_endpoint_deallocation( *( inner_insertion_result_in_begin_point_adj.first ) );
-                ( begin_point_vertex_container->adj ).erase( inner_insertion_result_in_begin_point_adj.first );
-            }
-        }
-    }
-    */
 }
 
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename VertexLabellerType, typename EdgeLabellerType>

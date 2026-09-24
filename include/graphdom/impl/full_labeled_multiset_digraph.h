@@ -66,19 +66,24 @@ std::size_t graphdom::full_labeled_multiset_digraph<VertexType,VertexLabelType,E
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename VertexLabellerType, typename EdgeLabellerType>
 const VertexLabelType& graphdom::full_labeled_multiset_digraph<VertexType,VertexLabelType,EdgeLabelType,VertexLabellerType,EdgeLabellerType>::get_vertex_label(
     const typename graph<VertexType>::vertex_const_handle& vertex) const {
+    /*
     if ( graphdom::graph<VertexType>::get_owner_graph(vertex) != this ) {
         throw std::runtime_error("Error"); //TODO: write a better message
     }
     const auto* const vertex_container_ptr = static_cast< const vertex_container* >( graphdom::graph< VertexType >::get_vertex_container( vertex ) );
     return vertex_container_ptr->vertex_label;
+    */
+    return static_cast< const vertex_container* >( graphdom::graph< VertexType >::get_vertex_container( vertex ) )->vertex_label;
 }
 
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename VertexLabellerType, typename EdgeLabellerType>
 const EdgeLabelType& graphdom::full_labeled_multiset_digraph<VertexType,VertexLabelType,EdgeLabelType,VertexLabellerType,EdgeLabellerType>::get_edge_label(
     const typename graph<VertexType>::adj_list_const_iterator& edge) const {
+    /*
     if ( graphdom::graph<VertexType>::get_owner_graph( edge ) != this ) {
         throw std::runtime_error("Error"); //TODO: write a better message
     }
+    */
     return (
         *(
             static_cast<edge_endpoint*>(
@@ -91,7 +96,8 @@ const EdgeLabelType& graphdom::full_labeled_multiset_digraph<VertexType,VertexLa
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename VertexLabellerType, typename EdgeLabellerType>
 void graphdom::full_labeled_multiset_digraph<VertexType,VertexLabelType,EdgeLabelType,VertexLabellerType,EdgeLabellerType>::erase_vertex(
     const typename graphdom::graph<VertexType>::vertex_const_handle& vertex) {
-    if( graphdom::graph<VertexType>::get_owner_graph(vertex) == this ) {
+    /*
+    if( graphdom::graph<VertexType>::get_owner_graph(vertex) == this ) { */
         const auto vertex_container_to_erase_ptr = graphdom::graph<VertexType>::get_vertex_container(vertex);
         if ( vertex_container_to_erase_ptr != nullptr ) {
             auto before_vertex_container_to_erase_found_vertices_itr = vertices.end();
@@ -122,23 +128,27 @@ void graphdom::full_labeled_multiset_digraph<VertexType,VertexLabelType,EdgeLabe
             //TODO:: Evaluate a possible exception throw HERE
         }
         //TODO:: Evaluate a possible exception throw HERE
+    /*
     }
     //TODO:: Evaluate a possible exception throw HERE
+    */
 }
 
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename VertexLabellerType, typename EdgeLabellerType>
 typename graphdom::graph<VertexType>::adj_list_iterator
 graphdom::full_labeled_multiset_digraph<VertexType,VertexLabelType, EdgeLabelType, VertexLabellerType, EdgeLabellerType>::erase_edge(
     const typename graph<VertexType>::adj_list_const_iterator& edge_itr) {
+    /*
     if ( graphdom::graph<VertexType>::get_owner_graph(edge_itr) != this ) {
         throw std::runtime_error("Error"); //TODO: write a better message
     }
+    */
     auto const edge_itr_begin_point = const_cast<vertex_container*>( static_cast< const vertex_container* >( graphdom::graph<VertexType>::get_begin_point(edge_itr) ) );
     auto edge_itr_inner_iterator = graphdom::multiset_graph<VertexType>::get_inner_iterator( edge_itr );
     auto const edge_itr_endpoint = *edge_itr_inner_iterator;
     safe_edge_endpoint_deallocation(edge_itr_endpoint);
     return graphdom::multiset_graph<VertexType>::adj_list_iterator_factory(
-        this,
+        this, //TODO: remove this line
         edge_itr_begin_point,
         directed,
         ( edge_itr_begin_point->adj ).erase( edge_itr_inner_iterator )
@@ -148,9 +158,11 @@ graphdom::full_labeled_multiset_digraph<VertexType,VertexLabelType, EdgeLabelTyp
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename VertexLabellerType, typename EdgeLabellerType>
 VertexLabelType& graphdom::full_labeled_multiset_digraph<VertexType,VertexLabelType,EdgeLabelType,VertexLabellerType,EdgeLabellerType>::get_vertex_label(
     const typename graph<VertexType>::vertex_const_handle& vertex) {
+    /*
     if ( graphdom::graph<VertexType>::get_owner_graph(vertex) != this ) {
         throw std::runtime_error("Error"); //TODO: write a better message
     }
+    */
     const auto* const vertex_container_ptr = static_cast< const vertex_container* >( graphdom::graph< VertexType >::get_vertex_container( vertex ) );
     return const_cast< VertexLabelType& >( (*vertex_container_ptr).vertex_label );
 }
@@ -165,7 +177,7 @@ graphdom::full_labeled_multiset_digraph<VertexType,VertexLabelType,EdgeLabelType
     );
     ++number_of_vertices_inserted;
     return graphdom::multiset_graph<VertexType>::vertex_handle_factory(
-        this,
+        this, //TODO: remove this line
         vertices.front(),
         graphdom::edge_type::directed
     );
@@ -181,7 +193,7 @@ const VertexType& v_core, VertexLabelType&& vertex_label) {
     );
     ++number_of_vertices_inserted;
     return graphdom::multiset_graph<VertexType>::vertex_handle_factory(
-        this,
+        this, //TODO: remove this line
         vertices.front(),
         graphdom::edge_type::directed
     );
@@ -197,7 +209,7 @@ VertexType&& v_core, const VertexLabelType& vertex_label) {
     );
     ++number_of_vertices_inserted;
     return graphdom::multiset_graph<VertexType>::vertex_handle_factory(
-        this,
+        this, //TODO: remove this line
         vertices.front(),
         graphdom::edge_type::directed
     );
@@ -213,7 +225,7 @@ VertexType&& v_core, VertexLabelType&& vertex_label) {
     );
     ++number_of_vertices_inserted;
     return graphdom::multiset_graph<VertexType>::vertex_handle_factory(
-        this,
+        this, //TODO: remove this line
         vertices.front(),
         graphdom::edge_type::directed
     );
@@ -222,9 +234,11 @@ VertexType&& v_core, VertexLabelType&& vertex_label) {
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename VertexLabellerType, typename EdgeLabellerType>
 EdgeLabelType& graphdom::full_labeled_multiset_digraph<VertexType,VertexLabelType,EdgeLabelType,VertexLabellerType,EdgeLabellerType>::get_edge_label(
     const typename graph<VertexType>::adj_list_const_iterator& edge ) {
+    /*
     if ( graphdom::graph<VertexType>::get_owner_graph( edge ) != this ) {
         throw std::runtime_error("Error"); //TODO: write a better message
     }
+    */
     return (
         *(
             static_cast<edge_endpoint*>(
@@ -239,12 +253,14 @@ void graphdom::full_labeled_multiset_digraph<VertexType,VertexLabelType,EdgeLabe
     const typename graph<VertexType>::vertex_const_handle& tail,
     const typename graph<VertexType>::vertex_const_handle& head,
     const EdgeLabelType& edge_label) {
+    /*
     if (
         graphdom::graph<VertexType>::get_owner_graph( tail ) != this ||
         graphdom::graph<VertexType>::get_owner_graph( head ) != this
     ) {
         throw std::runtime_error("Error"); //TODO: write a better message
     }
+    */
     auto const begin_point_vertex_container = static_cast< const vertex_container* >( graphdom::graph<VertexType>::get_vertex_container( tail ) );
     auto const end_point_vertex_container = const_cast< typename graphdom::graph<VertexType>::vertex_container* >( graphdom::graph<VertexType>::get_vertex_container( head ) );
     if ( begin_point_vertex_container == nullptr || end_point_vertex_container == nullptr ) {
@@ -262,12 +278,14 @@ void graphdom::full_labeled_multiset_digraph<VertexType,VertexLabelType,EdgeLabe
     const typename graph<VertexType>::vertex_const_handle& tail,
     const typename graph<VertexType>::vertex_const_handle& head,
     EdgeLabelType&& edge_label) {
+        /*
         if (
             graphdom::graph<VertexType>::get_owner_graph( tail ) != this ||
             graphdom::graph<VertexType>::get_owner_graph( head ) != this
         ) {
             throw std::runtime_error("Error"); //TODO: write a better message
         }
+        */
         auto const begin_point_vertex_container = static_cast< const vertex_container* >( graphdom::graph<VertexType>::get_vertex_container( tail ) );
         auto const end_point_vertex_container = const_cast< typename graphdom::graph<VertexType>::vertex_container* >( graphdom::graph<VertexType>::get_vertex_container( head ) );
         if ( begin_point_vertex_container == nullptr || end_point_vertex_container == nullptr ) {
@@ -282,13 +300,6 @@ void graphdom::full_labeled_multiset_digraph<VertexType,VertexLabelType,EdgeLabe
                 ( begin_point_vertex_container->adj ).emplace_hint( lower_bound, new edge_endpoint( end_point_vertex_container , std::move(edge_label) ) );
             }
         }
-        /*
-        std::unique_ptr< edge_endpoint > edge_endpoint_to_insert( new edge_endpoint( end_point_vertex_container , std::move(edge_label_to_insert) ) );
-        const auto inner_insertion_result = ( ( begin_point_vertex_container->adj ).insert( edge_endpoint_to_insert.get() ) ).second;
-        if ( inner_insertion_result ) {
-            edge_endpoint_to_insert.release();
-        }
-        */
 }
 
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename VertexLabellerType, typename EdgeLabellerType>

@@ -8,6 +8,7 @@
 #define GRAPHDOM_VERTEX_HANDLE_IMPL_H
 
 #include "../../graph.h"
+#include "../../set_graph.h"
 #include "../vertex_base_handle.h"
 #include "../vertex_handle.h"
 #include "../../multiset_graph.h"
@@ -15,15 +16,17 @@
 
 template <typename VertexType>
 graphdom::graph<VertexType>::vertex_handle::vertex_handle(const graphdom::graph<VertexType>::vertex_handle& other) :
-vertex_base_handle< const graphdom::graph<VertexType>::vertex_container* >( other ) {}
+vertex_base_handle< const graphdom::graph<VertexType>::vertex_container* >( other ),
+vertex_container_owner_graph_is_a_set_graph( other.vertex_container_owner_graph_is_a_set_graph ) {}
 
 template <typename VertexType>
 graphdom::graph<VertexType>::vertex_handle::vertex_handle(const typename graphdom::multiset_graph<VertexType>::vertex_handle& other) :
 vertex_base_handle< const graphdom::graph<VertexType>::vertex_container* >(
-    other.vertex_container_owner_graph_pointer,
+    other.vertex_container_owner_graph_pointer, //TODO: remove this line
     other.vertex_container_owner_graph_edges_type,
     other.vertex_container_pointer
-) {}
+),
+vertex_container_owner_graph_is_a_set_graph( false ) {}
 
 template<typename VertexType>
 graphdom::graph<VertexType>::vertex_handle::operator typename multiset_graph<VertexType>::vertex_handle() const {
@@ -33,9 +36,10 @@ graphdom::graph<VertexType>::vertex_handle::operator typename multiset_graph<Ver
 template<typename VertexType>
 typename graphdom::graph<VertexType>::vertex_handle& graphdom::graph<VertexType>::vertex_handle::operator=(const vertex_handle& other) {
     if ( this != &other ) {
-        this->vertex_container_owner_graph_pointer = other.vertex_container_owner_graph_pointer;
+        this->vertex_container_owner_graph_pointer = other.vertex_container_owner_graph_pointer; //TODO: remove this line
         this->vertex_container_owner_graph_edges_type = other.vertex_container_owner_graph_edges_type;
         this->vertex_container_pointer = other.vertex_container_pointer;
+        this->vertex_container_owner_graph_is_a_set_graph = other.vertex_container_owner_graph_is_a_set_graph;
     }
     return (*this);
 }
@@ -88,9 +92,21 @@ graphdom::graph<VertexType>::vertex_handle::vertex_handle(
     const graph<VertexType>::graph_edges_type vertex_container_owner_et,
     const typename graph<VertexType>::vertex_container* const vertex_container_ptr)  :
 vertex_base_handle< const graphdom::graph<VertexType>::vertex_container* >(
-    vertex_container_owner_ptr,
+    vertex_container_owner_ptr, // TODO: remove this line
     vertex_container_owner_et,
     vertex_container_ptr
-) {}
+),
+vertex_container_owner_graph_is_a_set_graph( dynamic_cast< const graphdom::set_graph<VertexType>* >( vertex_container_owner_ptr ) != nullptr ){}
+
+template<typename VertexType>
+graphdom::graph<VertexType>::vertex_handle::vertex_handle(
+    const bool vertex_container_owner_graph_is_a_set_graph,
+    const graph<VertexType>::graph_edges_type vertex_container_owner_et,
+    const typename graph<VertexType>::vertex_container* const vertex_container_ptr)  :
+vertex_base_handle< const graphdom::graph<VertexType>::vertex_container* >(
+    vertex_container_owner_et,
+    vertex_container_ptr
+),
+vertex_container_owner_graph_is_a_set_graph(vertex_container_owner_graph_is_a_set_graph) {}
 
 #endif //GRAPHDOM_VERTEX_HANDLE_IMPL_H

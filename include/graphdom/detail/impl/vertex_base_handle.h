@@ -23,6 +23,15 @@ graphdom::graph<VertexType>::vertex_base_handle<VertexContainerPointerType>::ver
 
 template<typename VertexType>
 template<typename VertexContainerPointerType>
+graphdom::graph<VertexType>::vertex_base_handle<VertexContainerPointerType>::vertex_base_handle(
+    const graph_edges_type vertex_container_owner_et,
+    const VertexContainerPointerType vertex_container_ptr ) :
+    vertex_container_owner_graph_pointer(nullptr), // TODO: remove this line
+    vertex_container_owner_graph_edges_type(vertex_container_owner_et),
+    vertex_container_pointer(vertex_container_ptr) {}
+
+template<typename VertexType>
+template<typename VertexContainerPointerType>
 constexpr auto& graphdom::graph<VertexType>::vertex_base_handle<VertexContainerPointerType>::operator*() const {
     return vertex_container_pointer->vertex;
 }
