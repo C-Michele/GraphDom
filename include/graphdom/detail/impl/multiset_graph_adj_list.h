@@ -20,7 +20,6 @@ graphdom::graph<VertexType>::template base_adj_list< typename graphdom::graph<Ve
 template<typename VertexType>
 graphdom::multiset_graph<VertexType>::adj_list::adj_list(const typename graph<VertexType>::adj_list& other) :
 graphdom::graph<VertexType>::template base_adj_list< typename graphdom::graph<VertexType>::vertex_container* >(
-    other.vertex_container_owner_graph_pointer, //TODO: remove this line
     other.adj_list_owner_graph_edges_type,
     nullptr,
     other.adj_list_edges_type_selection
@@ -58,7 +57,6 @@ graphdom::multiset_graph<VertexType>::adj_list::adj_list(
     typename graphdom::graph<VertexType>::vertex_container* const adj_list_common_begin_point_vertex_container_pointer,
     const typename graphdom::graph<VertexType>::edges_type_selection_type adj_list_edges_type_selection ) :
 graphdom::graph<VertexType>::template base_adj_list< typename graphdom::graph<VertexType>::vertex_container* >(
-    adj_list_owner_graph_pointer, //TODO: remove this line
     adj_list_owner_graph_edges_type,
     adj_list_common_begin_point_vertex_container_pointer,
     adj_list_edges_type_selection
@@ -74,7 +72,6 @@ graphdom::multiset_graph<VertexType>::adj_list::adj_list(
     typename graphdom::graph<VertexType>::vertex_container* const adj_list_common_begin_point_vertex_container_pointer,
     const typename graphdom::graph<VertexType>::edges_type_selection_type adj_list_edges_type_selection ) :
 graphdom::graph<VertexType>::template base_adj_list< typename graphdom::graph<VertexType>::vertex_container* >(
-    nullptr, //TODO: remove this line
     adj_list_owner_graph_edges_type,
     adj_list_common_begin_point_vertex_container_pointer,
     adj_list_edges_type_selection

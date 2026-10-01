@@ -164,7 +164,6 @@ graphdom::full_labeled_set_digraph<VertexType,VertexLabelType,EdgeLabelType,Comp
     auto const edge_itr_endpoint = *edge_itr_inner_iterator;
     safe_edge_endpoint_deallocation(edge_itr_endpoint);
     return graphdom::set_graph<VertexType>::adj_list_iterator_factory(
-        this, //TODO: remove this line
         edge_itr_begin_point,
         directed,
         ( edge_itr_begin_point->adj ).erase( edge_itr_inner_iterator )

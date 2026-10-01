@@ -99,7 +99,6 @@ namespace graphdom {
             friend class multiset_graph<VertexType>;
             /// \endcond DEV_DOC
         private:
-            adj_list_const_iterator( const graph<VertexType>::adj_list_base_iterator< const graph<VertexType>::vertex_container* >& other ); //TODO: remove this constructor
             adj_list_const_iterator(
                 const graph<VertexType>::adj_list_base_iterator< const graph<VertexType>::vertex_container* >& other,
                 bool iterator_owner_graph_is_a_set_graph

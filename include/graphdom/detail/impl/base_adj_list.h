@@ -14,24 +14,10 @@
 template <typename VertexType>
 template <typename VertexContainerPointerType>
 graphdom::graph<VertexType>::base_adj_list<VertexContainerPointerType>::base_adj_list(
-    const graph<VertexType>* const adj_list_owner_graph_pointer,
     const graph_edges_type adj_list_owner_graph_edges_type,
     const VertexContainerPointerType adj_list_common_begin_point_vertex_container_pointer,
     const graph<VertexType>::edges_type_selection_type adj_list_edges_type_selection
 ) :
-adj_list_owner_graph_pointer(adj_list_owner_graph_pointer),
-adj_list_owner_graph_edges_type(adj_list_owner_graph_edges_type),
-adj_list_common_begin_point_vertex_container_pointer(adj_list_common_begin_point_vertex_container_pointer),
-adj_list_edges_type_selection(adj_list_edges_type_selection) {}
-
-template <typename VertexType>
-template <typename VertexContainerPointerType>
-graphdom::graph<VertexType>::base_adj_list<VertexContainerPointerType>::base_adj_list(
-    const graph_edges_type adj_list_owner_graph_edges_type,
-    const VertexContainerPointerType adj_list_common_begin_point_vertex_container_pointer,
-    const graph<VertexType>::edges_type_selection_type adj_list_edges_type_selection
-) :
-adj_list_owner_graph_pointer(nullptr), //TODO: remove this line
 adj_list_owner_graph_edges_type(adj_list_owner_graph_edges_type),
 adj_list_common_begin_point_vertex_container_pointer(adj_list_common_begin_point_vertex_container_pointer),
 adj_list_edges_type_selection(adj_list_edges_type_selection) {}
@@ -49,7 +35,6 @@ graphdom::graph<VertexType>::base_adj_list<VertexContainerPointerType>::internal
     auto* const directed_adj_set = get_adj_set_if_accessible<K>(graphdom::edge_type::directed);
     if ( ( undirected_adj_set == nullptr ) && ( directed_adj_set == nullptr ) ) {
         return typename graphdom::graph<VertexType>::template adj_list_base_iterator<VertexContainerPointerType>(
-            adj_list_owner_graph_pointer, //TODO: Remove this line
             adj_list_owner_graph_edges_type,
             adj_list_common_begin_point_vertex_container_pointer,
             adj_list_edges_type_selection,
@@ -60,7 +45,6 @@ graphdom::graph<VertexType>::base_adj_list<VertexContainerPointerType>::internal
         if ( undirected_adj_set->empty() && directed_adj_set != nullptr ) {
             if ( directed_adj_set->empty() ) {
                 return typename graphdom::graph<VertexType>::template adj_list_base_iterator<VertexContainerPointerType>(
-                    adj_list_owner_graph_pointer, //TODO: Remove this line
                     adj_list_owner_graph_edges_type,
                     adj_list_common_begin_point_vertex_container_pointer,
                     adj_list_edges_type_selection,
@@ -69,7 +53,6 @@ graphdom::graph<VertexType>::base_adj_list<VertexContainerPointerType>::internal
                 );
             }
             return typename graphdom::graph<VertexType>::template adj_list_base_iterator<VertexContainerPointerType>(
-                adj_list_owner_graph_pointer, //TODO: Remove this line
                 adj_list_owner_graph_edges_type,
                 adj_list_common_begin_point_vertex_container_pointer,
                 adj_list_edges_type_selection,
@@ -78,7 +61,6 @@ graphdom::graph<VertexType>::base_adj_list<VertexContainerPointerType>::internal
             );
         }
         return typename graphdom::graph<VertexType>::template adj_list_base_iterator<VertexContainerPointerType>(
-            adj_list_owner_graph_pointer, //TODO: Remove this line
             adj_list_owner_graph_edges_type,
             adj_list_common_begin_point_vertex_container_pointer,
             adj_list_edges_type_selection,
@@ -87,7 +69,6 @@ graphdom::graph<VertexType>::base_adj_list<VertexContainerPointerType>::internal
         );
     }
     return typename graphdom::graph<VertexType>::template adj_list_base_iterator<VertexContainerPointerType>(
-        adj_list_owner_graph_pointer, //TODO: Remove this line
         adj_list_owner_graph_edges_type,
         adj_list_common_begin_point_vertex_container_pointer,
         adj_list_edges_type_selection,
@@ -109,7 +90,6 @@ graphdom::graph<VertexType>::base_adj_list<VertexContainerPointerType>::internal
     auto* const directed_adj_set = get_adj_set_if_accessible<K>(graphdom::edge_type::directed);
     if ( ( undirected_adj_set == nullptr ) && ( directed_adj_set == nullptr ) ) {
         return typename graphdom::graph<VertexType>::template adj_list_base_iterator<VertexContainerPointerType>(
-            adj_list_owner_graph_pointer, //TODO: Remove this line
             adj_list_owner_graph_edges_type,
             adj_list_common_begin_point_vertex_container_pointer,
             adj_list_edges_type_selection,
@@ -119,7 +99,6 @@ graphdom::graph<VertexType>::base_adj_list<VertexContainerPointerType>::internal
     if ( directed_adj_set != nullptr ) {
         if ( directed_adj_set->empty() && undirected_adj_set != nullptr ) {
             return typename graphdom::graph<VertexType>::template adj_list_base_iterator<VertexContainerPointerType>(
-                adj_list_owner_graph_pointer, //TODO: Remove this line
                 adj_list_owner_graph_edges_type,
                 adj_list_common_begin_point_vertex_container_pointer,
                 adj_list_edges_type_selection,
@@ -128,7 +107,6 @@ graphdom::graph<VertexType>::base_adj_list<VertexContainerPointerType>::internal
             );
         }
         return typename graphdom::graph<VertexType>::template adj_list_base_iterator<VertexContainerPointerType>(
-            adj_list_owner_graph_pointer, //TODO: Remove this line
             adj_list_owner_graph_edges_type,
             adj_list_common_begin_point_vertex_container_pointer,
             adj_list_edges_type_selection,
@@ -137,7 +115,6 @@ graphdom::graph<VertexType>::base_adj_list<VertexContainerPointerType>::internal
         );
     }
     return typename graphdom::graph<VertexType>::template adj_list_base_iterator<VertexContainerPointerType>(
-        adj_list_owner_graph_pointer, //TODO: Remove this line
         adj_list_owner_graph_edges_type,
         adj_list_common_begin_point_vertex_container_pointer,
         adj_list_edges_type_selection,

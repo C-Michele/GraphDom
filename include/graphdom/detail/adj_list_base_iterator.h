@@ -49,26 +49,11 @@ namespace graphdom {
             adj_list_base_iterator();
             adj_list_base_iterator(const adj_list_base_iterator&) = default;
             adj_list_base_iterator(
-                const graph<VertexType>* iterator_owner_pointer,
-                graph<VertexType>::graph_edges_type iterator_owner_graph_edges_type,
-                VertexContainerPointerType edge_begin_point_vertex_container,
-                graph<VertexType>::edges_type_selection_type edges_type_restriction,
-                graphdom::edge_type inner_iterator_edge_current_type
-            ); //TODO: remove this constructor
-            adj_list_base_iterator(
                 graph<VertexType>::graph_edges_type iterator_owner_graph_edges_type,
                 VertexContainerPointerType edge_begin_point_vertex_container,
                 graph<VertexType>::edges_type_selection_type edges_type_restriction,
                 graphdom::edge_type inner_iterator_edge_current_type
             );
-            adj_list_base_iterator(
-                const graph<VertexType>* iterator_owner_pointer,
-                graph<VertexType>::graph_edges_type iterator_owner_graph_edges_type,
-                VertexContainerPointerType edge_begin_point_vertex_container,
-                graph<VertexType>::edges_type_selection_type edges_type_restriction,
-                graphdom::edge_type inner_iterator_edge_current_type,
-                const typename graph<VertexType>::adj_set<graph<VertexType>::vertex_container*>::iterator& inner_iterator
-            ); //TODO: remove this constructor
             adj_list_base_iterator(
                 graph<VertexType>::graph_edges_type iterator_owner_graph_edges_type,
                 VertexContainerPointerType edge_begin_point_vertex_container,
@@ -76,14 +61,6 @@ namespace graphdom {
                 graphdom::edge_type inner_iterator_edge_current_type,
                 const typename graph<VertexType>::adj_set<graph<VertexType>::vertex_container*>::iterator& inner_iterator
             );
-            adj_list_base_iterator(
-                const graph<VertexType>* iterator_owner_pointer,
-                graph<VertexType>::graph_edges_type iterator_owner_graph_edges_type,
-                VertexContainerPointerType edge_begin_point_vertex_container,
-                graph<VertexType>::edges_type_selection_type edges_type_restriction,
-                graphdom::edge_type inner_iterator_edge_current_type,
-                const typename graph<VertexType>::adj_set<const graph<VertexType>::vertex_container*>::iterator& inner_iterator
-            ); //TODO: remove this constructor
             adj_list_base_iterator(
                 graph<VertexType>::graph_edges_type iterator_owner_graph_edges_type,
                 VertexContainerPointerType edge_begin_point_vertex_container,
@@ -94,7 +71,6 @@ namespace graphdom {
 
             constexpr adj_list_base_iterator& internal_single_increment();
 
-            const graph<VertexType>* iterator_owner_graph; //TODO: remove this pointer
             graph<VertexType>::graph_edges_type iterator_owner_graph_edges_type;
             VertexContainerPointerType edge_begin_point_vertex_container;
             graph<VertexType>::edges_type_selection_type edges_type_restriction;

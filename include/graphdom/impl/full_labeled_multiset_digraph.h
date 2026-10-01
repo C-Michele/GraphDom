@@ -148,7 +148,6 @@ graphdom::full_labeled_multiset_digraph<VertexType,VertexLabelType, EdgeLabelTyp
     auto const edge_itr_endpoint = *edge_itr_inner_iterator;
     safe_edge_endpoint_deallocation(edge_itr_endpoint);
     return graphdom::multiset_graph<VertexType>::adj_list_iterator_factory(
-        this, //TODO: remove this line
         edge_itr_begin_point,
         directed,
         ( edge_itr_begin_point->adj ).erase( edge_itr_inner_iterator )
@@ -177,7 +176,6 @@ graphdom::full_labeled_multiset_digraph<VertexType,VertexLabelType,EdgeLabelType
     );
     ++number_of_vertices_inserted;
     return graphdom::multiset_graph<VertexType>::vertex_handle_factory(
-        this, //TODO: remove this line
         vertices.front(),
         graphdom::edge_type::directed
     );
@@ -193,7 +191,6 @@ const VertexType& v_core, VertexLabelType&& vertex_label) {
     );
     ++number_of_vertices_inserted;
     return graphdom::multiset_graph<VertexType>::vertex_handle_factory(
-        this, //TODO: remove this line
         vertices.front(),
         graphdom::edge_type::directed
     );
@@ -209,7 +206,6 @@ VertexType&& v_core, const VertexLabelType& vertex_label) {
     );
     ++number_of_vertices_inserted;
     return graphdom::multiset_graph<VertexType>::vertex_handle_factory(
-        this, //TODO: remove this line
         vertices.front(),
         graphdom::edge_type::directed
     );
@@ -225,7 +221,6 @@ VertexType&& v_core, VertexLabelType&& vertex_label) {
     );
     ++number_of_vertices_inserted;
     return graphdom::multiset_graph<VertexType>::vertex_handle_factory(
-        this, //TODO: remove this line
         vertices.front(),
         graphdom::edge_type::directed
     );

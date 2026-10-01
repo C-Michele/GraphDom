@@ -165,7 +165,6 @@ graphdom::full_labeled_multiset_ugraph<VertexType,VertexLabelType,EdgeLabelType,
     }
     safe_edge_endpoint_deallocation(*inner_iterator_of_begin_point_adj);
     return graphdom::multiset_graph<VertexType>::adj_list_iterator_factory(
-        this, //TODO: remove this line
         edge_itr_begin_point,
         undirected,
         ( (*edge_itr_begin_point).adj ).erase( inner_iterator_of_begin_point_adj )
@@ -194,7 +193,6 @@ graphdom::full_labeled_multiset_ugraph<VertexType,VertexLabelType,EdgeLabelType,
     );
     ++number_of_vertices_inserted;
     return graphdom::multiset_graph<VertexType>::vertex_handle_factory(
-        this, //TODO: remove this line
         vertices.front(),
         graphdom::edge_type::undirected
     );
@@ -210,7 +208,6 @@ const VertexType& v_core, VertexLabelType&& vertex_label) {
     );
     ++number_of_vertices_inserted;
     return graphdom::multiset_graph<VertexType>::vertex_handle_factory(
-        this, //TODO: remove this line
         vertices.front(),
         graphdom::edge_type::undirected
     );
@@ -226,7 +223,6 @@ VertexType&& v_core, const VertexLabelType& vertex_label) {
     );
     ++number_of_vertices_inserted;
     return graphdom::multiset_graph<VertexType>::vertex_handle_factory(
-        this, //TODO: remove this line
         vertices.front(),
         graphdom::edge_type::undirected
     );
@@ -242,7 +238,6 @@ VertexType&& v_core, VertexLabelType&& vertex_label) {
     );
     ++number_of_vertices_inserted;
     return graphdom::multiset_graph<VertexType>::vertex_handle_factory(
-        this, //TODO: remove this line
         vertices.front(),
         graphdom::edge_type::undirected
     );

@@ -74,16 +74,10 @@ namespace graphdom {
         protected:
             vertex_base_handle(const vertex_base_handle&) = default;
             vertex_base_handle(
-                const graph<VertexType>* vertex_container_owner_ptr,
-                graph_edges_type vertex_container_owner_et,
-                VertexContainerPointerType vertex_container_ptr
-            ); //TODO: remove this constructor
-            vertex_base_handle(
                 graph_edges_type vertex_container_owner_et,
                 VertexContainerPointerType vertex_container_ptr
             );
 
-            const graph<VertexType>* vertex_container_owner_graph_pointer; //TODO: remove this pointer
             graph_edges_type vertex_container_owner_graph_edges_type;
             VertexContainerPointerType vertex_container_pointer;
     };

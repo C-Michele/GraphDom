@@ -59,24 +59,20 @@ namespace graphdom {
             using mixed_graph_labeled_vertex_container = typename graphdom::graph<VertexType>::template mixed_graph_labeled_vertex_container<VertexContainerPointerType,EdgeLabelType>;
 
             static vertex_handle vertex_handle_factory(
-                const graphdom::multiset_graph<VertexType>*,
                 typename graphdom::graph<VertexType>::template non_mixed_graph_vertex_container<VertexContainerPointerType>&,
                 graphdom::edge_type non_mixed_graph_type
             );
 
             static vertex_handle vertex_handle_factory(
-                const graphdom::multiset_graph<VertexType>*,
                 typename graphdom::graph<VertexType>::template mixed_graph_vertex_container<VertexContainerPointerType>&
             );
 
             static typename graphdom::graph<VertexType>::vertex_const_handle const_vertex_handle_factory(
-                const graphdom::multiset_graph<VertexType>*,
                 const typename graphdom::graph<VertexType>::template non_mixed_graph_vertex_container<VertexContainerPointerType>&,
                 graphdom::edge_type non_mixed_graph_type
             );
 
             static typename graphdom::graph<VertexType>::vertex_const_handle const_vertex_handle_factory(
-                const graphdom::multiset_graph<VertexType>*,
                 const typename graphdom::graph<VertexType>::template mixed_graph_vertex_container<VertexContainerPointerType>&
             );
 
@@ -85,14 +81,12 @@ namespace graphdom {
             static typename adj_set::const_iterator get_inner_iterator(const typename graphdom::graph<VertexType>::adj_list_const_iterator&);
 
             static typename graphdom::graph<VertexType>::adj_list_iterator adj_list_iterator_factory(
-                const graphdom::multiset_graph<VertexType>* edge_multiset_vertex_graph_owner_ptr,
                 non_mixed_graph_vertex_container* edge_begin_point_ptr,
                 graphdom::edge_type edge_multiset_vertex_graph_owner_edges_type,
                 typename adj_set::iterator inner_itr
             );
 
             static typename graphdom::graph<VertexType>::adj_list_iterator adj_list_iterator_factory(
-                const graphdom::set_graph<VertexType>* edge_multiset_vertex_graph_owner_ptr,
                 mixed_graph_vertex_container* edge_begin_point_ptr,
                 typename adj_set::iterator inner_itr,
                 graphdom::edge_type inner_itr_edge_type,

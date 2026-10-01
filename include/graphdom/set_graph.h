@@ -60,10 +60,23 @@ namespace graphdom {
                 const non_mixed_graph_vertex_container* edge_begin_point_ptr,
                 graphdom::edge_type edge_set_vertex_graph_owner_edges_type,
                 typename adj_set::iterator inner_itr
+            ); //TODO: remove this method
+
+            static typename graphdom::graph<VertexType>::adj_list_iterator adj_list_iterator_factory(
+                const non_mixed_graph_vertex_container* edge_begin_point_ptr,
+                graphdom::edge_type edge_set_vertex_graph_owner_edges_type,
+                typename adj_set::iterator inner_itr
             );
 
             static typename graphdom::graph<VertexType>::adj_list_iterator adj_list_iterator_factory(
                 const graphdom::set_graph<VertexType>* edge_set_vertex_graph_owner_ptr,
+                const mixed_graph_vertex_container* edge_begin_point_ptr,
+                typename adj_set::iterator inner_itr,
+                graphdom::edge_type inner_itr_edge_type,
+                bool inner_itr_is_limited_by_edge_type = false
+            ); //TODO: remove this method
+
+            static typename graphdom::graph<VertexType>::adj_list_iterator adj_list_iterator_factory(
                 const mixed_graph_vertex_container* edge_begin_point_ptr,
                 typename adj_set::iterator inner_itr,
                 graphdom::edge_type inner_itr_edge_type,

@@ -25,7 +25,6 @@ vertex_container_owner_graph_is_a_set_graph( other.vertex_container_owner_graph_
 template<typename VertexType>
 graphdom::graph<VertexType>::vertex_const_handle::vertex_const_handle(const typename graphdom::multiset_graph<VertexType>::vertex_handle& other) :
 graphdom::graph<VertexType>::vertex_base_handle< const graphdom::graph<VertexType>::vertex_container* >(
-    other.vertex_container_owner_graph_pointer, //TODO: remove this line
     other.vertex_container_owner_graph_edges_type,
     other.vertex_container_pointer
 ),
@@ -34,7 +33,6 @@ vertex_container_owner_graph_is_a_set_graph( false ) {}
 template<typename VertexType>
 typename graphdom::graph<VertexType>::vertex_const_handle& graphdom::graph<VertexType>::vertex_const_handle::operator=(const vertex_const_handle& other) {
     if ( this != &other ) {
-        this->vertex_container_owner_graph_pointer = other.vertex_container_owner_graph_pointer; //TODO: remove this line
         this->vertex_container_owner_graph_edges_type = other.vertex_container_owner_graph_edges_type;
         this->vertex_container_pointer = other.vertex_container_pointer;
         this->vertex_container_owner_graph_is_a_set_graph = other.vertex_container_owner_graph_is_a_set_graph;
@@ -45,7 +43,7 @@ typename graphdom::graph<VertexType>::vertex_const_handle& graphdom::graph<Verte
 template<typename VertexType>
 typename graphdom::graph<VertexType>::const_adj_list graphdom::graph<VertexType>::vertex_const_handle::adj_list() const {
     return graphdom::graph<VertexType>::const_adj_list(
-        this->vertex_container_owner_graph_pointer,
+        this->vertex_container_owner_graph_is_a_set_graph,
         this->vertex_container_owner_graph_edges_type,
         this->vertex_container_pointer
     );
@@ -54,7 +52,7 @@ typename graphdom::graph<VertexType>::const_adj_list graphdom::graph<VertexType>
 template<typename VertexType>
 typename graphdom::graph<VertexType>::const_adj_list graphdom::graph<VertexType>::vertex_const_handle::adj_list(const edge_type edge_type) const {
     return graphdom::graph<VertexType>::const_adj_list(
-        this->vertex_container_owner_graph_pointer,
+        this->vertex_container_owner_graph_is_a_set_graph,
         this->vertex_container_owner_graph_edges_type,
         this->vertex_container_pointer,
         ( edge_type == graphdom::edge_type::undirected ) ?
@@ -79,7 +77,6 @@ graphdom::graph<VertexType>::vertex_const_handle::vertex_const_handle(
     const graph<VertexType>::graph_edges_type vertex_container_owner_et,
     const typename graph<VertexType>::vertex_container* const vertex_container_ptr) :
 graphdom::graph<VertexType>::vertex_base_handle< const graphdom::graph<VertexType>::vertex_container* >(
-    vertex_container_owner_ptr, //TODO: remove this line
     vertex_container_owner_et,
     vertex_container_ptr
 ),

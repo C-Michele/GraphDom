@@ -56,21 +56,9 @@ typename graphdom::graph<VertexType>::vertex_const_handle graphdom::graph<Vertex
 }
 
 template<typename VertexType>
-const graphdom::graph<VertexType>* graphdom::graph<VertexType>::get_owner_graph(
-    const graphdom::graph<VertexType>::vertex_const_handle& ptr) {
-    return ptr.vertex_container_owner_graph_pointer;
-}
-
-template<typename VertexType>
 const typename graphdom::graph<VertexType>::vertex_container* graphdom::graph<VertexType>::get_vertex_container(
     const graphdom::graph<VertexType>::vertex_const_handle& ptr) {
     return ptr.vertex_container_pointer;
-}
-
-template<typename VertexType>
-const graphdom::graph<VertexType>* graphdom::graph<VertexType>::get_owner_graph(
-    const graphdom::graph<VertexType>::adj_list_const_iterator& const_edge_itr) {
-    return const_edge_itr.iterator_owner_graph;
 }
 
 template<typename VertexType>

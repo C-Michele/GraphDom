@@ -22,7 +22,6 @@ graphdom::graph<VertexType>::template vertex_base_handle< typename graphdom::gra
 template <typename VertexType>
 graphdom::multiset_graph<VertexType>::vertex_handle::vertex_handle(const typename graph<VertexType>::vertex_handle& other) :
 graphdom::graph<VertexType>::template vertex_base_handle< typename graphdom::graph<VertexType>::vertex_container* >(
-    other.vertex_container_owner_graph_pointer, //TODO: remove this line
     other.vertex_container_owner_graph_edges_type,
     nullptr
 ) {
@@ -35,7 +34,6 @@ graphdom::graph<VertexType>::template vertex_base_handle< typename graphdom::gra
 template<typename VertexType>
 typename graphdom::multiset_graph<VertexType>::vertex_handle& graphdom::multiset_graph<VertexType>::vertex_handle::operator=(const vertex_handle& other) {
     if ( this != &other ) {
-        this->vertex_container_owner_graph_pointer = other.vertex_container_owner_graph_pointer; //TODO: remove this line
         this->vertex_container_owner_graph_edges_type = other.vertex_container_owner_graph_edges_type;
         this->vertex_container_pointer = other.vertex_container_pointer;
     }
@@ -45,7 +43,6 @@ typename graphdom::multiset_graph<VertexType>::vertex_handle& graphdom::multiset
 template<typename VertexType>
 typename graphdom::multiset_graph<VertexType>::adj_list graphdom::multiset_graph<VertexType>::vertex_handle::adj_list() const {
     return typename graphdom::multiset_graph<VertexType>::adj_list(
-        this->vertex_container_owner_graph_pointer,
         this->vertex_container_owner_graph_edges_type,
         this->vertex_container_pointer
     );
@@ -54,7 +51,6 @@ typename graphdom::multiset_graph<VertexType>::adj_list graphdom::multiset_graph
 template<typename VertexType>
 typename graphdom::multiset_graph<VertexType>::adj_list graphdom::multiset_graph<VertexType>::vertex_handle::adj_list(const edge_type edge_type) const {
     return typename graphdom::multiset_graph<VertexType>::adj_list(
-        this->vertex_container_owner_graph_pointer,
         this->vertex_container_owner_graph_edges_type,
         this->vertex_container_pointer,
         ( edge_type == undirected ) ?
@@ -66,7 +62,7 @@ typename graphdom::multiset_graph<VertexType>::adj_list graphdom::multiset_graph
 template<typename VertexType>
 typename graphdom::graph<VertexType>::const_adj_list graphdom::multiset_graph<VertexType>::vertex_handle::const_adj_list() const {
     return typename graphdom::graph<VertexType>::const_adj_list(
-        this->vertex_container_owner_graph_pointer,
+        false,
         this->vertex_container_owner_graph_edges_type,
         this->vertex_container_pointer
     );
@@ -75,7 +71,7 @@ typename graphdom::graph<VertexType>::const_adj_list graphdom::multiset_graph<Ve
 template<typename VertexType>
 typename graphdom::graph<VertexType>::const_adj_list graphdom::multiset_graph<VertexType>::vertex_handle::const_adj_list(const edge_type edge_type) const {
     return typename graphdom::graph<VertexType>::const_adj_list(
-        this->vertex_container_owner_graph_pointer,
+        false,
         this->vertex_container_owner_graph_edges_type,
         this->vertex_container_pointer,
         ( edge_type == undirected ) ?
@@ -90,7 +86,6 @@ graphdom::multiset_graph<VertexType>::vertex_handle::vertex_handle(
     typename graph<VertexType>::graph_edges_type vertex_container_owner_et,
     typename graph<VertexType>::vertex_container* const vertex_container_ptr):
 graphdom::graph<VertexType>::template vertex_base_handle< typename graphdom::graph<VertexType>::vertex_container* >(
-    vertex_container_owner_ptr, //TODO: remove this line
     vertex_container_owner_et,
     vertex_container_ptr
 ){

@@ -20,7 +20,6 @@ graphdom::graph<VertexType>::template adj_list_base_iterator< typename graph<Ver
 template<typename VertexType>
 graphdom::multiset_graph<VertexType>::adj_list_iterator::adj_list_iterator(const typename graph<VertexType>::adj_list_iterator& other) :
 graphdom::graph<VertexType>::template adj_list_base_iterator< typename graph<VertexType>::vertex_container*  >(
-    other.iterator_owner_graph, //TODO: remove this line
     other.iterator_owner_graph_edges_type,
     static_cast< typename graph<VertexType>::vertex_container* >( nullptr ),
     other.edges_type_restriction,
@@ -41,7 +40,6 @@ typename graphdom::multiset_graph<VertexType>::vertex_handle graphdom::multiset_
 template<typename VertexType>
 typename graphdom::multiset_graph<VertexType>::vertex_handle graphdom::multiset_graph<VertexType>::adj_list_iterator::operator*() const {
     return graphdom::multiset_graph<VertexType>::vertex_handle(
-        this->iterator_owner_graph, //TODO: remove this line
         this->iterator_owner_graph_edges_type,
         ( *( std::get< typename graphdom::graph<VertexType>::template adj_set<typename graphdom::graph<VertexType>::vertex_container*>::iterator >( this->inner_iterator ) ) )->vertex_container_ptr
     );
@@ -50,7 +48,6 @@ typename graphdom::multiset_graph<VertexType>::vertex_handle graphdom::multiset_
 template<typename VertexType>
 typename graphdom::multiset_graph<VertexType>::adj_list_iterator& graphdom::multiset_graph<VertexType>::adj_list_iterator::operator=(const adj_list_iterator& other) {
     if ( this != &other ) {
-        this->iterator_owner_graph = other.iterator_owner_graph; //TODO: remove this line
         this->iterator_owner_graph_edges_type = other.iterator_owner_graph_edges_type;
         this->edge_begin_point_vertex_container = other.edge_begin_point_vertex_container;
         this->edges_type_restriction = other.edges_type_restriction;
