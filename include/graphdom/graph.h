@@ -108,24 +108,20 @@ namespace graphdom {
             class mixed_graph_labeled_vertex_container;
 
             static vertex_handle vertex_handle_factory(
-                const graphdom::graph<VertexType>*,
                 const graphdom::graph<VertexType>::non_mixed_graph_vertex_container<const vertex_container*>&,
                 graphdom::edge_type non_mixed_graph_type
             );
 
             static vertex_handle vertex_handle_factory(
-                const graphdom::graph<VertexType>*,
                 const graphdom::graph<VertexType>::mixed_graph_vertex_container<const vertex_container*>&
             );
 
             static vertex_const_handle vertex_const_handle_factory(
-                const graphdom::graph<VertexType>*,
                 const graphdom::graph<VertexType>::non_mixed_graph_vertex_container<const vertex_container*>&,
                 graphdom::edge_type non_mixed_graph_type
             );
 
             static vertex_const_handle vertex_const_handle_factory(
-                const graphdom::graph<VertexType>*,
                 const graphdom::graph<VertexType>::mixed_graph_vertex_container<const vertex_container*>&
             );
 

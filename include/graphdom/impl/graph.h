@@ -11,11 +11,10 @@
 
 template<typename VertexType>
 typename graphdom::graph<VertexType>::vertex_handle graphdom::graph<VertexType>::vertex_handle_factory(
-    const graphdom::graph<VertexType>* const graph_ptr,
     const graphdom::graph<VertexType>::non_mixed_graph_vertex_container<const vertex_container*>& vertex_container_reference,
     const graphdom::edge_type non_mixed_graph_type) {
     return graphdom::graph<VertexType>::vertex_handle(
-        graph_ptr,
+        true,
         ( non_mixed_graph_type == graphdom::edge_type::undirected ) ? graphdom::graph<VertexType>::graph_edges_type::undirected : graphdom::graph<VertexType>::graph_edges_type::directed,
         &vertex_container_reference
     );
@@ -23,10 +22,9 @@ typename graphdom::graph<VertexType>::vertex_handle graphdom::graph<VertexType>:
 
 template<typename VertexType>
 typename graphdom::graph<VertexType>::vertex_handle graphdom::graph<VertexType>::vertex_handle_factory(
-    const graphdom::graph<VertexType>* const graph_ptr,
     const graphdom::graph<VertexType>::mixed_graph_vertex_container<const vertex_container*>& vertex_container_reference) {
     return graphdom::graph<VertexType>::vertex_handle(
-        graph_ptr,
+        true,
         graphdom::graph<VertexType>::graph_edges_type::mixed,
         &vertex_container_reference
     );
@@ -34,11 +32,10 @@ typename graphdom::graph<VertexType>::vertex_handle graphdom::graph<VertexType>:
 
 template<typename VertexType>
 typename graphdom::graph<VertexType>::vertex_const_handle graphdom::graph<VertexType>::vertex_const_handle_factory(
-    const graphdom::graph<VertexType>* const graph_ptr,
     const graphdom::graph<VertexType>::non_mixed_graph_vertex_container<const vertex_container*>& vertex_container_reference,
     const graphdom::edge_type non_mixed_graph_type) {
     return graphdom::graph<VertexType>::vertex_const_handle(
-        graph_ptr,
+        true,
         ( non_mixed_graph_type == graphdom::edge_type::undirected ) ? graphdom::graph<VertexType>::graph_edges_type::undirected : graphdom::graph<VertexType>::graph_edges_type::directed,
         &vertex_container_reference
     );
@@ -46,10 +43,9 @@ typename graphdom::graph<VertexType>::vertex_const_handle graphdom::graph<Vertex
 
 template<typename VertexType>
 typename graphdom::graph<VertexType>::vertex_const_handle graphdom::graph<VertexType>::vertex_const_handle_factory(
-    const graphdom::graph<VertexType>* const graph_ptr,
     const graphdom::graph<VertexType>::mixed_graph_vertex_container<const vertex_container*>& vertex_container_reference) {
     return graphdom::graph<VertexType>::vertex_const_handle(
-        graph_ptr,
+        true,
         graphdom::graph<VertexType>::graph_edges_type::mixed,
         &vertex_container_reference
     );

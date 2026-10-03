@@ -54,12 +54,6 @@ namespace graphdom {
             /// \endcond DEV_DOC
         private:
             adj_list(
-                const graph<VertexType>* adj_list_owner_graph_pointer,
-                graph<VertexType>::graph_edges_type adj_list_owner_graph_edges_type,
-                const graph<VertexType>::vertex_container* adj_list_common_begin_point_vertex_container_pointer,
-                typename graph<VertexType>::edges_type_selection_type adj_list_edges_type_selection = none
-            ); //TODO: Consider removing this constructor
-            adj_list(
                 bool adj_list_owner_graph_is_a_set_graph,
                 graph<VertexType>::graph_edges_type adj_list_owner_graph_edges_type,
                 const graph<VertexType>::vertex_container* adj_list_common_begin_point_vertex_container_pointer,

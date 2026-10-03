@@ -177,7 +177,6 @@ graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compa
     }
     safe_edge_endpoint_deallocation(*inner_iterator_of_begin_point_adj);
     return graphdom::set_graph<VertexType>::adj_list_iterator_factory(
-        this, //TODO: remove this line
         edge_itr_begin_point,
         undirected,
         ( (*edge_itr_begin_point).adj ).erase( inner_iterator_of_begin_point_adj )
@@ -206,7 +205,6 @@ graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compa
     );
     return std::pair<typename graphdom::graph<VertexType>::vertex_handle, bool>(
         graphdom::graph<VertexType>::vertex_handle_factory(
-            this,
             *(inner_insertion_result.first),
             graphdom::edge_type::undirected
         ),
@@ -222,7 +220,6 @@ const VertexType& v_core, VertexLabelType&& vertex_label) {
     if ( lower_bound == vertices.cend()  ) {
         return std::pair<typename graphdom::graph<VertexType>::vertex_handle, bool>(
             graphdom::graph<VertexType>::vertex_handle_factory(
-                this,
                 *( vertices.emplace_hint(lower_bound, v_core, std::move(vertex_label)) ),
                 graphdom::edge_type::undirected
             ),
@@ -232,7 +229,6 @@ const VertexType& v_core, VertexLabelType&& vertex_label) {
     if ( ( vertices.key_comp() )( v_core, *lower_bound ) ) {
         return std::pair<typename graphdom::graph<VertexType>::vertex_handle, bool>(
             graphdom::graph<VertexType>::vertex_handle_factory(
-                this,
                 *( vertices.emplace_hint(lower_bound, v_core, std::move(vertex_label)) ),
                 graphdom::edge_type::undirected
             ),
@@ -241,7 +237,6 @@ const VertexType& v_core, VertexLabelType&& vertex_label) {
     }
     return std::pair<typename graphdom::graph<VertexType>::vertex_handle, bool>(
         graphdom::graph<VertexType>::vertex_handle_factory(
-            this,
             *( lower_bound ),
             graphdom::edge_type::undirected
         ),
@@ -257,7 +252,6 @@ VertexType&& v_core, const VertexLabelType& vertex_label) {
     if ( lower_bound == vertices.cend()  ) {
         return std::pair<typename graphdom::graph<VertexType>::vertex_handle, bool>(
             graphdom::graph<VertexType>::vertex_handle_factory(
-                this,
                 *( vertices.emplace_hint(lower_bound, std::move(v_core), vertex_label) ),
                 graphdom::edge_type::undirected
             ),
@@ -267,7 +261,6 @@ VertexType&& v_core, const VertexLabelType& vertex_label) {
     if ( ( vertices.key_comp() )( v_core, *lower_bound ) ) {
         return std::pair<typename graphdom::graph<VertexType>::vertex_handle, bool>(
             graphdom::graph<VertexType>::vertex_handle_factory(
-                this,
                 *( vertices.emplace_hint(lower_bound, std::move(v_core), vertex_label) ),
                 graphdom::edge_type::undirected
             ),
@@ -276,7 +269,6 @@ VertexType&& v_core, const VertexLabelType& vertex_label) {
     }
     return std::pair<typename graphdom::graph<VertexType>::vertex_handle, bool>(
         graphdom::graph<VertexType>::vertex_handle_factory(
-            this,
             *( lower_bound ),
             graphdom::edge_type::undirected
         ),
@@ -292,7 +284,6 @@ VertexType&& v_core, VertexLabelType&& vertex_label) {
     if ( lower_bound == vertices.cend()  ) {
         return std::pair<typename graphdom::graph<VertexType>::vertex_handle, bool>(
             graphdom::graph<VertexType>::vertex_handle_factory(
-                this,
                 *( vertices.emplace_hint(lower_bound, std::move(v_core), std::move(vertex_label)) ),
                 graphdom::edge_type::undirected
             ),
@@ -302,7 +293,6 @@ VertexType&& v_core, VertexLabelType&& vertex_label) {
     if ( ( vertices.key_comp() )( v_core, *lower_bound ) ) {
         return std::pair<typename graphdom::graph<VertexType>::vertex_handle, bool>(
             graphdom::graph<VertexType>::vertex_handle_factory(
-                this,
                 *( vertices.emplace_hint(lower_bound, std::move(v_core), std::move(vertex_label)) ),
                 graphdom::edge_type::undirected
             ),
@@ -311,7 +301,6 @@ VertexType&& v_core, VertexLabelType&& vertex_label) {
     }
     return std::pair<typename graphdom::graph<VertexType>::vertex_handle, bool>(
         graphdom::graph<VertexType>::vertex_handle_factory(
-            this,
             *( lower_bound ),
             graphdom::edge_type::undirected
         ),

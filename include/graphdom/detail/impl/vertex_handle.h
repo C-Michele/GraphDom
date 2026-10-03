@@ -86,17 +86,6 @@ typename graphdom::graph<VertexType>::const_adj_list graphdom::graph<VertexType>
 
 template<typename VertexType>
 graphdom::graph<VertexType>::vertex_handle::vertex_handle(
-    const graph<VertexType>* const vertex_container_owner_ptr,
-    const graph<VertexType>::graph_edges_type vertex_container_owner_et,
-    const typename graph<VertexType>::vertex_container* const vertex_container_ptr)  :
-vertex_base_handle< const graphdom::graph<VertexType>::vertex_container* >(
-    vertex_container_owner_et,
-    vertex_container_ptr
-),
-vertex_container_owner_graph_is_a_set_graph( dynamic_cast< const graphdom::set_graph<VertexType>* >( vertex_container_owner_ptr ) != nullptr ){}
-
-template<typename VertexType>
-graphdom::graph<VertexType>::vertex_handle::vertex_handle(
     const bool vertex_container_owner_graph_is_a_set_graph,
     const graph<VertexType>::graph_edges_type vertex_container_owner_et,
     const typename graph<VertexType>::vertex_container* const vertex_container_ptr)  :
