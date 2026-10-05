@@ -92,21 +92,6 @@ iterator_owner_graph_is_a_set_graph(iterator_owner_graph_is_a_set_graph) {}
 
 template<typename VertexType>
 graphdom::graph<VertexType>::adj_list_iterator::adj_list_iterator(
-    const graph<VertexType>* const iterator_owner_pointer,
-    const typename graph<VertexType>::graph_edges_type iterator_owner_graph_edges_type,
-    const typename graph<VertexType>::vertex_container* const edge_begin_point_vertex_container,
-    const typename graph<VertexType>::edges_type_selection_type edges_type_restriction,
-    const graphdom::edge_type inner_iterator_edge_current_type) :
-graphdom::graph<VertexType>::adj_list_base_iterator<  const graph<VertexType>::vertex_container* >(
-    iterator_owner_graph_edges_type,
-    edge_begin_point_vertex_container,
-    edges_type_restriction,
-    inner_iterator_edge_current_type
-),
-iterator_owner_graph_is_a_set_graph( dynamic_cast< const set_graph<VertexType>* >( iterator_owner_pointer ) != nullptr ) {}
-
-template<typename VertexType>
-graphdom::graph<VertexType>::adj_list_iterator::adj_list_iterator(
     const bool iterator_owner_graph_is_a_set_graph,
     const typename graph<VertexType>::graph_edges_type iterator_owner_graph_edges_type,
     const typename graph<VertexType>::vertex_container* const edge_begin_point_vertex_container,
@@ -119,23 +104,6 @@ graphdom::graph<VertexType>::adj_list_base_iterator<  const graph<VertexType>::v
     inner_iterator_edge_current_type
 ),
 iterator_owner_graph_is_a_set_graph( iterator_owner_graph_is_a_set_graph ) {}
-
-template<typename VertexType>
-graphdom::graph<VertexType>::adj_list_iterator::adj_list_iterator(
-    const graph<VertexType>* const iterator_owner_pointer,
-    const typename graph<VertexType>::graph_edges_type iterator_owner_graph_edges_type,
-    const typename graph<VertexType>::vertex_container* const edge_begin_point_vertex_container,
-    const typename graph<VertexType>::edges_type_selection_type edges_type_restriction,
-    const graphdom::edge_type inner_iterator_edge_current_type,
-    const typename graph<VertexType>::adj_set<typename graph<VertexType>::vertex_container*>::iterator& inner_iterator) :
-graphdom::graph<VertexType>::adj_list_base_iterator<  const graph<VertexType>::vertex_container* >(
-    iterator_owner_graph_edges_type,
-    edge_begin_point_vertex_container,
-    edges_type_restriction,
-    inner_iterator_edge_current_type,
-    inner_iterator
-),
-iterator_owner_graph_is_a_set_graph( dynamic_cast< const set_graph<VertexType>* >( iterator_owner_pointer ) != nullptr ) {}
 
 template<typename VertexType>
 graphdom::graph<VertexType>::adj_list_iterator::adj_list_iterator(
@@ -153,23 +121,6 @@ graphdom::graph<VertexType>::adj_list_base_iterator<  const graph<VertexType>::v
     inner_iterator
 ),
 iterator_owner_graph_is_a_set_graph( iterator_owner_graph_is_a_set_graph ) {}
-
-template<typename VertexType>
-graphdom::graph<VertexType>::adj_list_iterator::adj_list_iterator(
-    const graph<VertexType>* const iterator_owner_pointer,
-    const typename graph<VertexType>::graph_edges_type iterator_owner_graph_edges_type,
-    const typename graph<VertexType>::vertex_container* const edge_begin_point_vertex_container,
-    const typename graph<VertexType>::edges_type_selection_type edges_type_restriction,
-    const graphdom::edge_type inner_iterator_edge_current_type,
-    const typename graph<VertexType>::adj_set<const typename graph<VertexType>::vertex_container*>::iterator& inner_iterator) :
-graphdom::graph<VertexType>::adj_list_base_iterator<  const graph<VertexType>::vertex_container* >(
-    iterator_owner_graph_edges_type,
-    edge_begin_point_vertex_container,
-    edges_type_restriction,
-    inner_iterator_edge_current_type,
-    inner_iterator
-),
-iterator_owner_graph_is_a_set_graph( dynamic_cast< const set_graph<VertexType>* >( iterator_owner_pointer ) != nullptr ) {}
 
 template<typename VertexType>
 graphdom::graph<VertexType>::adj_list_iterator::adj_list_iterator(

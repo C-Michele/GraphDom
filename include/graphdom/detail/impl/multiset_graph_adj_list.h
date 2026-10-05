@@ -52,22 +52,6 @@ typename graphdom::graph<VertexType>::adj_list_const_iterator graphdom::multiset
 
 template<typename VertexType>
 graphdom::multiset_graph<VertexType>::adj_list::adj_list(
-    const graph<VertexType>* const adj_list_owner_graph_pointer,
-    const typename graphdom::graph<VertexType>::graph_edges_type adj_list_owner_graph_edges_type,
-    typename graphdom::graph<VertexType>::vertex_container* const adj_list_common_begin_point_vertex_container_pointer,
-    const typename graphdom::graph<VertexType>::edges_type_selection_type adj_list_edges_type_selection ) :
-graphdom::graph<VertexType>::template base_adj_list< typename graphdom::graph<VertexType>::vertex_container* >(
-    adj_list_owner_graph_edges_type,
-    adj_list_common_begin_point_vertex_container_pointer,
-    adj_list_edges_type_selection
-){
-    if ( dynamic_cast< const graphdom::multiset_graph<VertexType>* >( adj_list_owner_graph_pointer ) == nullptr ) {
-        throw std::runtime_error(""); //TODO: write a message
-    }
-}
-
-template<typename VertexType>
-graphdom::multiset_graph<VertexType>::adj_list::adj_list(
     const typename graphdom::graph<VertexType>::graph_edges_type adj_list_owner_graph_edges_type,
     typename graphdom::graph<VertexType>::vertex_container* const adj_list_common_begin_point_vertex_container_pointer,
     const typename graphdom::graph<VertexType>::edges_type_selection_type adj_list_edges_type_selection ) :

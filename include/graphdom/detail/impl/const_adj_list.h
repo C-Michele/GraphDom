@@ -63,19 +63,6 @@ typename graphdom::graph<VertexType>::adj_list_const_iterator graphdom::graph<Ve
 
 template<typename VertexType>
 graphdom::graph<VertexType>::const_adj_list::const_adj_list(
-    const graphdom::graph<VertexType>* const adj_list_owner_graph_pointer,
-    const typename graphdom::graph<VertexType>::graph_edges_type adj_list_owner_graph_edges_type,
-    const typename graphdom::graph<VertexType>::vertex_container* const adj_list_common_begin_point_vertex_container_pointer,
-    const typename graphdom::graph<VertexType>::edges_type_selection_type adj_list_edges_type_selection ) :
-graph<VertexType>::base_adj_list< const graph<VertexType>::vertex_container* >(
-    adj_list_owner_graph_edges_type,
-    adj_list_common_begin_point_vertex_container_pointer,
-    adj_list_edges_type_selection
-),
-adj_list_owner_graph_is_a_set_graph( dynamic_cast< const graphdom::set_graph<VertexType>* >( adj_list_owner_graph_pointer ) != nullptr ) {}
-
-template<typename VertexType>
-graphdom::graph<VertexType>::const_adj_list::const_adj_list(
     const bool adj_list_owner_graph_is_a_set_graph,
     const typename graphdom::graph<VertexType>::graph_edges_type adj_list_owner_graph_edges_type,
     const typename graphdom::graph<VertexType>::vertex_container* const adj_list_common_begin_point_vertex_container_pointer,

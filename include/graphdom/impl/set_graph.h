@@ -19,25 +19,6 @@ const typename graphdom::graph<VertexType>::adj_list_const_iterator& const_edge_
 template<typename VertexType>
 typename graphdom::graph<VertexType>::adj_list_iterator
 graphdom::set_graph<VertexType>::adj_list_iterator_factory(
-    const graphdom::set_graph<VertexType>* const edge_set_vertex_graph_owner_ptr,
-    const non_mixed_graph_vertex_container* const edge_begin_point_ptr,
-    const graphdom::edge_type edge_set_vertex_graph_owner_edges_type,
-    const typename adj_set::iterator inner_itr) {
-    return typename graphdom::graph<VertexType>::adj_list_iterator(
-        edge_set_vertex_graph_owner_ptr,
-        ( edge_set_vertex_graph_owner_edges_type == edge_type::undirected ) ?
-            graph<VertexType>::graph_edges_type::undirected :
-            graph<VertexType>::graph_edges_type::directed,
-        edge_begin_point_ptr,
-        graph<VertexType>::edges_type_selection_type::none,
-        edge_set_vertex_graph_owner_edges_type,
-        inner_itr
-    );
-}
-
-template<typename VertexType>
-typename graphdom::graph<VertexType>::adj_list_iterator
-graphdom::set_graph<VertexType>::adj_list_iterator_factory(
     const non_mixed_graph_vertex_container* const edge_begin_point_ptr,
     const graphdom::edge_type edge_set_vertex_graph_owner_edges_type,
     const typename adj_set::iterator inner_itr) {
@@ -49,28 +30,6 @@ graphdom::set_graph<VertexType>::adj_list_iterator_factory(
         edge_begin_point_ptr,
         graph<VertexType>::edges_type_selection_type::none,
         edge_set_vertex_graph_owner_edges_type,
-        inner_itr
-    );
-}
-
-template<typename VertexType>
-typename graphdom::graph<VertexType>::adj_list_iterator
-graphdom::set_graph<VertexType>::adj_list_iterator_factory(
-    const graphdom::set_graph<VertexType>* const edge_set_vertex_graph_owner_ptr,
-    const mixed_graph_vertex_container* const edge_begin_point_ptr,
-    const typename adj_set::iterator inner_itr,
-    const graphdom::edge_type inner_itr_edge_type,
-    const bool inner_itr_is_limited_by_edge_type) {
-    return typename graphdom::graph<VertexType>::adj_list_iterator(
-        edge_set_vertex_graph_owner_ptr,
-        graph<VertexType>::graph_edges_type::mixed,
-        edge_begin_point_ptr,
-        inner_itr_is_limited_by_edge_type ?
-            ( ( inner_itr_edge_type == graphdom::edge_type::undirected ) ?
-                graph<VertexType>::edges_type_selection_type::undirected_edges :
-                graph<VertexType>::edges_type_selection_type::directed_edges ) :
-            graph<VertexType>::edges_type_selection_type::none,
-        inner_itr_edge_type,
         inner_itr
     );
 }
