@@ -14,7 +14,7 @@
 
 template <typename VertexType>
 template <typename VertexContainerPointerType>
-bool constexpr graphdom::graph<VertexType>::custom_edge_endpoint_less<VertexContainerPointerType>::operator()(
+constexpr bool graphdom::graph<VertexType>::custom_edge_endpoint_less<VertexContainerPointerType>::operator()(
     const edge_endpoint<VertexContainerPointerType>* const left,
     const edge_endpoint<VertexContainerPointerType>* const right) const {
     return less_functor( left->vertex_container_ptr , right->vertex_container_ptr );
@@ -22,7 +22,7 @@ bool constexpr graphdom::graph<VertexType>::custom_edge_endpoint_less<VertexCont
 
 template <typename VertexType>
 template <typename VertexContainerPointerType>
-bool constexpr graphdom::graph<VertexType>::custom_edge_endpoint_less<VertexContainerPointerType>::operator()(
+constexpr bool graphdom::graph<VertexType>::custom_edge_endpoint_less<VertexContainerPointerType>::operator()(
     const edge_endpoint<VertexContainerPointerType>* const left,
     const vertex_container* const right) const {
     return less_functor( left->vertex_container_ptr , right );
@@ -30,7 +30,7 @@ bool constexpr graphdom::graph<VertexType>::custom_edge_endpoint_less<VertexCont
 
 template <typename VertexType>
 template <typename VertexContainerPointerType>
-bool constexpr graphdom::graph<VertexType>::custom_edge_endpoint_less<VertexContainerPointerType>::operator()(
+constexpr bool graphdom::graph<VertexType>::custom_edge_endpoint_less<VertexContainerPointerType>::operator()(
     const vertex_container* const left,
     const edge_endpoint<VertexContainerPointerType>* const right) const {
     return less_functor( left , right->vertex_container_ptr );

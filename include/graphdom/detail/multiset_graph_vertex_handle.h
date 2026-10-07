@@ -64,6 +64,7 @@ namespace graphdom {
             friend typename graph<VertexType>::vertex_handle;
             friend typename multiset_graph<VertexType>::adj_list_iterator;
             friend typename graphdom::multiset_graph<VertexType>;
+            friend typename graphdom::graph<VertexType>::vertex_handle_hash;
         private:
             vertex_handle(
                 typename graph<VertexType>::graph_edges_type vertex_container_owner_et,

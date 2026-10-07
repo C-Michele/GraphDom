@@ -74,6 +74,7 @@ namespace graphdom {
 
             friend typename graph<VertexType>::adj_list_const_iterator;
             friend graph<VertexType>;
+            friend graph<VertexType>::vertex_handle_hash;
         private:
             vertex_const_handle(
                 bool vertex_container_owner_graph_is_a_set_graph,

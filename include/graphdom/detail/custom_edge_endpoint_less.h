@@ -25,17 +25,17 @@ namespace graphdom {
                 "The typename 'VertexContainerPointerType' of 'graphdom::graph<VertexType>::custom_edge_endpoint_less<VertexContainerPointerType>' class must be a pointer to graphdom::graph<VertexType>::vertex_container"
             );
 
-            bool constexpr operator()(
+            constexpr bool operator()(
                 const edge_endpoint<VertexContainerPointerType>* left,
                 const edge_endpoint<VertexContainerPointerType>* right) const;
 
             using is_transparent = void;
 
-            bool constexpr operator()(
+            constexpr bool operator()(
                 const edge_endpoint<VertexContainerPointerType>* left,
                 const vertex_container* right) const;
 
-            bool constexpr operator()(
+            constexpr bool operator()(
                 const vertex_container* left,
                 const edge_endpoint<VertexContainerPointerType>* right) const;
 
