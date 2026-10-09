@@ -20,16 +20,16 @@ namespace graphdom {
         public:
             class vertex_handle;
             template<
-                typename Hash = typename graphdom::graph<VertexType>::vertex_handle_hash,
+                typename Hash = typename graphdom::graph<VertexType>::vertex_handle_default_hasher,
                 typename HandleEqual = std::equal_to<vertex_handle>,
                 typename Allocator = std::allocator<vertex_handle>
-            > using vertex_handle_set = std::unordered_set<vertex_handle, Hash, HandleEqual, Allocator>;
+            > using vertex_handle_set = std::unordered_set<vertex_handle, typename graphdom::graph<VertexType>::template vertex_handle_friend< Hash >, HandleEqual, Allocator>;
             template<
                 typename T,
-                typename Hash = typename graphdom::graph<VertexType>::vertex_handle_hash,
+                typename Hash = typename graphdom::graph<VertexType>::vertex_handle_default_hasher,
                 typename HandleEqual = std::equal_to<vertex_handle>,
                 typename Allocator = std::allocator<std::pair<const vertex_handle, T>>
-            > using vertex_handle_map = std::unordered_map<vertex_handle, T, Hash, HandleEqual, Allocator>;
+            > using vertex_handle_map = std::unordered_map<vertex_handle, T, typename graphdom::graph<VertexType>::template vertex_handle_friend< Hash >, HandleEqual, Allocator>;
             class adj_list;
             class adj_list_iterator;
 

@@ -72,9 +72,10 @@ namespace graphdom {
             [[nodiscard]] graph<VertexType>::const_adj_list const_adj_list() const;
             [[nodiscard]] graph<VertexType>::const_adj_list const_adj_list(edge_type edge_type) const;
 
+            template<typename>
+            friend class graph<VertexType>::vertex_handle_friend;
             friend typename graph<VertexType>::adj_list_const_iterator;
             friend graph<VertexType>;
-            friend graph<VertexType>::vertex_handle_hash;
         private:
             vertex_const_handle(
                 bool vertex_container_owner_graph_is_a_set_graph,

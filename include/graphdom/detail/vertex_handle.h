@@ -69,12 +69,13 @@ namespace graphdom {
             [[nodiscard]] graph<VertexType>::const_adj_list const_adj_list() const;
             [[nodiscard]] graph<VertexType>::const_adj_list const_adj_list(edge_type edge_type) const;
 
+            template<typename>
+            friend class graph<VertexType>::vertex_handle_friend;
             /// \cond DEV_DOC
             friend typename graph<VertexType>::vertex_const_handle;
             friend typename multiset_graph<VertexType>::vertex_handle;
             friend typename graph<VertexType>::adj_list_iterator;
             friend graph<VertexType>;
-            friend graph<VertexType>::vertex_handle_hash;
             /// \endcond DEV_DOC
         private:
             vertex_handle(

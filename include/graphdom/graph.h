@@ -46,29 +46,31 @@ namespace graphdom {
         public:
             class vertex_handle;
             class vertex_const_handle;
-            class vertex_handle_hash;
+            class vertex_handle_default_hasher;
+            template <typename HashFunctorClass>
+            class vertex_handle_friend;
             template<
-                typename Hash = vertex_handle_hash,
+                typename Hash = vertex_handle_default_hasher,
                 typename HandleEqual = std::equal_to<vertex_handle>,
                 typename Allocator = std::allocator<vertex_handle>
-            > using vertex_handle_set = std::unordered_set<vertex_handle, Hash, HandleEqual, Allocator>;
+            > using vertex_handle_set = std::unordered_set<vertex_handle, vertex_handle_friend< Hash >, HandleEqual, Allocator>;
             template<
                 typename T,
-                typename Hash = vertex_handle_hash,
+                typename Hash = vertex_handle_default_hasher,
                 typename HandleEqual = std::equal_to<vertex_handle>,
                 typename Allocator = std::allocator<std::pair<const vertex_handle, T>>
-            > using vertex_handle_map = std::unordered_map<vertex_handle, T, Hash, HandleEqual, Allocator>;
+            > using vertex_handle_map = std::unordered_map<vertex_handle, T, vertex_handle_friend< Hash >, HandleEqual, Allocator>;
             template<
-                typename Hash = vertex_handle_hash,
+                typename Hash = vertex_handle_default_hasher,
                 typename HandleEqual = std::equal_to<vertex_const_handle>,
                 typename Allocator = std::allocator<vertex_const_handle>
-            > using vertex_const_handle_set = std::unordered_set<vertex_handle, Hash, HandleEqual, Allocator>;
+            > using vertex_const_handle_set = std::unordered_set<vertex_const_handle, vertex_handle_friend< Hash >, HandleEqual, Allocator>;
             template<
                 typename T,
-                typename Hash = vertex_handle_hash,
+                typename Hash = vertex_handle_default_hasher,
                 typename HandleEqual = std::equal_to<vertex_const_handle>,
                 typename Allocator = std::allocator<std::pair<const vertex_const_handle, T>>
-            > using vertex_const_handle_map = std::unordered_map<vertex_handle, T, Hash, HandleEqual, Allocator>;
+            > using vertex_const_handle_map = std::unordered_map<vertex_const_handle, T, vertex_handle_friend< Hash >, HandleEqual, Allocator>;
             class adj_list;
             class const_adj_list;
             class adj_list_iterator;
@@ -170,7 +172,8 @@ namespace graphdom {
 #include "detail/vertex_base_handle.h"
 #include "detail/vertex_handle.h"
 #include "detail/vertex_const_handle.h"
-#include "detail/vertex_handle_hash.h"
+#include "detail/vertex_handle_default_hasher.h"
+#include "detail/vertex_handle_friend.h"
 #include "detail/base_adj_list.h"
 #include "detail/adj_list.h"
 #include "detail/const_adj_list.h"

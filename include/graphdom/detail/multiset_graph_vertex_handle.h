@@ -60,11 +60,12 @@ namespace graphdom {
             [[nodiscard]] typename graph<VertexType>::const_adj_list const_adj_list() const;
             [[nodiscard]] typename graph<VertexType>::const_adj_list const_adj_list(edge_type edge_type) const;
 
+            template<typename>
+            friend class graphdom::graph<VertexType>::vertex_handle_friend;
             friend typename graph<VertexType>::vertex_const_handle;
             friend typename graph<VertexType>::vertex_handle;
             friend typename multiset_graph<VertexType>::adj_list_iterator;
             friend typename graphdom::multiset_graph<VertexType>;
-            friend typename graphdom::graph<VertexType>::vertex_handle_hash;
         private:
             vertex_handle(
                 typename graph<VertexType>::graph_edges_type vertex_container_owner_et,
