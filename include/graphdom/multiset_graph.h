@@ -78,15 +78,6 @@ namespace graphdom {
                 typename graphdom::graph<VertexType>::template mixed_graph_vertex_container<VertexContainerPointerType>&
             );
 
-            static typename graphdom::graph<VertexType>::vertex_const_handle const_vertex_handle_factory(
-                const typename graphdom::graph<VertexType>::template non_mixed_graph_vertex_container<VertexContainerPointerType>&,
-                graphdom::edge_type non_mixed_graph_type
-            );
-
-            static typename graphdom::graph<VertexType>::vertex_const_handle const_vertex_handle_factory(
-                const typename graphdom::graph<VertexType>::template mixed_graph_vertex_container<VertexContainerPointerType>&
-            );
-
             static VertexContainerPointerType get_vertex_container(const graphdom::multiset_graph<VertexType>::vertex_handle&);
 
             static typename adj_set::const_iterator get_inner_iterator(const typename graphdom::graph<VertexType>::adj_list_const_iterator&);

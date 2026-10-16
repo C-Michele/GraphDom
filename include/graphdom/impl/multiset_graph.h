@@ -29,27 +29,6 @@ typename graphdom::multiset_graph<VertexType>::vertex_handle graphdom::multiset_
 }
 
 template<typename VertexType>
-typename graphdom::graph<VertexType>::vertex_const_handle graphdom::multiset_graph<VertexType>::const_vertex_handle_factory(
-    const typename graphdom::graph<VertexType>::template non_mixed_graph_vertex_container<VertexContainerPointerType>& vertex_container_reference,
-    const graphdom::edge_type non_mixed_graph_type) {
-    return graphdom::graph<VertexType>::vertex_const_handle(
-        false,
-        ( non_mixed_graph_type == graphdom::edge_type::undirected ) ? graphdom::graph<VertexType>::graph_edges_type::undirected : graphdom::graph<VertexType>::graph_edges_type::directed,
-        &vertex_container_reference
-    );
-}
-
-template<typename VertexType>
-typename graphdom::graph<VertexType>::vertex_const_handle graphdom::multiset_graph<VertexType>::const_vertex_handle_factory(
-    const typename graphdom::graph<VertexType>::template mixed_graph_vertex_container<VertexContainerPointerType>& vertex_container_reference) {
-    return graphdom::graph<VertexType>::vertex_const_handle(
-        true,
-        graphdom::graph<VertexType>::graph_edges_type::mixed,
-        &vertex_container_reference
-    );
-}
-
-template<typename VertexType>
 typename graphdom::multiset_graph<VertexType>::VertexContainerPointerType
 graphdom::multiset_graph<VertexType>::get_vertex_container(
     const graphdom::multiset_graph<VertexType>::vertex_handle& ptr) {

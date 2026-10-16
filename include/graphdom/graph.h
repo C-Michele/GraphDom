@@ -152,6 +152,15 @@ namespace graphdom {
                 const graphdom::graph<VertexType>::mixed_graph_vertex_container<const vertex_container*>&
             );
 
+            static vertex_const_handle vertex_const_handle_factory(
+                const graphdom::graph<VertexType>::non_mixed_graph_vertex_container<vertex_container*>&,
+                graphdom::edge_type non_mixed_graph_type
+            );
+
+            static vertex_const_handle vertex_const_handle_factory(
+                const graphdom::graph<VertexType>::mixed_graph_vertex_container<vertex_container*>&
+            );
+
             static const vertex_container* get_vertex_container(const graphdom::graph<VertexType>::vertex_const_handle&);
 
             static const graphdom::graph<VertexType>::vertex_container* get_begin_point(const graphdom::graph<VertexType>::adj_list_const_iterator&);
