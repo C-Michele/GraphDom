@@ -12,7 +12,7 @@
 namespace graphdom::utility{}
 
 namespace graphdom::utility {
-    inline std::uintptr_t hash_pointer(const void* input);
+    std::uintptr_t hash_pointer(const void* input);
 }
 
 

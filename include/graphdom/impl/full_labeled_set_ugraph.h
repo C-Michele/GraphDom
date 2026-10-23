@@ -78,9 +78,28 @@ graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compa
     }
 }
 
+template <typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename VertexLabellerType, typename EdgeLabellerType>
+typename graphdom::graph<VertexType>::template vertex_const_handle_unordered_set<> graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compare,VertexLabellerType,EdgeLabellerType>::get_all_vertices() const {
+    typename graphdom::graph<VertexType>::template vertex_const_handle_unordered_set<> vertex_container{};
+    for (auto ugraph_vertices_itr = vertices.begin(); ugraph_vertices_itr != vertices.end(); ++ugraph_vertices_itr) {
+        vertex_container.emplace(
+            graphdom::graph<VertexType>::vertex_const_handle_factory(
+                *ugraph_vertices_itr,
+                graphdom::edge_type::undirected
+            )
+        );
+    }
+    return vertex_container;
+}
+
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename VertexLabellerType, typename EdgeLabellerType>
 std::size_t graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compare,VertexLabellerType,EdgeLabellerType>::order() const {
     return vertices.size();
+}
+
+template <typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename VertexLabellerType, typename EdgeLabellerType>
+graphdom::edge_type graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compare,VertexLabellerType,EdgeLabellerType>::edge_type() const {
+    return graphdom::edge_type::undirected;
 }
 
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename VertexLabellerType, typename EdgeLabellerType>
@@ -181,6 +200,20 @@ graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compa
         undirected,
         ( (*edge_itr_begin_point).adj ).erase( inner_iterator_of_begin_point_adj )
     );
+}
+
+template <typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename VertexLabellerType, typename EdgeLabellerType>
+typename graphdom::graph<VertexType>::template vertex_handle_unordered_set<> graphdom::full_labeled_set_ugraph<VertexType,VertexLabelType,EdgeLabelType,Compare,VertexLabellerType,EdgeLabellerType>::get_all_vertices() {
+    typename graphdom::graph<VertexType>::template vertex_handle_unordered_set<> vertex_container{};
+    for (auto ugraph_vertices_itr = vertices.begin(); ugraph_vertices_itr != vertices.end(); ++ugraph_vertices_itr) {
+        vertex_container.emplace(
+            graphdom::graph<VertexType>::vertex_handle_factory(
+                *ugraph_vertices_itr,
+                graphdom::edge_type::undirected
+            )
+        );
+    }
+    return vertex_container;
 }
 
 template<typename VertexType, typename VertexLabelType, typename EdgeLabelType, typename Compare, typename VertexLabellerType, typename EdgeLabellerType>

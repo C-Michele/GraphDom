@@ -48,12 +48,14 @@ namespace graphdom {
 
             ~full_labeled_set_ugraph() override;
 
+            [[nodiscard]] typename graphdom::graph<VertexType>::template vertex_const_handle_unordered_set<> get_all_vertices() const override;
             /**
              * @copydoc graphdom::graph::order()
              * @par Complexity
              * Constant.
              */
             [[nodiscard]] std::size_t order() const override;
+            [[nodiscard]] graphdom::edge_type edge_type() const override;
             /**
              * @copydoc graphdom::labeled_vertex_graph::get_vertex_label(const typename graph<VertexType>::vertex_const_handle&) const
              */
@@ -71,6 +73,7 @@ namespace graphdom {
              * @copydoc graphdom::graph::erase_edge()
              */
             [[nodiscard]] typename graphdom::graph<VertexType>::adj_list_iterator erase_edge(const typename graph<VertexType>::adj_list_const_iterator&) override;
+            [[nodiscard]] typename graphdom::graph<VertexType>::template vertex_handle_unordered_set<> get_all_vertices() override;
             /**
              * @copydoc graphdom::labeled_vertex_graph::get_vertex_label(const typename graph<VertexType>::vertex_const_handle&)
              */

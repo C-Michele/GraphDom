@@ -22,6 +22,8 @@ UGRAPH_IS_A_NON_MIXED_GRAPH_TEST(full_labeled_set_ugraph,tested_graph,std::size_
 
 UGRAPH_IS_NOT_A_MIXED_GRAPH_TEST(full_labeled_set_ugraph,tested_graph,std::size_t);
 
+UGRAPH_EDGE_TYPE_METHOD_CORRECT_RETURN_VALUE_TEST(full_labeled_set_ugraph,tested_graph);
+
 NO_VERTICES_AFTER_DEFAULT_CONSTRUCTION_TEST(full_labeled_set_ugraph,tested_graph);
 
 SET_GRAPH_IS_A_SET_GRAPH_TEST(full_labeled_set_ugraph,tested_graph,std::size_t);

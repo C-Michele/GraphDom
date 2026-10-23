@@ -53,24 +53,24 @@ namespace graphdom {
                 typename Hash = vertex_handle_default_hasher,
                 typename HandleEqual = std::equal_to<vertex_handle>,
                 typename Allocator = std::allocator<vertex_handle>
-            > using vertex_handle_set = std::unordered_set<vertex_handle, vertex_handle_friend< Hash >, HandleEqual, Allocator>;
+            > using vertex_handle_unordered_set = std::unordered_set<vertex_handle, vertex_handle_friend< Hash >, HandleEqual, Allocator>;
             template<
                 typename T,
                 typename Hash = vertex_handle_default_hasher,
                 typename HandleEqual = std::equal_to<vertex_handle>,
                 typename Allocator = std::allocator<std::pair<const vertex_handle, T>>
-            > using vertex_handle_map = std::unordered_map<vertex_handle, T, vertex_handle_friend< Hash >, HandleEqual, Allocator>;
+            > using vertex_handle_unordered_map = std::unordered_map<vertex_handle, T, vertex_handle_friend< Hash >, HandleEqual, Allocator>;
             template<
                 typename Hash = vertex_handle_default_hasher,
                 typename HandleEqual = std::equal_to<vertex_const_handle>,
                 typename Allocator = std::allocator<vertex_const_handle>
-            > using vertex_const_handle_set = std::unordered_set<vertex_const_handle, vertex_handle_friend< Hash >, HandleEqual, Allocator>;
+            > using vertex_const_handle_unordered_set = std::unordered_set<vertex_const_handle, vertex_handle_friend< Hash >, HandleEqual, Allocator>;
             template<
                 typename T,
                 typename Hash = vertex_handle_default_hasher,
                 typename HandleEqual = std::equal_to<vertex_const_handle>,
                 typename Allocator = std::allocator<std::pair<const vertex_const_handle, T>>
-            > using vertex_const_handle_map = std::unordered_map<vertex_const_handle, T, vertex_handle_friend< Hash >, HandleEqual, Allocator>;
+            > using vertex_const_handle_unordered_map = std::unordered_map<vertex_const_handle, T, vertex_handle_friend< Hash >, HandleEqual, Allocator>;
             class adj_list;
             class const_adj_list;
             class adj_list_iterator;
@@ -79,6 +79,7 @@ namespace graphdom {
             /// To be polymorphic, this class has a virtual destructor.
             virtual ~graph() = default;
 
+            [[nodiscard]] virtual vertex_const_handle_unordered_set<> get_all_vertices() const = 0;
             /// Returns the order of `*this`, i.e. the number of vertices inside the graph.
             /**
              * @return The number of vertices inside `*this`.
@@ -94,6 +95,7 @@ namespace graphdom {
              */
             virtual void erase_vertex(const vertex_const_handle& vertex) = 0;
             [[nodiscard]] virtual adj_list_iterator erase_edge(const adj_list_const_iterator&) = 0;
+            [[nodiscard]] virtual vertex_handle_unordered_set<> get_all_vertices() = 0;
 
         /// \cond DEV_DOC
         protected:
@@ -141,6 +143,15 @@ namespace graphdom {
 
             static vertex_handle vertex_handle_factory(
                 const graphdom::graph<VertexType>::mixed_graph_vertex_container<const vertex_container*>&
+            );
+
+            static vertex_handle vertex_handle_factory(
+                const graphdom::graph<VertexType>::non_mixed_graph_vertex_container<vertex_container*>&,
+                graphdom::edge_type non_mixed_graph_type
+            );
+
+            static vertex_handle vertex_handle_factory(
+                const graphdom::graph<VertexType>::mixed_graph_vertex_container<vertex_container*>&
             );
 
             static vertex_const_handle vertex_const_handle_factory(

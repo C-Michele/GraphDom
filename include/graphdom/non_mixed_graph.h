@@ -21,6 +21,10 @@ namespace graphdom {
             ~non_mixed_graph() override = default;
 
             /**
+             * @return If `*this` is an [ugraph](@ref mathematical_ugraph_definition) then `this->edge_type()` returns `graphdom::edge_type::undirected`, otherwise returns `graphdom::edge_type::directed`
+             */
+            [[nodiscard]] virtual graphdom::edge_type edge_type() const = 0;
+            /**
              * If `*this` is an [ugraph](@ref mathematical_ugraph_definition) then inserts in `*this` an [undirected edge](@ref mathematical_undirected_edge_definition) having @p first_endpoint and @p second_endpoint as [endpoints](@ref mathematical_edge_endpoint_definition), if `*this` doesn't already contain the same edge.<br>
              * If `*this` is a [digraph](@ref mathematical_digraph_definition) then inserts in `*this` a [directed edge](@ref mathematical_directed_edge_definition) having @p first_endpoint as [tail](@ref mathematical_directed_edge_tail_definition) and @p second_endpoint as [head](@ref mathematical_directed_edge_head_definition), if `*this` doesn't already contain the same edge.<br>
              *

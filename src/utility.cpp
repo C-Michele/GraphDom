@@ -6,7 +6,7 @@
 
 #include "../include/graphdom/utility.h"
 
-inline std::uintptr_t graphdom::utility::hash_pointer(const void* const input) {
+std::uintptr_t graphdom::utility::hash_pointer(const void* const input) {
     if constexpr ( sizeof(void*) == 8 ) {
         // See "SplitMix64" written in 2015 by Sebastiano Vigna ( https://prng.di.unimi.it/splitmix64.c )
         auto output = reinterpret_cast< std::uintptr_t >( input ) + 0x9e3779b97f4a7c15;

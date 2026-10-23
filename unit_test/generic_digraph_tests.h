@@ -17,4 +17,10 @@
         EXPECT_EQ(dynamic_cast< typename graphdom::mixed_graph<VERTEX_TYPENAME>* >( &graph ),nullptr);  \
     }                                                                                                   \
 
+#define DIGRAPH_EDGE_TYPE_METHOD_CORRECT_RETURN_VALUE_TEST(TEST_SUITE_NAME,CONCRETE_CLASS_NAME) \
+    TEST(TEST_SUITE_NAME,edge_type_method_correct_return_value) {                               \
+        CONCRETE_CLASS_NAME graph;                                                              \
+        EXPECT_EQ(graph.edge_type(),graphdom::edge_type::directed);                             \
+    }                                                                                           \
+
 #endif //GRAPHDOM_GENERIC_DIGRAPH_TESTS_H
